@@ -1,0 +1,75 @@
+%% Creator: Inkscape inkscape 0.92.0, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'peak_filter_block2.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{343.85740306bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.07455228)%
+    \put(0.14636143,0.97120016){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{}}}%
+    \put(0.04335008,0.56818779){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.15267957\unitlength}\raggedright \end{minipage}}}%
+    \put(-0.04389539,1.00441514){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0\unitlength}\raggedright \end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{peak_filter_block2.pdf}}%
+    \put(0.69239888,1.04451484){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{peak_filter_block2.pdf}}%
+    \put(0.30508651,0.82992419){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$Low\ shelving$}}}%
+    \put(0.30508651,0.61181053){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$1st\ peak$}}}%
+    \put(0.30508651,0.30645142){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$5th\ peak$}}}%
+    \put(0.30508651,0.08833766){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$High\ shelving$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{peak_filter_block2.pdf}}%
+    \put(0.83117439,0.95286943){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.69722148,0.86737768){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.84615893,0.78365521){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.69985216,0.65674849){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.83602831,0.54438785){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.70514451,0.35535083){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.83867452,0.24784404){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{peak_filter_block2.pdf}}%
+    \put(0.43595471,1.04803784){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+    \put(-0.00027264,1.04803784){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$V_i$}}}%
+    \put(0.95942745,1.04803784){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$V_o$}}}%
+  \end{picture}%
+\endgroup%

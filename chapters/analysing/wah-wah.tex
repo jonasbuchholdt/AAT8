@@ -1,0 +1,55 @@
+\subsection{Wah-Wah}\label{sec:wah-wah} 
+
+The Wah-Wah effect takes the original signal and mix it with another signal that passes through a bandpass filter. The bandpass filter is time varying, which means that it changes its position in the frequency spectrum \citep{wah-wah_course}. \\
+The automatic Wah-Wah effect have some different parameters that can be changed to customize the effect:
+
+\begin{itemize}
+	\item \textbf{The \gls{lfo} frequency}: It sets the speed at which the bandpass filter moves in the frequency spectrum.
+	\item \textbf{\gls{lfo} start phase}: Determine where should the bandpass filter start.
+	\item \textbf{\gls{lfo} depth}: the range of frequencies it should work on, high depth gives a larger range and vice versa.
+\end{itemize} \citep{wah-wah_audacity}
+\newpage
+A block diagram of the effect is illustrated in \autoref{fig:wah_diag}.  
+
+\begin{figure} [htbp!]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{wah_diag.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(6999,1770)(2689,-2233)
+\put(6841,-1591){\textit{Wah-Wah Gain}}%
+\put(5626,-2041){$Filter$}%
+\put(6136,-1186){\textit{LFO or Pedal}}%
+\put(2746,-646){$Input$}%
+\put(8686,-646){$Output$}%
+\put(5626,-1816){$Bandpass-$}%
+\put(5986,-646){$Gain$}%
+\end{picture}%
+	\caption{Block diagram of the wah-wah effect}
+	\label{fig:wah_diag}
+\end{figure}
+
+It can be seen on the block diagram that the filtered signal is added to the direct signal. Thus, this block diagram is a representation of the Wah-Wah effect. 
+The phaser effect can be created by using a band-stop filter instead of a bandpass filter using the same block diagram presented in \autoref{fig:wah_diag} \citep{wah-wah_cardiff}. 
+There is another type of Wah-Wah effect called M-fold Wah-Wah which uses multiple M-tap bandpass filters that move around the spectrum at the same time \citep{wah-wah_cardiff}. \\
+
+In \autoref{fig:wah_wah_frequency} an illustration of the bandpass filter in the Wah-Wah effect in frequency domain is shown. 
+
+\begin{figure}[htbp!]
+\centering
+\def\svgwidth{\columnwidth}
+\input{figures/analysing/wah_wah_frequency_domain.pdf_tex}
+\caption{Frequency domain illustration of bandpass filter in the Wah-Wah effect.}
+		\label{fig:wah_wah_frequency}
+\end{figure}
+
+It is shown that the bandpass filter can be moved in frequency. This movement is done either by an \gls{lfo} or with an expression pedal.
+\newpage

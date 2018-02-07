@@ -1,0 +1,72 @@
+%% Creator: Inkscape inkscape 0.92.0, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'eq_parallel_with_inv.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{361.25574333bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.85671382)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{eq_parallel_with_inv.pdf}}%
+    \put(0.45674007,0.62386719){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Low shelving}}}%
+    \put(0.45674007,0.45777988){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Peak 1}}}%
+    \put(0.45674007,0.20864895){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Peak 5}}}%
+    \put(0.45674007,0.04256159){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{High Shelving}}}%
+    \put(0.04152183,0.83147633){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Vi}}}%
+    \put(0.91348029,0.83147633){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Vo}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{eq_parallel_with_inv.pdf}}%
+    \put(0.16608733,0.83147633){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.29065282,0.70691087){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{}}}%
+    \put(0.29065282,0.66538903){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.20760914,0.5408235){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.29065282,0.49930169){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.16608733,0.41625807){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{}}}%
+    \put(0.20760914,0.3747362){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.29065282,0.25017071){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.20760914,0.12560521){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{+}}}%
+    \put(0.29065282,0.74843268){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{-}}}%
+    \put(0.53978381,0.83147633){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+  \end{picture}%
+\endgroup%

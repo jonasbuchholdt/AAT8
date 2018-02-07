@@ -1,0 +1,65 @@
+\subsection{Delay}\label{sec:delay} 
+Delay is an audio effect which memorizes the input signal for a customized time, and then releases it without changing anything else than the amplitude. The delayed signal can either be played back multiple times or only once. When the signal is delayed and then played back multiple times, it can either be amplified or attenuated. If the delayed signal is amplified, it will start to oscillate. If the wanted effect is an echo, the delayed signal should not be kept alive, then the gain in the feedback must be less than one.  \autoref{fig:delay_block} shows a block diagram of a simple delay, "echo" unit.
+
+
+\begin{figure} [htbp]
+ \centering
+\begin{picture}(0,0)%
+\includegraphics{delay.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(5250,1320)(1276,197)
+\put(4591,749){$Gain$}%
+\put(3106,479){$Delay$}%
+\put(1306,1334){$Input$}%
+\put(5761,614){$Output$}%
+\end{picture}%
+  \caption{Block diagram of a delay unit \citep{delay_block}.}
+  \label{fig:delay_block}
+\end{figure}
+
+The block diagram \autoref{fig:delay_block} shows a delay unit with a feedback line that has an adjustable gain. The feedback signal is either attenuated or amplified depending on the gain value and then added to the beginning of the delay line \cite{delay_echo}. The following \autoref{fig:delay_timed} shows the effect in time domain.
+
+\newpage
+
+\begin{figure} [htbp]
+ \centering
+\begin{picture}(0,0)%
+\includegraphics{delay_timed.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(5843,2478)(4129,-5833)
+\put(9496,-5506){$Time$}%
+\put(4231,-3526){$Magnitude$}%
+\put(4591,-4291){$Main$}%
+\put(5536,-4606){$G$}%
+\put(6436,-4876){$G^2$}%
+\put(7336,-5056){$G^3$}%
+\put(8236,-5191){$G^4$}%
+\put(9136,-5281){$G^5$}%
+\put(4861,-5056){$t\Delta$}%
+\put(6256,-5776){$t2$}%
+\put(5356,-5776){$t1$}%
+\put(7156,-5776){$t3$}%
+\put(8056,-5776){$t4$}%
+\put(8956,-5776){$t5$}%
+\end{picture}%
+  \caption{Impulse respond of the delay unit.}
+  \label{fig:delay_timed}
+\end{figure}
+
+The \autoref{fig:delay_timed} shows that the main signal is repeated and attenuated 5 time before it is totally attenuated.

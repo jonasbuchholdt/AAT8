@@ -1,0 +1,58 @@
+%
+%  Created by WinFIG version 6.2 
+%  METADATA <version>1.0</version> 
+%
+\setlength{\unitlength}{3947sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(6667,3532)(2256,-4350)
+%  METADATA <id>1</id> 
+\thinlines
+{\color[rgb]{0,0,0}\put(2268,-1924){\framebox(2019,507){}}
+}%
+%  METADATA <id>3</id> 
+{\color[rgb]{0,0,0}\put(3012,-2826){\framebox(1263,575){}}
+}%
+%  METADATA <id>4</id> 
+{\color[rgb]{0,0,0}\put(5020,-2860){\framebox(1455,631){}}
+}%
+%  METADATA <id>5</id> 
+{\color[rgb]{0,0,0}\put(6903,-2849){\framebox(1263,632){}}
+}%
+%  METADATA <id>8</id> 
+{\color[rgb]{0,0,0}\put(6283,-3864){\framebox(2628,530){}}
+}%
+%  METADATA <id>9</id> 
+{\color[rgb]{0,0,0}\put(2279,-3830){\framebox(2019,586){}}
+}%
+%  METADATA <id>12</id> 
+{\color[rgb]{0,0,0}\put(3757,-1924){\vector( 0,-1){350}}
+}%
+%  METADATA <id>15</id> 
+{\color[rgb]{0,0,0}\put(4264,-2533){\vector( 1, 0){756}}
+}%
+%  METADATA <id>16</id> 
+{\color[rgb]{0,0,0}\put(6475,-2533){\vector( 1, 0){406}}
+}%
+%  METADATA <id>17</id> 
+{\color[rgb]{0,0,0}\put(7557,-2849){\vector( 0,-1){485}}
+}%
+%  METADATA <id>18</id> 
+{\color[rgb]{0,0,0}\put(5381,-3548){\vector( 0, 1){688}}
+\put(5369,-3548){\vector(-1, 0){1071}}
+}%
+%  METADATA <id>19</id> 
+{\color[rgb]{0,0,0}\put(3272,-3830){\line( 0,-1){508}}
+}%
+%  METADATA <id>20</id> 
+{\color[rgb]{0,0,0}\put(7557,-3864){\vector( 0,-1){451}}
+}%
+%  METADATA <id>21</id> 
+{\color[rgb]{0,0,0}\put(3768,-830){\vector( 0,-1){575}}
+}%
+\end{picture}%
