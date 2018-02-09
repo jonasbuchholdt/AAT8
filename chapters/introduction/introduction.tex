@@ -1,23 +1,31 @@
-One of the most known instruments in the world and maybe the one that most people play is the guitar. The two main categories of guitars are the acoustic guitars and the electric guitar, with millions of players having the one, the other or both. If one is playing the electric guitar one will quickly find that to get the real feeling of being a guitarist, some additions have to be made to the setup. The first step might be an amplifier, but once the taste for guitar gear has awaken, the next natural step will be to buy effects for the guitar. Guitar effects can be an integrated part of an amplifier, but guitar effects can also be bought as isolated effects pedals or as multi effect boards. The two "religions" within guitar effects are the analog effects and the digital effects, where the analog ones often are more expensive than the digital ones. 
-This project will aim to make a system that will work as one or more guitar effects. In \autoref{fig:real_life_drawing} a real life drawing of the system is illustrated.
 
-\begin{figure}[htbp!]
-\centering
-\def\svgwidth{\columnwidth}
-\scalebox{0.6}{\input{figures/analysing/real_life_drawing.pdf_tex}}
-\caption{Real life illustration of the system setup.}
-		\label{fig:real_life_drawing}
+The directivity of a loudspeaker is a daily issue for sound events, because the loudspeaker produce sound outside the voluntary audience area. The sound from a speaker can therefore be defined as two main subject, sound for voluntary audience and sound for non voluntary audience, which is perceived the sound as noise. The following \autoref{fig:Problem} visualise the problem.
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1\textwidth]{change_later.png}
+	\caption{Normalized \gls{spl} in colour, red is high \gls{spl} where blue is low \gls{spl}}
+		\label{fig:Problem}
 \end{figure}
 
-The \autoref{fig:real_life_drawing} shows a signal from a guitar, going through the system and sent to an amplifier. The person playing the guitar should be able to choose which effect the system should make and also be able to change different parameters on the chosen effect. 
+\autoref{fig:Problem} shows the total sound pressure level \gls{spl} in \gls{db} from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} for the voluntary audience and the non voluntary audience doing a concert. The voluntary audience condensing area is defined as participants area and is limited by the red area in figure \autoref{fig:Problem}. The non voluntary audience will be exposed by sound in a limited frequency area, when they are located outside but still in the neighbourhood of the red area. This area is defined as the neighbourhood area. The noise is cause by omnidirectionality of the line source module and have a limited frequency range. 
+
+The directivity control of mid- and high frequency have a known solution which have been applied for many years. The solution is a horn design which is designed for a defined radiation pattern. Due to the long wave length in low/mid- and low frequency range, the horn principle will become a heavy solution for long wave length. Therefore other space saving solution have been analysed and implemented for about one decade. The commonly space saving solution is one subwoofer pointing forward and one subwoofer pointing backward with signalprocessing applied. This solution is both made by one box and two boxes.
+
+
+This project aims to apply a new principle from D\&B audiotechnik SL-series, where the low/mid frequency directivity is controlled by signal processing tree speaker unit. One unit arranged in the front and two arranged on the side of the line source module, one on each side.
 
 
 
-\section{Initial problem statement}
-The following questions are made with the intention of gathering the necessary knowledge, to be able to answer a later stated problem statement. The initial questions, which will be answered in the analysis, are:
+\section{preliminary problem statement}
+The following questions are made with the intention of gathering the necessary knowledge, to be able to answer a later stated problem statement. The preliminary questions, which will be answered in the analysis, are:
 
 \begin{itemize}
-\item Which parameters can be adjusted on an electric guitar, in order to adjust the sound?
-\item Which effects can be applied to the signal from an electric guitar and how do they work?
-\item Which platforms can be used for the implementation of the above mentioned effects? 
+\item In which frequency area do the line source speaker behave omnidirectional?
+\item Which known technique is used to do the speaker cardioid?
+\item Can a simulation be made which support D\&B audiotechnik claim?
 \end{itemize}
+
+
+
