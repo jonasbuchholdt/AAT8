@@ -218,3 +218,12 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
+
+# WinEdt
+*.bak
+*.sav
+master.pdf
+master.tps
+*.tcp
+*.tps
+*.tmp
