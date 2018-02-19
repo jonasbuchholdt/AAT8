@@ -12,6 +12,7 @@
 *.cb2
 /master.pdf
 
+
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
