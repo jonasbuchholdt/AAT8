@@ -1,9 +1,3 @@
-% simple control interface for the Outline ET250-3D turntable
-%
-% DI (FH) Pfeifenberger Lukas
-% 09-07-2013
-%
-
 function [angle] = ET250_3D(cmd, angle)
 
 echoudp('on',7000)
