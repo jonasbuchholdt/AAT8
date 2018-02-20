@@ -1,2 +1,57 @@
-\section{Outline ...}
-In this appendix the control of the Outline turntable will be descriped    
+\chapter*{Outline ET 250-3D turntable control}
+In this appendix the control of an Outline ET 250-3D turntable will be described. The turntable can be controlled in three ways, first the turntable can be controlled by \gls{ttl} commands through a jack connector. Secondly the turntable can be controlled by specified \gls{dll} command through Ethernet. All commands is included in the software packed folder. Thirdly the turntable can be controlled by \gls{udp} command through Ethernet. For controlling the turntable by MATLAB, the two Ethernet based control method is the easiest to do because MATLAB support Ethernet access. The \gls{dll} method require a complicated scripted which might only work on Windows operation system. The \gls{udp} can run at all operation system which support IPv4 Ethernet connection and is a short simple script, where the script open a \gls{udp} channel as a file, and e.g.  the script shall only edit the file in the right position to move the turntable. The chosen control method is \gls{udp} because it is simple and works at all modern computer operation systems.
+
+\section*{Materials and setup}
+The following materials are used:
+\begin{itemize}
+\item Ethernet cable
+\item Outline ET 250-3D (Turntable)
+\item MATLAB (PC - software)
+\end{itemize}
+
+%\begin{figure}[htbp!]
+%\centering
+%\def\svgwidth{\columnwidth}
+%\input{figures/appendix/guitar_frequency_test.pdf_tex}
+%\caption{Setup for measuring frequency area on a guitar.}
+%		\label{fig:appendix:test}
+%\end{figure}
+
+\section*{The \gls{udp} setup of the computer}
+To establish connection between the turntable and computer, both have to run at the same SUBNET MASK. The turntable have a factory set for Ethernet connection which is as following:
+
+\begin{table}[H]
+\centering
+\caption{Turntable network address}
+\label{my-label}
+\begin{tabular}{lll}
+ & \gls{ip} & 192.168.1.34   \\
+ & SUBNET MASK  & 255.255.255.0   \\
+ & DEFAULT GATEWAY  & 192.168.1.250  \\
+ & BROADCAST IP   &  192.168.1.255   
+\end{tabular}
+\end{table}
+
+
+
+\section*{Turntable control command}
+The software is made as an function where one can get a position, specify a position and stop the turntable. The function is made as an switch case with input variable "cmd". The following command can be send to the function:
+
+ \begin{table}[H]
+\centering
+\caption{Function command}
+\label{my-label}
+\begin{tabular}{lll}
+ & $cmd = 'set'$ & Which move the turntable to the specified angle    \\
+ & $cmd = 'get'$ & Which get the position of the turntable and store is as the output variable   \\
+ & $cmd = 'stop'$  & Which stop the turntable from moving
+\end{tabular}
+\end{table}
+
+\section*{The MATLAB function}
+
+\includeCode{ET250_3D.m}{matlab}{7}{55}{The turntable control function}{code:ET250_3D}{./code/turntable/}
+
+
+
+
