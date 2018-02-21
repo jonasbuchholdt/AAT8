@@ -100,12 +100,12 @@ function measureIRWithSweptSine(this)
             
             % Normalize IR such that peak value is 1.0
             irMax = max(abs(irEstimate));
-            if irMax
+    if irMax
                 this.ImpulseResponseVector = irEstimate ./ irMax;
-            else
+    else
                 this.ImpulseResponseVector = irEstimate;
-            end
-        end
+    end
+end
         
         function postProcessMeasurements(this)
             irEstimate = this.ImpulseResponseVector;
@@ -133,5 +133,5 @@ function measureIRWithSweptSine(this)
             capturedData.DeviceSettings = getDeviceSettings(this);
             capturedData.MeasurementConfiguration = getMeasurementConfiguration(this);
             this.CapturedData = capturedData;
-        end
-    end
+    
+end
