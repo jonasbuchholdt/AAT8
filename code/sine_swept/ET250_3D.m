@@ -1,12 +1,12 @@
 function [angle] = ET250_3D(cmd, angle)
-
-
+        u = udp('192.168.1.34',7000);
+        fopen(u)
 switch cmd
     
     case 'udp_start'
         echoudp('on',7000)
-        u = udp('192.168.1.34',7000);
-        fopen(u)
+
+
                             
         
     case 'set'
@@ -45,8 +45,7 @@ switch cmd
         
     case 'udp_stop'
         echoudp('off')
-        fclose(u)
-end
 
-        
+end
+        fclose(u)       
 end
