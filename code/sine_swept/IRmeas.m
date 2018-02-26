@@ -1,4 +1,4 @@
-function [ir,irtime,tf,faxis]=IRmeas(ts,tw,flower,fupper,gainlevel,player)
+function [fs,ir,irtime,tf,faxis]=IRmeas(ts,tw,flower,fupper,gainlevel,player)
             % out:  ir          - impulse response      [vector, lin]
             %       irtime      - time axis for IR        [vector, s]
             %       tf          - transfer function      [vector, dB]
@@ -22,7 +22,7 @@ function [ir,irtime,tf,faxis]=IRmeas(ts,tw,flower,fupper,gainlevel,player)
             % Acoustical Impulse Responses at0
             % High Sampling Rates"
             % https://www.princeton.edu/3D3A/Publications/Tylka_AES137_IRMeasurements-slides.pdf
-            
+            %%
             % properties
             gainLin = db2mag(gainlevel);
             %IRDuration = this.MinIRDuration;
@@ -76,7 +76,10 @@ function [ir,irtime,tf,faxis]=IRmeas(ts,tw,flower,fupper,gainlevel,player)
                 % Shift to align
                 y(:,1) = circshift(y(:,1),-d);
 
-            
+                
+                
+                
+         
             
             % Now convolve y with filtering impulse response f:
             % h(t) = y(t) * f(t)
