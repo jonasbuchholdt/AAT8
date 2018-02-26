@@ -8,9 +8,6 @@
 
 clear variables
 
-
-circres= 360;                             % angle resolution on circumference [degree]
-
 flower= 20;                             % lower frequency border for sweep      [Hz]
 fupper=22000;                           % upper frequency border for sweep      [Hz]
 ts= 1;                                  % length of sweep                        [s]
@@ -31,35 +28,19 @@ outcal=0.1;                             % Output Calibration: What digital
 
 player=SynchronizedPlaybackAcquirer;    % initializing I-O via soundcard
 
-%ET250_3D('udp_start')
 
-for k = 1:(360/circres)
+
     clear out
     out=struct;
-    currentangle=k*circres;
-    storename=strcat('data',int2str(currentangle*10));
-    if currentangle == 360
-        currentangle = 0;
-    end    
-    % ET250_3D('set',currentangle);
-     %pause(1)
-     %actualangle=ET250_3D('get');
-     
-    % while currentangle~=actualangle
-       %  pause(1)
-       %  actualangle=ET250_3D('get')
-     %end
-   % pause(1)
+    storename=strcat('data_rme');
+   
+
         [fs,out.ir,irtime,out.tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,playgain,player);
         assignin('base',storename,out);
-        if k==1
-            save(filename,'irtime','faxis','incal','outcal');
-        end
+        save(filename,'irtime','faxis','incal','outcal');
         save(filename,storename,'-append');
         clear (storename)
-end
 
-%ET250_3D('udp_stop')
 %%
 
 clear all
