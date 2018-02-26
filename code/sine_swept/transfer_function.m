@@ -12,9 +12,9 @@ flower= 20;                             % lower frequency border for sweep      
 fupper=22000;                           % upper frequency border for sweep      [Hz]
 ts= 1;                                  % length of sweep                        [s]
 tw= 1;                                  % est. length of IR                      [s]
-playgain=-60;                            % gain for sweep playback               [dB]
+playgain=-35;                            % gain for sweep playback               [dB]
 
-filename='RME_fireface_02.mat';                  % file name for storage
+filename='Pioneer_A-616_16.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at
@@ -43,21 +43,15 @@ player=SynchronizedPlaybackAcquirer;    % initializing I-O via soundcard
 
 %%
 
-
 clear all
-%
-load('RME_fireface_02.mat')
-%%
-load('RME_calibration')
-%%
-transfer = full.tf;%-RME_calibeation;
-%figure(1)
-%plot(data_rme.ir)
+load('Pioneer_A-616_16.mat')
 figure(1)
-semilogx(faxis,transfer)
+plot(data3600.ir)
+figure(2)
+loglog(faxis,data3600.tf)
 grid on
 
-axis([20 20000 30 47])
-ylabel('Amplification [dB]')
-xlabel('Frequency [Hz]')
+axis([20 20000 33 34])
+
+
 
