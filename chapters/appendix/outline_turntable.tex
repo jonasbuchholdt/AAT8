@@ -23,7 +23,7 @@ To establish connection between the turntable and computer, both have to run at 
 \begin{table}[H]
 \centering
 \caption{Turntable network address}
-\label{tab:turntable_network}
+\label{my-label}
 \begin{tabular}{lll}
  & \gls{ip} & 192.168.1.34   \\
  & SUBNET MASK  & 255.255.255.0   \\
@@ -35,22 +35,32 @@ To establish connection between the turntable and computer, both have to run at 
 
 
 \section*{Turntable control command}
-The software is made as an function where one can get a position, specify a position and stop the turntable. The function is made as an switch case with input variable "cmd". The following command can be send to the function:
+The software is made as a function where one can get a position, specify a position and stop the turntable. The function name is:
+
+\includeCode{ET250_3D.m}{matlab}{1}{1}{The turntable control function}{code:ET250_3D}{./code/turntable/}
+
+The function is made as an switch case with input variable "cmd", and an angle input. The following command can be send to the "cmd" of the function:
 
  \begin{table}[H]
 \centering
 \caption{Function command}
 \label{my-label}
 \begin{tabular}{lll}
+ & $cmd = 'udp_start'$ & Which start a connection on port 7000 \\
  & $cmd = 'set'$ & Which move the turntable to the specified angle    \\
  & $cmd = 'get'$ & Which get the position of the turntable and store is as the output variable   \\
- & $cmd = 'stop'$  & Which stop the turntable from moving
+ & $cmd = 'stop'$  & Which stop the turntable from moving \\
+ & $cmd = 'udp_stop'$ & Which stop the connection on port 7000 
 \end{tabular}
 \end{table}
+
+
+
 
 \section*{The MATLAB function}
 
 \includeCode{ET250_3D.m}{matlab}{1}{55}{The turntable control function}{code:ET250_3D}{./code/turntable/}
+
 
 
 
