@@ -12,9 +12,9 @@ flower= 20;                             % lower frequency border for sweep      
 fupper=22000;                           % upper frequency border for sweep      [Hz]
 ts= 1;                                  % length of sweep                        [s]
 tw= 1;                                  % est. length of IR                      [s]
-playgain=-60;                            % gain for sweep playback               [dB]
+playgain=-57;                            % gain for sweep playback               [dB]
 
-filename='RME_fireface_02.mat';                  % file name for storage
+filename='Pioneer_A616_0dB_load.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at
@@ -32,7 +32,7 @@ player=SynchronizedPlaybackAcquirer;    % initializing I-O via soundcard
 
     clear out
     out=struct;
-    storename=strcat('data_rme');
+    storename=strcat('Pioneer_A616_0dB_load');
    
 
         [fs,out.ir,irtime,out.tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,playgain,player);
@@ -45,19 +45,41 @@ player=SynchronizedPlaybackAcquirer;    % initializing I-O via soundcard
 
 
 clear all
-%
-load('RME_fireface_02.mat')
-%%
+
 load('RME_calibration')
-%%
-transfer = full.tf;%-RME_calibeation;
-%figure(1)
-%plot(data_rme.ir)
 figure(1)
-semilogx(faxis,transfer)
+
+load('Pioneer_A616_n40dB_load.mat')
+transfer = Pioneer_A616_n40dB_load.tf-RME_calibeation;
+semilogx(faxis,transfer,'r')
+
+
+hold on
 grid on
 
-axis([20 20000 30 47])
+load('Pioneer_A616_n40dB_noload.mat')
+transfer = Pioneer_A616_n40dB_noload.tf-RME_calibeation;
+semilogx(faxis,transfer,'b')
+
+load('Pioneer_A616_n16dB_load.mat')
+transfer = Pioneer_A616_n16dB_load.tf-RME_calibeation;
+semilogx(faxis,transfer,'r')
+
+load('Pioneer_A616_n16dB_noload.mat')
+transfer = Pioneer_A616_n16dB_noload.tf-RME_calibeation;
+semilogx(faxis,transfer,'b')
+
+load('Pioneer_A616_0dB_load.mat')
+transfer = Pioneer_A616_0dB_load.tf-RME_calibeation;
+semilogx(faxis,transfer,'r')
+
+load('Pioneer_A616_0dB_noload.mat')
+transfer = Pioneer_A616_0dB_noload.tf-RME_calibeation;
+semilogx(faxis,transfer,'b')
+
+
+
+axis([20 20000 -0 50])
 ylabel('Amplification [dB]')
 xlabel('Frequency [Hz]')
 
