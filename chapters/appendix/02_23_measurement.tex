@@ -7,27 +7,27 @@ The following measuring equipment was used:
 \begin{itemize}[noitemsep]
 \item Microphone B\,\&\,K 4144
 \begin{itemize}[noitemsep]
-\item AAU-number: B4-109-SKF-4
+\item AAU-number: 06552
 \item Serial number: 297090
 \end{itemize}
 \item Preamplifier GRAS 26AK
 \begin{itemize}[noitemsep]
-\item AAU-number: B4-109-SKF-5
+\item AAU-number: 56525
 \item Serial number: 32811
 \end{itemize}
 \item Power supply B\,\&\,K 204
 \begin{itemize}
-\item AAU-number: B4-109-A-1
-\item Serial number: 533884
+\item AAU-number: 06998
+\item Serial number: 455309
 \end{itemize}
 \item Calibrator B\,\&\,K 4231
 \begin{itemize}[noitemsep]
-\item AAU-number: B4-109-A-2
+\item AAU-number: 33691
 \item Serial number: 2115338
 \end{itemize}
 \item Power Amplifier Pioneer A-616
 \begin{itemize}[noitemsep]
-\item AAU-number: B4-109-C-8
+\item AAU-number: 08249
 \item Serial number: HJ9404841S
 \end{itemize}
 \item Sound card RME Fireface UCX
@@ -58,9 +58,25 @@ A sketch of the measurement setup can be found in \autoref{fig:measurement_setup
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\textwidth]{02_23_setup.JPG}
-	\caption{Measurement setup for finding the acoustical center of the speaker.}
+	\caption{Measurement setup}
 		\label{fig:setup_02_23}
 \end{figure}
 
-The horizontal distance between the microphone and the edge of the cabinet was \SI{0.75}{\meter}. This rather short distance was deliberately chosen for the sake of determining the acoustic center of the speaker. Directivity measurements should be conducted in the far field, which in the frequency range that this project is about, loudspeaker and microphone have to be placed significantly further apart. 
+The horizontal distance between the microphone and the edge of the cabinet was \SI{0.75}{\meter}. This rather short distance was deliberately chosen for the sake of testing the measurement setup and getting an idea of the position of the acoustic center of the speaker. Directivity measurements should be conducted in the far field. In the frequency range that this project is covering, this means, that loudspeaker and microphone have to be placed significantly further apart. Because of the early stage of development, in which the measurement routine was at the point in time, that the measurement took place, no output calibration was applied. This means, that all measurement results are only relative and have no link to physical units that have been measured.
 
+\section*{Results}
+The measurement results have to be viewed remembering, that this measurement series has to be considered a practice run before the actual measurement to characterize the directivity characteristics of the speaker. \autoref{fig:02_23_pressure} shows the results of a measurement conducted at a distance of \SI{0.75}{\meter} to the front edge of the speaker. The \gls{spl} normated to the level on the main axis is displayed along the radial coordinate. The angular coordinate describes the position of the microphone in relation to the main axis of the speaker. The coloured lines relate to different frequencies.
+The shape of the \SI{60}{\Hertz}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{02_23_pressure.eps}
+	\caption{Measurement setup for finding the acoustical center of the speaker.}
+		\label{fig:02_23_pressure}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{02_23_phase.eps}
+	\caption{Measurement setup for finding the acoustical center of the speaker.}
+		\label{fig:02_23_phase}
+\end{figure}
