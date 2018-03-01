@@ -11,6 +11,11 @@ player=SynchronizedPlaybackAcquirer;    % initializing I-O via soundcard
 [fs,impulse_response,irtime,tf,faxis]=IRmeas_fft_rme(ts,tw,flower,fupper,playgain,player);
 %tfm = mean(tf);
 %trans = tf-tfm;
-PREAMP_calibration=tf;
-save('PREAMP_calibration.mat','PREAMP_calibration')
+%PREAMP_calibration=tf;
+
+load('calibration.mat')
+
+calibration.preamp_transfer_function=tf;
+
+save('calibration.mat','calibration','-append');
 

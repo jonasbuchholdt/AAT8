@@ -7,12 +7,12 @@ plot(result)
 
 %%
 clear all
-gain = -18;
+gain = -21;
 cmd = 'cali_rme'
 Lacoustics(cmd,gain);
 %%
-load('PREAMP_calibration')
-result = 20*log10(abs(PREAMP_calibration));
+load('calibration.mat')
+result = 20*log10(abs(calibration.preamp_transfer_function));
 semilogx(result)
 hold on
 grid on
@@ -25,7 +25,7 @@ clear all
 cmd = 'cali_mic'
 gain = 0;
 [x_axis,result] = Lacoustics(cmd,gain);
-load('MICROPHONE_calibration')
+load('calibration.mat')
 
 
 
@@ -35,7 +35,6 @@ cmd = 'transfer'
 gain = -18;
 [x_axis,result] = Lacoustics(cmd,gain);
 
-
 result = abs(result);
 result=20*log10(result/(20*10^-6));
 
@@ -44,6 +43,6 @@ semilogx(result)
 hold on
 grid on
 
-axis([20 20000 50 120])
+axis([20 20000 60 120])
 xlabel('Frequency [Hz]')
-ylabel('[Pa]')
+ylabel('Pressure [Pa]')

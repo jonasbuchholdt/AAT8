@@ -4,18 +4,16 @@ In this appendix the control of an Outline ET 250-3D turntable will be described
 \section*{Materials and setup}
 The following materials are used:
 \begin{itemize}
-\item Ethernet cable
 \item Outline ET 250-3D (Turntable)
-\item MATLAB (PC - software)
+\begin{itemize}[noitemsep]
+\item AAU-number: -
+\item Serial number: REIBO012
+\end{itemize}
+\item MATLAB 2017b (PC - software)
+\item Ethernet cable
 \end{itemize}
 
-%\begin{figure}[htbp!]
-%\centering
-%\def\svgwidth{\columnwidth}
-%\input{figures/appendix/guitar_frequency_test.pdf_tex}
-%\caption{Setup for measuring frequency area on a guitar.}
-%		\label{fig:appendix:test}
-%\end{figure}
+
 
 \section*{The \gls{udp} setup of the computer}
 To establish connection between the turntable and computer, both have to run at the same SUBNET MASK. The turntable have a factory set for Ethernet connection which is as following:
@@ -42,15 +40,15 @@ The software is made as a function where one can get a position, specify a posit
 The function is made as an switch case with input variable "cmd", and an angle input. The following command can be send to the "cmd" of the function:
 
  \begin{table}[H]
-\centering
-\caption{Function command}
+
+\caption{Function commands}
 \label{my-label}
 \begin{tabular}{lll}
- & $cmd = 'udp_start'$ & Which start a connection on port 7000 \\
- & $cmd = 'set'$ & Which move the turntable to the specified angle    \\
- & $cmd = 'get'$ & Which get the position of the turntable and store is as the output variable   \\
- & $cmd = 'stop'$  & Which stop the turntable from moving \\
- & $cmd = 'udp_stop'$ & Which stop the connection on port 7000 
+ & \texttt{cmd} = \color{Violet}{\texttt{'udp_start'}} & Which start a connection on port 7000 \\
+ & \texttt{cmd} = \color{Violet}{\texttt{'set'}} & Which move the turntable to the specified angle    \\
+ & \texttt{cmd} = \color{Violet}{\texttt{'get'}} & Which get the position of the turntable   \\
+ & \texttt{cmd} = \color{Violet}{\texttt{'stop'}}  & Which stop the turntable from moving \\
+ & \texttt{cmd} = \color{Violet}{\texttt{'udp_stop'}} & Which stop the connection on port 7000 
 \end{tabular}
 \end{table}
 

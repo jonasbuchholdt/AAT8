@@ -19,7 +19,7 @@ outcal=0.1;                             % Output Calibration: What digital
 
 player=SynchronizedPlaybackAcquirer;    % initializing I-O via soundcard
 [fs,impulse_response,irtime,tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,playgain,player);
-load('PREAMP_calibration.mat');
-transfer_function = tf./PREAMP_calibration;
+load('calibration.mat');
+transfer_function = tf./calibration.preamp_transfer_function;
 end
 

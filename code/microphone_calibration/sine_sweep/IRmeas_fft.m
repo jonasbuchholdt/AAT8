@@ -68,11 +68,11 @@ function [fs,dataOut,irtime,tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,gainlevel,p
             
             y(:,1) = playRecord(player, dataOut);
             
-            load('MICROPHONE_calibration.mat')
-            load('y_max.mat')
+
+            load('calibration.mat')
             
             
-            y=y*(y_max)/(MICROPHONE_calibration*sqrt(2));
+            y=y*(calibration.preamp_gain)/(calibration.mic_sensitivity);
             %y=y*(rms(y(7733:51840))/MICROPHONE_calibration);
             
             dataOut_f=fft(dataOut);
@@ -80,7 +80,7 @@ function [fs,dataOut,irtime,tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,gainlevel,p
             
             irEstimate = real(ifft(y_f./dataOut_f));
             
-            irEstimate = circshift(irEstimate,-3159);% rme= 3159 edirol=3295
+            irEstimate = circshift(irEstimate,-3295);% rme= 3159 edirol=3295
             irEstimate=irEstimate;%*(1/MICROPHONE_calibration);
             
             ir = irEstimate;

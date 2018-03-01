@@ -70,14 +70,18 @@ function [fs,ir,irtime,tf,faxis]=IRmeas_fft_rme(ts,tw,flower,fupper,gainlevel,pl
             
             y_max = max(y)
             
-            save('y_max.mat','y_max');
+            calibration = struct;
+            
+            calibration.preamp_gain=y_max;
+            
+            save('calibration.mat','calibration');
             
             dataOut_f=fft(dataOut);
             y_f=fft(y);
             
             irEstimate = real(ifft(y_f./dataOut_f));
             
-            irEstimate = circshift(irEstimate,-3159);% rme= 3159 edirol=3295
+            irEstimate = circshift(irEstimate,-3295);% rme= 3159 edirol=3295
             ir = irEstimate;
             irtime = [1:length(irEstimate)]./fs;
             
