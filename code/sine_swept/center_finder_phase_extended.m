@@ -1,7 +1,7 @@
 clear variables
 close all
-load('turn_01.mat')
-f=60;
+load('acoustics_center_01.mat')
+f=300;
 
 [discard,faxis]=freqz(data900.ir,1,16384,44100);
 
@@ -35,7 +35,7 @@ end
 end
 
 %%%% ATTENTION: HARDCODE
-phi(2)=phi(end);
+%phi(2)=phi(end);
 
 
 lambda=343/f;
