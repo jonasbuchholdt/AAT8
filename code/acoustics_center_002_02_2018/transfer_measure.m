@@ -68,7 +68,7 @@ ts= 1;                                  % length of sweep                       
 tw= 1;                                  % est. length of IR                      [s]
 playgain=-18;                            % gain for sweep playback               [dB]
 
-filename='Pioneer_A-616_16.mat';                  % file name for storage
+filename='acoustics_center_02.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at
@@ -119,6 +119,7 @@ ET250_3D('udp_stop')
 
 clear all
 load('Pioneer_A-616_16.mat')
+%%
 figure(1)
 plot(data3600.ir)
 figure(2)
