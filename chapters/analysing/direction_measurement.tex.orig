@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-\section{Origin}\label{ch:polar_response}
-Because this project is about shaping the directional characteristics of loudspeakers arrangements towards a particular direction, it is important to thorougly investigate the directional characteristic of a single loudspeaker cabinet. This serves as a baseline for comparison and also is essential, because the investigated cabinet will be used to form the speaker array later on.\\
-=======
 \section{Origin}
 Because this project is about shaping the directional characteristics of loudspeakers arrangements towards a particular direction, it is important to thorougly investigate the directional characteristics of a single loudspeaker. This serves as a baseline for comparison and also is essential, because the investigated loudspeaker will be used to form the speaker array later on.\\
->>>>>>> 37ee33250c1a38d94405b9a3ccdd2bf728a11cb8
 In general, loudspeakers tend to display different directional behaviour depending on the frequency emitted. At low frequencies they can be viewed as omnidirectional sound sources. At higher frequencies the main direction of sound emission is in line with the motion direction of the voice coil. \citep[p. 910 f.]{crocker98}
 Depending on the ratio of the emitted wavelength to the diameter of the speaker, a radiation pattern with side lobes can occur. An analytic approximation to the behaviour can be made  when looking at a vibrating piston in an infinite baffel. However, this only takes into account the front side of the speaker. It is difficult to incorporate the effects of an enclosure into this model.\\
 There are possibilities to numerically model the sound field around a speaker in a cabinet. However in the context of this project, conducting a measurement seems to be the most favourable approach towards quantifying the sound pressure emitted by loudspeaker mounted in an enclosure. Measurements must be taken at numerous frequencies and positions along a circular trajectory.
@@ -57,6 +52,7 @@ In order to obtain the polar response, transfer functions have to be measured at
 In order to achieve meaningful results regarding the directional characteristic of the a loudspeaker, it is necessary to know the location of the  acoustical center of the loudspeaker.
 In \citep{ansis1.1}, the ``effective acoustical center'' of an electroacoustical transducer is defined as the ``position of the effective or virtual point source from which sound pressure varies inversely as distance''. This concept is further discussed in \citep{jacobsenetal}, where the authors also state, that the position of the acoustic center is frequency dependent. For gathering the data to characterize the directivity it is desirable to position the acoustic center of the \gls{dut} on the rotational axis of the turntable. This can lead to practical difficulties due to the frequency dependency. It is therefore necessary to assess the position of the acoustical center of the \gls{dut} in the desired frequency range via a measurement.
 
+<<<<<<< HEAD
 In the Appendix \ref{ax:directional_1} the polar characteristics have been measured. 
 
 \begin{table}[]
@@ -72,6 +68,8 @@ lambda                 & 5.72 & 3.43  & 2.29  \\
 corresponding distance & 0.33 & 0.34  & 0.34 
 \end{tabular}
 \end{table}
+%A way to determine the acoustical center by measurement can be proposed as follows. The loudspeaker is placed on the turntable, oriented with its main axis directly towards the measurement microphone (\SI{0}{\degree}). Details about this procedure can be found in \autoref{ax:directional_1}.
+=======
 %A way to determine the acoustical center by measurement can be proposed as follows. The loudspeaker is placed on the turntable, oriented with its main axis directly towards the measurement microphone (\SI{0}{\degree}). Details about this procedure can be found in \autoref{ax:directional_1}.
 
 
@@ -89,3 +87,4 @@ After the speaker is moved to the calculated position, the polar response is mea
 	\caption{The figure shows the beamwidth to a specified \si{\decibel} change between the front measurement and a measurement from a given angle of the \gls{dut}. It find the first frequency where the \gls{spl} difference between front measurement and the measurement from the given angle is $n$\si{\decibel}, where $n$ is given in the figure. The \gls{dut} which correspond to this figure is a \citep{seas33}}
 		\label{fig:beamwidth_offset_4.5_cm}
 \end{figure}
+>>>>>>> 401b9fb1d5c1f8d69ec587edf53389e9d622e853
