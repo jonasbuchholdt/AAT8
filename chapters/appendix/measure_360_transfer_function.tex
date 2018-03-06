@@ -1,0 +1,69 @@
+\chapter*{Speaker measuring manual}
+In this appendix the \SI{360}{\degree} transfer function measurement software will be briefly explained. The gold of this software is to measure the \SI{360}{\degree} transfer function of any loudspeaker in the anicoid chamber with calibrated measuring tools. The \SI{360}{\degree} transfer function is a transfer function measurement for every specified degree step size around the speaker. E.g. if the step is one degree, the loudspeaker will be turned 1 degree for every transfer function measurement, until \SI{360}{\degree} is riched.
+
+\section*{Materials and setup}
+To measure the \SI{360}{\degree} transfer function of a loud speaker, the following materials are used:
+\begin{itemize}
+\item Outline ET 250-3D (Turntable)
+\begin{itemize}[noitemsep]
+\item AAU-number: -
+\item Serial number: REIBO012
+\end{itemize}
+\item RME FIREFACE ucx (Soundcard)
+\begin{itemize}[noitemsep]
+\item AAU-number: 108230
+\item Serial number: 23811948
+\end{itemize}
+\item Pioneer A-616 with a gain of \SI{44}{\decibel} (amplifier)
+\begin{itemize}[noitemsep]
+\item AAU-number: B4-109-C-8
+\item Serial number: HJ9404841S
+\end{itemize}
+\item Microphone with preamp
+\item MATLAB 2017b (PC - Software)
+\item Ethernet cable 
+\item \gls{bandk} connector to XLR
+\item Jack to Phone cable
+\item XLR speaker cable
+\item speaker stand
+\end{itemize}
+
+%\begin{figure}[htbp!]
+%\centering
+%\def\svgwidth{\columnwidth}
+%\input{figures/appendix/guitar_frequency_test.pdf_tex}
+%\caption{Setup for measuring frequency area on a guitar.}
+%		\label{fig:appendix:test}
+%\end{figure}
+
+\section*{Calibration procedure}
+
+
+\begin{enumerate}
+\item The materials are set up as in \autoref{appendix:calibration}.
+\item NOTE! The calibration shall be done in the same order as the following description.
+\item The sound card is calibrated according to the first step in \autoref{apendix:calibrate_sound_card_and_microphone}   
+\item The microphone is calibrated according to the second step in \autoref{apendix:calibrate_sound_card_and_microphone}
+\end{enumerate}
+
+\section*{Test procedure}
+
+
+\begin{enumerate}
+\item The materials are set up as in \autoref{fig:appendix}.
+\item The turn degree step is chosen and the turntable control software \autoref{appendix:turntable} is used.  
+\item  All transfer function for every step is stored in complex value together with the impulse response.
+\end{enumerate}
+
+
+%\begin{figure}[htbp!]
+%	\centering
+	%	\includegraphics[width=1\textwidth]{guitar_low_E_neck.pdf}
+		%\caption{Measurement of the low E note on the neck pickup.}
+%		\label{fig:appendix:low_E_neck}
+%\end{figure}
+
+\section*{The MATLAB function}
+
+\includeCode{transfer_measure.m}{matlab}{1}{55}{The \SI{360}{\degree} transfer function measurement software}{code:transfer_measure}{./code/acoustics_center_002_02_2018/}
+

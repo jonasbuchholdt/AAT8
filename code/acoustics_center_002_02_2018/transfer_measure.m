@@ -5,7 +5,7 @@ cmd = 'ir'
 [x_axis,result] = Lacoustics(cmd,gain);
 plot(result)
 
-%%
+%% sound card calibration
 clear all
 gain = -18;
 cmd = 'cali_rme'
@@ -19,8 +19,8 @@ grid on
 axis([20 20000 0 20])
 xlabel('Frequency [Hz]')
 ylabel('[dB]')
-%%
 
+%% microphone calibration
 clear all
 cmd = 'cali_mic'
 gain = -18;

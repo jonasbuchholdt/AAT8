@@ -1,4 +1,4 @@
-\chapter*{Microphone calibration software}
+\chapter*{Microphone calibration software} \label{appendix:calibration}
 In this appendix the microphone calibration software will be briefly explained. The gold of this software is to be able to calibrate any microphone including the calibration of the soundcard in MATLAB, such that a calibration tone correspond to a known digital number in MATLAB. 
 
 \section*{Materials and setup}
@@ -75,7 +75,7 @@ To do a calibration of a random microphone, the following materials are used:
 		\label{fig:appendix:mic_calibration}
 \end{figure}
 
-\section*{The calibration step}
+\section*{The calibration step} \label{apendix:calibrate_sound_card_and_microphone}
 \paragraph{The first step} is measuring the transfer function of the sound card according to \autoref{Frequency_response_of_RME_FIREFACE_UCX} and the set up is shown is \autoref{fig:appendix:rme_calibration}. The complex transfer function is divided by the input of the sound card, such that the gain between input and output of the sound card is 1 from \SI{20}{\hertz} to \SI{20}{\kilo\hertz}, when a signal cable is connected between input and output. While doing the calibration, the peak value at the input is saved and used as a reference value of the sound card. All measurement have to include the calibration of the sound card, to ensure that a known digital number in MATLAB correspond to a known pressure.
 \paragraph{The second step} is measuring the digital number in MATLAB that corresponding to \SI{1}{\pascal} or \SI{94}{\decibel} and then log value as the microphone calibration peak value. The set up is shown is \autoref{fig:appendix:mic_calibration}. The factor between reference value of the sound card divided by the microphone calibration correspond to the factor that have to be multiplied to the input of the sound card, and only works with the microphone used in the calibration. This calibration have to be done before every series of measurement. The function will return the digital number 1 when the pressure is \SI{1}{\pascal} and is linearly depending on the pressure. To calculate the \gls{spl} the following formula is used
 

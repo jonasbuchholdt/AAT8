@@ -1,4 +1,4 @@
-function [fs,dataOut,irtime,tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,gainlevel,player)
+function [fs,ir,irtime,tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,gainlevel,player)
             % out:  ir          - impulse response      [vector, lin]
             %       irtime      - time axis for IR        [vector, s]
             %       tf          - transfer function      [vector, dB]
