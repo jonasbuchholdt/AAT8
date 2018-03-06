@@ -1,8 +1,8 @@
 \section{Single speaker source}
-This section aims to introduce and analyse the fundamental for a single source, by analyse the behaviour of a line source shaped as the diaphragm. The pressure around the speaker will be analysed analytically, to determine the radiation of a single speaker from \SI{60}{\hertz} and upwards. The \SI{60}{\hertz} lower limit enable the simulation to be validated by measurement in the AAU anacoid chamber and is a used lower limit for the low/mid driver in some line source array.  The analyse shall end out with a limited frequency range, where the directivity have to be controlled.
+This section aims to introduce and analyse the fundamental for a single source, by analyse the behaviour of a piston source. The pressure around the piston source will be analysed analytically, to determine the radiation of a single speaker from \SI{60}{\hertz} and upwards and compare it with the measurement from \autoref{ch:polar_response}. The \SI{60}{\hertz} lower limit enable the simulation to be validated by measurement in the AAU anechoic chamber and is a used lower limit for the low/mid driver in some line source array \citep{V-DOSC}.  The analyse shall end out with a approximated simulation model of the \gls{dut}.
 
 \subsection{Pressure analysis around a single source}
-To characterised the directions properties of a speaker unit, the source will be modulated in two dimension as three line source shaped as the diaphragm of a speaker. To modulated the diaphragm, a continues line source will be analysed in two dimension and explained in this section. The analysis of a continues line source is built on a thin cylindrical source of length $L$, and radius $a$. The line source will be considered as many small sources, where the complete surface vibrate radially with speed
+To characterised the directions properties of an analytical model of the \gls{dut}, the source will be modulated in two dimension as one piston source. The analysis of a piston source in to dimension built on a thin piston source in three dimension where the z dimension is fixed. The piston lays flat down so i look like a line and have radius $a$. The piston source will be considered as many small sources, where the complete surface vibrate radially with speed
 
 \begin{equation}
 u = \text{\textit{{\LARGE u}}}_{0} \cdot exp(j \omega t)
@@ -51,10 +51,10 @@ The following \autoref{fig:continues_line_source} shows an example of the contin
 \put(23851,659){x}%
 \put(-89,16094){y}%
 \put(11341,8354){r}%
-\put(3466,-571){$\frac{L}{2}$}%
-\put(1441,-376){dx}%
+\put(3466,-571){$a$}%
+\put(1441,-376){ds}%
 \put(-134,-421){0}%
-\put(-4049,-571){$-\frac{L}{2}$}%
+\put(-4049,-571){$-a$}%
 \put(226,1649){$\Delta$r}%
 \end{picture}%
 	\caption{The model of a continues line source (ref the book)}
