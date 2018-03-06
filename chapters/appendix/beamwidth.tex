@@ -1,0 +1,26 @@
+\chapter*{Test a guitars frequency area}\label{appendix:beamwidth}
+In this appendix the beamwidth calculation software will be briefly explained. The gold of the software is to find the $-n$\si{\decibel} beamwidth of an arbitrary speaker, where the polar response is measured. 
+
+\section*{Materials}
+To calculate the $-n$\si{\decibel} beamwidth, the following materials are used:
+\begin{itemize}
+\item MATLAB 2017b (PC - software)
+\end{itemize}
+
+
+\section*{Calculation procedure}
+The $-n$\si{\decibel} beamwidth calculation software is build as a search function. It compare the front measurement with a measurement from a given angle and find the first frequency where the \gls{spl} difference between front measurement and the measurement from the given angle is $n$\si{\decibel}. The following step have to be done to be able to calculate the $-n$\si{\decibel} beamwidth.
+
+\begin{enumerate}
+\item The materials are set up as in \autoref{fig:measurement_setup}.
+\item The polar response is measured according to \autoref{appendix:measuring_manual}
+\item The acoustical center of the speaker is founded according to \autoref{sec:ac_center}
+\item  The speaker is moved such that the acoustic center stays in the same point. 
+\item The polar response is measured again according to \autoref{appendix:measuring_manual}
+\item All transfer function from the polar response is calculated.
+\item $n$ is chosen and the  $-n$\si{\decibel} beamwidth calculation software is executed.
+\end{enumerate}
+
+
+\section*{The MATLAB function}
+\includeCode{minus_ndB_beamwidth.m}{matlab}{1}{52}{The $-n$\si{\decibel} beamwidth search software}{code:minus_ndB_beamwidth}{./code/beamwidth/}
