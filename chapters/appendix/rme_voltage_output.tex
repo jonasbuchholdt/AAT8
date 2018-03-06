@@ -16,7 +16,7 @@ To measure the output voltage, the following materials are used:
 \end{itemize}
 \item Digilent Waveforms 2015 (PC - software)
 \item MATLAB 2017b (PC - software)
-\item SynchronizedPlaybackAcquirer, where playgain is the output attenuation in \si{\decibel} (Made by MATLAB)
+\item SynchronizedPlaybackAcquirer, where \texttt{playgain} is the output attenuation in \si{\decibel} (Made by MATLAB)
 \end{itemize}
 
 \begin{figure}[htbp!]
@@ -52,7 +52,7 @@ To measure the output voltage, the following materials are used:
 \begin{enumerate}
 \item The materials are set up as in \autoref{fig:appendix:rme_output_voltage}.
 \item A sinusoid with a frequency of \SI{1}{\kilo\hertz} and a digital amplitude of 1 is created.  
-\item The sinusoid is played continuously at the output of the sound card with a playgain of  \SI{0}{\decibel}.
+\item The sinusoid is played continuously at the output of the sound card with a \texttt{playgain} of  \SI{0}{\decibel}.
 \item  A measurement of the sinusoid on the output of the sound card is made with Digilent Analog Discovery 2.
 \item The data from Digilent Analog Discovery 2 is imported to MATLAB and plotted with the sinusoid created in MATLAB
 \end{enumerate}
@@ -66,10 +66,10 @@ To measure the output voltage, the following materials are used:
 		\label{fig:appendix:rme_output_voltage_result}
 \end{figure}
 
-On  \autoref{fig:appendix:rme_output_voltage_result} it is seen that the digital number 1 in MATLAB corresponding to a voltage of \SI{4.7}{\volt} when the playgain is at \SI{0}{\decibel}. 
+On  \autoref{fig:appendix:rme_output_voltage_result} it is seen that the digital number 1 in MATLAB corresponding to a voltage of \SI{4.7}{\volt} when the \texttt{playgain} is at \SI{0}{\decibel}. 
 
 \section*{Conclusion}
-It can be concluded that the factor between the digital number in MATLAB and the output voltage is 4.7 with playgain of \SI{0}{\decibel}. Since the sound card will be calibrated for every measurement, it is concluded that this factor is linear from \SI{20}{\hertz} to \SI{20}{\kilo\hertz}. 
+It can be concluded that the factor between the digital number in MATLAB and the output voltage is 4.7 with \texttt{playgain} of \SI{0}{\decibel}. Since the sound card will be calibrated for every measurement, it is concluded that this factor is linear from \SI{20}{\hertz} to \SI{20}{\kilo\hertz}. 
 
 
 
