@@ -39,17 +39,22 @@ end
 f_axis=[b_axis c_axis];
 f = [b c];
 
+f(find(f_axis==10)) = f(find(f_axis==-10));
 
 
 semilogx(f,f_axis)
 hold on
 grid on
 axis([20 20000 -180 180])
+%set(gca,'xtick',[20:500:20000])
+set(gca,'ytick',[-180:30:180])
+xlabel('Frequency [Hz]')
+ylabel('Angle [°]')
 %%
 semilogx(faxis,refference)
 hold on
-semilogx(faxis,20*log10(abs(data100.tf)/(20*10^-6)))
-semilogx(faxis,20*log10(abs(data3500.tf)/(20*10^-6)))
+semilogx(faxis,20*log10(abs(data1250.tf)/(20*10^-6)))
+semilogx(faxis,20*log10(abs(data1750.tf)/(20*10^-6)))
 grid on
 
 axis([20 20000 20 100])
