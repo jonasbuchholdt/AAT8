@@ -23,7 +23,7 @@ u = \text{\textit{{\LARGE u}}}_{0} \cdot exp(j \omega t)
         \explain{$t$ is the time }{\si{1}}
     \stopexplain
     
-Each small sources is treated as an unbaffled simple source with length $dx$ and the source strange can be modulated as following      
+Each small sources is treated as an baffled simple source with a width of $dx$ and the source strange can be modulated as following      
 
 \begin{equation}
 dQ = \text{\textit{{\LARGE u}}}_{0} 2 a\, sin(\phi) \, dx
@@ -37,7 +37,7 @@ dQ = \text{\textit{{\LARGE u}}}_{0} 2 a\, sin(\phi) \, dx
         \explain{$dx$ is the length for the simple source }{\si{1}}
     \stopexplain    
  
-The following \autoref{fig:continues_line_source} shows an example of the continues line source where one of the small source is showed with width $w$ and length $dx$. 
+The following \autoref{fig:continues_line_source} shows an example of the continues line source where one of the small source is showed with width $dx$ and length $2a \, sin(\phi)$. 
 
 \begin{figure}[H]
 	\centering
@@ -60,7 +60,7 @@ The following \autoref{fig:continues_line_source} shows an example of the contin
 \put(-89,16094){z}%
 \put(11341,8354){r}%
 \put(3466,-571){$a$}%
-\put(1441,-376){$w$}%
+\put(1441,-376){$dx$}%
 \put(-134,-421){0}%
 \put(-4049,-571){$-a$}%
 \put(226,1649){$\Delta$r}%
@@ -72,7 +72,7 @@ The following \autoref{fig:continues_line_source} shows an example of the contin
 
 
 
-\subsection{Simulation the \gls{dut} as a piston source and compare to measurement in \autoref{ch:polar_response}}
+\subsection{Simulation of the \gls{dut} as a piston source and compare to measurement in \autoref{ch:polar_response}}
 In this section, the \gls{dut} will be simulated as a baffled circular plane piston source as described in \autoref{ch:single_speaker_source} and compared to the actually measurement of the \gls{dut} \autoref{ax:directional_2}. An piston simulated model of \citep{seas33} in MATLAB shows in \autoref{fig:piston_model_of_seas33}
 
 \begin{figure}[H]
