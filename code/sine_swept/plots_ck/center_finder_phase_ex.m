@@ -1,7 +1,7 @@
 clear variables
 close all
 load('../turn_01.mat')
-f=100;
+f=250;
 
 [discard,faxis]=freqz(data900.ir,1,16384,44100);
 
@@ -28,15 +28,16 @@ for k=1:size(responses,2)
                 phi(k)=-180;
             end
 phi(k)=mod(rad2deg(atan(imag(tfs(k,index))./real(tfs(k,index)))),360);
-if phi(k)>360
+if phi(k)>180
     phi(k)=phi(k)-360;
-elseif phi(k)<0
+elseif phi(k)<-180
     phi(k)=phi(k)+360;
 end
 end
 
 %%%% ATTENTION: HARDCODE
 phi(2)=phi(end);
+
 
 
 lambda=343/f;
@@ -53,7 +54,7 @@ end
 avgx=mean(shiftx)
 avgy=mean(shifty)
 
-%save('dat300.mat','phi')
+%save('dat250.mat','phi')
 
 figure
 
@@ -63,4 +64,4 @@ ax = gca;
 ax.ThetaZeroLocation = 'top';
 ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
-rlim([0 360])
+rlim([-180 180])
