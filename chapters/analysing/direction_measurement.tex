@@ -104,12 +104,16 @@ Frequency              & {[}Hz{]}  & 60    & 100    & 150   \\ \hline
 
 
 \section{Determining the beamwidth of the \gls{dut}}\label{sec:ac_center}
-In order to find the beamwidth of the \gls{dut}, a pre polar response measurement have to be done to localize the acoustic center of the \gls{dut} by analyse the polar phase of the \gls{dut}. With the knowledge of the polar phase to a given frequency, it is possible to calculate the distance in x and y direction, the \gls{dut} have to be moved. The pre polar response is explained in \autoref{ax:directional_1}, and in \autoref{} the moment was calculated to ... in x direction and ... in y direction. 
-After the speaker is moved to the calculated position, the polar response is measured again and analysed in \autoref{ax:directional_2}. Because of flexibility of the first stand in \autoref{ax:directional_1}, the position of the speaker is of with \SI{4.5}{\centi\meter} to the front. The measurement  is executed according to \autoref{appendix:beamwidth} and the beamwidth of the \gls{dut} is as following \autoref{fig:beamwidth_offset_4.5_cm} 
+The beamwidth can be defined as the range between the angles, at which the sound pressure radiated at a given frequency equals a certain threshold related to the pressure on the main axis of a speaker. This means, inside the beam with, the pressure drop is smaller then the threshold \(n\).
+The beamwith is strongly dependent on frequency and can be determined out of the measurement data from the polar response. \autoref{fig:beamwidth_offset_4.5_cm} visualizes the beamwith over frequency for the measurement that is described in Appendix \ref{ax:directional_2} as described in \autoref{appendix:beamwidth}. It has to be noted, that during this measurement the acoustic center of the \gls{dut} was not placed exactly on the rotational axis of the speaker. The beamwith is therefore slighty smaller then it would be, if the centers were matching.
+%In order to find the beamwidth of the \gls{dut}, a pre polar response measurement have to be done to localize the acoustic center of the \gls{dut} by analyse the polar phase of the \gls{dut}. With the knowledge of the polar phase to a given frequency, it is possible to calculate the distance in x and y direction, the \gls{dut} have to be moved. The pre polar response is explained in \autoref{ax:directional_1}, and in \autoref{} the moment was calculated to ... in x direction and ... in y direction. 
+%After the speaker is moved to the calculated position, the polar response is measured again and analysed in \autoref{ax:directional_2}. Because of flexibility of the first stand in \autoref{ax:directional_1}, the position of the speaker is of with \SI{4.5}{\centi\meter} to the front. The measurement  is executed according to \autoref{appendix:beamwidth} and the beamwidth of the \gls{dut} is as following \autoref{fig:beamwidth_offset_4.5_cm} 
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1\textwidth]{beamwidth_off_4_5_cm.pdf}
-	\caption{The figure shows the beamwidth to a specified \si{\decibel} change between the front measurement and a measurement from a given angle of the \gls{dut}. It find the first frequency where the \gls{spl} difference between front measurement and the measurement from the given angle is $n$\si{\decibel}, where $n$ is given in the figure. The \gls{dut} which correspond to this figure is a \citep{seas33}}
+	\caption{The figure shows the beamwidth to a specified \si{\decibel} change between the front measurement and a measurement from a given angle of the \gls{dut}. It find the first frequency where the \gls{spl} difference between front measurement and the measurement from the given angle is $n$\,\si{\decibel}, where $n$ is given in the legend. The \gls{dut} which correspond to this figure is a \citep{seas33}}
 		\label{fig:beamwidth_offset_4.5_cm}
 \end{figure}
+
+\section{Conclusion}
