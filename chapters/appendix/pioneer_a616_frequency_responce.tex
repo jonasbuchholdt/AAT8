@@ -1,5 +1,5 @@
 \chapter{Frequency response of Pioneer A-616}
-A test was made to get a view of the frequency response of the Pioneer A-616 amplifier. The Pioneer A-616 amplifier is used for all measurement in this project, and therefore the frequency response is of interest. To measure the frequency response, the function from \autoref{appendix:transfer_function} is used. The test is done with and without load, to find out if the load changes the transfer function of the amplifier.
+A test was made to assess the frequency response of a Pioneer A-616 amplifier. The Pioneer A-616 amplifier is used for all the polar response measurements in this project, and therefore the frequency response has to be investigated. To measure the frequency response, the function from \autoref{appendix:transfer_function} is used. The test is executed with and without load, to investigate, whether the load affects the transfer function of the amplifier.
 
 \section*{Materials and setup}
 To measure the frequency response of the Pioneer A-616 amplifier, the following materials are used:
@@ -9,7 +9,7 @@ To measure the frequency response of the Pioneer A-616 amplifier, the following 
 \item AAU-number: 108230
 \item Serial number: 23811948
 \end{itemize}
-\item Pioneer A-616 with a gain of \SI{44}{\decibel} (amplifier)
+\item Pioneer A-616 with a maximum voltage gain of \SI{44}{\decibel} (amplifier)
 \begin{itemize}[noitemsep]
 \item AAU-number: B4-109-C-8
 \item Serial number: HJ9404841S
@@ -54,7 +54,7 @@ To measure the frequency response of the Pioneer A-616 amplifier, the following 
 
 \begin{enumerate}
 \item The materials are set up as in \autoref{fig:appendix:pioneer_response}.
-\item The signal cable is connected between the RME FIREFACE UCX output channel 1 and right Line in on the amplifier.
+\item The signal cable is connected between the RME FIREFACE UCX output channel 1 and right Line input on the amplifier.
 \item The jack to banana cable is connected between the amplifier right B output channel to the  RME FIREFACE UCX input 1 
 \item The input gain of RME FIREFACE UCX at input 1 is set to \SI{20}{\decibel}
 \item The input and output channel is specified in the MATLAB function "SynchronizedPlaybackAcquirer" 
@@ -62,7 +62,7 @@ To measure the frequency response of the Pioneer A-616 amplifier, the following 
 \item IRmeas_fft (software) \autoref{appendix:transfer_function} is preformed with attenuation of \SI{-40}{\decibel}, \SI{-16}{\decibel}  and  \SI{0}{\decibel} of the amplifier without load 
 \item then IRmeas_fft (software) \autoref{appendix:transfer_function} is preformed with attenuation of \SI{-40}{\decibel}, \SI{-16}{\decibel} and \SI{0}{\decibel} of the amplifier with load. 
 \item the measurement is done with \texttt{playgain} \SI{-18}{\decibel}, \SI{-42}{\decibel} and \SI{-57}{\decibel} respectively, so the output voltage of the amplifier do not damage the soundcard.
-\item The measured transfer function from the RME FIREFACE UCX is subtracted all measurement, to get a true voltage gain of the amplifier.
+\item The measured transfer function from the RME FIREFACE UCX is compensated in all measurements, to get a unaffected voltage gain of the amplifier.
 \item The transfer function is plotted from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} for every measurement, where the measurement with load is plotted first in read, and then the measurement without load is plotted in blue.
 
 \end{enumerate}
@@ -71,7 +71,7 @@ To measure the frequency response of the Pioneer A-616 amplifier, the following 
 
 
 
-On \autoref{fig:appendix:amplifier_response_result} it is seen that the transfer function of the amplifier do not depend on an output load, when the load is SEAS 33 F-WKA because the red and blue curve lays up on each other for the three measuring point. The amplifier is not a linear gain factor from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} at high attenuation, because the non linearity at \SI{-40}{\decibel} is \SI{1.75}{\decibel} from the highest to the lowest attenuation. The amplifier get at most a linear gain factor when the attenuation is lowered because the non linearity at an attenuation of \SI{0}{\decibel} is \SI{0.16}{\decibel}. At \SI{-16}{\decibel} the non linearity is \SI{0.55}{\decibel}.
+Regarding \autoref{fig:appendix:amplifier_response_result} it is apparent, that the influence of the output load, as which the SEAS 33 F-WKA speaker acts, on the transfer function of the amplifier is negligible. The red and blue curves match up at all three measured levels. The amplifier can not be represented as a linear gain factor from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} at high attenuation, because the deviation from a linear frequency response at a playback level of \SI{-40}{\decibel} on the amplifier is \SI{1.75}{\decibel} from the highest to the lowest attenuation. The amplifier works more like a linear gain factor when the attenuation is lowered. The deviation from a linear frequency response at an attenuation of \SI{0}{\decibel} is \SI{0.16}{\decibel}. At \SI{-16}{\decibel} the deviation is \SI{0.55}{\decibel}.
 
 
 
@@ -83,5 +83,5 @@ On \autoref{fig:appendix:amplifier_response_result} it is seen that the transfer
 \end{figure}
 
 \section*{Conclusion}
-It can be concluded that the transfer function of the amplifier Pioneer A-616 do not depend on a load on the output. It can also be concluded that the amplifier is a gain factor from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} with attenuation lower than \SI{-16}{\decibel}, because a non linearity of \SI{0.55}{\decibel} or lower is accepted.
+It can be concluded that the transfer function of the amplifier Pioneer A-616 does not significantly depend on a load on the output. It can also be concluded that the amplifier can be represented as a gain factor from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} with attenuation lower than \SI{-16}{\decibel}, because a deviation of \SI{0.55}{\decibel} or lower is accepted.
 

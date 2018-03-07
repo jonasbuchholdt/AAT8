@@ -1,8 +1,8 @@
 \chapter{Frequency response of RME FIREFACE UCX}\label{Frequency_response_of_RME_FIREFACE_UCX}
-A test was made to get a view of the frequency response of the RME FIREFACE ucx. The RME FIREFACE ucx is used for all measurement in this project, and therefore the frequency response is of interest. To measure the frequency response, the function from \autoref{appendix:transfer_function} is used.
+A measurement was conducted to assess the frequency response of the RME FIREFACE UCX. Because all the measurements in this project involve the FIREFACE ucx, the frequency response is of interest. To measure the frequency response, the function from \autoref{appendix:transfer_function} is used.
 
 \section*{Materials and setup}
-To measure the frequency response of the RME FIREFACE UCX, the following materials are used:
+The following materials are used:
 \begin{itemize}
 \item RME FIREFACE ucx (Soundcard)
 \begin{itemize}[noitemsep]
@@ -42,7 +42,8 @@ To measure the frequency response of the RME FIREFACE UCX, the following materia
 
 
 \begin{enumerate}
-\item The materials are set up as in \autoref{fig:appendix:rme_response}.
+\item The devices are set up as in \autoref{fig:appendix:rme_response}.
+\item The sample rate is set to \SI{44.1}{\kilo\hertz}
 \item The cable is connected between input 1 and output 1
 \item The input gain at input 1 is set to \SI{20}{\decibel}
 \item The output \texttt{playgain} is set to \SI{-18}{\decibel}
@@ -55,7 +56,7 @@ To measure the frequency response of the RME FIREFACE UCX, the following materia
 
 
 
-On \autoref{fig:appendix:rme_response_result} it is seen that the soundcard only have a non linearity of \SI{0.26}{\decibel} from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} between output data and input data. 
+\autoref{fig:appendix:rme_response_result} illustrates, that the soundcard only diverges \SI{0.26}{\decibel} from a linear frequency response at a frequency range from \SI{20}{\hertz} to \SI{20}{\kilo\hertz} between the output and input signal. 
 
 \begin{figure}[H]
 	\centering

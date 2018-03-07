@@ -1,5 +1,5 @@
 \chapter{Outline ET 250-3D turntable control}\label{appendix:turntable}
-In this appendix the control of an Outline ET 250-3D turntable will be described. The turntable can be controlled in three ways, first the turntable can be controlled by \gls{ttl} commands through a jack connector. Secondly the turntable can be controlled by specified \gls{dll} command through Ethernet. All commands is included in the software packed folder. Thirdly the turntable can be controlled by \gls{udp} command through Ethernet. For controlling the turntable by MATLAB, the two Ethernet based control method is the easiest to do because MATLAB support Ethernet access. The \gls{dll} method require a complicated scripted which might only work on Windows operation system. The \gls{udp} can run at all operation system which support IPv4 Ethernet connection and is a short simple script, where the script open a \gls{udp} channel as a file, and e.g.  the script shall only edit the file in the right position to move the turntable. The chosen control method is \gls{udp} because it is simple and works at all modern computer operation systems.
+In this appendix the control of an Outline ET 250-3D turntable will be described. The turntable can be controlled in three ways. the first which are  \gls{ttl} commands through a jack connector. Secondly, it  can be controlled by specific \gls{dll} commands through Ethernet. All of those are included in a software pack available from the manufacturer. Thirdly the turntable can be controlled by \gls{udp} commands through Ethernet. For controlling the turntable by MATLAB, the second Ethernet based control method is the easiest to do because MATLAB supports Ethernet access. The \gls{dll} method requires a complicated scripts which might only work on Windows operation systems. \gls{udp} can be sent and received by the vast majority of  operating systems, which support IPv4 Ethernet connection. The usage of \gls{udp} leads to short and simple scripts, where the script opens a \gls{udp} channel as a file, and e.g. the script shall only edit the file in the right position to move the turntable. Because of the advantages in implementation, \gls{udp} is chosen over the other controlling methods for the turntable.
 
 \section*{Materials and setup}
 The following materials are used:
@@ -16,7 +16,7 @@ The following materials are used:
 
 
 \section*{The \gls{udp} setup of the computer}
-To establish connection between the turntable and computer, both have to run at the same SUBNET MASK. The turntable have a factory set for Ethernet connection which is as following:
+To establish connection between the turntable and computer, both have to run at the same SUBNET MASK. The turntable comes with a factory setting for Ethernet connection which is as follows:
 
 \begin{table}[H]
 \centering
@@ -33,11 +33,11 @@ To establish connection between the turntable and computer, both have to run at 
 
 
 \section*{Turntable control command}
-The software is made as a function where one can get a position, specify a position and stop the turntable. The function name is:
+The software is implemented as a function, where the user can retrieve the turntable position, specify a position and stop the turntable. The function name is:
 
 \includeCode{ET250_3D.m}{matlab}{1}{1}{The turntable control function}{code:ET250_3D_function}{./code/turntable/}
 
-The function is made as an switch case with input variable "cmd", and an angle input. The following command can be send to the "cmd" of the function:
+The function is made as a switch case with input variable "cmd", and an angle input. The following command can be send to the "cmd" of the function:
 
  \begin{table}[H]
 

@@ -1,8 +1,8 @@
 \chapter{Transfer function measurement software}\label{appendix:transfer_function}
-In this appendix the transfer function software will be briefly explained. The gold of this software is to be able to compute the impulse response of a \gls{dut} using the logarithmic swept sine method and then compute the transfer function from the impulse response. To be able to send out a logarithmic swept sine and measure it, a full duplex soundcard have to be chosen and used as the measuring soundcard. To be able to reproduce all measurement and compare other measurement, the soundcard will not be changed doing the project work.
+In this appendix the transfer function measurement routine will be explained briefly. The goal of this software is to be able to compute the impulse response of a \gls{dut} using the logarithmic swept sine method and compute the transfer function from the impulse response. To be able to send out a logarithmic swept sine signal and measure an input signal at the same time, a full duplex soundcard has to be utilized as the measuring soundcard. In order to be able to reproduce every measurement and compare measurements, the chosen soundcard model will not be changed doing the project.
 
 \section*{Materials and setup}
-To measure transfer function of a \gls{dut}, the following materials are used:
+To measure the transfer function of a \gls{dut}, the following materials are used:
 \begin{itemize}
 \item RME FIREFACE ucx (Soundcard)
 \begin{itemize}[noitemsep]
@@ -40,7 +40,7 @@ To measure transfer function of a \gls{dut}, the following materials are used:
 \end{figure}
 
 \section*{Transfer function software}
-The software is made as a function where one can get the impulse response and transfer function and there time and frequency x-axis vector respectively. The function name is:
+The software is made as a function where the impulse response and transfer function and a time and frequency x-axis vector are returned respectively. The function name is:
 
 \includeCode{IRmeas_fft.m}{matlab}{1}{1}{The turntable control function}{code:IRmeas_fft_function}{./code/sine_swept/}
 
@@ -53,12 +53,12 @@ To get output from this function, the following variable have to be initialised.
 \caption{Function command}
 \label{my-label}
 \begin{tabular}{lll}
- & \texttt{ts} & Which is the length of the logarithmic swept sine  \\
- & \texttt{ttw} & Which is a silence there can be added to the logarithmic swept sine in end   \\
- & \texttt{tflower} & Which is the lower frequency border for logarithmic swept sine   \\
- & \texttt{tfupper} & Which is the upper frequency border for logarithmic swept sine  \\
- & \texttt{tplaygain} & Which is the gain for logarithmic swept sine playback   \\
- & \texttt{tplayer}  & Which is the initializing I-O via the soundcard
+ & \texttt{ts} & Length of the logarithmic swept sine in {[}\SI{\second}{]} \\
+ & \texttt{ttw} & Duration that is recorded after the end of the sweep in {[}\SI{\second}{]}    \\
+ & \texttt{tflower} & Lower frequency border for logarithmic swept sine in {[}\SI{\hertz}{]}  \\
+ & \texttt{tfupper} & Upper frequency border for logarithmic swept sine in {[}\SI{\hertz}{]} \\
+ & \texttt{tplaygain} & Gain relativ to digital \texttt{1} for sweep playback in {[}\SI{\decibel}{]} \\
+ & \texttt{tplayer}  & I-O system object for playback and record via the soundcard
 \end{tabular}
 \end{table}
 
