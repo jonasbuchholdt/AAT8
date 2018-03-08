@@ -102,6 +102,19 @@ Frequency              & {[}Hz{]}  & 60    & 100    & 150   \\ \hline
 \end{table}
 %A way to determine the acoustical center by measurement can be proposed as follows. The loudspeaker is placed on the turntable, oriented with its main axis directly towards the measurement microphone (\SI{0}{\degree}). Details about this procedure can be found in \autoref{ax:directional_1}.
 
+\section{Sensitivity of the \gls{dut}}
+The aim of this section is to show the usable area of the specified \gls{dut}, which will be used in this project. The sensitivity can be defined as the pressure at a specified distance to the \gls{dut} while knowing the applied voltage over the \gls{dut}. The \gls{dut} is placed such that it main axis is pointing towards the microphone. The sensitivity graph can be used to illustrate the necessary equalising and the usable area of the \gls{dut}. The area where the pressure does not diverge significantly is the usable area, where the area with pressure significantly drop is the usable area limits. Outside this limit, the \gls{dut} require heavy equalising or are not able to produce the signal. The \gls{dut} might be less efficiency outside this limits, and by applying heavy equalising the heat dispersion will raise and may damage the \gls{dut}. \autoref{fig:speaker_sensitivityl} shows the sensitivity for the \citep{seas33} at a distance of \SI{2.74}{\meter} with an applied \gls{rms} voltage of \SI{10.5}{\volt}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{sensitivity_seas}
+	\caption{The figure shows the sensitivity @ (\SI{2.74}{\meter},\SI{10.5}{\volt}) of  \citep{seas33}}
+		\label{fig:speaker_sensitivityl}
+\end{figure}
+
+The usable area of the \citep{seas33} is at least within \SI{48}{\hertz} to \SI{2.5}{\kilo\hertz} while visually analyzes \autoref{fig:speaker_sensitivityl}
+
 
 \section{Determining the beamwidth of the \gls{dut}}\label{sec:beamwidth}
 The beamwidth can be defined as the range between the angles, at which the sound pressure radiated at a given frequency equals a certain threshold related to the pressure on the main axis of a speaker. In other words, because the speaker tends to be omnidirectional in low frequency and non omnidirectional in high frequency, beamwidth boundaries line describe the frequency where the pressure is decreased to the threshold. The beamwidth is strongly dependent on frequency and can be determined of the measurement data from the polar response. \autoref{fig:beamwidth_offset_4.5_cm} visualizes the beamwidth by processed the measurement data from \ref{ax:directional_2} with the descried calculation in \autoref{appendix:beamwidth}. It has to be noted, that during this measurement the acoustic center of the \gls{dut} was not placed exactly on the rotational axis of the speaker. The beamwith is therefore slightly smaller then it would have been, if the center were matching.
