@@ -1,5 +1,5 @@
 \chapter{Microphone calibration software} \label{appendix:calibration}
-In this appendix the microphone calibration software will be briefly explained. The goal of this software is to be able to calibrate any microphone including the calibration of the soundcard in MATLAB, so that a calibration tone corresponds to a known digital number in MATLAB. 
+In this appendix the microphone calibration software will be briefly explained. The goal of this software is to be able to calibrate any microphone including the calibration of the soundcard in MATLAB, so that a calibration tone with known sound pressure corresponds to a known digital number in MATLAB. 
 
 \section*{Materials and setup}
 To do a calibration of a arbitrary microphone, the following materials are used:
@@ -20,7 +20,7 @@ To do a calibration of a arbitrary microphone, the following materials are used:
 \end{itemize}
 
 
-\paragraph{The first step}
+
 
 \begin{figure}[H]
 \centering
@@ -42,11 +42,10 @@ To do a calibration of a arbitrary microphone, the following materials are used:
 \put(11836,-4696){USB}%
 \put(8281,-2806){In}%
 \end{picture}%
-\caption{Setup for calibrating the soundcard}
+\caption{Setup for calibrating the soundcard, first step}
 		\label{fig:appendix:rme_calibration}
 \end{figure}
 
-\paragraph{The second step}
 
 \begin{figure}[H]
 \centering
@@ -71,13 +70,16 @@ To do a calibration of a arbitrary microphone, the following materials are used:
 \put(3961,-2941){Calibrator}%
 \put(11746,-4606){USB}%
 \end{picture}%
-\caption{Setup for calibrating the microphone}
+\caption{Setup for calibrating the microphone, second step}
 		\label{fig:appendix:mic_calibration}
 \end{figure}
 
 \section*{The calibration step} \label{apendix:calibrate_sound_card_and_microphone}
-\paragraph{The first step} is measuring the transfer function of the sound card according to \autoref{Frequency_response_of_RME_FIREFACE_UCX} and the set up is shown is \autoref{fig:appendix:rme_calibration}. The complex transfer function is divided by the input of the sound card, such that the gain between input and output of the sound card is 1 from \SI{20}{\hertz} to \SI{20}{\kilo\hertz}, when a signal cable is connected between input and output. While doing the calibration, the peak value at the input is saved and used as a reference value of the sound card. All measurement have to include the calibration of the sound card, to ensure that a known digital number in MATLAB correspond to a known pressure.
-\paragraph{The second step} is measuring the digital number in MATLAB that corresponding to \SI{1}{\pascal} or \SI{94}{\decibel} and then log value as the microphone calibration peak value. The set up is shown is \autoref{fig:appendix:mic_calibration}. The factor between reference value of the sound card divided by the microphone calibration correspond to the factor that have to be multiplied to the input of the sound card, and only works with the microphone used in the calibration. This calibration have to be done before every series of measurement. The function will return the digital number 1 when the pressure is \SI{1}{\pascal} and is linearly depending on the pressure. To calculate the \gls{spl} the following formula is used
+\paragraph{The first step} is measuring the transfer function of the sound card according to \autoref{Frequency_response_of_RME_FIREFACE_UCX} and like shown in \autoref{fig:appendix:rme_calibration}. It is necessesary to keep track of the average peak amplitude of the test signal, that has been used as output during the calibration. This is a digital value, that in this context will be referred to as the reference value. The complex transfer function is stored and can later be divided by any input signal of the sound card. 
+This will lead to a representation of the input signal, in which the reference value will correspond to a digital amplitude of \texttt{1} in a frequency range from \SI{20}{\hertz} to \SI{20}{\kilo\hertz}.
+With this calibration, the frequency response and the preamp settings of the sound card are compensated. It is disallowed to change the gain settings of preamplifier on the input of the soundcard after doing this step of the calibration.
+\paragraph{The second step} is measuring the digital number in MATLAB that corresponds to the peak value \(sqrt{2}\cdot\)\SI{1}{\pascal} or a sound pressure level of \SI{94}{\decibel} and then log this value as the microphone calibration peak value. The set up is shown is \autoref{fig:appendix:mic_calibration}. The reference value is divided by the microphone calibration peak value leading to a microphone specific calibration value. When an input signal from the microphone is multiplied by the calibration value, the digital values of the result will correspond to the soundpressure in \SI{}{\pascal} at the microphone membrane.
+Therefore, the function will return the digital number 1 when the pressure is \SI{1}{\pascal}. The calibration as stated above will be executed before every series of measurements. To calculate the \gls{spl} the following formula is used
 
 \begin{equation}
 dB\,\, re. \SI{20}{\micro\pascal} = 20 \cdot log_{10} \left ( \frac{p}{p_0} \right )
@@ -90,7 +92,7 @@ dB\,\, re. \SI{20}{\micro\pascal} = 20 \cdot log_{10} \left ( \frac{p}{p_0} \rig
 
 
 \section*{The MATLAB function for measuring the input}
-To ensure that the calibration and measuring record software is as identical as possible, the same function is used just modified so instead of playing a swept sine, it will play a string of zero.
+To ensure that the software elements used during the calibration procedure and the actual measurments are as similar as possible, the same playback and recording function as in the measurement routine is used. Instead of playing back a swept sine, it will the output signal will be a string of zeros.
 
 \section*{The MATLAB function}
 \includeCode{irmeas_fft_mic.m}{matlab}{1}{40}{The calibration record software}{code:irmeas_fft_mic}{./code/microphone_calibration/sine_sweep/}
