@@ -121,10 +121,13 @@ clear all
 load('Pioneer_A-616_16.mat')
 %%
 figure(1)
-plot(data3600.ir)
-figure(2)
-loglog(faxis,data3600.tf)
+volt = (4.7*(10^(-18/20))*(10^((44-16)/20)))/sqrt(2);
+result = (abs(data3600.tf));
+result=20*log10(result/(20*10^-6));
+
+semilogx(faxis,result)
+
 grid on
-
-axis([20 20000 33 34])
-
+axis([20 20000 50 100])
+xlabel('Frequency [Hz]')
+ylabel('Sensitivity @ (2.74 m,10.5 V) [dB SPL]')
