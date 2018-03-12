@@ -52,9 +52,9 @@ The Cartesian grid for \gls{fdtd} approximation is a well known technique, and w
 \fi\endgroup%
 \begin{picture}(3869,3327)(3541,-1288)
 \put(6841,1649){$\delta y$}%
-\put(3556,1244){z}%
-\put(4006,704){x}%
-\put(3826,344){y}%
+\put(3556,1244){$z$}%
+\put(4006,704){$x$}%
+\put(3826,344){$y$}%
 \put(5806,1874){$\delta x$}%
 \put(4996,-61){Pressure point}%
 \put(4996,-421){Particle velocity x-direction}%
@@ -67,15 +67,43 @@ The Cartesian grid for \gls{fdtd} approximation is a well known technique, and w
 \end{figure}
 
 
-The grid points is build up on positions there is descried as $(i\,\delta x,j\,\delta y,k\,\delta z)$ at time $t=l$, where $\delta x,\delta y,\delta z$ is the spatial discretization step \autoref{fig:fdtd_cartesian_grid} and $\delta t$ is the time spatial discretization step. $i,j,k$ is the discrete indices for the point in grid and $l\delta t$ is the discrete time index. For every axis, the component of the particle velocity have to be determined at position in \autoref{fdtd_component} at time $t=(l+\frac{1}{2})\delta t$.
+The grid points is build up on positions there is descried as $(i\,\delta x,j\,\delta y,k\,\delta z)$ at time $t=(l\pm\frac{1}{2})\delta t$, where the time step can be visualized as \autoref{fig:fdtd_transient_point}
 
-\begin{equation}\label{fdtd_component}
+\begin{figure}[H]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{fdtd_transient_point.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(2424,1594)(4898,-854)
+\put(5176,469){$(l-\frac{1}{2})\delta t$}%
+\put(5671, 29){$l\delta t$}%
+\put(6516, 29){$(l+1)\delta t$}%
+\put(6031,469){$(l+\frac{1}{2})\delta t$}%
+\put(7246,254){$t$}%
+\put(5266,-421){Pressure point}%
+\put(5266,-781){Particle velocity}%
+\end{picture}%
+	\caption{Transient definition points of sound $p$ pressure and particle velocity $\vec{v}$}
+		\label{fig:fdtd_transient_point}
+\end{figure}
+
+$\delta x,\delta y,\delta z$ is the spatial discretization step as shown in \autoref{fig:fdtd_cartesian_grid} and $\delta t$ is the time spatial discretization step as shown in \autoref{fig:fdtd_transient_point}. $i,j,k$ is the discrete indices for the point in grid and $l\delta t$ is the discrete time index. For every axis, the component of the particle velocity have to be determined at position in \autoref{fdtd_component} at time $t=(l\pm\frac{1}{2})\delta t$ \begin{equation}\label{fdtd_component}
 \vec{v}= \begin{bmatrix}
 v_x[(i\pm \frac{1}{2})\,\delta x,j\,\delta y,k\,\delta z]\\
 v_y[i\,\delta x,(j\pm \frac{1}{2})\,\delta y,k\,\delta z]\\
 v_z[i\,\delta x,j\,\delta y,(k\pm \frac{1}{2})\,\delta z]
 \end{bmatrix}
 \end{equation}
+and the pressure is determined at position $p_{(i,j,k)}^{[l+1]}$.\\
+
 
 The following step is done to get the linearized equation for pressure and particle velocity in Cartesian grid and with air as medium. First \autoref{fdtd_euler} has to be rewritten to \autoref{fdtd_euler_rewrite_2}
 
@@ -87,6 +115,17 @@ The following step is done to get the linearized equation for pressure and parti
 \end{alignat}
 \end{subequations}
 
+since $\vec{v}$ is a equation system of three inputs, the \autoref{fdtd_euler_rewrite} is splittet to a equation system \citep{Sakuma2014}.
+
+\begin{subequations}\label{fdtd_euler_rewrite_system}
+\begin{alignat}{2}
+\frac{\partial p}{\partial x} &=-\rho_0 \frac{\partial v_x}{\partial t} \label{fdtd_euler_rewrite_system_1}\\
+\frac{\partial p}{\partial y} &=-\rho_0 \frac{\partial v_y}{\partial t} \label{fdtd_euler_rewrite_system_2}\\
+\frac{\partial p}{\partial z} &=-\rho_0 \frac{\partial v_z}{\partial t} \label{fdtd_euler_rewrite_system_2}\\
+\end{alignat}
+\end{subequations}
+
+
 
 Second \autoref{fdtd_linear} has to be rewritten to \autoref{fdtd_linear_rewrite_2}
 
@@ -97,12 +136,53 @@ Second \autoref{fdtd_linear} has to be rewritten to \autoref{fdtd_linear_rewrite
 \end{alignat}
 \end{subequations}
 
-The linearizing of \autoref{fdtd_euler_rewrite_2} is done with combining  
+Next the $\vec{v}$ have to be differentiated with respect to t,x,y and z as \autoref{fdtd_euler_diff}. To make it general when differentiate with t \autoref{fdtd_euler_diff_1} for all i,j and k the half it not included in the calculation but only inserted afterwards. In this way all differentiation can be done in a compact form. When differentiate with respect to x,y and z in \autoref{fdtd_euler_diff_2} only the differentiate with respect to x is done. The differentiation with respect to y and z is similar but only the indices is different \citep{Sakuma2014}.
+
+
+
+\begin{subequations}\label{fdtd_euler_diff}
+\begin{alignat}{2}
+\frac{\partial \vec{v}}{\partial t}\mid _{(i,j,k)}^{[l]} &= \frac{\vec{v}_{(i,j,k)}^{[l+\frac{1}{2}]} -\vec{v}_{(i,j,k)}^{[l-\frac{1}{2}]}}{\delta t}   \label{fdtd_euler_diff_1}\\
+\frac{\partial v_x}{\partial x}\mid _{(i,j,k)}^{[l+\frac{1}{2}]} &= \frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]} -(v_x)_{(i-\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}}{\delta x}   \label{fdtd_euler_diff_2}
+\end{alignat}
+\end{subequations}
+
+Next the $p$ have to be differentiated with respect to t,x,y and z as \autoref{fdtd_euler_diff}. As in \autoref{fdtd_euler_diff} the general differentiation is done \citep{Sakuma2014}.
+
+
+\begin{subequations}\label{fdtd_linear_diff}
+\begin{alignat}{2}
+\frac{\partial p}{\partial t}\mid _{(i,j,k)}^{[l+\frac{1}{2}]} &= \frac{p_{(i,j,k)}^{[l]} -p_{(i,j,k)}^{[l]}}{\delta t}   \label{fdtd_linear_diff_1}\\
+\frac{\partial p}{\partial x}\mid _{(i+\frac{1}{2},j,k)}^{[l]} &= \frac{p_{(i+1,j,k)}^{[l+1]} -p_{(i,j,k)}^{[l]}}{\delta x}   \label{fdtd_linear_diff_2}
+\end{alignat}
+\end{subequations}
+
+
+Substituting \autoref{fdtd_euler_diff} intro \autoref{fdtd_euler_rewrite_system} leads to following three \autoref{fdtd_particle_velocity}
+
+
+\begin{subequations}\label{fdtd_particle_velocity}
+\begin{alignat}{2}
+(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}&= (v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{\delta t}{\rho_0 \delta x} \left( p_{(i+1,j,k)}^{[l]} -p_{(i,j,k)}^{[l]}  \right)\\
+(v_y)_{(i,j+\frac{1}{2},k)}^{[l+\frac{1}{2}]}&= (v_y)_{(i,j+\frac{1}{2},k)}^{[l-\frac{1}{2}]}-\frac{\delta t}{\rho_0 \delta y} \left( p_{(i,j+1,k)}^{[l]} -p_{(i,j,k)}^{[l]}  \right)\\
+(v_z)_{(i,j,k+\frac{1}{2})}^{[l+\frac{1}{2}]}&= (v_z)_{(i,j,k+\frac{1}{2})}^{[l-\frac{1}{2}]}-\frac{\delta t}{\rho_0 \delta z} \left( p_{(i,j,k+1)}^{[l]} -p_{(i,j,k)}^{[l]}  \right)
+\end{alignat}
+\end{subequations}
+and substituting \autoref{fdtd_linear_diff} intro \autoref{fdtd_linear_rewrite_2} leads to following \autoref{fdtd_linear_diff}
 
 
 
 
-\autoref{fdtd_linear_rewrite_2} 
+\begin{multline}\label{fdtd_pressure}
+p_{(i+1,j,k)}^{[l+1]} = p_{(i,j,k)}^{[l]} - \rho_0 c^2 \delta t \Biggl( \frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]} - (v_x)_{(i-\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}}{\delta x} \\ 
++ \frac{(v_y)_{(i,j+\frac{1}{2},k)}^{[l+\frac{1}{2}]}-(v_y)_{(i,j-\frac{1}{2},k)}^{[l+\frac{1}{2}]}}{\delta y} +  \frac{(v_z)_{(i,j,k+\frac{1}{2})}^{[l+\frac{1}{2}]}-(v_z)_{(i,j,k-\frac{1}{2})}^{[l+\frac{1}{2}]}}{\delta z} \Biggr)
+\end{multline}
+
+
+
+
+
+
 
 
 
