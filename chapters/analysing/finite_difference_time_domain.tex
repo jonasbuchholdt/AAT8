@@ -184,8 +184,11 @@ p_{(i,j,k)}^{[l+1]} = p_{(i,j,k)}^{[l]} - \rho_0 c^2 \delta t \Biggl( \frac{(v_x
 
 
 
-\subsection{\gls{fdtd} stability conditions}
+\subsection{\gls{fdtd} grid cell size}
+
+The chose of grid cell size for \gls{fdtd} is a critical variable which must hold some specified constrain \citep{Kunz1993}. The grid cell size have to be small enough to contain data for all specified simulated frequency, which mean that the grid cell size have to be smaller than the the smallest wavelength. When the frequency rise the wave length is increasing. This mean the grid cell size constrain is determined by the highest frequency of interest in \gls{fdtd} simulation. The grid cell size also have to be as a certain size such that the computation resource is kept down. So the grid cell size have to be chosen intelligent which \citep{Kunz1993} display one solution. After the grid cell size is chosen the Courant stability condition determined the maximum time step. The maximum time step size which will be calculated based on the grid cell size will be the used time step size because smaller time step size do not improve the accuracy generally. \\
 
 
+The boundary for the lowest grid cell size is the Nyquist rate, which state that the the wavelength shall at least be twice as big as the grid cell size $\delta$. Since $\delta x$, $\delta y$ and $\delta z$ have the same size only $\delta$ will be used for grid step size. The Nyquist rate is the lower boundary, but since the simulation is an approximation an is not exact and the smallest is not precise, $\delta$ have to be more than two samples per wavelength. 
 
 
