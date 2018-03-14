@@ -67,7 +67,7 @@ The Cartesian grid for \gls{fdtd} approximation is a well known technique, and w
 \end{figure}
 
 
-The grid points is build up on positions there is descried as $(i\,\delta x,j\,\delta y,k\,\delta z)$ at time $t=(l\pm\frac{1}{2})\delta t$, where the time step is visualized in \autoref{fig:fdtd_transient_point}
+The grid points is build up on positions there is descried as $(i\,\delta x,j\,\delta y,k\,\delta z)$ at time $t=l\delta t$, where the time step is visualized in \autoref{fig:fdtd_transient_point}
 
 \begin{figure}[H]
 	\centering
@@ -95,7 +95,9 @@ The grid points is build up on positions there is descried as $(i\,\delta x,j\,\
 		\label{fig:fdtd_transient_point}
 \end{figure}
 
-$\delta x,\delta y,\delta z$ is the spatial discretization step as shown in \autoref{fig:fdtd_cartesian_grid} and $\delta t$ is the time spatial discretization step as shown in \autoref{fig:fdtd_transient_point}. $i,j,k$ is the discrete indices for the point in grid and $l$ is the discrete time index. For every axis, the component of the particle velocity have to be determined at position in \autoref{fdtd_component} at time $t=(l\pm\frac{1}{2})\delta t$ \begin{equation}\label{fdtd_component}
+$\delta x,\delta y,\delta z$ is the spatial discretization step as shown in \autoref{fig:fdtd_cartesian_grid} and $\delta t$ is the time spatial discretization step as shown in \autoref{fig:fdtd_transient_point}. $i,j,k$ is the discrete indices for the point in grid and $l$ is the discrete time index. For every axis, the component of the particle velocity have to be determined at position in \autoref{fdtd_component} at intermediant time $t=(l\pm\frac{1}{2})\delta t$ 
+
+\begin{equation}\label{fdtd_component}
 \vec{v}= \begin{bmatrix}
 v_x[(i\pm \frac{1}{2})\,\delta x,j\,\delta y,k\,\delta z]\\
 v_y[i\,\delta x,(j\pm \frac{1}{2})\,\delta y,k\,\delta z]\\
@@ -186,9 +188,50 @@ p_{(i,j,k)}^{[l+1]} = p_{(i,j,k)}^{[l]} - \rho_0 c^2 \delta t \Biggl( \frac{(v_x
 
 \subsection{\gls{fdtd} grid cell size}
 
-The chose of grid cell size for \gls{fdtd} is a critical variable which must hold some specified constrain \citep{Kunz1993}. The grid cell size have to be small enough to contain data for all specified simulated frequency, which mean that the grid cell size have to be smaller than the the smallest wavelength. When the frequency rise the wave length is increasing. This mean the grid cell size constrain is determined by the highest frequency of interest in \gls{fdtd} simulation. The grid cell size also have to be as a certain size such that the computation resource is kept down. So the grid cell size have to be chosen intelligent which \citep{Kunz1993} display one solution. After the grid cell size is chosen the Courant stability condition determined the maximum time step. The maximum time step size which will be calculated based on the grid cell size will be the used time step size because smaller time step size do not improve the accuracy generally. \\
+The chose of grid cell size for \gls{fdtd} is a critical variable which must hold some specified constrain \citep{Kunz1993}. The grid cell size have to be small enough to contain data for all specified simulated frequency, which mean that the grid cell size have to be smaller than the smallest wavelength $\lambda$. When the frequency rise the wave length is increasing. This mean the grid cell size constrain is determined by the highest frequency of interest in the \gls{fdtd} simulation. The grid cell size also have to be as a certain size such that the computation resource is kept down. The grid cell size therefore have to be chosen intelligent which \citep{Kunz1993} display one solution. After the grid cell size is chosen the Courant stability condition determined the maximum time step. The maximum time step size which will be calculated based on the grid cell size will be the used time step size because smaller time step size do not improve the accuracy generally. \\
 
 
-The boundary for the lowest grid cell size is the Nyquist rate, which state that the the wavelength shall at least be twice as big as the grid cell size $\delta$. Since $\delta x$, $\delta y$ and $\delta z$ have the same size only $\delta$ will be used for grid step size. The Nyquist rate is the lower boundary, but since the simulation is an approximation an is not exact and the smallest is not precise, $\delta$ have to be more than two samples per wavelength. 
+The boundary for the lowest grid cell size is the Nyquist rate, which state that the wavelength shall at least be twice as big as the grid cell size $\delta$. Since $\delta x$, $\delta y$ and $\delta z$ have the same size only $\delta$ will be used for grid step size. The Nyquist rate is the lower boundary, but since the simulation is an approximation an is not exact and the smallest wavelength is not precise, $\delta$ have to be more than two samples per wavelength. To find a optimal grid size the grid dispersion error which relate to the wave speed through the grid will be taken intro account. The error occurs because the wave propagate slightly with different speed through the grid and this error also depending on the relative direction of the wave. The grid dispersion error is propertional to the grid cell size, which mean that the error minimized with smaller $\delta$\citep{Kunz1993}. 
+
+Often if $ \delta \leq \frac{1}{10}\lambda_{min}$ the above constrain is met, and is therefore a good compromise between computation resource and approximation error. The grid cell size in this project is therefore as in \autoref{fdtd_delta_stepsize}
+
+\begin{equation}\label{fdtd_delta_stepsize}
+\delta x = \delta y = \delta z = \frac{1}{10} \frac{c}{f_{max}}
+\end{equation}
+
+    \startexplain
+    		\explain{$\delta$ is the grid cell size }{\si{1}}
+        \explain{$x$, $y$ and $z$ is the direction}{\si{1}}
+        \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
+        \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
+    \stopexplain
+    
+    
+\subsection{\gls{fdtd} time step size}    
+The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
+
+
+
+\begin{equation}\label{fdtd_time_stepsize}
+\delta t = \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c}
+\end{equation}
+        \startexplain
+    		\explain{$\delta$ is the time size}{\si{1}}
+        \explain{$t$ is the time indicator}{\si{1}}
+        \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
+        \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
+    \stopexplain
+Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}
+    
+\subsection{\gls{fdtd} boundary conditions}        
+The meaning of the boundary condition is the condition near and at a wall. The sound wave react different on the walls than when it is propagating in free field. Wall will act like a reflecting surface, absorbing surface or both. This boundary behaviour from the wall is descried as an impedance which is frequency dependent. This have to be analysed and implemented in the simulation because the sound field will be different compare to sound field without any boundary. The frequency dependency boundary will only be a good approximation and not accurate in this project. An accurate frequency dependency model will require heavy calculation with convolution at each boundary point at each time step \citep{finiteproblems}. This kind of calculation have a high time consumption and therefore an approximation will be used. \\
+At low frequency two kind of absorbing boundary are common in real life and therefore also in simulation. this boundary is as following:
+
+
+ 
+
+
+
+
 
 
