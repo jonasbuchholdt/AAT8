@@ -82,14 +82,14 @@ The grid points is build up on positions there is descried as $(i\,\delta x,j\,\
   \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
   \selectfont}%
 \fi\endgroup%
-\begin{picture}(2424,1594)(4898,-854)
-\put(5176,469){$(l-\frac{1}{2})\delta t$}%
-\put(5671, 29){$l\delta t$}%
-\put(6516, 29){$(l+1)\delta t$}%
-\put(6031,469){$(l+\frac{1}{2})\delta t$}%
-\put(7246,254){$t$}%
+\begin{picture}(2518,1594)(4804,-854)
 \put(5266,-421){Pressure point}%
 \put(5266,-781){Particle velocity}%
+\put(5076,469){$(n-\frac{1}{2}) \delta t$}%
+\put(5671, 29){$n \delta t$}%
+\put(6456, 29){$(n+1)\delta t$}%
+\put(5961,469){$(n+\frac{1}{2})\delta t$}%
+\put(7246,254){$t$}%
 \end{picture}%
 	\caption{Transient definition points of sound $p$ pressure and particle velocity $\vec{v}$}
 		\label{fig:fdtd_transient_point}
@@ -219,19 +219,121 @@ The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz
     		\explain{$\delta$ is the time size}{\si{1}}
         \explain{$t$ is the time indicator}{\si{1}}
         \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
-        \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
     \stopexplain
 Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}
     
 \subsection{\gls{fdtd} boundary conditions}        
 The meaning of the boundary condition is the condition near and at a wall. The sound wave react different on the walls than when it is propagating in free field. Wall will act like a reflecting surface, absorbing surface or both. This boundary behaviour from the wall is descried as an impedance which is frequency dependent. This have to be analysed and implemented in the simulation because the sound field will be different compare to sound field without any boundary. The frequency dependency boundary will only be a good approximation and not accurate in this project. An accurate frequency dependency model will require heavy calculation with convolution at each boundary point at each time step \citep{finiteproblems}. This kind of calculation have a high time consumption and therefore an approximation will be used. \\
-At low frequency two kind of absorbing boundary are common in real life and therefore also in simulation. this boundary is as following:
+The approximation in this project will then be based on the above description which use the impedance approach. \citep{FDTDmodelling} At low frequency two kind of absorbing boundary are common in real life and therefore also in simulation. this boundary is as following:
+
+\begin{enumerate}
+\item Thin absorbing boundary with respect to wavelength on a much harder background e.g wall and roof absorbers and seats.
+\item Light nonstiff walls e.g. plaster walls and curtain 
+\end{enumerate}
 
 
- 
+The behaviour of the first material (1) can roughly be approximated be a complex frequency dependent impedance \autoref{fdtd_thin_absorbing}
+\begin{equation}\label{fdtd_thin_absorbing}
+Z= Z_0+\frac{Z_{-1}}{j\omega}
+\end{equation}
+
+         \startexplain
+    		\explain{$Z$ is the }{\si{1}}
+        \explain{$Z_0$ is the}{\si{1}}
+        \explain{$Z_{-1}$ is the }{\si{1}}
+         \explain{$j$ is the complex $j$ in this context }{\si{1}}
+         \explain{$\omega$ is the angle speed }{\si{1}}
+    \stopexplain
+
+The behaviour of the second material (2) can quite accurate be approximated be a complex frequency dependent impedance \autoref{fdtd_light_absorbing}
+
+\begin{equation}\label{fdtd_light_absorbing}
+Z= Z_0+j\omega M
+\end{equation}
+
+         \startexplain
+    		\explain{$Z$ is the }{\si{1}}
+         \explain{$M$ is the mass per unit square meter of the boundary}{\si{1}}
+    \stopexplain
+
+ \citep{finiteproblems} propose a general approximated impedance \autoref{fdtd_general_absorbing} of \autoref{fdtd_thin_absorbing} and \autoref{fdtd_light_absorbing}, which is useful for \gls{fdtd} simulation in low frequency.
+
+\begin{equation}\label{fdtd_general_absorbing}
+Z(\omega)= Z_0+\frac{Z_{-1}}{j\omega}+j\omega Z_1
+\end{equation}
+
+         \startexplain
+    		\explain{$Z_1$ is the }{\si{1}}
+    		\explain{$Z(\omega)$ is an expansion of the frequency impedance impedance around the frequency of interest }{\si{1}}
+    \stopexplain
+    
+In time domain \autoref{fdtd_general_absorbing} can be expressed as the boundary condition \autoref{fdtd_boundary_absorbing}
+
+\begin{equation}\label{fdtd_boundary_absorbing}
+p(t)= Z_0v_n(t)+Z_1\int_{-\infty}^{t} v_n(\tau)d\tau +Z_1\frac{\partial u_n(t)}{\partial t} 
+\end{equation}
+
+         \startexplain
+    		\explain{$p(t)$ is the acoustics pressure}{\si{\pascal}}
+    		\explain{$v_n(t)$ is the component of the particle velocity orthogonal to the boundary plan}{\si{\meter\per\second}}
+    \stopexplain
+
+One arising problem in this method is that the particle velocity at the boundary, when the boundary is at plan $x=(i_0+0.5)\delta x$ which is a boundary at the $x$ velocity plan, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ plan The problem is visualized in \autoref{fig:fdtd_boundary_pressure} in 1 dimension.
+
+\begin{figure}[H]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{fdtd_wall_reflection.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(2876,1975)(4534,-854)
+\put(4996,-61){Pressure point}%
+\put(4996,-781){Particle velocity x-direction}%
+\put(4996,-421){Unknown pressure point}%
+\end{picture}%
+
+	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension}
+		\label{fig:fdtd_boundary_pressure}
+\end{figure}
+
+For solving the problem visualized in \autoref{fig:fdtd_boundary_pressure}, an asymmetric finite-difference approximation for the space derivative is used  \citep{finiteproblems}. \autoref{fdtd_boundary_absorbing} shows the asymmetric finite-difference approximation.
+
+\begin{equation}\label{fdtd_boundary_absorbing}
+\frac{\partial p}{\partial x}\mid _{(i_0+\frac{1}{2},j,k)}^{[l]} = \frac{2}{\delta x} \left( p_{(i_0+\frac{1}{2},j,k)}^{[l]}-p_{(i_0,j,k)}^{[l]} \right)
+\end{equation}\\
+
+The advance of \autoref{fdtd_boundary_absorbing} is that it only require knowledge of one nearest pressure point, but it is only valid within $\delta x$. \autoref{fdtd_boundary_absorbing} can then be used to express  \autoref{fdtd_boundary_absorbing} as function of $v_x$. The boundary grid cell \autoref{fdtd_boundary_eqp} for the particle velocity $v_x$ is then
+
+Using the same presudure as in \autoref{fdtd_particle_velocity} just with pluging in \autoref{fdtd_boundary_absorbing} instead, the particle velocity at the boundary is approximated as \autoref{fdtd_boundary_eqp}
+
+\begin{equation}\label{fdtd_boundary_eqp}
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+p_{(i_0+\frac{1}{2},j,k)}^{[l]} -p_{(i_0,j,k)}^{[l]}  \Biggr)
+\end{equation}
+
+The only unknown in \autoref{fdtd_boundary_eqp} is $p_{(i_0+\frac{1}{2},j,k)}^{[l]}$ but can be founded by using \autoref{fdtd_boundary_absorbing}. $v_n$ is changed with $(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}$ and become \autoref{fdtd_boundary_eq}
 
 
+\begin{multline}\label{fdtd_boundary_velocity}
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+ Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
+\Biggr)
+\end{multline}
 
+%+Z_1 \frac{\partial \frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l]}}{\partial t} +Z_{-1} \int_{-\infty}^{t} (v_x)_{(i+\frac{1}{2},j,k)}^{[l]}(\tau)d\tau -p_{(i,j,k)}^{[l]}
 
+\begin{multline}\label{fdtd_boundary_velocity2}
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+ Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
++Z_1\frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}-(v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}}{\delta t}+Z_{-1} \delta t \sum_{m=-\infty}^{l}(v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]}-p_{(i,j,k)}^{[l]}
+\Biggr)
+\end{multline}
 
-
+In \autoref{fdtd_boundary_velocity2},\autoref{fdtd_boundary_absorbing} was introduced for the time derivative, and the sum is replacing the integral.
