@@ -1,0 +1,31 @@
+clear variables
+f=100;
+n=1000;                                  %population size
+surquote=0.05;                          %elite survivor quote
+replacement=0.5;                       %replacement by children
+pmut=0.3;
+tlevel=7;
+
+N=;
+
+population=pop_init(n);
+
+best=[];
+worst=[];
+
+for k=1:N
+    fit=fitness(population,n,f);
+    best(k)=min(fit);
+    worst(k)=max(fit);
+    average(k)=mean(fit);
+    population=gen_step(population,n,fit,surquote,replacement,tlevel,pmut);
+end
+
+close all
+figure
+plot(best)
+hold on
+plot(worst)
+plot(average)
+
+save('result3.mat','population')
