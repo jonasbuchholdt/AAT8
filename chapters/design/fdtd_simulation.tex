@@ -44,6 +44,15 @@ c \delta t &\leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac
 concrete is missing??
 
 
-It can be concluded that the grid step size $d$ shall be \SI{114}{\milli\meter} and the sampling frequency $frac{1}{\delta t}$ shall at least be equal or higher than \SI{6364}{\hertz}.
+It can be concluded that the grid step size $d$ shall be \SI{114}{\milli\meter} and the sampling frequency $\frac{1}{\delta t}$ shall at least be equal or higher than \SI{6364}{\hertz}, The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{6364}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
 
-factor 6
+\section{\gls{fdtd} algorithm}
+The aim of this section is to convert the grid to matrices. Since the grid is in three dimension, the whole matrix system for pressure will build on a three dimensional matrix and all particle velocity matrices will built on three dimensional matrices. The following \autoref{} shows an extended grid with entry notation of \autoref{fig:fdtd_cartesian_grid}
+
+
+
+
+
+
+
+
