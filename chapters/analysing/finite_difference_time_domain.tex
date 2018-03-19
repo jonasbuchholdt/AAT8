@@ -207,20 +207,6 @@ Often if $ \delta \leq \frac{1}{10}\lambda_{min}$ the above constrain is met, an
     \stopexplain
     
     
-\subsection{\gls{fdtd} time step size}    
-The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
-
-
-
-\begin{equation}\label{fdtd_time_stepsize}
-\delta t \leq \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c}
-\end{equation}
-        \startexplain
-    		\explain{$\delta$ is the time size}{\si{1}}
-        \explain{$t$ is the time indicator}{\si{1}}
-        \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
-    \stopexplain
-Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}
     
 \subsection{\gls{fdtd} boundary conditions}        
 The meaning of the boundary condition is the condition near and at a wall. The sound wave react different on the walls than when it is propagating in free field. Wall will act like a reflecting surface, absorbing surface or both. This boundary behaviour from the wall is descried as an impedance which is frequency dependent. This have to be analysed and implemented in the simulation because the sound field will be different compare to sound field without any boundary. The frequency dependency boundary will only be a good approximation and not accurate in this project. An accurate frequency dependency model will require heavy calculation with convolution at each boundary point at each time step \citep{finiteproblems}. This kind of calculation have a high time consumption and therefore an approximation will be used. \\
@@ -352,21 +338,30 @@ The last unknown variable is the particle velocity $v_x$ at time $t=l$. To find 
     		\explain{$Z_{FDTD} = \frac{\rho_0 \delta x}{\delta t}$ }{\si{1}}
     \stopexplain
 
+\subsection{\gls{fdtd} time step size ans stability}    
+The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
 
-\subsection{\gls{fdtd} stability near boundary}
-A stable simulation is only guaranteed under surtain condition. Because \autoref{fdtd_boundary_result} is applied to different condition e.g. in corner of flat walls, a stable simulation is not possible in general, only with surtain condition which depend on time and grid cell size. It have be shown that the simulation is stable if $Z_0$ and $Z_{1}$ is all positive and all simulation regions if \autoref{fdtd_time_stepsize_boundary} is satisfied
+
+
+\begin{equation}\label{fdtd_time_stepsize}
+\delta t \leq \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c}
+\end{equation}
+        \startexplain
+    		\explain{$\delta$ is the time size}{\si{1}}
+        \explain{$t$ is the time indicator}{\si{1}}
+        \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
+    \stopexplain
+    
+Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}. Unless the dispersion error is minimized, the the time step might even be  smaller because of stability condition. 
+A stable simulation is only guaranteed under surtain condition. Because \autoref{fdtd_boundary_result} is applied to different condition e.g. in corner of flat walls, a stable simulation is not possible in general, only with surtain condition which depend on time and grid cell size. It have be shown that the simulation is stable if $Z_0$ and $Z_{1}$ is all positive and for all simulation regions if \autoref{fdtd_time_stepsize_boundary} is satisfied
 
 \begin{equation}\label{fdtd_time_stepsize_boundary}
 \delta t \leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c} \right)
-\end{equation}
+\end{equation}\\
 
 
-If $Z_{-1}$ is nonzero the time step shall also satisfy \autoref{fdtd_time_stepsize_boundary_Z_n1}
+If $Z_{-1}$ is nonzero the time step shall furthermore satisfy \autoref{fdtd_time_stepsize_boundary_Z_n1}
 
 \begin{equation}\label{fdtd_time_stepsize_boundary_Z_n1}
 c \delta t \leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{2Z_-1 \delta x}{\rho_0 c~^2}}  \right)^{\frac{1}{2}}
 \end{equation}
-
-
-
-
