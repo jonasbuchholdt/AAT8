@@ -338,7 +338,7 @@ The last unknown variable is the particle velocity $v_x$ at time $t=l$. To find 
     		\explain{$Z_{FDTD} = \frac{\rho_0 \delta x}{\delta t}$ }{\si{1}}
     \stopexplain
 
-\subsection{\gls{fdtd} time step size ans stability}    
+\subsection{\gls{fdtd} time step size ans stability}   \label{sec:fdtd_time_stepsize} 
 The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
 
 
@@ -363,5 +363,5 @@ A stable simulation is only guaranteed under surtain condition. Because \autoref
 If $Z_{-1}$ is nonzero the time step shall furthermore satisfy \autoref{fdtd_time_stepsize_boundary_Z_n1}
 
 \begin{equation}\label{fdtd_time_stepsize_boundary_Z_n1}
-c \delta t \leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{2Z_-1 \delta x}{\rho_0 c~^2}}  \right)^{\frac{1}{2}}
+c \delta t \leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{2Z_{-1} \delta x}{\rho_0 c^2}}  \right)^{\frac{1}{2}}
 \end{equation}
