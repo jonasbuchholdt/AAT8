@@ -122,7 +122,7 @@ Since $\vec{v}$ is a equation system of three inputs, the \autoref{fdtd_euler_re
 \begin{alignat}{2}
 \frac{\partial p}{\partial x} &=-\rho_0 \frac{\partial v_x}{\partial t} \label{fdtd_euler_rewrite_system_1}\\
 \frac{\partial p}{\partial y} &=-\rho_0 \frac{\partial v_y}{\partial t} \label{fdtd_euler_rewrite_system_2}\\
-\frac{\partial p}{\partial z} &=-\rho_0 \frac{\partial v_z}{\partial t} \label{fdtd_euler_rewrite_system_2}
+\frac{\partial p}{\partial z} &=-\rho_0 \frac{\partial v_z}{\partial t} \label{fdtd_euler_rewrite_system_3}
 \end{alignat}
 \end{subequations}
 
@@ -207,20 +207,6 @@ Often if $ \delta \leq \frac{1}{10}\lambda_{min}$ the above constrain is met, an
     \stopexplain
     
     
-\subsection{\gls{fdtd} time step size}    
-The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
-
-
-
-\begin{equation}\label{fdtd_time_stepsize}
-\delta t = \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c}
-\end{equation}
-        \startexplain
-    		\explain{$\delta$ is the time size}{\si{1}}
-        \explain{$t$ is the time indicator}{\si{1}}
-        \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
-    \stopexplain
-Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}
     
 \subsection{\gls{fdtd} boundary conditions}        
 The meaning of the boundary condition is the condition near and at a wall. The sound wave react different on the walls than when it is propagating in free field. Wall will act like a reflecting surface, absorbing surface or both. This boundary behaviour from the wall is descried as an impedance which is frequency dependent. This have to be analysed and implemented in the simulation because the sound field will be different compare to sound field without any boundary. The frequency dependency boundary will only be a good approximation and not accurate in this project. An accurate frequency dependency model will require heavy calculation with convolution at each boundary point at each time step \citep{finiteproblems}. This kind of calculation have a high time consumption and therefore an approximation will be used. \\
@@ -233,6 +219,7 @@ The approximation in this project will then be based on the above description wh
 
 
 The behaviour of the first material (1) can roughly be approximated be a complex frequency dependent impedance \autoref{fdtd_thin_absorbing}
+
 \begin{equation}\label{fdtd_thin_absorbing}
 Z= Z_0+\frac{Z_{-1}}{j\omega}
 \end{equation}
@@ -278,7 +265,7 @@ p(t)= Z_0v_n(t)+Z_1\int_{-\infty}^{t} v_n(\tau)d\tau +Z_1\frac{\partial u_n(t)}{
     		\explain{$v_n(t)$ is the component of the particle velocity orthogonal to the boundary plan}{\si{\meter\per\second}}
     \stopexplain
 
-One arising problem in this method is that the particle velocity at the boundary, when the boundary is at plan $x=(i_0+0.5)\delta x$ which is a boundary at the $x$ velocity plan, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ plan The problem is visualized in \autoref{fig:fdtd_boundary_pressure} in 1 dimension.
+One arising problem in this method is that the particle velocity at the boundary, when the boundary is at plan $x=(i_0+0.5)\delta x$ which is a boundary at the $x$ velocity plan, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ plan. The problem is visualized in \autoref{fig:fdtd_boundary_pressure} in 1 dimension.
 
 \begin{figure}[H]
 	\centering
@@ -305,35 +292,76 @@ One arising problem in this method is that the particle velocity at the boundary
 
 For solving the problem visualized in \autoref{fig:fdtd_boundary_pressure}, an asymmetric finite-difference approximation for the space derivative is used  \citep{finiteproblems}. \autoref{fdtd_boundary_absorbing} shows the asymmetric finite-difference approximation.
 
-\begin{equation}\label{fdtd_boundary_absorbing}
+\begin{equation}\label{fdtd_boundary_absorbing_velocity}
 \frac{\partial p}{\partial x}\mid _{(i_0+\frac{1}{2},j,k)}^{[l]} = \frac{2}{\delta x} \left( p_{(i_0+\frac{1}{2},j,k)}^{[l]}-p_{(i_0,j,k)}^{[l]} \right)
 \end{equation}\\
 
-The advance of \autoref{fdtd_boundary_absorbing} is that it only require knowledge of one nearest pressure point, but it is only valid within $\delta x$. \autoref{fdtd_boundary_absorbing} can then be used to express  \autoref{fdtd_boundary_absorbing} as function of $v_x$. The boundary grid cell \autoref{fdtd_boundary_eqp} for the particle velocity $v_x$ is then
-
-Using the same presudure as in \autoref{fdtd_particle_velocity} just with pluging in \autoref{fdtd_boundary_absorbing} instead, the particle velocity at the boundary is approximated as \autoref{fdtd_boundary_eqp}
+The advance of \autoref{fdtd_boundary_absorbing_velocity} is that it only require knowledge of one nearest pressure point, but it is only valid within $\delta x$. \autoref{fdtd_boundary_absorbing} can then be used to express  \autoref{fdtd_boundary_absorbing} as function of $v_x$. Using the same procedure as in \autoref{fdtd_particle_velocity} just with plugging in \autoref{fdtd_boundary_absorbing_velocity} instead, the particle velocity at the boundary is approximated as \autoref{fdtd_boundary_eqp}
 
 \begin{equation}\label{fdtd_boundary_eqp}
 (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
 p_{(i_0+\frac{1}{2},j,k)}^{[l]} -p_{(i_0,j,k)}^{[l]}  \Biggr)
 \end{equation}
 
-The only unknown in \autoref{fdtd_boundary_eqp} is $p_{(i_0+\frac{1}{2},j,k)}^{[l]}$ but can be founded by using \autoref{fdtd_boundary_absorbing}. $v_n$ is changed with $(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}$ and become \autoref{fdtd_boundary_eq}
+The only unknown in \autoref{fdtd_boundary_eqp} is $p_{(i_0+\frac{1}{2},j,k)}^{[l]}$ but can be founded by using \autoref{fdtd_boundary_absorbing}. $v_n$ is changed with $(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}$ and become \autoref{fdtd_boundary_velocity}
 
 
 \begin{multline}\label{fdtd_boundary_velocity}
-(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
  Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
+ +Z_1 \frac{\partial (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}}{\partial t} +Z_{-1} \int_{-\infty}^{t} (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}(\tau)d\tau -p_{(i_0,j,k)}^{[l]}
 \Biggr)
 \end{multline}
 
-%+Z_1 \frac{\partial \frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l]}}{\partial t} +Z_{-1} \int_{-\infty}^{t} (v_x)_{(i+\frac{1}{2},j,k)}^{[l]}(\tau)d\tau -p_{(i,j,k)}^{[l]}
+The integral in the \autoref{fdtd_boundary_velocity2} is replaced with a sum from minus infinity to $l$ in \autoref{fdtd_boundary_absorbing}.
 
 \begin{multline}\label{fdtd_boundary_velocity2}
-(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
  Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
-+Z_1\frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}-(v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}}{\delta t}+Z_{-1} \delta t \sum_{m=-\infty}^{l}(v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]}-p_{(i,j,k)}^{[l]}
++Z_1\frac{(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}-(v_x)_{(i+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}}{\delta t}+Z_{-1} \delta t \sum_{m=-\infty}^{l} \left( (v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]} \right) -p_{(i,j,k)}^{[l]}
 \Biggr)
 \end{multline}
 
-In \autoref{fdtd_boundary_velocity2},\autoref{fdtd_boundary_absorbing} was introduced for the time derivative, and the sum is replacing the integral.
+The last unknown variable is the particle velocity $v_x$ at time $t=l$. To find a solution for $v_x$ at time  $t=l$  a linear interpolation between $v_x$ at time $t=(l-\frac{1}{2}) \delta t$ and $t=(l+\frac{1}{2}) \delta t$ is used \citep{finiteproblems}. The resulting particle velocity will be expressed as \autoref{fdtd_boundary_result}
+
+\begin{multline}\label{fdtd_boundary_result}
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= \alpha (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]} + \beta \frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+ Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
+-Z_{-1} \delta t \sum_{m=-\infty}^{l} \left( (v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]} \right) -p_{(i,j,k)}^{[l]}
+\Biggr)
+\end{multline}
+
+
+         \startexplain
+    		\explain{$\alpha = \frac{1-\frac{Z_0}{Z_{FDTD}} \frac{2Z_1}{Z_{FDTD}} \delta t}{1+\frac{Z_0}{Z_{FDTD}} \frac{2Z_1}{Z_{FDTD}} \delta t}$ }{\si{1}}
+    		\explain{$\beta = \frac{1}{1-\frac{Z_0}{Z_{FDTD}} \frac{2Z_1}{Z_{FDTD}} \delta t}$ }{\si{1}}
+    		\explain{$Z_{FDTD} = \frac{\rho_0 \delta x}{\delta t}$ }{\si{1}}
+    \stopexplain
+
+\subsection{\gls{fdtd} time step size ans stability}   \label{sec:fdtd_time_stepsize} 
+The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
+
+
+
+\begin{equation}\label{fdtd_time_stepsize}
+\delta t \leq \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c}
+\end{equation}
+        \startexplain
+    		\explain{$\delta$ is the time size}{\si{1}}
+        \explain{$t$ is the time indicator}{\si{1}}
+        \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
+    \stopexplain
+    
+Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}. Unless the dispersion error is minimized, the the time step might even be  smaller because of stability condition. 
+A stable simulation is only guaranteed under surtain condition. Because \autoref{fdtd_boundary_result} is applied to different condition e.g. in corner of flat walls, a stable simulation is not possible in general, only with surtain condition which depend on time and grid cell size. It have be shown that the simulation is stable if $Z_0$ and $Z_{1}$ is all positive and for all simulation regions if \autoref{fdtd_time_stepsize_boundary} is satisfied
+
+\begin{equation}\label{fdtd_time_stepsize_boundary}
+\delta t \leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c} \right)
+\end{equation}\\
+
+
+If $Z_{-1}$ is nonzero the time step shall furthermore satisfy \autoref{fdtd_time_stepsize_boundary_Z_n1}
+
+\begin{equation}\label{fdtd_time_stepsize_boundary_Z_n1}
+c \delta t \leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{2Z_{-1} \delta x}{\rho_0 c^2}}  \right)^{\frac{1}{2}}
+\end{equation}

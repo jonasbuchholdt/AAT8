@@ -1,0 +1,58 @@
+\section{\gls{fdtd} simulation} \label{sec:fdtd_simulation}
+The aim of this chapter is to make a simulation of the zero order gradient speaker, first order gradient speaker and the solution proposed in \autoref{sec:opt_result} using \gls{fdtd}. All simulation cross all three different method of using speaker at low frequency will be compared in both free field and inside a room. The result will be discussed with respect to directionality and efficiency. 
+
+\section{\gls{fdtd} simulations step size}
+This section will determined the the step size for both grid size and the time step size. As the time step size is depending on the grid step size, the grid step size will be determined first. Recalling \autoref{fdtd_delta_stepsize} state that all three dimention will have the same step size in this project, the calculation is as following \autoref{fdtd_distance_stepsize} 
+
+\begin{subequations}\label{fdtd_distance_stepsize}
+\begin{alignat}{2}
+d &= \delta x = \delta y = \delta z= \frac{1}{10} \frac{c}{f_{max}} \label{fdtd_distance_stepsize_1}\\
+d &= \frac{1}{10} \frac{\SI{343}{\meter\per\second}}{\SI{300}{\hertz}} \label{fdtd_distance_stepsize_2}\\
+d &= \SI{0.11}{\meter} \label{fdtd_distance_stepsize_3}
+\end{alignat}
+\end{subequations}
+
+    \startexplain
+    		\explain{$d$ is the grid cell size }{\si{\meter}}
+        \explain{$c$ is the speed of sound at 20 degree}{\si{\meter\per\second}}
+        \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
+    \stopexplain
+    
+The time step have to be small enough such that standard walls can be included in the simulation, and since plaster wall is well used, $Z_{1}$ is possible nonzero and therefore both condition in \autoref{sec:fdtd_time_stepsize} has to be satisfied. The first condition is \autoref{fdtd_time_stepsize_boundary} stated as following \autoref{fdtd_time_stepsize_con_one}
+    
+ 
+    \begin{subequations}\label{fdtd_time_stepsize_con_one}
+\begin{alignat}{2}
+\delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c} \right)\\
+\delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\SI{0.11}{\meter})^2}+\frac{1}{(\SI{0.11}{\meter})^2}+\frac{1}{(\SI{0.11}{\meter})^2} }\cdot \SI{343}{\meter\per\second}} \right)\\
+\delta t &\leq \SI{0.157}{\milli\second} 
+\end{alignat}
+\end{subequations}
+    
+ Which correspond to a sampling frequency of at least \SI{6364}{\hertz}. The second condition is \autoref{fdtd_time_stepsize_boundary_Z_n1} where plaster is chosen as the limit case for soft walls and concrete is chosen as the limit for hard walls. The calculation for plaster walls is as following \autoref{fdtd_time_stepsize_con_plaster} \citep{finiteproblems}.
+ 
+     \begin{subequations}\label{fdtd_time_stepsize_con_plaster}
+\begin{alignat}{2}
+c \delta t &\leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{2Z_{-1} \delta x}{\rho_0 c^2}}  \right)^{\frac{1}{2}}\\
+ \delta t &\leq \frac{\SI{0.11}{\meter} \left(   \frac{1+\frac{2\cdot 6}{1.21 \cdot \SI{0.11}{\meter}}}{1+\frac{2 \cdot 16 \cdot \SI{0.11}{\meter}}{1.21 \cdot {343}^2}}  \right)^{\frac{1}{2}}}{343}\\
+\delta t &\leq \SI{3.12}{\milli\second} 
+\end{alignat}
+\end{subequations}
+ Which correspond to a sampling frequency of at least \SI{320}{\hertz}.
+
+
+concrete is missing??
+
+
+It can be concluded that the grid step size $d$ shall be \SI{114}{\milli\meter} and the sampling frequency $\frac{1}{\delta t}$ shall at least be equal or higher than \SI{6364}{\hertz}, The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{6364}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
+
+\section{\gls{fdtd} algorithm}
+The aim of this section is to convert the grid to matrices. Since the grid is in three dimension, the whole matrix system for pressure will build on a three dimensional matrix and all particle velocity matrices will built on three dimensional matrices. The following \autoref{} shows an extended grid with entry notation of \autoref{fig:fdtd_cartesian_grid}
+
+
+
+
+
+
+
+
