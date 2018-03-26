@@ -5,14 +5,14 @@ fbot=60;
 f=flip([fbot:fres:ftop-fres]);
 
 
-n=500;                                  % population size
+n=2500;                                  % population size
 surquote=0.05;                          % elite survivor quote
 replacement=0.6;                        % replacement by children
 pmut=0.1;                               % probability of mutation
 tlevel=4;
 
-Nstart=25;
-Nrest=10;
+Nstart=125;
+Nrest=50;
 
 solutions=struct;
 
@@ -49,4 +49,4 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h))))=population.(strcat('gene',int2str(fitsort(1))));
 end
 
-save('sol5.mat','solutions','ftop','fres','fbot')
+save('sol7.mat','solutions','ftop','fres','fbot')

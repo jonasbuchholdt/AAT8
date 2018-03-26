@@ -1,4 +1,5 @@
-load('sol4.mat')
+clear variables
+load('sol10.mat')
 
 
 f=flip([fbot:fres:ftop]);
@@ -89,4 +90,4 @@ ax = gca;
 ax.ThetaZeroLocation = 'top';
 ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
-rlim([-42 0])
+rlim([-54 0])

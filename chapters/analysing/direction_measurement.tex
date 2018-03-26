@@ -51,7 +51,6 @@ In order to obtain the polar response, transfer functions have to be measured at
 \section{Determining the Acoustic Center of the \gls{dut}}\label{sec:ac_center}
 In order to achieve meaningful results regarding the directional characteristic of the a loudspeaker, it is necessary to know the location of the  acoustic center of the loudspeaker.
 In \citep{ansis1.1}, the ``effective acoustical center'' of an electroacoustical transducer is defined as the ``position of the effective or virtual point source from which sound pressure varies inversely as distance''. This concept is further discussed in \citep{jacobsenetal}, where the authors also state, that the position of the acoustic center is frequency dependent. For gathering the data to characterize the directivity it is desirable to position the acoustic center of the \gls{dut} on the rotational axis on the turntable. This can lead to practical difficulties due to the frequency dependency. It is therefore necessary to assess the position of the acoustical center of the \gls{dut} in the desired frequency range via a measurement.\\
-
 Appendix \ref{ax:directional_1} shows the results of a measurement of the polar response that has been conducted without knowing the position of the acoustic center of the \gls{dut}, the test object was a \citep{seas33}. 
 When analyzing the phase data plotted in \autoref{fig:02_23_phase} it seems rather obvious, that the acoustic center of the \gls{dut} has been in front of the rotational axis of the turntable. 
 It appears to be possible to estimate the position of the acoustic center by exploiting, that both wavelength and phase at the measurement points on the main axis (\SI{0}{\degree}) and in the opposite direction are known. As described beforehand, the concept of an acoustical center is tied to a  point source, from which waves appear to emerge. If the acoustical center is placed  on the rotational axis, the phase at all microphone positions should have the same value. In the given case it is assumed, that the acoustical center is only off the rotational axis in only the direction of the main axis of the \gls{dut}, and not shifted to the side.
@@ -85,7 +84,6 @@ Frequency              & {[}Hz{]}  & 60    & 100    & 150    \\ \hline
 Comparing \(S\) with the positioning of the speaker relative to the rotational axis during the measurement would allow for specifying the estimated position of the acoustic center. However, there was some significant undesired mechanical flexibility in the way the speaker was mounted, which lead to imprecisions (see \autoref{fig:setup_02_23}). Therefore, another mechanical solution was implemented and the measurement was repeated. This is  logged in Appendix \ref{ax:directional_2}.
 During this second measurement campaign the speaker was placed further to the back to get the acoustical center closer to the rotational axis. However, there is still some offset, as can be seen in \autoref{tab:shift_meas2}.
 Adding \(S\) to the distance between the front plane of the cabinet and the rotational axis, a rough estimate of the position of the acoustic center in relation to the front plane of the cabinet \(C\,\approx\,\)\SI{0.17}{\meter} can be made. As there were still some mechanical weaknesses involved and the temperature during the measurement was unknown, this estimate has to be confirmed in a final measurement campaign, where the speaker is set back according to the findings of \autoref{tab:shift_meas2}.\\
-One aspect that has to be mentioned in this context is the dependency of the acoustic center on frequency. According to the findigs of \citep{vanderkooy10}, who has done a boundary-element calculation of the acoustic center, the frequency dependent position alteration can be deemed  negligible for the sake of this project.
 \begin{table}[H]
 \centering
 \caption{Calculation of the offset of the acoustic center based on Appendix \ref{ax:directional_2}}
@@ -100,6 +98,17 @@ Frequency              & {[}Hz{]}  & 60    & 100    & 150   \\ \hline
 \(S\)                  & {[}m{]}   & 0.044 & 0.048  & 0.037 \\ \hline
 \end{tabular}
 \end{table}
+
+One aspect that has to be considered in this context is the dependency of the acoustic center on frequency. As stated in \autoref{ch:intro} the frequency range that this project deals with is \SIrange{60}{300}{\hertz}. Considering the findings of \citep{vanderkooy10}, who has done a boundary-element calculation of the acoustic center, it is assumed, that the frequency dependent position change can be deemed  negligible in the context of the formerly mentioned frequency range. 
+\autoref{fig:vanderkooy_center} shows the simulated acoustic center for a thing...
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{vanderkooy_center.png}
+	\caption{Simulated position of the acoustic center over frequency, taken from \citep{vanderkooy10}. The simulation was carried out for a piston source with radius \(r_{piston}\,=\,\)\SI{100}{\milli\meter} mounted in the flat end of a cylinder with radius $r_{cylinder}\,=\,$\SI{200}{\milli\meter} and a length $l_{cylinder}\,=\,$\SI{300}{\milli\meter}}
+
+		\label{fig:vanderkooy_center}
+\end{figure}
+
 %A way to determine the acoustical center by measurement can be proposed as follows. The loudspeaker is placed on the turntable, oriented with its main axis directly towards the measurement microphone (\SI{0}{\degree}). Details about this procedure can be found in \autoref{ax:directional_1}.
 
 \section{Sensitivity of the \gls{dut}}

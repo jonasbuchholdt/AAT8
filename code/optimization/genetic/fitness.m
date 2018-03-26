@@ -11,7 +11,7 @@
 % %%% OUT %%%
 % cost: fitness of each individual, lower values are  better!      [vector]      
 % ------------------------------------------------------------------------
-function [cost]=fitness(population,n,f)
+function [cost]=fitness(population,n,f,polylf,polyhf)
 
 r=10;                   % radius for pressure calculation
 
@@ -23,7 +23,7 @@ omega=2*pi*f;
 k=omega/c;
 
 a=0.1651;                         % radius of the point source / m
-thetaa=tan(k/a);
+thetaa=tan(k*a);
 
 angles=[0:pi/90:2.*pi];         % measurement points along the radius
 coorx=sin(angles).*r;
@@ -68,7 +68,7 @@ ppnorm=psum./max(psum);         % normalizing the pressure
 % this should lead to results with good emission towards the front and
 % low emissions towards the back
 g=[60 300];
-e=[8 2];
+e=[polylf polyhf];
 
 coeff=polyfit(g,e,1);
 
