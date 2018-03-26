@@ -1,37 +1,58 @@
-\section{Single speaker source}\label{ch:single_speaker_source}
-This section aims to introduce and analyse the fundamental for a single source, by analyse the behaviour of a baffled circular plane piston source. The pressure around the piston source will be analysed analytically, to determine the radiation of a single speaker from \SI{60}{\hertz} and upwards and compare it with the measurement from \autoref{ch:polar_response}. The \SI{60}{\hertz} lower limit enable the simulation to be validated by measurement in the AAU anechoic chamber and is a used lower limit for the low/mid driver in some line source array \citep{V-DOSC}.  The analyse shall end out with a approximated simulation model of the \gls{dut}.
+\section{Single source}\label{ch:single_speaker_source}
+To gain understanding about the interaction of several sources emitting sound simultaneously it is essential to first investigate the behaviour of a singular sound source. In the context of this project loudspeakers are investigated. The goal of this section is to find a way to represent the sound emission of loudspeakers within the frequencies boundaries of this project (\SIrange{60}{300}{\hertz}).
+The representation must be suffiencently accurate yet relatively simple to calculate in order to be useful in the optimization process that is a later part of this project (see \autoref{ch:optimization}).
 
-\subsection{Pressure analysis of a single source}
-To characterised the directions properties of an analytical model of the \gls{dut}, the source will be modulated in two dimension as one baffled circular plane piston source. The analysis of a piston source in two dimension built on a thin piston source in three dimension where the x axis is fixed in the plot. This is possible because of vertical beam patten symmetry of \autoref{fig:continues_line_source} \citep{Kinsler2000}. The piston lays flat down so i look like a line source and have radius $a$. The baffled circular plane piston source can be considered as many continuous line sources, which detonate dx and is pointing towards the reader on \autoref{fig:continues_line_source}. The calculated pressure point will be in far field where $r>>a$ holds and the surface integral can be rewritten to a Bessel function \citep{Kinsler2000}. The pressure formula is therefore:
+%This section aims to introduce and analyse the fundamental for a single source, by analyse the behaviour of a baffled circular plane piston source. The pressure around the piston source will be analysed analytically, to determine the radiation of a single speaker from \SI{60}{\hertz} and upwards and compare it with the measurement from \autoref{ch:polar_response}. The \SI{60}{\hertz} lower limit enable the simulation to be validated by measurement in the AAU anechoic chamber and is a used lower limit for the low/mid driver in some line source array \citep{V-DOSC}.  The analyse shall end out with a approximated simulation model of the \gls{dut}.
+\subsection{Pressure emission from an omidirectional source}
+As explained in \autoref{ch:polar_response} loudspeakers are commonly treated as omnidirectional sources at low frequencies. Taking advantage of this approximation, the sound pressure emission in free field conditions can be described conveniently. \citep[p. 171]{Kinsler2000} state the following equation \autoref{eq:omni_source} for a pulsating sphere. It has to be noted, that the position of the sphere in the given case is the acoustic center of the loudspeaker (see \autoref{sec:ac_center}).
+\begin{equation}\label{eq:omni_source}
+p(r,t)\,=\,\rho_0 c V_0 \left(\frac{a}{r}\right)\cos \theta_a \textbf{\textit{e}}^{j\left(\omega t - k(r-a)+\theta_a\right)}
+\end{equation}
+\startexplain
+\explain{$p$ is the sound pressure.}{\si{\pascal}}
+\explain{$r$ is the distance, for which the pressure is being calculated, \(r>a\).}{\si{\meter}}
+\explain{$t$ is the time, for which the pressure is being calculated.}{\si{\meter}}
+\explain{$\rho_0$ is the specific density of air.}{\si{\kilo\gram\per\cubic\meter}}
+\explain{$c$ is the speed of sound.}{\si{\meter\per\second}}
+\explain{$V_0$ ist the peak velocity at the surface of the spherical source.}{\si{\meter\per\second}}
+\explain{$a$ is the radius of the spherical source.}{\si{\meter}}
+\explain{$\theta_a$ is equal to $\tan(ka)$.}{\si{1}}
+\explain{$\omega$ is the angular frequency.}{\si{\second^{-1}}}
+\explain{$k$ is the wavenumber.}{\si{\meter^{-1}}}
+\stopexplain
+
+\subsection{Pressure emission from a baffled piston}
+Another  approach to analytically approximate the behaviour of a cone loudspeaker is given by \citep[p. 179 ff.]{Kinsler2000}, where the behaviour of the sound radiated from a plane circular piston surrounded by an infinte rigid baffle is described.
+
+
+%To characterize the directional properties of an analytical model of the \gls{dut}, the source will be modulated in two dimension as one baffled circular plane piston source. The analysis of a piston source in two dimension built on a thin piston source in three dimension where the x axis is fixed in the plot. This is possible because of vertical beam patten symmetry of \autoref{fig:continues_line_source} \citep{Kinsler2000}. The piston lays flat down so i look like a line source and have radius $a$. The baffled circular plane piston source can be considered as many continuous line sources, which detonate dx and is pointing towards the reader on \autoref{fig:continues_line_source}. The calculated pressure point will be in far field where $r>>a$ holds and the surface integral can be rewritten to a Bessel function \citep{Kinsler2000}. The pressure formula is therefore:
 
 \begin{equation}
-p(r,\theta ,t)=\frac{j}{2} \rho_{0}c  \text{\textit{{\LARGE u}}}_{0}\frac{a}{r}ka \left ( \frac{2J_1(ka\, sin(\theta ))}{ka\, sin(\theta )} \right )e^{j(\omega t-kr)}
+p(r,\theta ,t)=\frac{j}{2} \rho_{0}c  V_{0}\frac{a}{r}ka \left ( \frac{2J_1(ka\, sin(\theta ))}{ka\, sin(\theta )} \right )e^{j(\omega t-kr)}
 \end{equation}
-
-
-Where the complete surface vibrate radially with speed
+Where the complete surface vibration is described with
 
 \begin{equation}
-u = \text{\textit{{\LARGE u}}}_{0} \cdot exp(j \omega t)
+v = V_{0} \cdot exp(j \omega t)
 \end{equation}
 
-    \startexplain
-    		\explain{$u$ is the complex speed of the line source }{\si{1}}
-        \explain{$\text{\textit{{\LARGE u}}}_{0}$ is the Amplitude}{\si{1}}
+\startexplain
+    	\explain{$v$ is the complex speed of the line source }{\si{1}}
+        \explain{$V_{0}$ is the Amplitude}{\si{1}}
         \explain{$j$ is the imaginary unit }{\si{1}}
         \explain{$\omega$ is the angular velocity }{\si{1}}
         \explain{$t$ is the time }{\si{1}}
-    \stopexplain
+\stopexplain
     
 Each small sources is treated as an baffled simple source with a width of $dx$ and the source strange can be modulated as following      
 
 \begin{equation}
-dQ = \text{\textit{{\LARGE u}}}_{0} 2 a\, sin(\phi) \, dx
+dQ = V_{0} 2 a\, sin(\phi) \, dx
 \end{equation}
 
     \startexplain
     		\explain{$dQ$ is the simple source strange }{\si{1}}
-        \explain{$\text{\textit{{\LARGE u}}}_{0}$ is the Amplitude}{\si{1}}
+        \explain{$V_{0}$ is the Amplitude}{\si{1}}
         \explain{$a$ is the radius for cylinder }{\si{1}}
         \explain{$\phi$ is the angle between the radius $a$ and the x axis}{\si{1}}
         \explain{$dx$ is the length for the simple source }{\si{1}}
