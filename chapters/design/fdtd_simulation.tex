@@ -13,44 +13,79 @@ d &= \SI{0.11}{\meter} \label{fdtd_distance_stepsize_3}
 \end{subequations}
 
     \startexplain
-    		\explain{$d$ is the grid cell size }{\si{\meter}}
+    		\explain{$d$ is the maximum grid cell size }{\si{\meter}}
         \explain{$c$ is the speed of sound at 20 degree}{\si{\meter\per\second}}
         \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
     \stopexplain
-    
-The time step have to be small enough such that standard walls can be included in the simulation, and since plaster wall is well used, $Z_{1}$ is possible nonzero and therefore both condition in \autoref{sec:fdtd_time_stepsize} has to be satisfied. The first condition is \autoref{fdtd_time_stepsize_boundary} stated as following \autoref{fdtd_time_stepsize_con_one}
+
+Since the maximum grid cell size is \SI{0.11}{\meter}, the chosen grid cell size is in this project will be \SI{0.10}{\meter}, to be sure that a simulation does not suffer from a limiting grid cell size. The time step have to be small enough such that standard walls can be included in the simulation, and since plaster wall is well used, $Z_{1}$ is possible nonzero and therefore both condition in \autoref{sec:fdtd_time_stepsize} has to be satisfied. The first condition is \autoref{fdtd_time_stepsize_boundary} stated as following \autoref{fdtd_time_stepsize_con_one}
     
  
     \begin{subequations}\label{fdtd_time_stepsize_con_one}
 \begin{alignat}{2}
 \delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c} \right)\\
-\delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\SI{0.11}{\meter})^2}+\frac{1}{(\SI{0.11}{\meter})^2}+\frac{1}{(\SI{0.11}{\meter})^2} }\cdot \SI{343}{\meter\per\second}} \right)\\
-\delta t &\leq \SI{0.157}{\milli\second} 
+\delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\SI{0.10}{\meter})^2}+\frac{1}{(\SI{0.10}{\meter})^2}+\frac{1}{(\SI{0.10}{\meter})^2} }\cdot \SI{343}{\meter\per\second}} \right)\\
+\delta t &\leq \SI{0.137}{\milli\second} 
 \end{alignat}
 \end{subequations}
     
- Which correspond to a sampling frequency of at least \SI{6364}{\hertz}. The second condition is \autoref{fdtd_time_stepsize_boundary_Z_n1} where plaster is chosen as the limit case for soft walls and concrete is chosen as the limit for hard walls. The calculation for plaster walls is as following \autoref{fdtd_time_stepsize_con_plaster} \citep{finiteproblems}.
+ Which correspond to a sampling frequency of at least \SI{7299}{\hertz}. The second condition is \autoref{fdtd_time_stepsize_boundary_Z_n1} where plaster is chosen as the limit case for soft walls and concrete is chosen as the limit for hard walls. The calculation for plaster walls is as following \autoref{fdtd_time_stepsize_con_plaster} \citep{finiteproblems}.
  
      \begin{subequations}\label{fdtd_time_stepsize_con_plaster}
 \begin{alignat}{2}
 c \delta t &\leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{2Z_{-1} \delta x}{\rho_0 c^2}}  \right)^{\frac{1}{2}}\\
- \delta t &\leq \frac{\SI{0.11}{\meter} \left(   \frac{1+\frac{2\cdot 6}{1.21 \cdot \SI{0.11}{\meter}}}{1+\frac{2 \cdot 16 \cdot \SI{0.11}{\meter}}{1.21 \cdot {343}^2}}  \right)^{\frac{1}{2}}}{343}\\
-\delta t &\leq \SI{3.12}{\milli\second} 
+ \delta t &\leq \frac{\SI{0.10}{\meter} \left(   \frac{1+\frac{2\cdot 6}{1.21 \cdot \SI{0.10}{\meter}}}{1+\frac{2 \cdot 16 \cdot \SI{0.10}{\meter}}{1.21 \cdot {343}^2}}  \right)^{\frac{1}{2}}}{343}\\
+\delta t &\leq \SI{2.92}{\milli\second} 
 \end{alignat}
 \end{subequations}
- Which correspond to a sampling frequency of at least \SI{320}{\hertz}.
+ Which correspond to a sampling frequency of at least \SI{343}{\hertz}.
 
 
 concrete is missing??
 
 
-It can be concluded that the grid step size $d$ shall be \SI{114}{\milli\meter} and the sampling frequency $\frac{1}{\delta t}$ shall at least be equal or higher than \SI{6364}{\hertz}, The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{6364}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
+It can be concluded that the grid step size $d$ shall be \SI{100}{\milli\meter} and the sampling frequency $\frac{1}{\delta t}$ shall at least be equal or higher than \SI{7399}{\hertz}, The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{7399}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
 
 \section{\gls{fdtd} algorithm}
-The aim of this section is to convert the grid to matrices. Since the grid is in three dimension, the whole matrix system for pressure will build on a three dimensional matrix and all particle velocity matrices will built on three dimensional matrices. The following \autoref{} shows an extended grid with entry notation of \autoref{fig:fdtd_cartesian_grid}
+The aim of this section is to convert the grid to matrices. Since the grid is in three dimension, the whole matrix system for pressure and all particle velocity matrices will built on three dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $l$ as the hight of the room, $r$ as the width of the room and $c$ as the length of the room.
 
 
-
+\begin{figure}[H]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{fdtd_grid_matrices.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(3869,4070)(3541,-1873)
+\put(5941,1334){\color[rgb]{0,0,1}$v_x(2,1,1)$}%
+\put(4186,434){\color[rgb]{0,0,0}(r,c,l)}%
+\put(5041,1019){\color[rgb]{0,0,1}$v_x(1,1,1)$}%
+\put(6211,974){\color[rgb]{0,.82,0}$v_y(1,2,1)$}%
+\put(5941,1604){\color[rgb]{.82,0,0}$v_z(1,1,1)$}%
+\put(5041,749){\color[rgb]{.82,0,0}$v_z(1,1,2)$}%
+\put(4771,1379){\color[rgb]{0,.82,0}$v_y(1,1,1)$}%
+\put(5491, 74){\color[rgb]{1,0,0}$p(1,1,2)$}%
+\put(6931,1199){\color[rgb]{1,0,0}$p(2,1,1)$}%
+\put(6391,569){\color[rgb]{1,0,0}$p(1,2,1)$}%
+\put(4996,-376){Pressure point}%
+\put(4996,-736){Unknown pressure point}%
+\put(3556,1244){l}%
+\put(4996,-1096){Particle velocity x-direction}%
+\put(4996,-1456){Particle velocity y-direction}%
+\put(4006,704){r}%
+\put(3826,344){c}%
+\put(4996,-1771){Particle velocity z-direction}%
+\end{picture}%
+	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension}
+		\label{fig:fdtd_cartesian_grid}
+\end{figure}
 
 
 
