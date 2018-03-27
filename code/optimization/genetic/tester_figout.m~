@@ -100,11 +100,11 @@ end
 
 h=1;
 figure
-polarplot(angles,Lppolar(h,:))
+polarplot(angles,Lppolar(end,:))
 hold on
-for h=2:length(f)
-    polarplot(angles,Lppolar(h,:))
-end
+polarplot(angles,Lppolar(end-5,:))
+polarplot(angles,Lppolar(end-10,:
+
 ax = gca;
 thetaticks([0:20:360])
 rticks([-27:3:0])

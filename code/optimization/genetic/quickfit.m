@@ -76,7 +76,7 @@ Lxconstraintupper=2;
 Lxconstraintlower=0.6;
 
 Lyconstraintupper=2;
-Lyconstraintlower=0.2;
+Lyconstraintlower=0.4;
 
 Vconstraintupper=1;
 Vconstraintlower=0.0001;

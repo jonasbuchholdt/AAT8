@@ -38,11 +38,14 @@ save('cor_table_01.mat','phi_mat','f_mat','p_mat')
 correction=20*log10(interp2(phi_mat,f_mat,p_mat,phinter,finter,'spline'))
 
 close all
+figure
 s=surf(rad2deg(phi_mat),f_mat,20*log10(p_mat))
 colormap('jet')
-colorbar
+c=colorbar
 axis([0 360 60 300 -7 1])
 xlabel('Angle [Deg]');
 ylabel('Frequency [Hz]');
 zlabel('Deviation [dB]');
+ylabel(c,'Deviation [dB]');
 s.EdgeColor = 'none';
+view(210,30)
