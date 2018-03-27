@@ -47,7 +47,7 @@ concrete is missing??
 It can be concluded that the grid step size $d$ shall be \SI{100}{\milli\meter} and the sampling frequency $\frac{1}{\delta t}$ shall at least be equal or higher than \SI{7399}{\hertz}, The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{7399}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
 
 \section{\gls{fdtd} algorithm}
-The aim of this section is to convert the grid to matrices. Since the grid is in three dimension, the whole matrix system for pressure and all particle velocity matrices will built on three dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $l$ as the hight of the room, $r$ as the width of the room and $c$ as the length of the room.
+The aim of this section is to convert the grid to matrices. Since the grid is in three dimension where the time is the fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
 
 
 \begin{figure}[H]
@@ -65,7 +65,7 @@ The aim of this section is to convert the grid to matrices. Since the grid is in
 \fi\endgroup%
 \begin{picture}(3869,4070)(3541,-1873)
 \put(5941,1334){\color[rgb]{0,0,1}$v_x(2,1,1)$}%
-\put(4186,434){\color[rgb]{0,0,0}(r,c,l)}%
+\put(4186,434){\color[rgb]{0,0,0}$(l,w,h)$}%
 \put(5041,1019){\color[rgb]{0,0,1}$v_x(1,1,1)$}%
 \put(6211,974){\color[rgb]{0,.82,0}$v_y(1,2,1)$}%
 \put(5941,1604){\color[rgb]{.82,0,0}$v_z(1,1,1)$}%
@@ -76,18 +76,36 @@ The aim of this section is to convert the grid to matrices. Since the grid is in
 \put(6391,569){\color[rgb]{1,0,0}$p(1,2,1)$}%
 \put(4996,-376){Pressure point}%
 \put(4996,-736){Unknown pressure point}%
-\put(3556,1244){l}%
+\put(3556,1244){$z$}%
 \put(4996,-1096){Particle velocity x-direction}%
 \put(4996,-1456){Particle velocity y-direction}%
-\put(4006,704){r}%
-\put(3826,344){c}%
+\put(4006,704){$x$}%
+\put(3826,344){$y$}%
 \put(4996,-1771){Particle velocity z-direction}%
 \end{picture}%
 	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension}
 		\label{fig:fdtd_cartesian_grid}
 \end{figure}
 
+All simulation is done i MATLAB and therefore the $x$ direction is implemented as matrix rows direction and $y$ direction is implemented as matrix column direction. The hight $h$ is implemented as the third dimension and the time is implemented as the fourth dimension. The particle velocity will be calculated as the first step and the pressure will ba calculated as the second step. The time dimension is only as small as 2 page (https://se.mathworks.com/help/matlab/math/multidimensional-arrays.html) because it is only necessary to save at $l-1$ and at $l$. All time further away than $l-1$ is not used in the calculation and will be deleted for keeping the needed storage as low as possible. 
 
+\subsection{\gls{fdtd} boundary}
+The particle velocity at the boundary in all direction have to be calculated as in \autoref{fdtd_boundary_result} and this is done as a step between the particle velocity and the pressure. This mean for the particle velocity in $x$ direction the first and last matrix row is calculated by the boundary formula and in $y$ direction the first column and the last matrix column is calculated by the boundary formula. The boundary therefore have to be implemented differently for every boundary. The boundary implementation for $x$ direction is as following \autoref{}. The implementation for $y$ and $z$ direction is not shown, because the only different is kept indices. 
 
+\begin{multline}\label{fdtd_boundary_x1}
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= \alpha (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]} + \beta \frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+ Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
+-Z_{-1} \delta t \sum_{m=-\infty}^{l} \left( (v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]} \right) -p_{(i,j,k)}^{[l]}
+\Biggr)
+\end{multline}
 
+\begin{multline}\label{fdtd_boundary_x2}
+(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= \alpha (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]} + \beta \frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
+ Z_0(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]} \\
+-Z_{-1} \delta t \sum_{m=-\infty}^{l} \left( (v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]} \right) -p_{(i,j,k)}^{[l]}
+\Biggr)
+\end{multline}
+
+\section{\gls{fdtd} plot}
+The aim of the section is to explain how the resulting phase, gain and distance from \autoref{optimization} is implemented in the \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{optimization}.
 
