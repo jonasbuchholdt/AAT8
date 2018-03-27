@@ -21,8 +21,8 @@ delta_t = 1/fs
 f = 300;
 Z0 = rho*c
 
-room_x = 1;
-room_y = 1;
+room_x = 4;
+room_y = 4;
 room_z = 1;
 speaker_position = [room_x/2 room_y/2 room_z/2];
 
@@ -53,7 +53,7 @@ sp = speaker_position/grid_size;
 
 
 % calculate inside room pressure
-for t=1:3
+for t=1:50
     %if t<15
     xs = sin(2*pi*f*((t-1)/fs));
     pressure(sp(1),sp(2),1,1)=xs;
