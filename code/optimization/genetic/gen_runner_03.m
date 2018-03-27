@@ -1,6 +1,6 @@
 clear variables
 ftop=300;
-fres=20;
+fres=10;
 fbot=60;
 f=flip([fbot:fres:ftop-fres]);
 
@@ -8,14 +8,14 @@ load('cor_table_01.mat')
 polylf=5;
 polyhf=1;
 
-n=1000;                                 % population size
+n=1250;                                 % population size
 surquote=0.05;                          % elite survivor quote
 replacement=0.6;                        % replacement by children
 pmut=0.1;                               % probability of mutation
 tlevel=4;
 
-Nstart=50;
-Nrest=25;
+Nstart=60;
+Nrest=30;
 
 solutions=struct;
 
@@ -56,4 +56,4 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h))))=population.(strcat('gene',int2str(fitsort(1))));
 end
 
-save('sol13.mat','solutions','ftop','fres','fbot')
+save('sol14.mat','solutions','ftop','fres','fbot')

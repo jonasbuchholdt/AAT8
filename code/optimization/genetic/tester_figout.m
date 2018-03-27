@@ -100,11 +100,14 @@ end
 
 h=1;
 figure
-polarplot(angles,Lppolar(h,:))
+polarplot(angles,Lppolar(end,:))
 hold on
-for h=2:length(f)
-    polarplot(angles,Lppolar(h,:))
-end
+polarplot(angles,Lppolar(21,:))
+polarplot(angles,Lppolar(16,:))
+polarplot(angles,Lppolar(11,:))
+polarplot(angles,Lppolar(6,:))
+polarplot(angles,Lppolar(1,:))
+
 ax = gca;
 thetaticks([0:20:360])
 rticks([-27:3:0])
@@ -115,3 +118,5 @@ ax.ThetaZeroLocation = 'top';
 ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
 rlim([botlim 0])
+legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
+ax.RAxis.Label.String = 'normed SPL [dB]';
