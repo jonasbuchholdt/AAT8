@@ -7,6 +7,9 @@
 % population: population that should be evaluated                  [struct]
 % n: number of individuals in population                              [int]
 % f: frequency that should be optimized                               [int]
+% polylf: cost shaping parameter for low frequencies                  [int]
+% polyhf: cost shaping parameter for high frequencies                 [int]
+% sourcepar: parameter set for increased performance               [struct]
 % 
 % %%% OUT %%%
 % cost: fitness of each individual, lower values are  better!      [vector]      
@@ -29,19 +32,17 @@ thetaa=tan(k*a);
 
 angles=[0:pi/90:2.*pi];         % measurement points along the radius
 
-
 % positions of the speakers are determined by tricenter function
 p1=zeros(1,length(angles));
 p2=p1;
 p3=p1;
 cost=zeros(1,n);
 
-
 for h=1:n
 % calculating the pressure, caused by each source, at every point of the grid
-p1=(rho0.*c.*population.(strcat('gene',int2str(h))).Va.*(a./sqrt((sourcepar.xshift1.^2)+(sourcepar.yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((sourcepar.xshift1.^2)+(sourcepar.yshift1.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phia))).*sourcepar.corrections1(index,:);
-p2=(rho0.*c.*population.(strcat('gene',int2str(h))).Vb.*(a./sqrt((sourcepar.xshift2.^2)+(sourcepar.yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((sourcepar.xshift2.^2)+(sourcepar.yshift2.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phib))).*sourcepar.corrections2(index,:);
-p3=(rho0.*c.*population.(strcat('gene',int2str(h))).Vc.*(a./sqrt((sourcepar.xshift3.^2)+(sourcepar.yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((sourcepar.xshift3.^2)+(sourcepar.yshift3.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phic))).*sourcepar.corrections3(index,:);
+p1=(rho0.*c.*population.(strcat('gene',int2str(h))).Va .*(a./sqrt((sourcepar.xshift1.^2)+(sourcepar.yshift1.^2))) .*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((sourcepar.xshift1.^2) +(sourcepar.yshift1.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phia))) .*sourcepar.corrections1(index,:);
+p2=(rho0.*c.*population.(strcat('gene',int2str(h))).Vb .*(a./sqrt((sourcepar.xshift2.^2)+(sourcepar.yshift2.^2))) .*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((sourcepar.xshift2.^2) +(sourcepar.yshift2.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phib))) .*sourcepar.corrections2(index,:);
+p3=(rho0.*c.*population.(strcat('gene',int2str(h))).Vc .*(a./sqrt((sourcepar.xshift3.^2)+(sourcepar.yshift3.^2))) .*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((sourcepar.xshift3.^2) +(sourcepar.yshift3.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phic))) .*sourcepar.corrections3(index,:);
 
 % adding the pressures together
 psum=abs(p1+p2+p3);
@@ -59,13 +60,8 @@ e=[polylf polyhf];
 
 coeff=polyfit(g,e,1);
 
-
-
-%weight=(0.5-(cos(angles)/2));
-%weight=1-flattopwin(length(ppnorm))';
 weight=1-abs(cos((angles./2)).^polyval(coeff,f));
-%weightedp=abs(ppnorm).*weight;
-%weight=((0.5-(cos(angles)/2)).^2);
+
 weightedp=ppnorm.*weight;
 
 %%% PENALTY-SECTION
@@ -91,11 +87,7 @@ if population.(strcat('gene',int2str(k))).Ly > Lyconstraintupper
 elseif population.(strcat('gene',int2str(k))).Ly < Lyconstraintlower
     penalty=penalty+abs(10*log(population.(strcat('gene',int2str(k))).Ly))^2;
 end
-% if population.(strcat('gene',int2str(k))).Va > Vconstraintupper || population.(strcat('gene',int2str(k))).Vb > Vconstraintupper || population.(strcat('gene',int2str(k))).Vc > Vconstraintupper
-%     penalty=penalty+((population.(strcat('gene',int2str(k))).Va)^10)+((population.(strcat('gene',int2str(k))).Vb))^10+((population.(strcat('gene',int2str(k))).Vc)^10);
-% elseif population.(strcat('gene',int2str(k))).Va < Vconstraintlower || population.(strcat('gene',int2str(k))).Vb < Vconstraintlower || population.(strcat('gene',int2str(k))).Vc < Vconstraintlower
-%     penalty=penalty+(abs(10*log(population.(strcat('gene',int2str(k))).Va))^2)+(abs(10*log(population.(strcat('gene',int2str(k))).Vb))^2)+(abs(10*log(population.(strcat('gene',int2str(k))).Vc))^2);
-% end
+
 penalty = penalty+population.(strcat('gene',int2str(k))).age^1.5;
 cost(h)=sum(weightedp)+penalty;
 end

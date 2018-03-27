@@ -150,4 +150,24 @@ As the pressure and phase characteristic of the \gls{dut} have been ascertained 
 	\caption{Pressure correction data, based on measurement data from Appendix \ref{ax:directional_2}}
 		\label{fig:correction_3d}
 \end{figure}
+With the correction values applied, an augmented form of \autoref{eq:omni_source} can be established. Note, that while the deviation from omnidirectionality is visualized in \autoref{fig:correction_3d} in a \si{\decibel}-scale, for the usage in the \textsf{Dev}-function in \autoref{eq:aug_omni}, data has to be presented linearly.
+\begin{equation}\label{eq:aug_omni}
+p(r,t)\,=\,\rho_0 c V_0 \left(\frac{a}{r}\right)\cos \theta_a \textbf{\textit{e}}^{j\left(\omega t - k(r-a)+\theta_a\right)}\cdot\textsf{Dev}(f,\phi)
+\end{equation}
+\startexplain
+\explain{$p$ is the sound pressure.}{\si{\pascal}}
+\explain{$r$ is the distance, for which the pressure is being calculated, \(r>a\).}{\si{\meter}}
+\explain{$t$ is the time, for which the pressure is being calculated.}{\si{\meter}}
+\explain{$\rho_0$ is the specific density of air.}{\si{\kilo\gram\per\cubic\meter}}
+\explain{$c$ is the speed of sound.}{\si{\meter\per\second}}
+\explain{$V_0$ ist the peak velocity at the surface of the spherical source.}{\si{\meter\per\second}}
+\explain{$a$ is the radius of the spherical source.}{\si{\meter}}
+\explain{$\theta_a$ is equal to $\tan(ka)$.}{\si{1}}
+\explain{$\omega$ is the angular frequency.}{\si{\second^{-1}}}
+\explain{$k$ is the wavenumber.}{\si{\meter^{-1}}}
+\explain{$\textsf{Dev}$ is the pressure deviation from the correction table.}{\si{1}}
+\explain{$f$ is the frequency.}{\si{\hertz}}
+\explain{$\phi$ is the angle, for which the pressure is being calculated relative to the main axis of the speaker.}{\si{1}}
+\stopexplain
 \subsection{Conclusion}
+Investigating analytical ways to express the behaviour of a speaker by incorporation no other information then its size leads to results that are not particulary accurate and are therefore of limited use. While it appears to be possible to get better estimates by incorporating more information into a numerical model (e.g. \citep{vanderkooy10}). The given objective of using the model for an optimization makes this approach unfeasible. Because measurements have been conducte investigating the directional characteristics of the loudspeaker that will later be used, a more empirical approach has been found. Exploiting information from the measurements, the relatively simple model of a pulsating sphere can be augmented, so that it fits the behaviour of the \gls{dut}.
