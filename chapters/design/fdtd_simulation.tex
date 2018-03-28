@@ -107,5 +107,7 @@ The particle velocity at the boundary in all direction have to be calculated as 
 \end{multline}
 
 \section{\gls{fdtd} plot}
-The aim of the section is to explain how the resulting phase, gain and distance from \autoref{optimization} is implemented in the \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{optimization}.
+The aim of the section is to explain how the resulting phase, gain and distance from \autoref{ch:optimization} is implemented in a \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{ch:optimization}. \\
+
+To be able to simulate the result from \autoref{ch:optimization} three pressure point is used as the acoustical center. The pressure point is implemented as non transparent point sources, which mean that the acoustical center from one source is not affected by the other sources. All the point sources is fed with a sinusoid of a single frequency where the phase and gain is adjusted to the specified frequency. The Front speaker will always be feeded with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. Therefore it is only the back speaker which will be adjusted phase and gain wise. The simulation run time is $t=\frac{1}{f_{min}}$ such that the lowest frequency sinusoid is completed in the simulation. Since the lowest frequency of interest is \SI{60}{\hertz} the runtime shall be 
 

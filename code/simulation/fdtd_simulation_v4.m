@@ -15,21 +15,23 @@ global Z0
 global alpha
 global beta
 
-before= 0;
-scale = 5;
 
-grid_size = 0.05;
-room_x = 30;
-room_y = 30;
+room_x = 20;
+room_y = 20;
 room_z = 1;
+
 y_distance = 0.25
 x_distance = 0.40
 
+scale = 7;
 
 
+x_distance_half = x_distance/2;
+grid_size = (y_distance*x_distance_half);
+before= 0;
 c = 343;
 fs_min = 1/((sqrt(2/3)*(1/grid_size^2+1/grid_size^2+1/grid_size^2)^(-1/2))/c)
-fs = round(1.4552e+04/1000)*1000;
+fs = round(fs_min/10)*10;
 rho = 1.21;
 c = 343;
 delta_t = 1/fs;
@@ -150,7 +152,7 @@ end
 x_vis=Vx(:,:,1,1)';
 y_vis=Vy(:,:,1,1)';
 p_vis=pressure(:,:,1,1)';
-%%
+
 
 xlength=[-(room_x/2)+0.05:0.05:(room_x/2)-0.05];
 ylength=[-(room_y/2)+0.05:0.05:(room_y/2)-0.05];
