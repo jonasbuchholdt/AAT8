@@ -52,42 +52,7 @@ p1=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Va.*(a./sqrt((xshift1.^2)+(ysh
 p2=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Vb.*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib)).*corrections2;
 p3=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Vc.*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib)).*corrections3;
 
-
 psum=p1+p2+p3;
-% Lp=20.*log10(abs(psum)/0.00002);
-% % figure
-% % contour(coorx,coory,Lp,'ShowText','on')
-% % hold on
-% % plot(10*s1x,10*s1y,'*')
-% % plot(10*s2x,10*s2y,'*')
-% % plot(10*s3x,10*s3y,'*')
-% % axis equal
-
-% pp=[];
-% thetap=[];
-% 
-% for n=1:size(psum,1)
-%    for m=1:size(psum,2)
-%        if round(sqrt(((coorx(m,n))^2)+((coory(m,n))^2)),2)==r
-%            pp=[pp psum(m,n)];
-%            if coory(m,n)>0
-%                thetap=[thetap atan(coorx(m,n)/coory(m,n))];
-%            elseif (coory(m,n)<0)&&(coorx(m,n)>=0)
-%                thetap=[thetap (atan(coorx(m,n)/coory(m,n))+pi)];
-%            elseif (coory(m,n)<0)&&(coorx(m,n)<0)
-%                thetap=[thetap (atan(coorx(m,n)/coory(m,n))-pi)];
-%            elseif (coory(m,n)==0)&&(coorx(m,n)>0)
-%                thetap=[thetap (pi/2)];
-%            elseif (coory(m,n)==0)&&(coorx(m,n)<0)
-%                thetap=[thetap (-pi/2)];
-%            end
-%        end
-%    end
-% end
-
-% [thetasort(:,h),sortindex]=sort(thetap);
-% pp=pp(sortindex);
-
 
 ppnorm=psum./max(psum);
 Lppolar(h,:)=20.*log10(abs(ppnorm));

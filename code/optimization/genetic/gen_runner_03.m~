@@ -40,13 +40,9 @@ for k=1:n
     population.(strcat('gene',int2str(k))).Ly= population.(strcat('gene',int2str(fitsort(1)))).Ly;
 end
 
-% calculating position dependent parameters to increase performance of
-% fitness evaluation for later generations
+% calculating position depende
 sourcepar=fit_pargen(population,n,f,phi_mat,f_mat,p_mat);
 
-% calculating solutions for the rest of the frequency range with an initial
-% population that always is the final population of the preceeding
-% frequency
 for h=1:length(f)
     for l=1:Nrest
         tic;
@@ -58,5 +54,4 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h))))= population.(strcat('gene',int2str(fitsort(1))));
 end
 
-% saving solution to file
 save('sol14.mat','solutions','ftop','fres','fbot')

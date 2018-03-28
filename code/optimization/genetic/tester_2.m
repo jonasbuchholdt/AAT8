@@ -2,12 +2,20 @@ nresult=1;
 
 r=10;
 
-[~,fitsort]=sort(fit);
-h=fitsort(nresult);
+% [~,fitsort]=sort(fit);
+% h=fitsort(nresult);
+f=60;
+Lx=0.4;
+Ly=0.25;
+Va=0.1;
+Vb=0.04971;
+Vc=Vb;
+Phia=0;
+Phib=2.9423;
+Phic=Phib;
 
 
-
-[s1x,s1y,s2x,s2y,s3x,s3y]=tricenter(population.(strcat('gene',int2str(h))).Lx,population.(strcat('gene',int2str(h))).Ly);
+[s1x,s1y,s2x,s2y,s3x,s3y]=tricenter(Lx,Ly);
 
 xlength=[-21:0.1:21];
 ylength=[-21:0.1:21];
@@ -32,9 +40,15 @@ xshift2=coorx-s2x;
 yshift3=coory-s3y;
 xshift3=coorx-s3x;
 
-p1=rho0.*c.*population.(strcat('gene',int2str(h))).Va.*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phia));
-p2=rho0.*c.*population.(strcat('gene',int2str(h))).Vb.*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phib));
-p3=rho0.*c.*population.(strcat('gene',int2str(h))).Vc.*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+population.(strcat('gene',int2str(h))).Phib));
+p1=rho0.*c.*Va.*(a./sqrt((xshift1.^2)+(yshift1.^2)))...
+    .*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)...
+    +(yshift1.^2))-a)+thetaa+Phia));
+p2=rho0.*c.*Vb.*(a./sqrt((xshift2.^2)+(yshift2.^2)))...
+    .*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)...
+    +(yshift2.^2))-a)+thetaa+Phib));
+p3=rho0.*c.*Vc.*(a./sqrt((xshift3.^2)+(yshift3.^2)))...
+    .*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)...
+    +(yshift3.^2))-a)+thetaa+Phib));
 psum=p1+p2+p3;
 Lp=20.*log10(abs(psum)/0.00002);
 figure
@@ -73,7 +87,7 @@ pp=pp(sortindex);
 ppnorm=pp./max(pp);
 Lppolar=20.*log10(abs(ppnorm));
 
-population.(strcat('gene',int2str(h)))
+
 
 figure
 polarplot(thetasort,Lppolar)
@@ -81,4 +95,4 @@ ax = gca;
 ax.ThetaZeroLocation = 'top';
 ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
-rlim([-42 0])
+rlim([-27 0])

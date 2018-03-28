@@ -39,6 +39,7 @@ correction=20*log10(interp2(phi_mat,f_mat,p_mat,phinter,finter,'spline'))
 
 close all
 figure
+
 s=surf(rad2deg(phi_mat),f_mat,20*log10(p_mat))
 colormap('jet')
 c=colorbar
@@ -47,5 +48,6 @@ xlabel('Angle [Deg]');
 ylabel('Frequency [Hz]');
 zlabel('Deviation [dB]');
 ylabel(c,'Deviation [dB]');
+%set(s, 'EdgeColor', 'interp', 'FaceColor', 'interp');
 s.EdgeColor = 'none';
 view(210,30)
