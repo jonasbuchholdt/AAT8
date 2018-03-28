@@ -17,26 +17,62 @@ global beta
 
 before= 0;
 scale = 5;
-fs = 16000;
+
+grid_size = 0.05;
+room_x = 30;
+room_y = 30;
+room_z = 1;
+y_distance = 0.25
+x_distance = 0.40
+
+
+
+c = 343;
+fs_min = 1/((sqrt(2/3)*(1/grid_size^2+1/grid_size^2+1/grid_size^2)^(-1/2))/c)
+fs = round(1.4552e+04/1000)*1000;
 rho = 1.21;
 c = 343;
 delta_t = 1/fs;
-grid_size = 0.05;
-a=1;
-Z0 = rho*c*((1+sqrt(1-a))/(1-sqrt(1-a)));
-alpha = (1-(Z0*delta_t/rho*grid_size))/(1+(Z0*delta_t/rho*grid_size));
-beta = 1/(1+(Z0*delta_t/rho*grid_size));
 
+a=1;
+Z_FDTD = (rho*grid_size)/delta_t;
+Z0 = rho*c*((1+sqrt(1-a))/(1-sqrt(1-a)));
+alpha = (1-Z0/Z_FDTD)/(1+Z0/Z_FDTD);
+beta = 1/(1+Z0/Z_FDTD);
 
 
 f = 60;
 gain = 0.4971;
 phase = 2.9423;
 
-room_x = 15;
-room_y = 15;
-room_z = 1;
-speaker_position = [room_x/2 room_y/2 room_z/2];
+
+speaker_center = [room_x/2 room_y/2 room_z/2];
+sp = speaker_center/grid_size;
+
+
+
+xa=x_distance/2;
+ya=y_distance;
+xb=x_distance;
+yb=0;
+xc=0;
+yc=0;
+xs=(xa+xb+xc)/3;
+ys=(ya+yb+yc)/3;
+
+s1xr=xa-xs;
+s1x = round(s1xr/grid_size)*grid_size;
+s2x = (s1x+x_distance/2)/grid_size;
+s3x = (s1x-x_distance/2)/grid_size;
+s1x = s1x/grid_size;
+
+s1yr=ya-ys;
+s1y = round(s1yr/grid_size)*grid_size;
+s2y = (s1y-y_distance)/grid_size;
+s3y = (s1y-y_distance)/grid_size;
+s1y = s1y/grid_size;
+
+
 
 f_min = 100;
 run_time = ceil((1/f_min)/(1/fs));
@@ -55,7 +91,7 @@ Vx = repmat(0, [ro+1 co la ti]);
 Vy = repmat(0, [ro co+1 la ti]);
 Vz = repmat(0, [ro co la+1 ti]);
 
-sp = speaker_position/grid_size;
+
 
 
 
@@ -70,9 +106,9 @@ for t=1:ceil(((343/f)/grid_size))*scale
     
      front = sin(2*pi*f*((t-1)/fs));
      back = gain*sin(2*pi*f*((t-1)/fs)+phase);
-     pressure(sp(1)+5,sp(2),1,1)=pressure(sp(1)+5,sp(2),1,1)+front;
-     pressure(sp(1),sp(2)+4,1,1)=pressure(sp(1),sp(2)+4,1,1)+back;
-     pressure(sp(1),sp(2)-4,1,1)=pressure(sp(1),sp(2)-4,1,1)+back;
+     pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+front;
+     pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+back;
+     pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+back;
     
     %front = sin(2*pi*f*((t-1)/fs));
     %pressure(sp(1),sp(2),1,1)=front;
@@ -114,7 +150,7 @@ end
 x_vis=Vx(:,:,1,1)';
 y_vis=Vy(:,:,1,1)';
 p_vis=pressure(:,:,1,1)';
-
+%%
 
 xlength=[-(room_x/2)+0.05:0.05:(room_x/2)-0.05];
 ylength=[-(room_y/2)+0.05:0.05:(room_y/2)-0.05];
@@ -274,6 +310,7 @@ global beta
 
 k=1;
 Vx(end,:,k,2) = alpha*Vx(end,:,k,1) + beta*(2*delta_t)/(rho*grid_size).*pressure(end,:,k,1);
+%beta*(2*delta_t)/(rho*grid_size)
 end
 
 function vytb_eq
