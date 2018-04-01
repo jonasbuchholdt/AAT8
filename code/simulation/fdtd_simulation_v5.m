@@ -1,3 +1,5 @@
+function []=FDTD(frequency,)
+
 % this file is able to make an fdtd simulation of a speaket with only knowing the impulse
 % response
 
@@ -15,12 +17,15 @@ global Z0
 global alpha
 global beta
 
+load('jonas_sol01.mat')
 
-room_x = 20;
-room_y = 20;
+%%
+
+room_x = 50;
+room_y = 50;
 room_z = 1;
 
-y_distance = 0.25
+y_distance = solutions.f300. %0.25
 x_distance = 0.42
 
 scale = 7;

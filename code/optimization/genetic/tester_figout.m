@@ -1,7 +1,7 @@
 clear variables
-load('sol14.mat')
+load('jonas_sol01.mat')
 
-load('cor_table_01.mat')
+load('cor_table_ones.mat')
 phi_cor=phi_mat;
 f_cor=flip(f_mat);
 p_cor=p_mat;

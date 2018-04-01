@@ -2,7 +2,7 @@ clear variables
 ftop=300;                               % upper frequency border for which parameters should be found
 fres=10;                                % frequency resolution of the solution
 fbot=60;                                % lower frequency border
-f=flip([fbot:fres:ftop-fres]);
+f=flip([fbot:fres:ftop]);
 
 load('cor_table_ones.mat')              % path for correction table
 polylf=5;                               % cost adjustment parameter for low frequencies
@@ -21,7 +21,7 @@ solutions=struct;                       % initializing solution struct
 
 
 population=pop_init(n);                 % generating initial population
-%%% FOR FIXED POSITION OUTCOMMENT UPPER ONE
+% FOR FIXED POSITION OUTCOMMENT UPPER ONE
 Lx=0.4;
 Ly=0.25;
 %population=pop_init_fix(n,Lx,Ly);
@@ -38,16 +38,24 @@ end
 
 [~,fitsort]=sort(fit);
 
+
+
 % storing fittest solution
 solutions.(strcat('f',int2str(ftop)))= population.(strcat('gene',int2str(fitsort(1))));
+solutions.f300.Lx=round(solutions.f300.Lx/0.05)*0.05;
+solutions.f300.Ly=round(solutions.f300.Ly/0.05)*0.05;
 display(strcat('Lx=',num2str(solutions.(strcat('f',int2str(ftop))).Lx,3)))
 display(strcat('Ly=',num2str(solutions.(strcat('f',int2str(ftop))).Ly,3)))
+
+%
+
 % fixing position of the sources by injecting it into all individuals
 for k=1:n
-    population.(strcat('gene',int2str(k))).Lx= population.(strcat('gene',int2str(fitsort(1)))).Lx;
-    population.(strcat('gene',int2str(k))).Ly= population.(strcat('gene',int2str(fitsort(1)))).Ly;
+    population.(strcat('gene',int2str(k))).Lx= solutions.(strcat('f',int2str(300))).Lx;
+    population.(strcat('gene',int2str(k))).Ly= solutions.(strcat('f',int2str(300))).Ly;
+    
 end
-
+%
 % calculating position dependent parameters to increase performance of
 % fitness evaluation for later generations
 sourcepar=fit_pargen(population,n,f,phi_mat,f_mat,p_mat);

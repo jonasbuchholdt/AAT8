@@ -1,7 +1,7 @@
 \section{\gls{fdtd} simulation} \label{sec:fdtd_simulation}
 The aim of this chapter is to make a simulation of the zero order gradient speaker, first order gradient speaker and the solution proposed in \autoref{sec:opt_result} using \gls{fdtd}. All simulation cross all three different method of using speaker at low frequency will be compared in both free field and inside a room. The result will be discussed with respect to directionality and efficiency. 
 
-\section{\gls{fdtd} simulations step size}
+\section{\gls{fdtd} step size}
 This section will determined the the step size for both grid size and the time step size. As the time step size is depending on the grid step size, the grid step size will be determined first. Recalling \autoref{fdtd_delta_stepsize} state that all three dimention will have the same step size in this project, the calculation is as following \autoref{fdtd_distance_stepsize} 
 
 \begin{subequations}\label{fdtd_distance_stepsize}
@@ -46,7 +46,7 @@ concrete is missing??
 
 It can be concluded that the grid step size $d$ shall be \SI{100}{\milli\meter} and the sampling frequency $\frac{1}{\delta t}$ shall at least be equal or higher than \SI{7399}{\hertz}, The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{7399}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
 
-\section{\gls{fdtd} algorithm}
+\section{\gls{fdtd} implementation}
 The aim of this section is to convert the grid to matrices. Since the grid is in three dimension where the time is the fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
 
 
@@ -105,6 +105,15 @@ The particle velocity at the boundary in all direction have to be calculated as 
 -Z_{-1} \delta t \sum_{m=-\infty}^{l} \left( (v_x)_{(i+\frac{1}{2},j,k)}^{[m+\frac{1}{2}]} \right) -p_{(i,j,k)}^{[l]}
 \Biggr)
 \end{multline}
+
+
+(not perfect matched)
+
+
+\section{\gls{fdtd} sound source}
+
+http://usir.salford.ac.uk/30970/1/JASA-PCS_source-v135n1-2014.pdf:public
+https://pdfs.semanticscholar.org/3de4/fad7e947af077745e73717e4edf3e8d66b3f.pdf
 
 \section{\gls{fdtd} plot}
 The aim of the section is to explain how the resulting phase, gain and distance from \autoref{ch:optimization} is implemented in a \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{ch:optimization}. \\
