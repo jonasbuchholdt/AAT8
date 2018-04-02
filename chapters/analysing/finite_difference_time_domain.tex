@@ -337,7 +337,7 @@ The last unknown variable is the particle velocity $v_x$ at time $t=l$. To find 
     		\explain{$Z_{FDTD} = \frac{\rho_0 \delta x}{\delta t}$ }{\si{1}}
     \stopexplain
 
-\subsection{\gls{fdtd} time step size ans stability}   \label{sec:fdtd_time_stepsize} 
+\subsection{\gls{fdtd} time step size and stability}   \label{sec:fdtd_time_stepsize} 
 The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
 
 
@@ -366,7 +366,9 @@ c \delta t \leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{
 \end{equation}
 
 \subsection{\gls{fdtd} sound source}
-There is two common ways to implement a \gls{fdtd} sound source and one more advanced way to implement a \gls{fdtd} sound source. The common way to implementing at sound source is the hard and the soft source. The problem with implementing a hard source is that the hard source overwrite the update step in the source point and therefore effectively scatter any incident field. The second common way of implementing a source is a soft source where the pressure from the source is added to the pressure point. This source do not scatter but the problem with this method is that the actual excitation does not match the time function of the source. To make a source that act like a hard source but do not scatter an advanced source is introduced. The source is a called a transparent source and will shortly be explained in this section. \\
+It have to be remembered that the acoustical center of the speaker is \SI{17}{\centi\meter} in the front of the speaker \autoref{}. It also have to be noted that the \gls{fdtd} sound source is at the acoustical center and not at the speaker position, and therefore the \gls{fdtd} sound source is a transparent source. The speaker box may do a different in real measurement but not at the \gls{fdtd} sound source position and therefore the speaker box will not be included in the \gls{fdtd} sound source model. The following section will shortly explain the three most common source and explain the use of a transparent source. \\
+
+There is two easy ways to implement a \gls{fdtd} sound source and one more advanced way to implement a \gls{fdtd} sound source. The easy way to implementing at sound source is the hard and the soft source. The problem with implementing a hard source is that the hard source overwrite the update step in the source point and therefore effectively scatter any incident field. This might be a real scenario if the speaker box was at the acoustical, but it is not and therefore this kind of source is not present for this simulation.  The second easy way of implementing a sound source is a soft source where the pressure from the source is added to the pressure source point. This source do not scatter but the problem with this method is that the actual excitation does not match the time function of the source. To make a source that act like a hard source but do not scatter, an advanced source is introduced. The source is a called a transparent source (FDTD_transparent_source_JASA)  and will shortly be explained in this section. \\
 
 A transparent source is reached by measuring the impulse response of the grid and use it in \autoref{fdtd_transparent_source}
 
@@ -382,7 +384,7 @@ p_{(i_{s},j_{s},k_{s})}^{[l+1]}=p_{(i_{s},j_{s},k_{s})}^{[l]} - \rho_0 c^2 \delt
         \explain{$I$ is the impulse response of the grid}{\si{1}}
     \stopexplain
 
-As it can be seen in \autoref{fdtd_transparent_source}, the source is implemented like a soft source but with some corrections parts. The correction part include the impulse response of the \gls{fdtd} grid and have to be measured. To measure the impulse response of the grid, a kronika delta function is used as the sound source with unity gain. The kronika delta sound source give a impulse with unity gain only at time one, and zero otherwise. The kronika delta source is implemented as a hard source and the impulse response is also meassured at the source. The impulse response it not the kronika delta function unles it is meassured in the same point, the impulse response is the value the kronika delta pressure point should have been calculated to according to the particle velocity, but since the kronika delta is implementet as a hard source, the impulse response have to be calculated from the nearest particle velocity. Therefore the impulse response meassure function \autoref{fdtd_transparent_source_impulse}
+As it can be seen in \autoref{fdtd_transparent_source}, the source is implemented like a soft source but with a correction part $-\sum_{m=0}^{l} \left( I^{l-m+1}f^m \right)$. The correction part include the impulse response of the \gls{fdtd} grid and have to be measured. To measure the impulse response of the grid, a kronika delta function is used as the sound source with unity gain. The kronika delta sound source give an impulse with unity gain only at time one, and zero otherwise. The kronika delta source is implemented as a hard source. The impulse response is also meassured at the source. It have to be noted that the impulse response is not the kronika delta function unless it is measured in the same point. The impulse response is the value the source pressure point should have been calculated to according to the particle velocity. But since the kronika delta is implemented as a hard source, the source pressure point will be overwritten by the kronika delta function and therefore  the impulse response have to be calculated from the nearest particle velocity. The impulse response measurement function is therefore \autoref{fdtd_transparent_source_impulse}
 
 \begin{multline}\label{fdtd_transparent_source_impulse}
 I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - \rho_0 c^2 \delta t  \Biggl( \frac{(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]} - (v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}}{\delta x} +\\
@@ -391,7 +393,7 @@ I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - \rho_0 c^2 \delta t  \Biggl( \frac{(v_
 \end{multline}
 
 
-Because the source is placed in the middle of the grid, and there only is one source, the particle velocity matrices for each dimension have the symmetrical $(v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]} = -(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}$ the impulse response measure function can shorted to \autoref{fdtd_transparent_source_impulse_short}
+The kronika delta source will be placed in the middle of the grid, and there is only one kronika delta source. The particle velocity matrices for each dimension have therefore the following symmetrical $(v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]} = -(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}$. The impulse response measurement function can shorted to \autoref{fdtd_transparent_source_impulse_short}
 
 \begin{equation}\label{fdtd_transparent_source_impulse_short}
 I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - 2\rho_0 c^2 \delta t  \Biggl( \frac{(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}}{\delta x} +
@@ -399,10 +401,10 @@ I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - 2\rho_0 c^2 \delta t  \Biggl( \frac{(v
  \frac{(v_z)_{(i_{s},j_{s},k_{s}+\frac{1}{2})}^{[l-\frac{1}{2}]}}{\delta z} \Biggr)
 \end{equation}
 
-The impulse response can be used to give the field that will echo back to the sound source. There is a stability condition there have to be satisfied before the transparent source is stabile in \gls{fdtd} simulation. The stability condition is \autoref{} (FDTD_transparent_source_JASA) 
+The impulse response can be used to give the field that will echo back to the sound source (FDTD_transparent_source_JASA). There is a stability condition there have to be satisfied before the transparent source is stabile in \gls{fdtd} simulation. The stability condition is \autoref{fdtd_transparent_source_impulse_stability} (FDTD_transparent_source_JASA) 
 
 
-\begin{equation}
+\begin{equation}\label{fdtd_transparent_source_impulse_stability}
 \frac{c \delta t}{\delta x} \leq \frac{1}{\sqrt{N}}
 \end{equation}
 
