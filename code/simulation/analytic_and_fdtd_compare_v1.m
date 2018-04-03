@@ -4,9 +4,11 @@ for f=60:10:300
   
 room_x = 80;
 room_y = 80;
-frequency = f
-scale = 20;
-[p_rms,grid_size] = FDTD(frequency,room_x,room_y,scale);
+frequency = f;
+grid_size = 0.05;
+simulation_step = (room_x/grid_size/2)-10
+
+[p_rms,grid_size] = FDTD(frequency,room_x,room_y,simulation_step);
 
 pressuresec.(strcat('f',int2str(frequency))).pressure = p_rms;
 pressuresec.(strcat('f',int2str(frequency))).grid = grid_size;
