@@ -5,8 +5,7 @@ The supplemented analytical model describes intricate physical behaviour and is 
 
 
 \section{\gls{ga}: Fundamentals}
-In \citep[p. 7]{goldberg89} theAdding \(S\) to the distance between the front plane of the cabinet and the rotational axis, a rough estimate of the position of the acoustic center in relation to the front plane of the cabinet \(C\,\approx\,\)\SI{0.17}{\meter} can be made. As there were still some mechanical weaknesses involved and the temperature during the measurement was unknown, this estimate has to be confirmed in a final measurement campaign, where the speaker is set back according to the findings of \autoref{tab:shift_meas2}.\\
- author designates four main properties in order to elucidate genetic algorithms. 
+In \citep[p. 7]{goldberg89} the author designates four main properties in order to elucidate genetic algorithms. 
 \begin{itemize}
 \item \gls{ga}s rely on coded parameter sets, not the natural parameters themselves.
 \item \gls{ga}s work with a \textit{population} of solutions, not a single one.
@@ -16,6 +15,134 @@ In \citep[p. 7]{goldberg89} theAdding \(S\) to the distance between the front pl
 These points outline the fundamental idea of a \gls{ga}s. A pool of solutions to a given problem evolves over a number of generations via probabilistic transition rules (\textit{crossover}, \textit{mutation}).
 These transition rules rely on evaluating the fitness of the solutions with the objective function in order to adjust the probabilities so that desirable properties are likely to subsist.
 \citep{genetic_survey}
+
+\section{Setting up the \gls{ga}}
+In order to set up a \gls{ga}, the \textit{phenotypes}, which are real world solutions to the real world problem, have to be coded into \textit{genotypes}, which represent those solutions in a mathematical domain.
+A way to describe the acoustical beamforming problem, that this project is investigating, is illustrated in \autoref{fig:gene_setup}.
+
+%\begin{sidewaysfigure}
+%\begin{figure}[h]
+%	\centering
+%\begin{picture}(0,0)%
+%\includegraphics{genetic_setup_01.pdf}%
+%\end{picture}%
+%\setlength{\unitlength}{3937sp}%
+%\begingroup\makeatletter\ifx\SetFigFont\undefined%
+%\gdef\SetFigFont#1#2#3#4#5{%
+%  \reset@font\fontsize{#1}{#2pt}%
+%  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+%  \selectfont}%
+%\fi\endgroup%
+%\begin{picture}(9844,6664)(-681,-4729)
+%\put(8502,-884){{\color[rgb]{0,0,1}*}%
+%}
+%\put(2701,-1411){{\color[rgb]{0,0,0}Speaker A}%
+%}
+%\put(1441,-2761){{\color[rgb]{0,0,0}Speaker B}%
+%}
+%\put(3871,-2761){{\color[rgb]{0,0,0}Speaker C}%
+%}
+%\put(5941,-3661){{\color[rgb]{0,.56,0}\texttt{Va}}%
+%}
+%\put(5941,-4066){{\color[rgb]{0,.56,0}\texttt{Vb}}%
+%}
+%\put(5941,-4471){{\color[rgb]{0,.56,0}\texttt{Vb}}%
+%}
+%\put(4906,-4471){{\color[rgb]{0,.56,0}\texttt{Phic}}%
+%}
+%\put(4906,-4066){{\color[rgb]{0,.56,0}\texttt{Phib}}%
+%}
+%\put(4906,-3661){{\color[rgb]{0,.56,0}\texttt{Phia}}%
+%}
+%\put(2341,-601){{\color[rgb]{0,.56,0}\texttt{Ly}}%
+%}
+%\put(1081,-331){{\color[rgb]{1,0,0}Ac. Center A}%
+%}
+%\put(-179,-1681){{\color[rgb]{1,0,0}Ac. Center B}%
+%}
+%\put(3691,-1681){{\color[rgb]{1,0,0}Ac. Center C}%
+%}
+%\put(5131,659){{\color[rgb]{0,0,1}Pressure along the circumference}%
+%}
+%\put(5131,404){{\color[rgb]{0,0,1}of the array, calculated according}%
+%}
+%\put(5131,149){{\color[rgb]{0,0,1}to the augmented pressure equation \ref{eq:aug_omni}}%
+%}
+%\put(1801,-1771){{\color[rgb]{0,.56,0}\texttt{Lx}}%
+%}
+%\put(6436,-1366){{\color[rgb]{0,0,1}weighting curve}%
+%}
+%\put(8056,-2176){{\color[rgb]{0,0,1}fitness value}%
+%}
+%\end{picture}%
+%\caption{Measurement setup for transfer functions; for convenience the loudspeaker is placed on a turntable, that is controlled by the measurement routine on the computer.}
+%\label{fig:gene_setup}
+%\end{figure}
+%\end{sidewaysfigure}
+
+\begin{figure}[H]
+	\begin{sideways}
+	\begin{minipage}{\textheight}
+%		\centering
+\begin{picture}(0,0)%
+\includegraphics{genetic_setup_01.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3937sp}%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(9844,6664)(-681,-4729)
+\put(8502,-884){{\color[rgb]{0,0,1}*}%
+}
+\put(2701,-1411){{\color[rgb]{0,0,0}Speaker A}%
+}
+\put(1441,-2761){{\color[rgb]{0,0,0}Speaker B}%
+}
+\put(3871,-2761){{\color[rgb]{0,0,0}Speaker C}%
+}
+\put(5941,-3661){{\color[rgb]{0,.56,0}\texttt{Va}}%
+}
+\put(5941,-4066){{\color[rgb]{0,.56,0}\texttt{Vb}}%
+}
+\put(5941,-4471){{\color[rgb]{0,.56,0}\texttt{Vb}}%
+}
+\put(4906,-4471){{\color[rgb]{0,.56,0}\texttt{Phic}}%
+}
+\put(4906,-4066){{\color[rgb]{0,.56,0}\texttt{Phib}}%
+}
+\put(4906,-3661){{\color[rgb]{0,.56,0}\texttt{Phia}}%
+}
+\put(2341,-601){{\color[rgb]{0,.56,0}\texttt{Ly}}%
+}
+\put(1081,-331){{\color[rgb]{1,0,0}Ac. Center A}%
+}
+\put(-179,-1681){{\color[rgb]{1,0,0}Ac. Center B}%
+}
+\put(3691,-1681){{\color[rgb]{1,0,0}Ac. Center C}%
+}
+\put(5131,659){{\color[rgb]{0,0,1}Pressure along the circumference}%
+}
+\put(5131,404){{\color[rgb]{0,0,1}of the array, calculated according}%
+}
+\put(5131,149){{\color[rgb]{0,0,1}to the augmented pressure equation \ref{eq:aug_omni}}%
+}
+\put(1801,-1771){{\color[rgb]{0,.56,0}\texttt{Lx}}%
+}
+\put(6436,-1366){{\color[rgb]{0,0,1}weighting curve}%
+}
+\put(8056,-2176){{\color[rgb]{0,0,1}fitness value}%
+}
+\end{picture}%
+	\end{minipage}
+	\end{sideways}
+%\center
+\caption{Phenotype and Genotype relations, visualization of genes and fitness evaluation.}
+\label{fig:gene_setup}
+\end{figure}
+
 
 \section{Prior Knowledge for the Optimization}
 To simplify the optimization task, it is expedient to 

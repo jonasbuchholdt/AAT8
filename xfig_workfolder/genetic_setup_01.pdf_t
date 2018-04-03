@@ -1,0 +1,53 @@
+\begin{picture}(0,0)%
+\includegraphics{genetic_setup_01.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3937sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(9844,6664)(-681,-4729)
+\put(8502,-884){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,1}*}%
+}}}}
+\put(2701,-1411){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Speaker A}%
+}}}}
+\put(1441,-2761){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Speaker B}%
+}}}}
+\put(3871,-2761){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Speaker C}%
+}}}}
+\put(5941,-3661){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Va}}%
+}}}}
+\put(5941,-4066){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Vb}}%
+}}}}
+\put(5941,-4471){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Vb}}%
+}}}}
+\put(4906,-4471){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Phic}}%
+}}}}
+\put(4906,-4066){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Phib}}%
+}}}}
+\put(4906,-3661){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Phia}}%
+}}}}
+\put(2341,-601){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Ly}}%
+}}}}
+\put(1081,-331){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Ac. Center A}%
+}}}}
+\put(-179,-1681){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Ac. Center B}%
+}}}}
+\put(3691,-1681){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Ac. Center C}%
+}}}}
+\put(5131,659){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,1}Pressure along the circumference}%
+}}}}
+\put(5131,404){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,1}of the array, calculated according}%
+}}}}
+\put(5131,149){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,1}to the augmented pressure equation \ref{eq:aug_omni}}%
+}}}}
+\put(1801,-1771){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Lx}}%
+}}}}
+\put(6436,-1366){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,1}weighting curve}%
+}}}}
+\put(8056,-2176){\makebox(0,0)[lb]{\smash{{\SetFigFont{11}{13.2}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,1}fitness value}%
+}}}}
+\end{picture}%
