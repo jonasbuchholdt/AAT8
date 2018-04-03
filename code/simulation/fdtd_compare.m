@@ -1,3 +1,4 @@
 load('pressuresec.mat')
+
 %%
-FDTD_ANALYTIC(260,pressuresec)
+FDTD_ANALYTIC(60,pressuretra)

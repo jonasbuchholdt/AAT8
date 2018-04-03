@@ -1,6 +1,6 @@
 \section{The \gls{fdtd}}
 The aim of this section is to give the basic of numerical simulation by using \gls{fdtd} method, such that a speaker array sound propagation can be analysed. The method of using numerical simulate will be descried, such that the method can be adapted to one or more speaker in a sound pressure field. 
-The theory behind \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This make it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specified loudspeaker can be applied to the calculation, and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulation have to be done in a narrow frequency band, before the simulation give a good approximation, the \gls{fdtd} can not include the hole frequency band in one simulation. A second advantage of using \gls{fdtd} is that the calculation is preformed in time domain, which benefit from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a 3 dimensional space, where the speaker box does not scatter the simulation \\
+The theory behind \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This make it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specified loudspeaker can be applied to the simulation, and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulation have to be done in a narrow frequency band, before the simulation give a good approximation, the \gls{fdtd} can not include the hole frequency band in one simulation. A second advantage of using \gls{fdtd} is that the calculation is preformed in time domain, which benefit from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a 3 dimensional space, where the speaker box does not scatter the simulation \\
 
 \subsection{\gls{fdtd} wave equation}
 In \gls{fdtd} simulation, the two equation which need to be solved is the coupled first order equation of the pressure $p$ and the particle velocity $\vec{v}$. The first formula is the Euler \autoref{fdtd_euler}, which describe the relation between the gradient for the pressure $p$ and the derivative of the particle velocity $\vec{v}$ with respect to time \autoref{fdtd_euler}. 
@@ -16,7 +16,7 @@ In \gls{fdtd} simulation, the two equation which need to be solved is the couple
         \explain{$\vec{v}$ is the particle velocity}{\si{\meter\per\second}}
     \stopexplain
 
-The \autoref{fdtd_euler} is only valid with small variation of pressure. The second \autoref{fdtd_linear} is the linear continuity equation. The equation describe the relation between derivative of pressure with respect of time and the velocity gradient. They are combined by the density of the medium and the speed of sound. 
+The \autoref{fdtd_euler} is only valid with small variation of pressure. The second \autoref{fdtd_linear} is the linear continuity equation. The equation describe the relation between derivative of pressure $p$ with respect of time and the velocity $\vec{v}$ gradient. They are combined by the density of the medium and the speed of sound. 
 
  \begin{equation}\label{fdtd_linear}
 \frac{\partial p}{\partial t} =- \rho c^2 \vec{\triangledown }\vec{v}
@@ -67,7 +67,7 @@ The Cartesian grid for \gls{fdtd} approximation is a well known technique, and w
 \end{figure}
 
 
-The grid points is build up on positions there is descried as $(i\,\delta x,j\,\delta y,k\,\delta z)$ at time $t=l\delta t$, where the time step is visualized in \autoref{fig:fdtd_transient_point}
+The grid points is build up on positions there is descried as $(i\,\delta x,j\,\delta y,k\,\delta z)$ at time $t=[l]\delta t$, where the time step is visualized in \autoref{fig:fdtd_transient_point}
 
 \begin{figure}[H]
 	\centering
@@ -85,17 +85,17 @@ The grid points is build up on positions there is descried as $(i\,\delta x,j\,\
 \begin{picture}(2518,1594)(4804,-854)
 \put(5266,-421){Pressure point}%
 \put(5266,-781){Particle velocity}%
-\put(5076,469){$(n-\frac{1}{2}) \delta t$}%
-\put(5671, 29){$n \delta t$}%
-\put(6456, 29){$(n+1)\delta t$}%
-\put(5961,469){$(n+\frac{1}{2})\delta t$}%
+\put(5076,469){$[l-\frac{1}{2}] \delta t$}%
+\put(5671, 29){$[l] \delta t$}%
+\put(6456, 29){$[l+1]\delta t$}%
+\put(5961,469){$[l+\frac{1}{2}]\delta t$}%
 \put(7246,254){$t$}%
 \end{picture}%
 	\caption{Transient definition points of sound $p$ pressure and particle velocity $\vec{v}$}
 		\label{fig:fdtd_transient_point}
 \end{figure}
 
-$\delta x,\delta y,\delta z$ is the spatial discretization step as shown in \autoref{fig:fdtd_cartesian_grid} and $\delta t$ is the time spatial discretization step as shown in \autoref{fig:fdtd_transient_point}. $i,j,k$ is the discrete indices for the point in grid and $l$ is the discrete time index. For every axis, the component of the particle velocity have to be determined at position in \autoref{fdtd_component} at intermediant time $t=(l\pm\frac{1}{2})\delta t$ 
+$\delta x,\delta y,\delta z$ is the spatial discretization step as shown in \autoref{fig:fdtd_cartesian_grid} and $\delta t$ is the time spatial discretization step as shown in \autoref{fig:fdtd_transient_point}. $i,j,k$ is the discrete indices for the point in grid and $l$ is the discrete time index. For every axis, the component of the particle velocity have to be determined at position in \autoref{fdtd_component} at intermediant time $t=[l\pm\frac{1}{2}]$ 
 
 \begin{equation}\label{fdtd_component}
 \vec{v}= \begin{bmatrix}
@@ -104,10 +104,9 @@ v_y[i\,\delta x,(j\pm \frac{1}{2})\,\delta y,k\,\delta z]\\
 v_z[i\,\delta x,j\,\delta y,(k\pm \frac{1}{2})\,\delta z]
 \end{bmatrix}
 \end{equation}
-and the pressure is determined at position $p_{(i,j,k)}^{[l+1]}$. Since the used speaker in this project is a speaker used for air operation, the medium for $\rho$ in the calculation will be air \\
+and the pressure is determined at position $p_{(i,j,k)}^{[l+1]}$. The scaler $\delta t$ is the actual time step, but since the MATLAB and python works with scaler step, $\delta t$ is implemented in the formulas and not in the iteration step. The time $\pm \frac{1}{2}$ is also changed to a scalar with adding $\frac{1}{2}$, but this scalar is only used in the implementation and is leaved out in the rest of this section. The same apply for the step size $\delta x$, $\delta y$ and $\delta z$.\\
 
-
-The following step is done to get the linearized equation for particle velocity in Cartesian grid to any time. First \autoref{fdtd_euler} has to be rewritten to \autoref{fdtd_euler_rewrite_system}.
+The used speaker in this project is a speaker used for air operation, the medium for $\rho$ in the calculation will be air. The following step is done to get the linearized equation for particle velocity in Cartesian grid to any time. First \autoref{fdtd_euler} has to be rewritten to \autoref{fdtd_euler_rewrite_system}.
 
 
 \begin{subequations}\label{fdtd_euler_rewrite}
@@ -116,7 +115,8 @@ The following step is done to get the linearized equation for particle velocity 
 -\rho_0 \frac{\partial \vec{v}}{\partial t} &=\frac{\partial p}{\partial x}\vec{x}+\frac{\partial p}{\partial y}\vec{y}+\frac{\partial p}{\partial z}\vec{z} \label{fdtd_euler_rewrite_2}
 \end{alignat}
 \end{subequations}
-Since $\vec{v}$ is a equation system of three inputs, the \autoref{fdtd_euler_rewrite} is splittet to a equation system \citep{Sakuma2014}.
+
+Since $\vec{v}$ is an equation system of three inputs, the \autoref{fdtd_euler_rewrite} is split into an equation system \citep{Sakuma2014}.
 
 \begin{subequations}\label{fdtd_euler_rewrite_system}
 \begin{alignat}{2}
@@ -127,7 +127,7 @@ Since $\vec{v}$ is a equation system of three inputs, the \autoref{fdtd_euler_re
 \end{subequations}
 
 
-Next the $v_x$, $v_y$ and $v_z$ have to be differentiated with respect to $t$ and $p$ with respect to $x$, $y$ and $z$. To make it simple when differentiate with $t$ \autoref{fdtd_euler_diff_1} for all $v_x$, $v_y$ and $v_z$ only the $v_x$ is showed. The differentiation with $v_y$ and $v_z$ is similar but only the indices is at there respectively indices. When differentiate with respect to $x$, $y$ and $z$ in \autoref{fdtd_linear_diff_2} only the differentiate with respect to $x$ is done. The differentiation with respect to $y$ and $z$ is similar but only the indices is at there respectively indices \citep{Sakuma2014}.
+Next the $v_x$, $v_y$ and $v_z$ have to be differentiated with respect to $t$ and $p$ with respect to $x$, $y$ and $z$. To make it simple when differentiate with $t$ \autoref{fdtd_euler_diff_1} for all $v_x$, $v_y$ and $v_z$ only the $v_x$ is showed. The differentiation with $v_y$ and $v_z$ is trivial but only the indices is at there respectively indices. When differentiate with respect to $x$, $y$ and $z$ in \autoref{fdtd_linear_diff_2} only the differentiate with respect to $x$ is done. The differentiation with respect to $y$ and $z$ is also trivial and only the indices is at there respectively indices \citep{Sakuma2014}.
 
 
 
@@ -184,8 +184,10 @@ p_{(i,j,k)}^{[l+1]} = p_{(i,j,k)}^{[l]} - \rho_0 c^2 \delta t \Biggl( \frac{(v_x
 \end{multline}
 
 \subsection{\gls{fdtd} grid boundary conditions}        
-The meaning of the boundary condition is the condition near and at a wall. The sound wave react different on the walls than when it is propagating in free field. Wall will act like a reflecting surface, absorbing surface or both. This boundary behaviour from the wall is descried as an impedance which is frequency dependent. This have to be analysed and implemented in the simulation because the sound field will be different compare to sound field without any boundary. The frequency dependency boundary will only be a good approximation and not accurate in this project. An accurate frequency dependency model will require heavy calculation with convolution at each boundary point at each time step \citep{finiteproblems}. This kind of calculation have a high time consumption and therefore an approximation will be used. \\
-The approximation in this project will then be based on the above description which use the impedance approach. \citep{FDTDmodelling} At low frequency two kind of absorbing boundary are common in real life and therefore also in simulation. this boundary is as following:
+The meaning of the boundary condition is the condition near and at the wall. The sound wave react different on the walls than when it is propagating in free field. Wall will act like a reflecting surface, absorbing surface or both. This boundary behaviour from the wall is descried as an impedance which is frequency dependent. This have to be analysed and implemented in the simulation because the sound field will be different compare to sound field without any boundary. The frequency dependency boundary will only be a good approximation and not accurate in this project. An accurate frequency dependency model will require heavy calculation with convolution at each boundary point at each time step \citep{finiteproblems}. This kind of calculation have a high time consumption and therefore an approximation will be used. \\
+The approximation in this project will then be based on the above description which use the impedance approach \citep{FDTDmodelling}. The impedance approach can be used when wall is present in simulation, and can not make a perfect matched layer. Therefore the impedance approach can not be used in free field simulation unless the simulation is stopped just before the wave hits the boundary. The simulation stopping will give some area in every corner where the wave do not have reach and will give a hard stopping circular shape. In this project a large room is used and the simulation will be stopped just before the boundary to simulate free field condition. Afterwards the data is cropped such that only simulating data within the circular shape is used. \\
+
+The  impedance approach is usable at low frequency \citep{FDTDmodelling}, two kind of absorbing boundary are common in real life and therefore also in simulation. this boundary is as following:
 
 \begin{enumerate}
 \item Thin absorbing boundary with respect to wavelength on a much harder background e.g wall and roof absorbers and seats.
@@ -193,7 +195,7 @@ The approximation in this project will then be based on the above description wh
 \end{enumerate}
 
 
-The behaviour of the first material (1) can roughly be approximated be a complex frequency dependent impedance \autoref{fdtd_thin_absorbing}
+The behaviour of the first material (1) can roughly be approximated to be a complex frequency dependent impedance \autoref{fdtd_thin_absorbing}
 
 \begin{equation}\label{fdtd_thin_absorbing}
 Z= Z_0+\frac{Z_{-1}}{j\omega}
@@ -207,7 +209,7 @@ Z= Z_0+\frac{Z_{-1}}{j\omega}
          \explain{$\omega$ is the angle speed }{\si{1}}
     \stopexplain
 
-The behaviour of the second material (2) can quite accurate be approximated be a complex frequency dependent impedance \autoref{fdtd_light_absorbing}
+The behaviour of the second material (2) can quite accurate be approximated to be a complex frequency dependent impedance \autoref{fdtd_light_absorbing}
 
 \begin{equation}\label{fdtd_light_absorbing}
 Z= Z_0+j\omega M
@@ -240,7 +242,7 @@ p(t)= Z_0v_n(t)+Z_1\int_{-\infty}^{t} v_n(\tau)d\tau +Z_1\frac{\partial u_n(t)}{
     		\explain{$v_n(t)$ is the component of the particle velocity orthogonal to the boundary plan}{\si{\meter\per\second}}
     \stopexplain
 
-One arising problem in this method is that the particle velocity at the boundary, when the boundary is at plan $x=(i_0+0.5)\delta x$ which is a boundary at the $x$ velocity plan, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ plan. The problem is visualized in \autoref{fig:fdtd_boundary_pressure} in 1 dimension.
+One arising problem in this method is that the particle velocity at the boundary, when the boundary is at plan $x=(i_0+0.5)\delta x$, which is the boundary at the $x$ velocity plan, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ plan. The problem is visualized in \autoref{fig:fdtd_boundary_pressure} in 1 dimension.
 
 \begin{figure}[H]
 	\centering
@@ -260,7 +262,7 @@ One arising problem in this method is that the particle velocity at the boundary
 \put(4996,-781){Particle velocity x-direction}%
 \put(4996,-421){Unknown pressure point}%
 \end{picture}%
-	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension}
+	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension.}
 		\label{fig:fdtd_boundary_pressure}
 \end{figure}
 
@@ -277,7 +279,7 @@ The advance of \autoref{fdtd_boundary_absorbing_velocity} is that it only requir
 p_{(i_0+\frac{1}{2},j,k)}^{[l]} -p_{(i_0,j,k)}^{[l]}  \Biggr)
 \end{equation}
 
-The only unknown in \autoref{fdtd_boundary_eqp} is $p_{(i_0+\frac{1}{2},j,k)}^{[l]}$ but can be founded by using \autoref{fdtd_boundary_absorbing}. $v_n$ is changed with $(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}$ and become \autoref{fdtd_boundary_velocity}
+The only unknown in \autoref{fdtd_boundary_eqp} is $p_{(i_0+\frac{1}{2},j,k)}^{[l]}$ but can be founded by using \autoref{fdtd_boundary_absorbing}, where $v_n$ is changed with $(v_x)_{(i_0+\frac{1}{2},j,k)}^{[l]}$ and become \autoref{fdtd_boundary_velocity}
 
 
 \begin{multline}\label{fdtd_boundary_velocity}
@@ -296,7 +298,7 @@ The integral in the \autoref{fdtd_boundary_velocity2} is replaced with a sum fro
 \Biggr)
 \end{multline}
 
-The last unknown variable is the particle velocity $v_x$ at time $t=l$. To find a solution for $v_x$ at time  $t=l$  a linear interpolation between $v_x$ at time $t=(l-\frac{1}{2}) \delta t$ and $t=(l+\frac{1}{2}) \delta t$ is used \citep{finiteproblems}. The resulting particle velocity will be expressed as \autoref{fdtd_boundary_result}
+The last unknown variable is the particle velocity $v_x$ at time $t=[l]$. To find a solution for $v_x$ at time  $t=[l]$  a linear interpolation between $v_x$ at time $t=[l \pm \frac{1}{2}]$ is used \citep{finiteproblems}. The resulting particle velocity will be expressed as \autoref{fdtd_boundary_result}
 
 \begin{multline}\label{fdtd_boundary_result}
 (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= \alpha (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]} + \beta \frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
@@ -316,7 +318,7 @@ The last unknown variable is the particle velocity $v_x$ at time $t=l$. To find 
 
 \subsection{\gls{fdtd} grid cell size}
 
-The chose of grid cell size for \gls{fdtd} is a critical variable which must hold some specified constrain \citep{Kunz1993}. The grid cell size have to be small enough to contain data for all specified simulated frequency, which mean that the grid cell size have to be smaller than the smallest wavelength $\lambda$. When the frequency rise the wave length is increasing. This mean the grid cell size constrain is determined by the highest frequency of interest in the \gls{fdtd} simulation. The grid cell size also have to be as a certain size such that the computation resource is kept down. The grid cell size therefore have to be chosen intelligent which \citep{Kunz1993} display one solution. After the grid cell size is chosen the Courant stability condition determined the maximum time step. The maximum time step size which will be calculated based on the grid cell size will be the used time step size because smaller time step size do not improve the accuracy generally. \\
+The chose of grid cell size for \gls{fdtd} is a critical variable which must hold some specified constrain \citep{Kunz1993}. The grid cell size have to be small enough to contain data for all specified simulated frequency, which mean that the grid cell size have to be smaller than the smallest wavelength $\lambda$. When the frequency rise the wave length is decreasing. This mean the grid cell size constrain is determined by the highest frequency of interest in the \gls{fdtd} simulation. The grid cell size also have to be as a certain size such that the computation resource is kept down. The grid cell size therefore have to be chosen intelligent which \citep{Kunz1993} display one solution. After the grid cell size is chosen the Courant stability condition determined the maximum time step. The maximum time step size which will be calculated based on the grid cell size will be the used time step size because smaller time step size do not improve the accuracy generally. \\
 
 
 The boundary for the lowest grid cell size is the Nyquist rate, which state that the wavelength shall at least be twice as big as the grid cell size $\delta$. Since $\delta x$, $\delta y$ and $\delta z$ have the same size only $\delta$ will be used for grid step size. The Nyquist rate is the lower boundary, but since the simulation is an approximation an is not exact and the smallest wavelength is not precise, $\delta$ have to be more than two samples per wavelength. To find a optimal grid size the grid dispersion error which relate to the wave speed through the grid will be taken intro account. The error occurs because the wave propagate slightly with different speed through the grid and this error also depending on the relative direction of the wave. The grid dispersion error is propertional to the grid cell size, which mean that the error minimized with smaller $\delta$\citep{Kunz1993}. 
@@ -324,7 +326,7 @@ The boundary for the lowest grid cell size is the Nyquist rate, which state that
 Often if $ \delta \leq \frac{1}{10}\lambda_{min}$ the above constrain is met, and is therefore a good compromise between computation resource and approximation error. The grid cell size in this project is therefore as in \autoref{fdtd_delta_stepsize}
 
 \begin{equation}\label{fdtd_delta_stepsize}
-\delta x = \delta y = \delta z = \frac{1}{10} \frac{c}{f_{max}}
+\delta x = \delta y = \delta z \leq \frac{1}{10} \frac{c}{f_{max}}
 \end{equation}
 
     \startexplain
@@ -338,7 +340,7 @@ Often if $ \delta \leq \frac{1}{10}\lambda_{min}$ the above constrain is met, an
     
 
 \subsection{\gls{fdtd} time step size and stability}   \label{sec:fdtd_time_stepsize} 
-The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition the calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
+The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz1993}. The aim of the project is not to analyse the condition of Courant, this section will then explain shortly about the importers of the condition and use the condition to calculate the time step size. Consituring a plane wave, the Courant condition state that in one time step any point on the wave must not pass through more than one cell, during one time step the wave can propagate only from one cell to its nearest neighbors \citep{Kunz1993}. To determine the time step size the time step $\delta t $ can therefore be determined by the speed of light and the grid cell size as in \autoref{fdtd_time_stepsize}
 
 
 
@@ -351,8 +353,8 @@ The time step size for \gls{fdtd} follows from the Courant condition \citep{Kunz
         \explain{$c$ is the speed of sound}{\si{\meter\per\second}}
     \stopexplain
     
-Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}. Unless the dispersion error is minimized, the the time step might even be  smaller because of stability condition. 
-A stable simulation is only guaranteed under surtain condition. Because \autoref{fdtd_boundary_result} is applied to different condition e.g. in corner of flat walls, a stable simulation is not possible in general, only with surtain condition which depend on time and grid cell size. It have be shown that the simulation is stable if $Z_0$ and $Z_{1}$ is all positive and for all simulation regions if \autoref{fdtd_time_stepsize_boundary} is satisfied
+Making the step size smaller than \autoref{fdtd_time_stepsize} will not improve the result, in fact the equation calculate the time step size where the grid dispersion error is minimized \citep{Kunz1993}. Unless the dispersion error is minimized, the time step might even be  smaller because of stability condition. 
+A stable simulation is only guaranteed under surtain condition. Because \autoref{fdtd_boundary_result} is applied to different condition e.g. in corner or flat walls, a stable simulation is not possible in general, only with surtain condition which depend on time and grid cell size. It have be shown that the simulation is stable if $Z_0$ and $Z_{1}$ is all positive and for all simulation regions if \autoref{fdtd_time_stepsize_boundary} is satisfied \citep{finiteproblems}.
 
 \begin{equation}\label{fdtd_time_stepsize_boundary}
 \delta t \leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c} \right)
@@ -366,11 +368,13 @@ c \delta t \leq \delta x \left(   \frac{1+\frac{2Z_1}{\rho_0 \delta x}}{1+\frac{
 \end{equation}
 
 \subsection{\gls{fdtd} sound source}
-It have to be remembered that the acoustical center of the speaker is \SI{17}{\centi\meter} in the front of the speaker \autoref{}. It also have to be noted that the \gls{fdtd} sound source is at the acoustical center and not at the speaker position, and therefore the \gls{fdtd} sound source is a transparent source. The speaker box may do a different in real measurement but not at the \gls{fdtd} sound source position and therefore the speaker box will not be included in the \gls{fdtd} sound source model. The following section will shortly explain the three most common source and explain the use of a transparent source. \\
+It have to be remembered that the acoustical center of the speaker is about \SI{17}{\centi\meter} in the front of the speaker \autoref{sec:ac_center}. It also have to be noted that the \gls{fdtd} sound source is at the acoustical center and not at the speaker position, and therefore the \gls{fdtd} sound source is a transparent source. The speaker box may do a different in real measurement but not at the \gls{fdtd} sound source position and therefore the speaker box will not be included in the \gls{fdtd} sound source model. The following section will shortly explain the three most common source \citep{FDTDsource},  and explain the use of a transparent source. \\
 
-There is two easy ways to implement a \gls{fdtd} sound source and one more advanced way to implement a \gls{fdtd} sound source. The easy way to implementing at sound source is the hard and the soft source. The problem with implementing a hard source is that the hard source overwrite the update step in the source point and therefore effectively scatter any incident field. This might be a real scenario if the speaker box was at the acoustical, but it is not and therefore this kind of source is not present for this simulation.  The second easy way of implementing a sound source is a soft source where the pressure from the source is added to the pressure source point. This source do not scatter but the problem with this method is that the actual excitation does not match the time function of the source. To make a source that act like a hard source but do not scatter, an advanced source is introduced. The source is a called a transparent source (FDTD_transparent_source_JASA)  and will shortly be explained in this section. \\
+There is two easy ways to implement a \gls{fdtd} sound source and one more advanced way to implement a \gls{fdtd} sound source. The easy way to implementing at sound source is the hard- and the soft source. The problem with implementing a hard source is that the hard source overwrite the update step in the source point and therefore effectively scatter any incident field. This might be a real scenario if the speaker box was at the acoustical center, but it is not and therefore this kind of source is not present for this simulation. Second the soft source benefit from that the pressure from the source is added to the pressure source point, and this source do not scatter. The problem with this method is that the actual excitation does not match the time function of the source. To make a source that act like a hard source but do not scatter, the transparent source is used according to \citep{FDTDtransparent}. The transparent source will shortly be explained in this section. \\
 
-A transparent source is reached by measuring the impulse response of the grid and use it in \autoref{fdtd_transparent_source}
+
+
+A transparent source is reached by measuring the impulse response $I$ of the grid and use it in \autoref{fdtd_transparent_source}
 
 \begin{multline}\label{fdtd_transparent_source}
 p_{(i_{s},j_{s},k_{s})}^{[l+1]}=p_{(i_{s},j_{s},k_{s})}^{[l]} - \rho_0 c^2 \delta t  \Biggl( \frac{(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l+\frac{1}{2}]} - (v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l+\frac{1}{2}]}}{\delta x} +
@@ -384,7 +388,10 @@ p_{(i_{s},j_{s},k_{s})}^{[l+1]}=p_{(i_{s},j_{s},k_{s})}^{[l]} - \rho_0 c^2 \delt
         \explain{$I$ is the impulse response of the grid}{\si{1}}
     \stopexplain
 
-As it can be seen in \autoref{fdtd_transparent_source}, the source is implemented like a soft source but with a correction part $-\sum_{m=0}^{l} \left( I^{l-m+1}f^m \right)$. The correction part include the impulse response of the \gls{fdtd} grid and have to be measured. To measure the impulse response of the grid, a kronika delta function is used as the sound source with unity gain. The kronika delta sound source give an impulse with unity gain only at time one, and zero otherwise. The kronika delta source is implemented as a hard source. The impulse response is also meassured at the source. It have to be noted that the impulse response is not the kronika delta function unless it is measured in the same point. The impulse response is the value the source pressure point should have been calculated to according to the particle velocity. But since the kronika delta is implemented as a hard source, the source pressure point will be overwritten by the kronika delta function and therefore  the impulse response have to be calculated from the nearest particle velocity. The impulse response measurement function is therefore \autoref{fdtd_transparent_source_impulse}
+As it can be seen in \autoref{fdtd_transparent_source}, the source is implemented like a soft source but with a correction part $-\sum_{m=0}^{l} \left( I^{l-m+1}f^m \right)$. The correction part include the impulse response of the \gls{fdtd} grid and have to be measured. To measure the impulse response of the grid, a Kronecker delta function is used as the sound source with unity gain. The Kronecker delta source give an impulse with unity gain only at time one, and zero otherwise. The Kronecker delta source is implemented as a hard source \citep{FDTDtransparent}. \\
+
+
+The impulse response is measured at the source point, but it have to be noted that the impulse response is not the Kronecker delta function unless it is measured in the same point. The impulse response is the value the source pressure point should have been calculated to according to the particle velocity. But since the Kronecker delta is implemented as a hard source, the source pressure point will be overwritten by the Kronecker delta function and therefore the impulse response step have to be calculated from the nearest particle velocity. The impulse response measurement function is therefore \autoref{fdtd_transparent_source_impulse}
 
 \begin{multline}\label{fdtd_transparent_source_impulse}
 I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - \rho_0 c^2 \delta t  \Biggl( \frac{(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]} - (v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}}{\delta x} +\\
@@ -393,7 +400,7 @@ I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - \rho_0 c^2 \delta t  \Biggl( \frac{(v_
 \end{multline}
 
 
-The kronika delta source will be placed in the middle of the grid, and there is only one kronika delta source. The particle velocity matrices for each dimension have therefore the following symmetrical $(v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]} = -(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}$. The impulse response measurement function can shorted to \autoref{fdtd_transparent_source_impulse_short}
+The Kronecker delta source will be placed in the middle of the grid, and there is only one Kronecker delta source. The particle velocity matrices for each dimension have therefore the following symmetrical $(v_x)_{(i_{s}-\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]} = -(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}$. The impulse response measurement function can therefore be shorted to \autoref{fdtd_transparent_source_impulse_short}
 
 \begin{equation}\label{fdtd_transparent_source_impulse_short}
 I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - 2\rho_0 c^2 \delta t  \Biggl( \frac{(v_x)_{(i_{s}+\frac{1}{2},j_{s},k_{s})}^{[l-\frac{1}{2}]}}{\delta x} +
@@ -401,7 +408,7 @@ I^{[l]}=p_{(i_{s},j_{s},k_{s})}^{[l-1]} - 2\rho_0 c^2 \delta t  \Biggl( \frac{(v
  \frac{(v_z)_{(i_{s},j_{s},k_{s}+\frac{1}{2})}^{[l-\frac{1}{2}]}}{\delta z} \Biggr)
 \end{equation}
 
-The impulse response can be used to give the field that will echo back to the sound source (FDTD_transparent_source_JASA). There is a stability condition there have to be satisfied before the transparent source is stabile in \gls{fdtd} simulation. The stability condition is \autoref{fdtd_transparent_source_impulse_stability} (FDTD_transparent_source_JASA) 
+There is a stability condition there have to be satisfied before the transparent source is stable in \gls{fdtd} simulation. The stability condition is \autoref{fdtd_transparent_source_impulse_stability} \citep{FDTDtransparent}. 
 
 
 \begin{equation}\label{fdtd_transparent_source_impulse_stability}
@@ -414,6 +421,6 @@ The impulse response can be used to give the field that will echo back to the so
     
     
 \subsection{\gls{fdtd} conclusion}
-It can be concluded that is it possible to simulate one or more source in a \gls{fdtd} simulation. It can also be concluded that that the sound source have to be transparent in all \gls{fdtd} simulation, because the scatter from ta hard source do not represent real world scenario. In real world measurement, the speaker box will inflict the measurement, but the scattering will be much different and depend on the pox position. The acoustical center can be in the same point with different position of the speaker box, and therefore if the speaker box should have been in the simulation, the speaker box should have been placed at the exact point. The scattering also change compare to the shape of the speaker box, and therefore a \gls{fdtd} model of the box is required. In this simulation the speaker box \gls{fdtd} mode is not investigated and will be leaved out of the simulation 
+It can be concluded that is it possible to simulate one or more source in a \gls{fdtd} simulation. It is possible to make simulation in room and in free field condition. The free field simulation require that the simulation is stopped just before the sound wave hits the wall, and only the data inside the wave circular shape is used. It can also be concluded that that the sound source have to be transparent in all \gls{fdtd} simulation, because the scatter from a hard source do not represent real world scenario. In real world measurement, the speaker box will inflict the measurement by scattering, but the scattering will be much different and depend on the speaker box position. The acoustical center can be in the same point with different position of the speaker box, and therefore if the speaker box should have been in the simulation, the speaker box should have been placed at the exact point. The scattering also change compare to the shape of the speaker box, and therefore a \gls{fdtd} model of the box is required. In this simulation the speaker box \gls{fdtd} model is not investigated and will be leaved out of the simulation 
 
 

@@ -60,7 +60,7 @@ fbot=60;
 phi_cor=phi_mat;
 f_cor=flip(f_mat);
 p_cor=p_mat;
-botlim=-27;
+botlim=-29.5;
 
 f=flip([fbot:fres:ftop]);
 
@@ -115,11 +115,11 @@ psum=p1+p2+p3;
 
 ppnorm=psum./max(psum);
 Lppolar(h,:)=20.*log10(abs(ppnorm));
-for z=1:size(Lppolar,2)
-    if Lppolar(h,z)<botlim
-        Lppolar(h,z)=Lppolar(h,z-1);
-    end
-end
+ for z=1:size(Lppolar,2)
+     if Lppolar(h,z)<botlim
+         Lppolar(h,z)=Lppolar(h,z-1);
+     end
+ end
 end
 
 fv = (frequency-60)/10;

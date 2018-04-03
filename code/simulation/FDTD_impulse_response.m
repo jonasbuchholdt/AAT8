@@ -1,22 +1,15 @@
-function [pressure,grid_size,It] = FDTD_impulse_response(roomx,roomy,scale)
+function [It] = FDTD_impulse_response(roomx,roomy,grid_size,simulation_step)
 
 % this file is able to make an fdtd simulation of a speaket with only knowing the impulse
 % response
 %%
 
 
-
-% frequency = 60;
-% roomx = 30
-% roomy = 30
-
 room_x = roomx;
 room_y = roomy;
 room_z = 1;
 
-scale = scale+1;
 
-grid_size = 0.05;
 before= 0;
 c = 343;
 fs_min = 1/((sqrt(2/3)*(1/grid_size^2+1/grid_size^2+1/grid_size^2)^(-1/2))/c)
@@ -59,7 +52,7 @@ Vz = repmat(0, [ro co la+1 ti]);
 
 
 % calculate inside room pressure
-for t=1:ceil(((343/60)/grid_size))*scale
+for t=1:simulation_step+1
 
     if t == 1
         k_delta = 1;
@@ -118,7 +111,7 @@ k = 1;
 It(t) = pressure(sp(1),sp(2),1,1);
 
 
-done = ceil(((t/ceil(((343/60)/grid_size)))*100/scale));
+done = ceil(t/simulation_step);
 if done ~= before
     before = done;
 fprintf('%d percent done.\n',done);
