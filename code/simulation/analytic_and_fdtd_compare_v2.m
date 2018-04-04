@@ -1,13 +1,15 @@
-%clear all
-
-room_x = 40;
-room_y = 40;
+clear all
+%%
+load('impulse_response_5cm_grid_80m_room')
+room_x = 80;
+room_y = 80;
 grid_size = 0.05;
-simulation_step = (room_x/grid_size)-10
+simulation_step = (room_x/grid_size)
 %[impulse_response] = FDTD_impulse_response(room_x,room_y,grid_size,simulation_step);
+%%
 impulse_response = it;
-for f=60:10:60
- 
+for f=60:10:300
+fprintf('%d Hertz.\n',f);
 [p_rms,grid_size] = FDTD(f,room_x,room_y,simulation_step,impulse_response);
 pressuretra.(strcat('f',int2str(f))).pressure = p_rms;
 pressuretra.(strcat('f',int2str(f))).grid = grid_size;
@@ -16,6 +18,7 @@ pressuretra.(strcat('f',int2str(f))).room_y = room_y;
 end
 
 %%
+p_rms(:,:,1)=pressuretra.f60.pressure(:,:,1);
 xlength=[-(room_x/2)+grid_size:grid_size:(room_x/2)-grid_size];
 ylength=[-(room_y/2)+grid_size:grid_size:(room_y/2)-grid_size];
 [coorx,coory]=meshgrid(ylength,xlength);
@@ -29,13 +32,24 @@ for m=1:length(temp)
         end
     end
 end
-s = surf(coorx,coory,temp)
-colormap(jet)
-colorbar
-s.EdgeColor='none'
+figure
+s = contourf(coorx,coory,temp,110,'LineColor','none');
+%s = surf(coorx,coory,temp)
+%s.EdgeColor='none'
 %shading interp
+hold on
+colormap(jet)
+h = colorbar
 axis equal
+xlim([-25 25])
+ylim([-25 25])
+view(2)
+ylabel('Meter [m]')
+xlabel('Meter [m]')
+set(get(h,'label'),'string','Pascal [Pa]','fontsize', 10);
 
+
+%%
 figure
 contour(coorx,coory,temp,'ShowText','on')
 axis equal

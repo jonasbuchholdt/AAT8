@@ -91,7 +91,7 @@ coeff=polyfit(g,e,1);
 
 %weight=(0.5-(cos(angles)/2));
 %weight=1-flattopwin(length(ppnorm))';
-weight=1-abs(cos((angles./2)).^polyval(coeff,f));
+weight=1-(-abs(cos((angles./2)).^polyval(coeff,360-f))+1);
 %weightedp=abs(ppnorm).*weight;
 %weight=((0.5-(cos(angles)/2)).^2);
 weightedp=ppnorm.*weight;

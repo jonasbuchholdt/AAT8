@@ -60,7 +60,9 @@ e=[polylf polyhf];
 
 coeff=polyfit(g,e,1);
 
-weight=1-abs(cos((angles./2)).^polyval(coeff,f));
+%weight=1-abs(cos((angles./2)).^polyval(coeff,f));
+weight=1-(-abs(cos((angles./2)).^polyval(coeff,360-f))+1);
+
 
 weightedp=ppnorm.*weight;
 
