@@ -16,8 +16,8 @@ room_y = roomy;
 room_z = 1;
 
 f = frequency;
-y_distance = solutions.(strcat('f',int2str(frequency))).Ly
-x_distance = solutions.(strcat('f',int2str(frequency))).Lx
+y_distance = solutions.(strcat('f',int2str(frequency))).Ly;
+x_distance = solutions.(strcat('f',int2str(frequency))).Lx;
 gain = solutions.(strcat('f',int2str(frequency))).Vb/solutions.(strcat('f',int2str(frequency))).Va;
 phase = solutions.(strcat('f',int2str(frequency))).Phib;
 
@@ -28,7 +28,7 @@ x_distance_half = x_distance/2;
 grid_size = gcd(round(x_distance_half*100),round(y_distance*100))/100
 before= 0;
 c = 343;
-fs_min = 1/((sqrt(2/3)*(1/grid_size^2+1/grid_size^2+1/grid_size^2)^(-1/2))/c)
+fs_min = 1/((sqrt(2/3)*(1/grid_size^2+1/grid_size^2+1/grid_size^2)^(-1/2))/c);
 fs = round(fs_min/10)*10;
 rho = 1.21;
 c = 343;
@@ -96,8 +96,6 @@ for t=1:simulation_step+1
     front(t) = sin(2*pi*f*((t-1)/fs));
     back(t) = gain*sin(2*pi*f*((t-1)/fs)+phase);
 end
-
-
 
 
 

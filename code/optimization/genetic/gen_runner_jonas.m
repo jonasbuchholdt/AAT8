@@ -15,7 +15,7 @@ pmut=0.1;                               % probability of mutation
 tlevel=4;                               % tournament level for parent selection
 
 Nstart=50;                              % number of generations for highest frequency
-Nrest=25;                               % number of generations for other frequencies
+Nrest=10;                               % number of generations for other frequencies
 
 solutions=struct;                       % initializing solution struct
 
@@ -42,8 +42,8 @@ end
 
 % storing fittest solution
 solutions.(strcat('f',int2str(ftop)))= population.(strcat('gene',int2str(fitsort(1))));
-solutions.f300.Lx=round(solutions.f300.Lx/0.05)*0.05;
-solutions.f300.Ly=round(solutions.f300.Ly/0.05)*0.05;
+solutions.f300.Lx=round(solutions.f300.Lx/0.1)*0.1;
+solutions.f300.Ly=round(solutions.f300.Ly/0.1)*0.1;
 display(strcat('Lx=',num2str(solutions.(strcat('f',int2str(ftop))).Lx,3)))
 display(strcat('Ly=',num2str(solutions.(strcat('f',int2str(ftop))).Ly,3)))
 

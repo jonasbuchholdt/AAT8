@@ -60,7 +60,7 @@ fbot=60;
 phi_cor=phi_mat;
 f_cor=flip(f_mat);
 p_cor=p_mat;
-botlim=-29.5;
+botlim=-36;
 
 f=flip([fbot:fres:ftop]);
 
@@ -132,15 +132,18 @@ polarplot(thetasort_sim,Lppolar_sim)
 
 ax = gca;
 thetaticks([0:20:360])
-rticks([-27:3:0])
-ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};
+rticks([-36:3:0])
+ax.RTickLabel={'','','-30','','-24','','-18','','-12','','-6','','0'};
 
 ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160','-140','-120','-100','-80','-60','-40','-20'};
 ax.ThetaZeroLocation = 'top';
 ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
 rlim([botlim 0])
-anal = strcat('f = ',int2str(frequency),' Hz (analy)');
-simu = strcat('f = ',int2str(frequency),' Hz (simu)');
-legend(anal,simu)
+anal = strcat('f = ',int2str(frequency),' Hz (Analytical)');
+simu = strcat('f = ',int2str(frequency),' Hz (FDTD)');
+legend(anal,simu,'Location','northoutside')
 ax.RAxis.Label.String = 'normed SPL [dB]';
+
+set(gca,'FontSize', 16);
+
