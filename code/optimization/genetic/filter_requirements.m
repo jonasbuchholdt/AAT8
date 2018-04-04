@@ -1,6 +1,6 @@
 clear variables
 close all
-load('sol14.mat')
+load('sol15.mat')
 
 
 f=flip([fbot:fres:ftop]);
@@ -28,10 +28,13 @@ end
 figure
 yyaxis left
 plot(f,amplitude1)
+ylabel('Gain [dB]')
+xlabel('Frequency [Hz]')
 hold on
 % plot(f,amplitude2)
 % plot(f,amplitude3)
 yyaxis right
 plot(f,rad2deg(phase1))
+ylabel('Phase Shift [Deg]')
 % plot(f,rad2deg(phase2))
 % plot(f,rad2deg(phase3))
