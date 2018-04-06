@@ -18,8 +18,9 @@ room_z = 1;
 f = frequency;
 y_distance = solutions.(strcat('f',int2str(frequency))).Ly;
 x_distance = solutions.(strcat('f',int2str(frequency))).Lx;
-gain = solutions.(strcat('f',int2str(frequency))).Vb/solutions.(strcat('f',int2str(frequency))).Va;
-phase = solutions.(strcat('f',int2str(frequency))).Phib;
+gain_front = solutions.(strcat('f',int2str(frequency))).Pa;
+gain_back  = solutions.(strcat('f',int2str(frequency))).Pb;
+phase      = solutions.(strcat('f',int2str(frequency))).Phib;
 
 
 
@@ -93,8 +94,8 @@ Vz = repmat(0, [ro co la+1 ti]);
 
 
 for t=1:simulation_step+1   
-    front(t) = sin(2*pi*f*((t-1)/fs));
-    back(t) = gain*sin(2*pi*f*((t-1)/fs)+phase);
+    front(t) = gain_front*sin(2*pi*f*((t-1)/fs));
+    back(t)  = gain_back*sin(2*pi*f*((t-1)/fs)+phase);
 end
 
 
@@ -111,10 +112,10 @@ for t=1:simulation_step
             impulse_back = impulse_back+it(t-m+1)*back(m);
         end
 
-     %pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+front(t+1)-impulse_front;
-     %pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+back(t+1)-impulse_back;
-     %pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+back(t+1)-impulse_back;
-   pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
+     pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+back(t+1)-impulse_front;
+     pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+front(t+1)-impulse_back;
+     pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+front(t+1)-impulse_back;
+   %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
 
 %vx_eq
 k = 1;
