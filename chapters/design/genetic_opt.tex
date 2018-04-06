@@ -107,6 +107,7 @@ For a setup with the corner of the array pointing towards the main emission dire
 	\caption{Expected directional characteristics, optimization with pressure corrected cost function, correction table based on Appendix \ref{ax:directional_2}, generation count: $N_{start}=60$, $N_{rest}=30$, population size $t=1250$, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.405}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{0.249}{\meter}}
 		\label{fig:expected_pcor}
 \end{figure}
+To apply the optimization results to a loudspeaker array in the real world, the data has to be refurbished. As discussed in \autoref{sec:ga_prior}, two (B, C) of the three speakers will have the same signal processing parameters. It is thereful the most economic approach, to use them as a reference for the single speaker (A). Out of the optimized results, a filter curve for gain and phase can be generated. This is shown in \autoref{fig:filter_req}. It is visible, that the phase is changing approximately linearly proportional to the frequency, whereas the amplitude graph is not as straight. This might be due to the fact, that the amplitude is corrected with data from the measured speaker, whereas the phase is not.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{filter_req.eps}

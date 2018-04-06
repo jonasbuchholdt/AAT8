@@ -10,11 +10,12 @@
 % phi_cor: angular matrix of the correction table                  [matrix]
 % f_cor: frequency matrix of the correction table                  [matrix]
 % p_cor: pressure matrix of the correction table                   [matrix]
+% speakerangle: angle for tilting the twin speakers inwards         [float]
 % 
 % %%% OUT %%%
 % sourcepar: parameter set that only depends on source positions   [struct]      
 % ------------------------------------------------------------------------
-function [sourcepar]=fitness_pargen(population,n,f,phi_cor,f_cor,p_cor)
+function [sourcepar]=fitness_pargen(population,n,f,phi_cor,f_cor,p_cor,speakerangle)
 
 r=10;                   % radius for pressure calculation 
 
@@ -45,13 +46,13 @@ sourcepar.corrections1(h,:)=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
 
 sourcepar.yshift2=coory-s2y;
 sourcepar.xshift2=coorx-s2x;
-phis2=2*pi-mod(angle(sourcepar.xshift2+i.*sourcepar.yshift2)-deg2rad(270),2*pi)';
-sourcepar.corrections2(h,:)=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
+phis2=2*pi-mod(angle(sourcepar.xshift2+i.*sourcepar.yshift2)-deg2rad(90)-speakerangle,2*pi)';
+sourcepar.corrections2(h,:)=interp2(phi_cor,f_cor,p_cor,phis2,f(h),'spline');
 
 sourcepar.yshift3=coory-s3y;
 sourcepar.xshift3=coorx-s3x;
-phis3=2*pi-mod(angle(sourcepar.xshift3+i.*sourcepar.yshift3)-deg2rad(270),2*pi)';
-sourcepar.corrections3(h,:)=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
+phis3=2*pi-mod(angle(sourcepar.xshift3+i.*sourcepar.yshift3)-deg2rad(90)+speakerangle,2*pi)';
+sourcepar.corrections3(h,:)=interp2(phi_cor,f_cor,p_cor,phis3,f(h),'spline');
 sourcepar.f=f;
 
 end

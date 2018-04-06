@@ -1,11 +1,11 @@
 clear variables
-load('regressed_03.mat')
+load('flipsol_04.mat')
 
 load('cor_table_01.mat')
 
-
+speakerangle=deg2rad(30)
 phi_cor=phi_mat;
-f_cor=(f_mat);
+f_cor=flip(f_mat);
 p_cor=p_mat;
 botlim=-27;
 
@@ -42,13 +42,13 @@ corrections1=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
 
 yshift2=coory-s2y;
 xshift2=coorx-s2x;
-phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(90)-speakerangle,2*pi)';
+phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(90),2*pi)';
 corrections2=interp2(phi_cor,f_cor,p_cor,phis2,f(h),'spline');
 
 yshift3=coory-s3y;
 xshift3=coorx-s3x;
-phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(90)+speakerangle,2*pi)';
-corrections3=interp2(phi_cor,f_cor,p_cor,phis3,f(h),'spline');
+phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(90),2*pi)';
+corrections3=interp2(phi_cor,f_cor,p_cor,mod(phis3+speakerangle,2*pi),f(h),'spline');
 
 p1=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Va.*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phia)).*corrections1;
 p2=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Vb.*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib)).*corrections2;

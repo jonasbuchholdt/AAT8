@@ -12,11 +12,12 @@
 % phi_cor: angular matrix of the correction table                  [matrix]
 % f_cor: frequency matrix of the correction table                  [matrix]
 % p_cor: pressure matrix of the correction table                   [matrix]
+% speakerangle: angle for tilting the twin speakers inwards         [float]
 %
 % %%% OUT %%%
 % cost: fitness of each individual, lower values are  better!      [vector]      
 % ------------------------------------------------------------------------
-function [cost] = fitness_pcor(population,n,f,polylf,polyhf,phi_cor,f_cor,p_cor)
+function [cost] = fitness_pcor(population,n,f,polylf,polyhf,phi_cor,f_cor,p_cor,speakerangle)
 
 
 r=10;                   % radius for pressure calculation
@@ -58,13 +59,13 @@ corrections1=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
 
 yshift2=coory-s2y;
 xshift2=coorx-s2x;
-phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(270),2*pi)';
-corrections2=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
+phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(90)-speakerangle,2*pi)';
+corrections2=interp2(phi_cor,f_cor,p_cor,phis2,f,'spline');
 
 yshift3=coory-s3y;
 xshift3=coorx-s3x;
-phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(270),2*pi)';
-corrections3=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
+phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(90)+speakerangle,2*pi)';
+corrections3=interp2(phi_cor,f_cor,p_cor,phis3,f,'spline');
 
 % calculating the pressure, caused by each source, at every point of the grid
 p1=(rho0.*c.*population.(strcat('gene',int2str(h))).Va .*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa) .*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a) +thetaa+population.(strcat('gene',int2str(h))).Phia))).*corrections1;
@@ -91,7 +92,8 @@ coeff=polyfit(g,e,1);
 
 %weight=(0.5-(cos(angles)/2));
 %weight=1-flattopwin(length(ppnorm))';
-weight=1-(-abs(cos((angles./2)).^polyval(coeff,360-f))+1);
+weight=1-abs(cos((angles./2)).^polyval(coeff,f));
+%weight=1-(-abs(cos((angles./2)).^polyval(coeff,360-f))+1);
 %weightedp=abs(ppnorm).*weight;
 %weight=((0.5-(cos(angles)/2)).^2);
 weightedp=ppnorm.*weight;
@@ -101,10 +103,10 @@ weightedp=ppnorm.*weight;
 penalty=0;
 
 Lxconstraintupper=2;
-Lxconstraintlower=0.6;
+Lxconstraintlower=0.5;
 
 Lyconstraintupper=2;
-Lyconstraintlower=0.4;
+Lyconstraintlower=0.2;
 
 Vconstraintupper=1;
 Vconstraintlower=0.0001;

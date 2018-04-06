@@ -60,8 +60,8 @@ e=[polylf polyhf];
 
 coeff=polyfit(g,e,1);
 
-%weight=1-abs(cos((angles./2)).^polyval(coeff,f));
-weight=1-(-abs(cos((angles./2)).^polyval(coeff,360-f))+1);
+weight=1-abs(cos((angles./2)).^polyval(coeff,f));
+%weight=1-(-abs(cos((angles./2)).^polyval(coeff,360-f))+1);
 
 
 weightedp=ppnorm.*weight;
@@ -71,22 +71,22 @@ weightedp=ppnorm.*weight;
 penalty=0;
 
 Lxconstraintupper=2;
-Lxconstraintlower=0.6;
+Lxconstraintlower=0.5;
 
 Lyconstraintupper=2;
-Lyconstraintlower=0.4;
+Lyconstraintlower=0.2;
 
 Vconstraintupper=1;
 Vconstraintlower=0.0001;
 
-if population.(strcat('gene',int2str(k))).Lx > Lxconstraintupper
+if (abs(population.(strcat('gene',int2str(k))).Lx)) > Lxconstraintupper
     penalty=penalty+(1+population.(strcat('gene',int2str(k))).Lx)^6;
-elseif population.(strcat('gene',int2str(k))).Lx < Lxconstraintlower
+elseif abs(population.(strcat('gene',int2str(k))).Lx) < Lxconstraintlower
     penalty=penalty+abs(10*log(population.(strcat('gene',int2str(k))).Lx))^2;
 end
-if population.(strcat('gene',int2str(k))).Ly > Lyconstraintupper
+if (abs(population.(strcat('gene',int2str(k))).Ly)) > Lyconstraintupper
     penalty=penalty+(1+population.(strcat('gene',int2str(k))).Lx)^6;
-elseif population.(strcat('gene',int2str(k))).Ly < Lyconstraintlower
+elseif abs(population.(strcat('gene',int2str(k))).Ly) < Lyconstraintlower
     penalty=penalty+abs(10*log(population.(strcat('gene',int2str(k))).Ly))^2;
 end
 

@@ -1,6 +1,6 @@
 clear variables
 close all
-load('sol15.mat')
+load('flipsol_04.mat')
 
 
 f=flip([fbot:fres:ftop]);
