@@ -1,4 +1,4 @@
-\section{The \gls{fdtd}}
+\section{The \gls{fdtd}}\label{sec:fdtd}
 The aim of this section is to give the basic of numerical simulation by using \gls{fdtd} method, such that a speaker array sound propagation can be analysed. The method of using numerical simulate will be descried, such that the method can be adapted to one or more speaker in a sound pressure field. 
 The theory behind \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This make it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specified loudspeaker can be applied to the simulation, and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulation have to be done in a narrow frequency band, before the simulation give a good approximation, the \gls{fdtd} can not include the hole frequency band in one simulation. A second advantage of using \gls{fdtd} is that the calculation is preformed in time domain, which benefit from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a 3 dimensional space, where the speaker box does not scatter the simulation \\
 
@@ -412,11 +412,12 @@ There is a stability condition there have to be satisfied before the transparent
 
 
 \begin{equation}\label{fdtd_transparent_source_impulse_stability}
-\frac{c \delta t}{\delta x} \leq \frac{1}{\sqrt{N}}
+\frac{c \delta t}{\delta d} \leq \frac{1}{\sqrt{N}}
 \end{equation}
 
         \startexplain
         \explain{$N$ is the number of dimension}{\si{1}}
+        \explain{$\delta d$ is the smallest grid step of $\delta x$, $\delta y$ and $\delta z$}{\si{1}}
     \stopexplain
     
     

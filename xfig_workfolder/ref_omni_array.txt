@@ -1,0 +1,43 @@
+\begin{picture}(0,0)%
+\includegraphics{ref_omni_array.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3315sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7975,7142)(-672,-4729)
+\put(1711,-331){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Ac. Center A}%
+}}}}
+\put(5941,-3661){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Va}}%
+}}}}
+\put(5941,-4066){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Vb}}%
+}}}}
+\put(5941,-4471){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Vb}}%
+}}}}
+\put(4906,-4471){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Phic}}%
+}}}}
+\put(4906,-4066){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Phib}}%
+}}}}
+\put(4906,-3661){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,0}\texttt{Phia}}%
+}}}}
+\put(2271,2230){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$dB_ref$}%
+}}}}
+\put(2535,219){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.82,0}$ref distance$}%
+}}}}
+\put(-179,-601){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Ac. Center B}%
+}}}}
+\put(3736,-601){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Ac. Center C}%
+}}}}
+\put(1081,-1906){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Speaker B}%
+}}}}
+\put(2341,-1906){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Speaker A}%
+}}}}
+\put(3601,-1906){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Speaker C}%
+}}}}
+\put(2476,-1051){\makebox(0,0)[lb]{\smash{{\SetFigFont{10}{12.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{1,0,0}Array center}%
+}}}}
+\end{picture}%

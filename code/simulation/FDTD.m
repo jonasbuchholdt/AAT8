@@ -111,10 +111,10 @@ for t=1:simulation_step
             impulse_back = impulse_back+it(t-m+1)*back(m);
         end
 
-     pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+front(t+1)-impulse_front;
-     pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+back(t+1)-impulse_back;
-     pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+back(t+1)-impulse_back;
-   
+     %pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+front(t+1)-impulse_front;
+     %pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+back(t+1)-impulse_back;
+     %pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+back(t+1)-impulse_back;
+   pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
 
 %vx_eq
 k = 1;
