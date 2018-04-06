@@ -1,20 +1,20 @@
 clear all
 %%
 load('impulse_response_5cm_grid_80m_room')
-room_x = 80;
-room_y = 80;
+room_x = 50;
+room_y = 50;
 grid_size = 0.05;
 simulation_step = (room_x/grid_size)
 %[impulse_response] = FDTD_impulse_response(room_x,room_y,grid_size,simulation_step);
 %%
 impulse_response = it;
-for f=60:10:300
+for f=60:10:60
 fprintf('%d Hertz.\n',f);
 [p_rms,grid_size] = FDTD(f,room_x,room_y,simulation_step,impulse_response);
-pressuretra.(strcat('f',int2str(f))).pressure = p_rms;
-pressuretra.(strcat('f',int2str(f))).grid = grid_size;
-pressuretra.(strcat('f',int2str(f))).room_x = room_x;
-pressuretra.(strcat('f',int2str(f))).room_y = room_y;
+pressureone.(strcat('f',int2str(f))).pressure = p_rms;
+pressureone.(strcat('f',int2str(f))).grid = grid_size;
+pressureone.(strcat('f',int2str(f))).room_x = room_x;
+pressureone.(strcat('f',int2str(f))).room_y = room_y;
 end
 
 %%

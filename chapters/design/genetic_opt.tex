@@ -101,16 +101,110 @@ Prior knowledge is also incorporated in the way that the optimization is excecut
 \section{Optimization Results}\label{sec:opt_result}
 The best genotypes for every frequency can be used, to generate polar plots of the expected directional characteristics. Generating these is done similarly to the fitness evaluation by calculating the normed summed pressure along a circumference using \autoref{eq:aug_omni}.
 For a setup with the corner of the array pointing towards the main emission direction, the expected directional characteristics are shown in \autoref{fig:expected_pcor}.\\
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{expected_polar_pcor.eps}
 	\caption{Expected directional characteristics, optimization with pressure corrected cost function, correction table based on Appendix \ref{ax:directional_2}, generation count: $N_{start}=60$, $N_{rest}=30$, population size $t=1250$, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.405}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{0.249}{\meter}}
 		\label{fig:expected_pcor}
 \end{figure}
-To apply the optimization results to a loudspeaker array in the real world, the data has to be refurbished. As discussed in \autoref{sec:ga_prior}, two (B, C) of the three speakers will have the same signal processing parameters. It is thereful the most economic approach, to use them as a reference for the single speaker (A). Out of the optimized results, a filter curve for gain and phase can be generated. This is shown in \autoref{fig:filter_req}. It is visible, that the phase is changing approximately linearly proportional to the frequency, whereas the amplitude graph is not as straight. This might be due to the fact, that the amplitude is corrected with data from the measured speaker, whereas the phase is not.
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{filter_req.eps}
 	\caption{Amplitude and phase for loudspeakers B and C, relative to loudspeaker A, corresponding to the expected behaviour shown in \autoref{fig:expected_pcor}}
 		\label{fig:filter_req}
 \end{figure}
+
+\section{Main axis response}
+The aim of this section is to compare the response of the optimized cardioid speaker model with a line of speakers which radiate the same sound with the same parameter. The transfer function in the front of the cardioid speaker array might not have the same transfer function compare to the line of speakers. Therefore the pressure in the front might be a cost when going from speaker array that radiate omnidirectional to make them radiate with a cardioid patten. The cost can be frequency dependent and therefore the transfer function in the front is changed. It is interesting to investigated the pressure in the front of a line of three speaker, where they all have the same parameters compare to the cardioid speaker model, since the cardioid speaker model is made of three speaker unit. The cost of the cardioid model compared to the three speaker on a line will be analysed analytical in this section and end out with the needed parameter for making a flat frequency response in the front of the speaker array and a conclusion of the power loose. To make this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The difference between thoes two model is then defined as the cost. To do so, an analytical speaker model of one speaker have to be developed such that it have a flat frequency response in the frequency of interest. The speaker model will be a pulsating sphere with a radius of \SI{33}{\centi\meter} where the non linear frequency response is compensated such that the speaker model have a flat frequency response from  ke this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The pressure in the front of the three alined model might also be frequency dependent, but the frequency where the pressure is lowest will then be used as the reference pressure \\
+
+The main axis response of the three alined speaker is analysed analytical at a distance of \SI{10}{\meter} from the array center. The array center is the median cross of the cardioid speaker array model, which than mean that the speaker position in the alined model is as in the cardioid speaker model, but only where the back speaker is moved to the front line. All three speaker is radiation with a pressure of \SI{1}{\pascal} and the pressure at the main axis at a distance of \SI{10}{\meter} from the array center is the reference pressure point. \autoref{fig:ref_omni_array} shows the alined model, where it can be seen that the array center is behind the acoustical speaker alinement. All speaker have a time delay of zero and a frequency depended velocity 
+
+\begin{figure}[H]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{ref_omni_array.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3315sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7975,7142)(-672,-4729)
+\put(1711,-331){\color[rgb]{1,0,0}Ac. Center A}%
+\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{V}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{V}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{V}}%
+\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{0}}%
+\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{0}}%
+\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{0}}%
+\put(2271,2230){\color[rgb]{0,0,0}$dB_{ref}$}%
+\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
+\put(-409,-601){\color[rgb]{1,0,0}Ac. Center B}%
+\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
+\put(1081,-1906){\color[rgb]{0,0,0}Speaker B}%
+\put(2341,-1906){\color[rgb]{0,0,0}Speaker A}%
+\put(3601,-1906){\color[rgb]{0,0,0}Speaker C}%
+\put(2476,-1051){\color[rgb]{1,0,0}Array center}%
+\end{picture}%
+	\caption{The figure visualize the pressure reference point and the alinmend of the three speaker.}
+		\label{fig:ref_omni_array}
+\end{figure}
+
+The following graph \autoref{fig:graph_plot_three_line} shows the absolute pressure from \SI{60}{\hertz} to \SI{300}{\hertz} of the alined speaker model. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{expected_polar_pcor.eps}
+	\caption{The graph shows the frequency response of the alined speaker model from \SI{60}{\hertz} to \SI{300}{\hertz}}
+		\label{fig:graph_plot_three_line}
+\end{figure}
+
+From the graph in \autoref{fig:graph_plot_three_line} it can be seen that the pressure reference point is frequency dependent, when alining three speaker in an array with the same parameters, but the frequency dependency is small. The used 
+
+
+
+
+
+
+\begin{figure}[H]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{ref_caridioid_array.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3315sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7975,7142)(-672,-4729)
+\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Va}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{Phic}}%
+\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{Phib}}%
+\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{Phia}}%
+\put(2271,2230){\color[rgb]{0,0,0}$dB_{ref}$}%
+\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
+\put(2566,-1051){\color[rgb]{1,0,0}Array center}%
+\put(2386,-3211){\color[rgb]{0,0,0}Speaker A}%
+\put(1756,-2086){\color[rgb]{1,0,0}Ac. Center A}%
+\put(-179,-601){\color[rgb]{1,0,0}Ac. Center B}%
+\put(-181,-1906){\color[rgb]{0,0,0}Speaker B}%
+\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
+\put(3646,-1906){\color[rgb]{0,0,0}Speaker C}%
+\end{picture}%
+	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension.}
+		\label{fig:ref_caridioid_array}
+\end{figure}
+
+
+
+
+
+
