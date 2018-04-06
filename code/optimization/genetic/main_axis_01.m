@@ -138,7 +138,6 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h)))).Pc=1*(10^(deltaLp(h)/20));
 end
 
-save('pressureout.m','solutions')
 
 figure
 plot(f,Lppolar(:,1))
@@ -156,7 +155,7 @@ polarplot(angles,Lppolar(16,:))
 polarplot(angles,Lppolar(11,:))
 polarplot(angles,Lppolar(6,:))
 polarplot(angles,Lppolar(1,:))
-
+save('pressureout.mat','solutions')
 ax = gca;
 thetaticks([0:20:360])
 rticks([-27:3:0])
