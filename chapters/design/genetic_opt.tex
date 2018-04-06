@@ -117,7 +117,7 @@ For a setup with the corner of the array pointing towards the main emission dire
 \section{Main axis response}
 The aim of this section is to compare the response of the optimized cardioid speaker model with a line of speakers which radiate the same sound with the same parameter. The transfer function in the front of the cardioid speaker array might not have the same transfer function compare to the line of speakers. Therefore the pressure in the front might be a cost when going from speaker array that radiate omnidirectional to make them radiate with a cardioid patten. The cost can be frequency dependent and therefore the transfer function in the front is changed. It is interesting to investigated the pressure in the front of a line of three speaker, where they all have the same parameters compare to the cardioid speaker model, since the cardioid speaker model is made of three speaker unit. The cost of the cardioid model compared to the three speaker on a line will be analysed analytical in this section and end out with the needed parameter for making a flat frequency response in the front of the speaker array and a conclusion of the power loose. To make this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The difference between thoes two model is then defined as the cost. To do so, an analytical speaker model of one speaker have to be developed such that it have a flat frequency response in the frequency of interest. The speaker model will be a pulsating sphere with a radius of \SI{33}{\centi\meter} where the non linear frequency response is compensated such that the speaker model have a flat frequency response from  ke this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The pressure in the front of the three alined model might also be frequency dependent, but the frequency where the pressure is lowest will then be used as the reference pressure \\
 
-The main axis response of the three alined speaker is analysed analytical at a distance of \SI{10}{\meter} from the array center. The array center is the median cross of the cardioid speaker array model, which than mean that the speaker position in the alined model is as in the cardioid speaker model, but only where the back speaker is moved to the front line. All three speaker is radiation with a pressure of \SI{1}{\pascal} and the pressure at the main axis at a distance of \SI{10}{\meter} from the array center is the reference pressure point. \autoref{fig:ref_omni_array} shows the alined model, where it can be seen that the array center is behind the acoustical speaker alinement. All speaker have a time delay of zero and the velocity is ... . 
+The main axis response of the three alined speaker is analysed analytical at a distance of \SI{10}{\meter} from the array center. The array center is the median cross of the cardioid speaker array model, which than mean that the speaker position in the alined model is as in the cardioid speaker model, but only where the back speaker is moved to the front line. All three speaker is radiation with a pressure of \SI{1}{\pascal} and the pressure at the main axis at a distance of \SI{10}{\meter} from the array center is the reference pressure point. \autoref{fig:ref_omni_array} shows the alined model, where it can be seen that the array center is behind the acoustical speaker alinement. All speaker have a time delay of zero and a frequency depended velocity 
 
 \begin{figure}[H]
 	\centering
@@ -134,15 +134,15 @@ The main axis response of the three alined speaker is analysed analytical at a d
 \fi\endgroup%
 \begin{picture}(7975,7142)(-672,-4729)
 \put(1711,-331){\color[rgb]{1,0,0}Ac. Center A}%
-\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{0.01}}%
-\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{0.01}}%
-\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{0.01}}%
+\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{V}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{V}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{V}}%
 \put(4906,-4471){\color[rgb]{0,.56,0}\texttt{0}}%
 \put(4906,-4066){\color[rgb]{0,.56,0}\texttt{0}}%
 \put(4906,-3661){\color[rgb]{0,.56,0}\texttt{0}}%
 \put(2271,2230){\color[rgb]{0,0,0}$dB_{ref}$}%
 \put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
-\put(-379,-601){\color[rgb]{1,0,0}Ac. Center B}%
+\put(-409,-601){\color[rgb]{1,0,0}Ac. Center B}%
 \put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
 \put(1081,-1906){\color[rgb]{0,0,0}Speaker B}%
 \put(2341,-1906){\color[rgb]{0,0,0}Speaker A}%
@@ -158,7 +158,7 @@ The following graph \autoref{fig:graph_plot_three_line} shows the absolute press
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{expected_polar_pcor.eps}
-	\caption{Expected directional characteristics, optimization with pressure corrected cost function, correction table based on Appendix \ref{ax:directional_2}, generation count: $N_{start}=60$, $N_{rest}=30$, population size $t=1250$, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.405}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{0.249}{\meter}}
+	\caption{The graph shows the frequency response of the alined speaker model from \SI{60}{\hertz} to \SI{300}{\hertz}}
 		\label{fig:graph_plot_three_line}
 \end{figure}
 
@@ -168,7 +168,6 @@ From the graph in \autoref{fig:graph_plot_three_line} it can be seen that the pr
 
 
 
-\subsection{The cardioid speaker model}
 
 \begin{figure}[H]
 	\centering
