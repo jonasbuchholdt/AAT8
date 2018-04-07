@@ -1,6 +1,6 @@
 clear variables
 close all
-load('flipsol_07.mat')
+load('flipsol_08.mat')
 
 
 f=flip([fbot:fres:ftop]);
@@ -13,8 +13,8 @@ for h=1:length(f)
     end
 end
 
-pgain=polyfit(f,10.^(amplitude1./20),1);
-pphase=polyfit(f,phase1,1);
+pgain=polyfit(f,10.^(amplitude1./20),2);
+pphase=polyfit(f,phase1,2);
 
 figure
 yyaxis left
@@ -41,4 +41,4 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h)))).Phia=polyval(pphase,f(h));
 end
 
-%save('regressed_03.mat','solutions','fbot','fres','ftop','speakerangle')
+save('regressed_04.mat','solutions','fbot','fres','ftop','speakerangle')
