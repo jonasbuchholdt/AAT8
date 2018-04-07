@@ -10,14 +10,14 @@ speakerangle=deg2rad(50);
 polylf=5;                               % cost adjustment parameter for low frequencies
 polyhf=1.5;                             % cost adjustment parameter for high frequencies
 
-n=250;                                 % population size
+n=1000;                                 % population size
 surquote=0.05;                          % elite survivor quote
 replacement=0.6;                        % replacement by children
 pmut=0.1;                               % probability of mutation
 tlevel=4;                               % tournament level for parent selection
 
-Nstart=100;                             % number of generations for highest frequency
-Nrest=50;                               % number of generations for other frequencies
+Nstart=150;                             % number of generations for highest frequency
+Nrest=75;                               % number of generations for other frequencies
 
 solutions=struct;                       % initializing solution struct
 
@@ -63,7 +63,7 @@ end
 sourcepar=fit_pargen(population,n,f,phi_mat,f_mat,p_mat,speakerangle);
 
 % calculating solutions for the rest of the frequency range with an initial
-% population that always is the final population of the preceeding
+% popul0ation that always is the final population of the preceeding
 % frequency
 for h=1:length(f)
     for l=1:Nrest
@@ -77,4 +77,4 @@ for h=1:length(f)
 end
 
 % saving solution to file
-save('flipsol_07.mat','solutions','ftop','fres','fbot','speakerangle','polyhf','polylf')
+save('flipsol_08.mat','solutions','ftop','fres','fbot','speakerangle','polyhf','polylf')

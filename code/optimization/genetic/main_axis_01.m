@@ -1,7 +1,7 @@
 clear variables
 
 speakerangle=0;
-load('regressed_01.mat')
+load('regressed_04.mat')
 
 load('cor_table_ones.mat')
 phi_cor=phi_mat;
@@ -155,7 +155,7 @@ polarplot(angles,Lppolar(16,:))
 polarplot(angles,Lppolar(11,:))
 polarplot(angles,Lppolar(6,:))
 polarplot(angles,Lppolar(1,:))
-save('pressureout.mat','solutions')
+save('pressureout_02.mat','solutions')
 ax = gca;
 thetaticks([0:20:360])
 rticks([-27:3:0])
