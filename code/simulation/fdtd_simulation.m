@@ -1,8 +1,8 @@
 function FDTD_SIMULATION(frequency,pressure)
 
-room_x = 80;
-room_y = 80;
-grid_size = 0.05;
+%room_x = 20;
+%room_y = 20;
+%grid_size = 0.05;
 
 p_rms=pressure.(strcat('f',int2str(frequency))).pressure;
 xlength=[-(pressure.(strcat('f',int2str(frequency))).room_x/2)+pressure.(strcat('f',int2str(frequency))).grid:pressure.(strcat('f',int2str(frequency))).grid:(pressure.(strcat('f',int2str(frequency))).room_x/2)-pressure.(strcat('f',int2str(frequency))).grid];

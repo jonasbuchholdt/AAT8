@@ -1,4 +1,4 @@
-load('pressureone.mat')
+%load('pressureone.mat')
 
 %%
 FDTD_SIMULATION(60,pressureone)

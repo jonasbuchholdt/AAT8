@@ -5,11 +5,11 @@ function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,it)
 %%
 
 
-load('jonas_sol01.mat')
+load('pressureout.mat')
 
-% frequency = 60;
-% roomx = 30
-% roomy = 30
+ %frequency = 60;
+ %roomx = 30
+ %roomy = 30
 
 room_x = roomx;
 room_y = roomy;
@@ -18,9 +18,9 @@ room_z = 1;
 f = frequency;
 y_distance = solutions.(strcat('f',int2str(frequency))).Ly;
 x_distance = solutions.(strcat('f',int2str(frequency))).Lx;
-gain_front = solutions.(strcat('f',int2str(frequency))).Pa;
-gain_back  = solutions.(strcat('f',int2str(frequency))).Pb;
-phase      = solutions.(strcat('f',int2str(frequency))).Phib;
+gain_front = solutions.(strcat('f',int2str(frequency))).Pb;
+gain_back  = solutions.(strcat('f',int2str(frequency))).Pa;
+phase      = solutions.(strcat('f',int2str(frequency))).Phia;
 
 
 
@@ -72,7 +72,7 @@ s2y = (s1y-y_distance)/grid_size;
 s3y = (s1y-y_distance)/grid_size;
 s1y = s1y/grid_size;
 
-
+%%
 
 f_min = 100;
 run_time = ceil((1/f_min)/(1/fs));
@@ -95,6 +95,7 @@ Vz = repmat(0, [ro co la+1 ti]);
 
 for t=1:simulation_step+1   
     front(t) = gain_front*sin(2*pi*f*((t-1)/fs));
+    %front(t) = sin(2*pi*f*((t-1)/fs));
     back(t)  = gain_back*sin(2*pi*f*((t-1)/fs)+phase);
 end
 
@@ -112,9 +113,9 @@ for t=1:simulation_step
             impulse_back = impulse_back+it(t-m+1)*back(m);
         end
 
-     pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+back(t+1)-impulse_front;
-     pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+front(t+1)-impulse_back;
-     pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+front(t+1)-impulse_back;
+     pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+back(t+1)-impulse_back;
+     pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+front(t+1)-impulse_front;
+     pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+front(t+1)-impulse_front;
    %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
 
 %vx_eq
