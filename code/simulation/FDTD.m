@@ -1,11 +1,11 @@
-function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,it)
+function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,it,solutions)
 
 % this file is able to make an fdtd simulation of a speaket with only knowing the impulse
 % response
 %%
 
 
-load('pressureout.mat')
+%load('pressureout_02.mat')
 
  %frequency = 60;
  %roomx = 30
@@ -26,8 +26,9 @@ phase      = solutions.(strcat('f',int2str(frequency))).Phia;
 
 
 x_distance_half = x_distance/2;
-grid_size = gcd(round(x_distance_half*100),round(y_distance*100))/100
-before= 0;
+grid_size = gcd(round(x_distance_half*100),round(y_distance*100))/100;
+before= 1;
+befores = 0;
 c = 343;
 fs_min = 1/((sqrt(2/3)*(1/grid_size^2+1/grid_size^2+1/grid_size^2)^(-1/2))/c);
 fs = round(fs_min/10)*10;
@@ -103,6 +104,7 @@ end
 
 % calculate inside room pressure
 for t=1:simulation_step
+    
     impulse_front=0;
         for m=1:t
             impulse_front = impulse_front+it(t-m+1)*front(m);
@@ -162,10 +164,15 @@ Vy(:,:,:,1)=Vy(:,:,:,2);
 % Vz(:,:,:,1)=Vz(:,:,:,2);
 
 
+ 
 done = ceil((t/simulation_step)*100);
-if done ~= before
-    before = done;
-fprintf('%d percent done.\n',done);
+if done == before
+    before = done+1;
+    time = toc;
+    tic
+    est_time = (time*100)-(time*done);
+    est_time = est_time/60;
+fprintf(strcat('%d percent done of %d Hz,',int2str(est_time) ,' min back \n') ,done,frequency);
 end
 
 

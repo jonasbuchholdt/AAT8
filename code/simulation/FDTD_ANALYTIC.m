@@ -1,7 +1,7 @@
-function FDTD_ANALYTIC(frequency,pressure)
+function FDTD_ANALYTIC(frequency,pressure,solutions)
 
 
-load('pressureout.mat')
+%load('pressureout.mat')
 load('cor_table_ones.mat')
 %load('pressuresec.mat')
 
