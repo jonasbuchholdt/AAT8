@@ -33,7 +33,7 @@ for h=1:length(f)
 omega=2*pi*f(h);
 k=omega/c;
 thetaa=tan(k*a);
-velo(h)=(0.00002*10^(67/20))/(rho0.*c.*(a./10.*cos(thetaa).*exp(i.*(omega.*t-k.*(10-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib))));%.*refcorrections1;
+velo(h)=(0.00002*10^(67.56/20))/(rho0.*c.*(a./10.*cos(thetaa).*exp(i.*(omega.*t-k.*(10-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib))));%.*refcorrections1;
 end
 
 for h=1:length(f)
@@ -155,7 +155,7 @@ polarplot(angles,Lppolar(16,:))
 polarplot(angles,Lppolar(11,:))
 polarplot(angles,Lppolar(6,:))
 polarplot(angles,Lppolar(1,:))
-save('pressureout_02.mat','solutions')
+save('pressureout_03.mat','solutions')
 ax = gca;
 thetaticks([0:20:360])
 rticks([-27:3:0])
