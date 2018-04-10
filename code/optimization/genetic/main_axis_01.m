@@ -1,7 +1,7 @@
 clear variables
 
 speakerangle=0;
-load('regressed_04.mat')
+load('regressed_06.mat')
 
 load('cor_table_ones.mat')
 phi_cor=phi_mat;

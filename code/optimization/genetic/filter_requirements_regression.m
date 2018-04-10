@@ -1,6 +1,6 @@
 clear variables
 close all
-load('flipsol_08.mat')
+load('flipsol_10.mat')
 
 
 f=flip([fbot:fres:ftop]);
@@ -41,4 +41,4 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h)))).Phia=polyval(pphase,f(h));
 end
 
-save('regressed_04.mat','solutions','fbot','fres','ftop','speakerangle')
+save('regressed_06.mat','solutions','fbot','fres','ftop','speakerangle')
