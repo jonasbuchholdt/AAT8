@@ -26,7 +26,7 @@ for k=[ang_res:ang_res:360]
 end
 
 for k=1:size(phase_raw,1)
-    phase_mat(k,:)=ones(1,size(phase_raw,2));%abs(p_raw(k,:))./max(abs(p_raw(k,:)));
+    phase_mat(k,:)=zeros(1,size(phase_raw,2));%abs(p_raw(k,:))./max(abs(p_raw(k,:)));
 end
 
 for k=1:size(phase_raw,1)

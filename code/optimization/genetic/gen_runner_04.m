@@ -10,22 +10,22 @@ speakerangle=deg2rad(50);
 polylf=5;                               % cost adjustment parameter for low frequencies
 polyhf=1.5;                             % cost adjustment parameter for high frequencies
 
-n=1000;                                 % population size
+n=200;                                 % population size
 surquote=0.05;                          % elite survivor quote
 replacement=0.6;                        % replacement by children
 pmut=0.1;                               % probability of mutation
 tlevel=4;                               % tournament level for parent selection
 
-Nstart=150;                             % number of generations for highest frequency
-Nrest=75;                               % number of generations for other frequencies
+Nstart=25;                             % number of generations for highest frequency
+Nrest=15;                               % number of generations for other frequencies
 
 solutions=struct;                       % initializing solution struct
 
 
 %population=pop_init(n);                 % generating initial population
 % FOR FIXED POSITION OUTCOMMENT UPPER ONE
-Lx=0.5;
-Ly=-0.25;
+Lx=0.75;
+Ly=-0.3;
 population=pop_init_fix(n,Lx,Ly);
 
 
@@ -77,4 +77,4 @@ for h=1:length(f)
 end
 
 % saving solution to file
-save('flipsol_08.mat','solutions','ftop','fres','fbot','speakerangle','polyhf','polylf')
+save('flipsol_10.mat','solutions','ftop','fres','fbot','speakerangle','polyhf','polylf')
