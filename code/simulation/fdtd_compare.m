@@ -1,6 +1,6 @@
 %load('pressureone.mat')
 
 %%
-%load('pressureout_02.mat')
-FDTD_SIMULATION(60,pressureout_02)
-FDTD_ANALYTIC(60,pressureout_02,solutions)
+%load('pressureout_03.mat')
+FDTD_SIMULATION(60,pressureout_03)
+FDTD_ANALYTIC(60,pressureout_03,solutions)

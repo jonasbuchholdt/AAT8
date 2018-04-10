@@ -1,7 +1,7 @@
 clear all
 %%
 load('impulse_response_5cm_grid_80m_room')
-load('pressureout_02.mat')
+load('pressureout_03.mat')
 room_x = 80;
 room_y = 80;
 grid_size = 0.05;
