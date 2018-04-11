@@ -1,0 +1,6 @@
+function [cost]=beam_cost(solutions,fupper,flower,fres)
+    f=flip([fbot:fres:ftop])
+    
+    
+    
+end
