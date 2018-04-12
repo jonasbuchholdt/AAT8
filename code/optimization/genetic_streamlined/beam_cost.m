@@ -1,25 +1,34 @@
-function [cost]=beam_cost(solutions,fupper,flower,fres,phi_cor,f_cor,p_cor,phase_cor,speakerangle)
-    
+function [cost,deltap]=beam_cost(solutions,ftop,fbot,fres,phi_cor,f_cor,p_cor,phase_cor,speakerangle)
 
-
-    f=flip([fbot:fres:ftop])
+    f=flip([fbot:fres:ftop]);
     
-    angle=0;
+    angles=0;
     r=10;
-    c=343;
-    a=0.13*2.54/2;
-    rho0=1.21;
-    t=0;
     
     coorx=sin(angles).*r;
     coory=cos(angles).*r;
     
-    dummysol=struct;
-    dummysol.gene1.Lx=solutions.gene1.Lx;
+    [~,~,~,refshift,~,~]=tricenter(solutions.f100.Lx,solutions.f100.Ly);
+    refdsol=struct;
+    refdsol.gene1.Lx=solutions.f100.Lx;
+    refdsol.gene1.Ly=0;
+    refdcory=coory-refshift;
+    
+    beamdsol=struct;
+    beamdsol.gene1.Lx=solutions.f100.Lx;
+    beamdsol.gene1.Ly=solutions.f100.Ly;
+    
+    pref=zeros(length(f),1);
+    pbeam=pref;
+    deltap=pref;
     
     for h=1:length(f)
-       [refcoo,refcor]=prep(solutions.
-        
-        
+        [refcoo,refcor]=prep(refdsol,coorx,refdcory,phi_cor,f_cor,p_cor,phase_cor,speakerangle,f(h),1);
+        [beamcoo,beamcor]=prep(beamdsol,coorx,coory,phi_cor,f_cor,p_cor,phase_cor,speakerangle,f(h),1);
+        dummy.gene1=solutions.(strcat('f',int2str(f(h))));
+        pref(h)=pcal(dummy,refcoo,refcor,2*pi*f(h),1,205);
+        pbeam(h)=pcal(dummy,beamcoo,beamcor,2*pi*f(h),1,1);
+        deltap(h)=pref(h)-pbeam(h);
     end
+    cost=trapz(f,deltap);
 end
