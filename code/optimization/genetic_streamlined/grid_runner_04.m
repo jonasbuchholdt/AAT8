@@ -24,7 +24,7 @@ end
 %%
 % Cost calculation and storage
 
-load('test.mat')
+load('grid_02.mat')
 load('pressure_table_01.mat')           % path for correction tables
 load('phase_table_neutral.mat')   
 
@@ -42,7 +42,7 @@ for k=1:length(Ly)
         estimated_finish=mean(times)*((length(Ly)-k+1)*length(Lx)-(length(Lx)-h));
         display(strcat('Calculating Beamforming Cost, time left: ',int2str(floor(estimated_finish/3600)),':',int2str(floor(mod(estimated_finish,3600)/60)),':',int2str(floor(mod(estimated_finish,60)))))
     end
-    save('test.mat','master','Lx','Ly')
+    save('G01.mat','master','Lx','Ly')
 
 
 end
