@@ -100,7 +100,7 @@ for t=1:simulation_step+1
 end
 
 
-
+tic
 % calculate inside room pressure
 for t=1:simulation_step
     

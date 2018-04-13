@@ -48,4 +48,5 @@ solutions.Lx=Lx;
 solutions.Ly=Ly;
 solutions.polyhf=polyhf;
 solutions.polylf=polylf;
+solutions.speakerangle=speakerangle;
 end
