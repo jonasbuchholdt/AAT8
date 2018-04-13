@@ -34,16 +34,17 @@ plot(f,rad2deg(phase1),'o')
 
 phase_offset = -0.1;  % minus move the phase 
 population = 500;
-generation = 200;
-weight = +0.5;
+generation = 1000;
+weight = 0;
 rotate = -0;
 add_gain = +0.00;
 tap = 160;
 
 [solutions,population,the_cost] = fixed_gen(population,generation,phase_offset,weight,tap);
+%%
 ir = generate_ir(solutions,rotate,add_gain,tap);
 
-%ir = ir-ir(end);
+ir = ir-ir(end);
 
 [freqResp ,w] = freqz(ir,1,20000,40000);
 

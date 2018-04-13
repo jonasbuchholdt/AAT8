@@ -69,7 +69,7 @@ regtangular_form = back_filter_gain.*cos(back_filter_phase)+i.*back_filter_gain.
 
 
 
-irEstimate = real(ifft(regtangular_form*1.4));
+irEstimate = real(ifft(regtangular_form*1.3));
 %irEstimate = impulseest(data)
 %hold on
 irEstimate = irEstimate(1:M);
@@ -89,7 +89,7 @@ irEstimate = irEstimate(1:M/2);
        x = [1:1:M/2];
        xq = [1:0.2:M/2];           
        vq = interp1(x,irEstimate,xq);
-       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1:end-62)];
+       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1:end-70)];
        irEstimate = downsample(vq,5);            
 % figure
 %  plot(irEstimate)

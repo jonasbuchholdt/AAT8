@@ -47,14 +47,14 @@ actual_amplitude_respond = (abs(freqResp));
 %%
 % the phase cost
 
-%step = [1:1:2000];
-%weight = (5*cos(2*pi*step/step(end)+(pi+2.2)/1)+1+weight_input)';
-%weight = weight(1:1000);
+step = [1:1:1000];
+weight = 1+(1*cos(2*pi*step/step(end)+(pi+1.3)/1)+1+weight_input)';
+weight = [weight(1:800)' ones(1,200)]';
 
-fitness_phase(k) = abs(sum((actual_phase_respond(1:1000)-wanted_phase_respond(1:1000))));
+fitness_phase(k) = sum(abs((actual_phase_respond(1:1000)-wanted_phase_respond(1:1000)).*weight));
 
 % the amplitude cost
-fitness_gain(k) = abs(sum((actual_amplitude_respond(1:1000)-wanted_amplitude_respond(1:1000))));%.*weight));
+fitness_gain(k) = sum(abs((actual_amplitude_respond(1:1000)-wanted_amplitude_respond(1:1000)).*weight));
 
 % the phase and amplitude cost
 cost(k)=fitness_gain(k)+fitness_phase(k); 
