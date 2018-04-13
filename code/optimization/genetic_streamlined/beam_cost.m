@@ -1,6 +1,6 @@
-function [cost,deltap]=beam_cost(solutions,ftop,fbot,fres,phi_cor,f_cor,p_cor,phase_cor,speakerangle)
+function [cost,deltaLp]=beam_cost(solutions,ftop,fbot,fres,phi_cor,f_cor,p_cor,phase_cor,speakerangle)
 
-    f=flip([fbot:fres:ftop]);
+    f=[fbot:fres:ftop];
     
     angles=0;
     r=10;
@@ -21,14 +21,15 @@ function [cost,deltap]=beam_cost(solutions,ftop,fbot,fres,phi_cor,f_cor,p_cor,ph
     pref=zeros(length(f),1);
     pbeam=pref;
     deltap=pref;
+    deltaLp=pref;
     
     for h=1:length(f)
         [refcoo,refcor]=prep(refdsol,coorx,refdcory,phi_cor,f_cor,p_cor,phase_cor,speakerangle,f(h),1);
         [beamcoo,beamcor]=prep(beamdsol,coorx,coory,phi_cor,f_cor,p_cor,phase_cor,speakerangle,f(h),1);
         dummy.gene1=solutions.(strcat('f',int2str(f(h))));
         pref(h)=pcal(dummy,refcoo,refcor,2*pi*f(h),1,205);
-        pbeam(h)=pcal(dummy,beamcoo,beamcor,2*pi*f(h),1,1);
-        deltap(h)=pref(h)-pbeam(h);
+        pbeam(h)=pcal(dummy,beamcoo,beamcor,2*pi*f(h),1,9000);
+        deltaLp(h)=20*log10(abs(pref(h)))-20*log10(abs(pbeam(h)));
     end
-    cost=trapz(f,deltap);
+    cost=trapz(f,deltaLp);
 end
