@@ -1,19 +1,37 @@
-\section{Filter}
+\section{Filter}\label{sec:filter_design}
 
 The aim of this chapter is to analyse the data from \ref{sec:opt_result} and choose the implementation method. From the beam forming optimization \autoref{sec:genetic_con} it was concluded that there shall be a cost filter and a beam forming filter. This chapter starts analyse the cost filter and design a filter solution, then the beam forming filter will be analysed and a solution will be designed.
 
 
 \section{The cost filter}
-The analysis of the cost filter will be done only with respect to the gain of the transfer function and without taking the phase intro account. The reason to avoid the phase is that the the filter is an input filter to the entire system, and therefore the phase of the filter will affect all speaker the same way and therefore not effect the beam forming phase. \\
-To analyse the cost filter, the cross over frequency, the gain and the slope of the filter have to be determined. The gain and the cross over frequency will be determined first. To determined the gain in \si{\decibel}, a second order polynomia estimation will be done on the data point of the cost filter. The polynomia estimation is done with MATLAB command \texttt{polyfit()} which give the second order polinomia and \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \gls{dc} to \SI{600}{\hertz}. The \SI{600}{\hertz} choice is made such that the estimation fit at lest to the double frequency of beam forming interest. The following \autoref{} shows the estimate compare to the original data point.
+The analysis of the cost filter will be done only with respect to the gain of the transfer function and without taking the phase intro account. The reason to avoid the phase is that the filter is an input filter to the entire system, and therefore the phase of the filter will affect all speaker the same way and therefore not effect the beam forming. \\
+To analyse the cost filter, the filter type and the slope or Q of the filter have to be determined. 
+
+the filter type will be determined first. To determined the filter type, a second order polynomia estimation will be done on the data point of the cost filter. The polynomia estimation is done with MATLAB command \texttt{polyfit()} with a second order regression. This give a second order polinomia where  \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \SI{60}{\hertz} to \SI{400}{\hertz}. The \SI{400}{\hertz} choice is made such that the estimation fit at lest to the double frequency of beam forming interest. The following \autoref{} shows the estimate compare to the original data point.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_stop_filter.eps}
+	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+		\label{fig:band_stop_filter}
+\end{figure}
+
+
+As it can be seen on \autoref{band_stop_filter} the shape of the estimated cost filter is a band stop filter with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{175}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The gain in the front of the filter will need to be \SI{6.4}{\decibel}. \\
+
+Designing a bandstop filter is done with designing it as a band boost filter and then change the filter from feed forward to feedback coupled filter. Thats mean that the filter will be change to following \autoref{fig:band_pass_filter}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_pass_filter.eps}
+	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+		\label{fig:band_pass_filter}
+\end{figure}
 
 
 
-
-
-
-
-As it can be seen on \autoref{} the shape of the estimated cost filter is a low pass filter with gain ... and have a cross over at \SI{91}{\hertz}. The second step is to find the slope of the needed low pass filter. The slope is founded as following \autoref{eq:filter_slope}
+ The second step is to find the slope of the needed low pass filter. The slope is founded as following \autoref{eq:filter_slope}
 
 \begin{equation}
 \text{slope} = \frac{G_2\si{\decibel}-G_1\si{\decibel}}{\log_{10}{(f_2)}-\log_{10}{(f_1)}}
@@ -94,7 +112,7 @@ Where the corresponding impulse response is as \autoref{fig:ir_estimate_mirror_s
 		\label{fig:ir_estimate_mirror_scale}
 \end{figure}
 
-As it can be seen on \autoref{fig:ir_estimate_scaled} the cut off is lowered and the gain is automatic raised to the wanted area. A closer look on the area of the frequency of interest in 
+As it can be seen at \autoref{fig:ir_estimate_scaled} that the cut off is lowered and the gain is automatic raised to the wanted area. A closer look on the area of the frequency of interest in 
 
 \begin{figure}[H]
 	\centering
@@ -103,7 +121,16 @@ As it can be seen on \autoref{fig:ir_estimate_scaled} the cut off is lowered and
 		\label{fig:ir_estimate_scaled_close}
 \end{figure}
 
-It can be seen at \autoref{ir_estimate_scaled_close} that the fit is close, but the gain can be optimized. Recalling from earlier, a linear phase \gls{fir} filter have to have symmetric impulse response and therefore the impulse respond where the mirrored version is not added will be used as initial guess for the genetic optimizer. 
+It can be seen at \autoref{ir_estimate_scaled_close} that the fit is close, but the gain can be optimized. Recalling from earlier, a linear phase \gls{fir} filter have to have symmetric impulse response and therefore the impulse respond where the mirrored version is not added will be used as initial guess for the genetic optimizer. To optimize the impulse response there will be used high probability for mutation and crossover. The resend to use high probability for mutation, is that the shape of the impulse response is changed a bit for every mutation, and it is the shape there needs to be change to get the optimized \gls{fir} filter coefficient. In the mutation part, the following mutation is done.
+
+\begin{itemize}
+\item One single random chosen point in the impulse response is change by moving it up and down wards.
+\item One random chosen area of the impulse response is change by moving it up and down wards with a Gaussian shape, where $\mu$ and $\sigma$ is random chosen.
+\item An up-sampling is done on the impulse respond with a factor of ten. After the up-sampling the value at time zero is copied and used ans the new zero point after the impulse response is shifted one sample to the right. The resend to up-sample is that the shift only is one tenth. This technique do that the cost can be minimized more than without up-sampling. The up-sampling is done with linear interpolation. This mutation ends with a down sampling with a factor of ten such that the impulse respond is at the same length as at the start.
+\item There is one mutation that only multiply a factor to the impulse respond. 
+\end{itemize}
+
+At the end of all mutation the last point of the impulse response is used as the \gls{dc} offset and the offset will be subtracted from the impulse response , such that the impulse response end at an amplitude of zero. 
 
 
 
