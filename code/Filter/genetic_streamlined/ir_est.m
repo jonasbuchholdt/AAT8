@@ -34,8 +34,8 @@ fr=[1:1:1000*scale];
 
 %fr = fr(1:end-1);
 
-%phase = -0.1;
-%M=160;
+phase = 0.0;
+M=200;
 
 back_filter_gain  = (10.^(polyval(p_gain,fr)./20));%-20*log10(polyval(p_gain,0));
 back_filter_phase = (polyval(p_phase,fr))+phase;
@@ -51,6 +51,7 @@ back_filter_phase = (polyval(p_phase,ft))+phase;
 %semilogx(back_filter_gain)
 %semilogx(back_filter_phase)
 back_filter_gain = polyval(p_gain_t,ft);
+back_filter_gain_test = back_filter_gain;
 back_filter_gain = back_filter_gain./back_filter_gain(1);
 %semilogx(back_filter_gain)
 % hold on
@@ -75,7 +76,7 @@ irEstimate = real(ifft(regtangular_form*0.75));
 %irEstimate = impulseest(data)
 %hold on
 irEstimate = irEstimate(1:M);
-irEstimate = circshift(irEstimate ,-16);
+irEstimate = circshift(irEstimate ,-19);
 irEstimate = irEstimate(1:M/2);
 %irEstimate = flip(irEstimate);
 % figure
@@ -91,21 +92,63 @@ irEstimate = irEstimate(1:M/2);
        x = [1:1:M/2];
        xq = [1:0.2:M/2];           
        vq = interp1(x,irEstimate,xq);
-       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1:end-65)];
+       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1)  vq(1:end-75)];
        irEstimate = downsample(vq,5);            
 
+x = [1:length(irEstimate)]
+x = x./44100;      
+
        
-%        figure
-%  plot(irEstimate)
-%     irEstimate = [irEstimate flip(irEstimate)];
-%     irEstimate = circshift(irEstimate ,20);
-%     irEstimate = irEstimate(1:end/2);
-%     [freqResp ,w] = freqz(irEstimate,1,20000,40000);
-%    phasees = angle(freqResp);
-%     tf = (abs(freqResp));
-%   figure  
+       
+       figure
+ plot(x,irEstimate)
+  ylabel('Impulse response [1]')
+ xlabel('Second [s]')
+ 
+ 
+ 
+    irEstimate = [irEstimate flip(irEstimate)];
+    irEstimate = circshift(irEstimate ,38);
+    irEstimate = irEstimate(1:end/2+20);
+    [freqResp ,w] = freqz(irEstimate,1,22050,44100);
+phasees = angle(freqResp);
+    tf = (abs(freqResp));
+
+    
+figure
+yyaxis left
+plot(f,master.reg.S_40_40.filterdata.ogpres,'o')
+%ylabel('Gain [dB]')
+%xlabel('Frequency [Hz]')
+hold on
+%plot(f,20*log10(polyval(pgain,f)))
+yyaxis right
+plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
+%plot(f,rad2deg(polyval(pphase,f)))
+%ylabel('Phase Shift [Deg]')    
+    
+  yyaxis left
+ plot(w,20*log10(back_filter_gain*back_filter_gain_test(1)),'b--')
+ hold on
+ ylabel('Gain [dB]')
+ xlabel('Frequency [Hz]')
+ plot(w,20*log10(tf*back_filter_gain_test(1)),'b')
+ yyaxis right
+ plot(w,rad2deg(back_filter_phase),'r--')
+ plot(w,rad2deg(phasees),'r')
+ ylabel('Phase Shift [Deg]')
+ xlim([60 300])   
+    
+    
+%     figure  
 %      semilogx(w,tf)
 %      hold on
 %     semilogx(w,phasees)
-%     figure
-%     plot((irEstimate))
+
+x = [1:length(irEstimate)]
+x = x./44100;  
+
+     figure
+     plot(x,irEstimate)
+       ylabel('Impulse response [1]')
+ xlabel('Second [s]')

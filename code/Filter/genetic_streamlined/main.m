@@ -25,7 +25,7 @@ plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
 
 phase_offset = -0.00;  % minus move the phase up.
 population = 1000;
-generation = 15000;
+generation = 2;
 weight = 0;
 rotate = -0;
 add_gain = +0.00;
@@ -57,7 +57,7 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
  plot(w,rad2deg(solutions.f1.phase),'--')
  plot(w,rad2deg(actual_phase_respond))
  ylabel('Phase Shift [Deg]')
- xlim([20 400])
+ xlim([0 2000])
 
  
   figure
@@ -70,4 +70,4 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
   figure
   plot(ir)
   
-save('filter_parameter.mat','solutions')
+%save('filter_parameter.mat','solutions')
