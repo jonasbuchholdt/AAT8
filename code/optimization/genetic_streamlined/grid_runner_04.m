@@ -25,7 +25,7 @@ end
 % Cost calculation and storage
 times=[1 1];
 
-load('grid02.mat')
+load('grid03.mat')
 load('pressure_table_01.mat')           % path for correction tables
 load('phase_table_neutral.mat')   
 
@@ -60,10 +60,10 @@ end
 
 
 
-    save('G01.mat','master','Lx','Ly')
+    save('G03.mat','master','Lx','Ly')
 %%
 clear variables
-load('G01.mat')
+load('G03.mat')
 load('pressure_table_01.mat')           % path for correction tables
 load('phase_table_neutral.mat') 
 Lx=0.2:0.05:1;
@@ -189,12 +189,12 @@ legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300
 ax.RAxis.Label.String = 'normed SPL [dB]';
 
 
-% figure(2)
-% surf(corLx,corLy,master.cost_cor)
-% colormap('jet')
-% title('Corrected Cost Map')
-% xlabel('Lx [m]')
-% ylabel('Ly [m]')
-% zlabel('Cost Value [1]')
+figure(2)
+surf(corLx,corLy,master.cost_cor)
+colormap('jet')
+title('Corrected Cost Map')
+xlabel('Lx [m]')
+ylabel('Ly [m]')
+zlabel('Cost Value [1]')
 
-save('G01.mat','master','Lx','Ly')
+save('G03.mat','master','Lx','Ly')
