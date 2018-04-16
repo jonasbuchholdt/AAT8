@@ -3,48 +3,39 @@
 clear all
 warning off
 
- load('flipsol_08.mat')
+ load('G01.mat')
 
 
-f=flip([fbot:fres:ftop]);
-
-for h=1:length(f)
-    amplitude1(h)=20*log10((solutions.(strcat('f',int2str(f(h)))).Va)/(solutions.(strcat('f',int2str(f(h)))).Vb));
-    phase1(h)=-(solutions.(strcat('f',int2str(f(h)))).Phib);
-    if phase1(h)<0
-        phase1(h)=phase1(h)+2*pi;
-    end
-end
-
-pgain=polyfit(f,10.^(amplitude1./20),2);
-pphase=polyfit(f,phase1,2);
+f=[60:10:300];
+pgain=polyfit(f,10.^(master.reg.S_40_40.filterdata.ogpres./20),2);
+pphase=polyfit(f,master.reg.S_40_40.filterdata.ogphase,2);
 
 figure
 yyaxis left
-plot(f,amplitude1,'o')
+plot(f,master.reg.S_40_40.filterdata.ogpres,'o')
 %ylabel('Gain [dB]')
 %xlabel('Frequency [Hz]')
 hold on
 %plot(f,20*log10(polyval(pgain,f)))
 yyaxis right
-plot(f,rad2deg(phase1),'o')
+plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
 %plot(f,rad2deg(polyval(pphase,f)))
 %ylabel('Phase Shift [Deg]')
 
 
-phase_offset = -0.1;  % minus move the phase 
-population = 500;
-generation = 1000;
+phase_offset = -0.05;  % minus move the phase up.
+population = 1000;
+generation = 20000;
 weight = 0;
 rotate = -0;
 add_gain = +0.00;
-tap = 160;
+tap = 180;
 
 [solutions,population,the_cost] = fixed_gen(population,generation,phase_offset,weight,tap);
 %%
 ir = generate_ir(solutions,rotate,add_gain,tap);
 
-ir = ir-ir(end);
+%ir = ir-ir(end);
 
 [freqResp ,w] = freqz(ir,1,20000,40000);
 
@@ -75,7 +66,7 @@ ir = ir-ir(end);
   semilogx(w,actual_phase_respond)
   semilogx(w,solutions.f1.gain,'b--')
   semilogx(w,solutions.f1.phase,'r--')
-  xlim([0 2000])
+  xlim([0 5000])
   figure
   plot(ir)
 %%
