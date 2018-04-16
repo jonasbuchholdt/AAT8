@@ -115,9 +115,53 @@ For a setup with the corner of the array pointing towards the main emission dire
 \end{figure}
 
 \section{Main axis response}
+To assess the practicability of the speaker array, it can be investigated, how it behaves on the main axis, where the voluntary audience is assumed to be. In order to do this, the frequency dependent sound pressure level on the main axis $L_{p,beam}(f)$ is compared a reference pressure level $L_{p,ref}(f)$, that is emitted by three loudspeakers of the same kind as those in the array, placed closely together. These analytical considerations are undertaken using augmented omnidirectional sources (\autoref{eq:aug_omni}). The velocity for this reference sources is the same, as the one for two frontal sources of the array. In the reference case, all three sources are in phase.
+We can define the frequency dependent beamforming cost $\Delta L_{p}(f)$ as the difference between the reference level $L_{p,ref}(f)$ and the beamformed level $L_{p,beam}(f)$. For all calculations, a distance of $r\,=\,$\SI{10}{\meter} will be used.
+\begin{equation}\label{eq:beam_cost}
+\Delta L_{p}(f)\,=\,L_{p,ref}(f)-L_{p,beam}(f)
+\end{equation}
+For practical applications, it is preferable to have the same frequency response from the speaker array on the main axis as for the case where no beamforming is executed. In order to achieve this, the input signal has to be sent through a filter with the same amplitude response as the beamforming cost. To avoid nonlinear behaviour from the loudspeakers, it is desirable to keep this equalization to a minimum. Because of this, another optimization criterion has emerged. This can mathematically be expressed as the integral over the beamforming cost.
+
+
 The aim of this section is to compare the response of the optimized cardioid speaker model with a line of speakers which radiate the same sound with the same parameter. The transfer function in the front of the cardioid speaker array might not have the same transfer function compare to the line of speakers. Therefore the pressure in the front might be a cost when going from speaker array that radiate omnidirectional to make them radiate with a cardioid patten. The cost can be frequency dependent and therefore the transfer function in the front is changed. It is interesting to investigated the pressure in the front of a line of three speaker, where they all have the same parameters compare to the cardioid speaker model, since the cardioid speaker model is made of three speaker unit. The cost of the cardioid model compared to the three speaker on a line will be analysed analytical in this section and end out with the needed parameter for making a flat frequency response in the front of the speaker array and a conclusion of the power loose. To make this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The difference between thoes two model is then defined as the cost. To do so, an analytical speaker model of one speaker have to be developed such that it have a flat frequency response in the frequency of interest. The speaker model will be a pulsating sphere with a radius of \SI{33}{\centi\meter} where the non linear frequency response is compensated such that the speaker model have a flat frequency response from  ke this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The pressure in the front of the three alined model might also be frequency dependent, but the frequency where the pressure is lowest will then be used as the reference pressure \\
 
-The main axis response of the three alined speaker is analysed analytical at a distance of \SI{10}{\meter} from the array center. The array center is the median cross of the cardioid speaker array model, which than mean that the speaker position in the alined model is as in the cardioid speaker model, but only where the back speaker is moved to the front line. All three speaker is radiation with a pressure of \SI{1}{\pascal} and the pressure at the main axis at a distance of \SI{10}{\meter} from the array center is the reference pressure point. \autoref{fig:ref_omni_array} shows the alined model, where it can be seen that the array center is behind the acoustical speaker alinement. All speaker have a time delay of zero and a frequency depended velocity 
+The main axis response of the three alined speaker is analysed analytical at a distance of \SI{10}{\meter} from the array center. The array center is the median cross of the cardioid speaker array model, which than mean that the speaker position in the alined model is as in the cardioid speaker model, but only where the back speaker is moved to the front line. All three speaker is radiation with a pressure of \SI{1}{\pascal} and the pressure at the main axis at a distance of \SI{10}{\meter} from the array center is the reference pressure point. \autoref{fig:ref_omni_array} shows the alined model, where it can be seen that the array center is behind the acoustical speaker alignement. All speaker have a time delay of zero and a frequency depended velocity 
+
+\begin{figure}[h]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{ref_caridioid_array.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3315sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7975,7142)(-672,-4729)
+\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Va}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{Phib}}%
+\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{Phib}}%
+\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{Phia}}%
+\put(2271,2230){\color[rgb]{0,0,0}$L_{p,beam}$}%
+\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
+\put(2566,-1051){\color[rgb]{1,0,0}Array center}%
+\put(2386,-3211){\color[rgb]{0,0,0}Speaker A}%
+\put(1756,-2086){\color[rgb]{1,0,0}Ac. Center A}%
+\put(-179,-601){\color[rgb]{1,0,0}Ac. Center B}%
+\put(-181,-1906){\color[rgb]{0,0,0}Speaker B}%
+\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
+\put(3646,-1906){\color[rgb]{0,0,0}Speaker C}%
+\end{picture}%
+	\caption{Configuration for main axis beamformed pressure.}
+		\label{fig:ref_caridioid_array}
+\end{figure}
+
+
 
 \begin{figure}[h]
 	\centering
@@ -134,9 +178,9 @@ The main axis response of the three alined speaker is analysed analytical at a d
 \fi\endgroup%
 \begin{picture}(7975,7142)(-672,-4729)
 \put(1711,-331){\color[rgb]{1,0,0}Ac. Center A}%
-\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{V}}%
-\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{V}}%
-\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{V}}%
+\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
 \put(4906,-4471){\color[rgb]{0,.56,0}\texttt{0}}%
 \put(4906,-4066){\color[rgb]{0,.56,0}\texttt{0}}%
 \put(4906,-3661){\color[rgb]{0,.56,0}\texttt{0}}%
@@ -169,42 +213,9 @@ From the graph in \autoref{fig:graph_plot_three_line} it can be seen that the pr
 
 
 
-\begin{figure}[h]
-	\centering
-\begin{picture}(0,0)%
-\includegraphics{ref_caridioid_array.pdf}%
-\end{picture}%
-\setlength{\unitlength}{3315sp}%
-%
-\begingroup\makeatletter\ifx\SetFigFont\undefined%
-\gdef\SetFigFont#1#2#3#4#5{%
-  \reset@font\fontsize{#1}{#2pt}%
-  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
-  \selectfont}%
-\fi\endgroup%
-\begin{picture}(7975,7142)(-672,-4729)
-\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Va}}%
-\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{Phic}}%
-\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{Phib}}%
-\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{Phia}}%
-\put(2271,2230){\color[rgb]{0,0,0}$L_{p,ref}$}%
-\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
-\put(2566,-1051){\color[rgb]{1,0,0}Array center}%
-\put(2386,-3211){\color[rgb]{0,0,0}Speaker A}%
-\put(1756,-2086){\color[rgb]{1,0,0}Ac. Center A}%
-\put(-179,-601){\color[rgb]{1,0,0}Ac. Center B}%
-\put(-181,-1906){\color[rgb]{0,0,0}Speaker B}%
-\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
-\put(3646,-1906){\color[rgb]{0,0,0}Speaker C}%
-\end{picture}%
-	\caption{.}
-		\label{fig:ref_caridioid_array}
-\end{figure}
 
 
-
-
+\section{Conclusion on \gls{sp}-requirements}
+\label{sec:genetic_con}
 
 
