@@ -91,7 +91,7 @@ irEstimate = irEstimate(1:M/2);
        x = [1:1:M/2];
        xq = [1:0.2:M/2];           
        vq = interp1(x,irEstimate,xq);
-       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1)   vq(1:end-64)];
+       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1:end-65)];
        irEstimate = downsample(vq,5);            
 
        

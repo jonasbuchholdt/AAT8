@@ -8,7 +8,7 @@ warning off
 
 f=[60:10:300];
 pgain=polyfit(f,10.^(master.reg.S_40_40.filterdata.ogpres./20),2);
-pphase=polyfit(f,master.reg.S_40_40.filterdata.ogphase,2);
+pphase=polyfit(f,master.reg.S_40_40.filterdata.ogphase,1);
 
 figure
 yyaxis left
@@ -25,7 +25,7 @@ plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
 
 phase_offset = -0.00;  % minus move the phase up.
 population = 1000;
-generation = 5;
+generation = 15000;
 weight = 0;
 rotate = -0;
 add_gain = +0.00;
