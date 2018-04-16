@@ -44,8 +44,8 @@ gain_for_filter=back_filter_gain(1);
 
 
 % the estimate-------------------
-ft = [1:1:20000];
-back_filter_gain_tyve = [back_filter_gain zeros(1,19000)];
+ft = [1:1:22050];
+back_filter_gain_tyve = [back_filter_gain zeros(1,19000+2050)];
 p_gain_t   = polyfit(ft,back_filter_gain_tyve,50);
 back_filter_phase = (polyval(p_phase,ft))+phase;
 %semilogx(back_filter_gain)
@@ -91,7 +91,7 @@ irEstimate = irEstimate(1:M/2);
        x = [1:1:M/2];
        xq = [1:0.2:M/2];           
        vq = interp1(x,irEstimate,xq);
-       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1:end-70)];
+       vq = [ vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1) vq(1)   vq(1:end-64)];
        irEstimate = downsample(vq,5);            
 
        

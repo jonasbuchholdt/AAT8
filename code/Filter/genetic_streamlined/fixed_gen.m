@@ -1,4 +1,4 @@
-function [solutions,population,the_cost]=fixed_gen(n,N,phase,weight,M)
+function [solutions,population,the_cost]=fixed_gen(n,N,phase,weight,M,phase_off)
 
 
 
@@ -23,7 +23,7 @@ f=1;
 
 %    tic
 for l=1:N
-    fit=fit_quick(population,n,weight,M);
+    fit=fit_quick(population,n,weight,M,phase_off);
     the_cost(N) = abs(min(fit));
     fprintf('%d Generation.\n',l);
     fprintf('%d the fit.\n',abs(min(fit)));    

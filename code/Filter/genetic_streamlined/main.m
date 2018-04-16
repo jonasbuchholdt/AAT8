@@ -25,18 +25,19 @@ plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
 
 phase_offset = -0.00;  % minus move the phase up.
 population = 1000;
-generation = 15000;
+generation = 5;
 weight = 0;
 rotate = -0;
 add_gain = +0.00;
-tap = 180;
+tap = 200;
+phase = 38;
 
-[solutions,population,the_cost] = fixed_gen(population,generation,phase_offset,weight,tap);
-ir = generate_ir(solutions,rotate,add_gain,tap);
+[solutions,population,the_cost] = fixed_gen(population,generation,phase_offset,weight,tap,phase);
+ir = generate_ir(solutions,rotate,add_gain,tap,phase);
 
 %ir = ir-ir(end);
 
-[freqResp ,w] = freqz(ir,1,20000,40000);
+[freqResp ,w] = freqz(ir,1,22050,44100);
 
 % the actual transfer function
  actual_phase_respond = angle(freqResp);
@@ -68,6 +69,8 @@ ir = generate_ir(solutions,rotate,add_gain,tap);
   xlim([0 5000])
   figure
   plot(ir)
+  
+save('filter_parameter.mat','solutions')
 %%
 figure
 semilogx(w,actual_amplitude_respond*solutions.f1.filter_gain)

@@ -1,8 +1,8 @@
-function  [irEstimate]= generate_ir(solutions,rotate,add_gain,M)
+function  [irEstimate]= generate_ir(solutions,rotate,add_gain,M,phase)
 %%
 irEstimate = solutions.f1.ir_estimate;
    irEstimate = [irEstimate flip(irEstimate)];
-   irEstimate = circshift(irEstimate ,35);
+   irEstimate = circshift(irEstimate ,phase);
    irEstimate = irEstimate(1:end/2+20);
 
 % x = [1:1:M];

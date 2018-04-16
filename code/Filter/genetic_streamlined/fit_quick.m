@@ -14,7 +14,7 @@
 % %%% OUT %%%
 % cost: fitness of each individual, lower values are  better!      [vector]      
 % ------------------------------------------------------------------------
-function [cost]=fit_quick(population,n,weight_input,M)
+function [cost]=fit_quick(population,n,weight_input,M,phase_off)
 
 % calculating the fitness of the filter 
 
@@ -35,11 +35,11 @@ wanted_phase_respond = population.(strcat('gene',int2str(k))).phase';
  irEstimate = irEstimate-irEstimate(end);
  population.(strcat('gene',int2str(k))).ir_estimate= irEstimate;
    irEstimate = [irEstimate flip(irEstimate)];
-   irEstimate = circshift(irEstimate ,35);
+   irEstimate = circshift(irEstimate ,phase_off);
    irEstimate = irEstimate(1:end/2);
 
 
- [freqResp ,w] = freqz(irEstimate,1,20000,40000);
+ [freqResp ,w] = freqz(irEstimate,1,22050,44100);
 
 % the actual transfer function
 actual_phase_respond = angle(freqResp);
