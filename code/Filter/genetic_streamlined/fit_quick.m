@@ -35,7 +35,7 @@ wanted_phase_respond = population.(strcat('gene',int2str(k))).phase';
  irEstimate = irEstimate-irEstimate(end);
  population.(strcat('gene',int2str(k))).ir_estimate= irEstimate;
    irEstimate = [irEstimate flip(irEstimate)];
-   irEstimate = circshift(irEstimate ,30);
+   irEstimate = circshift(irEstimate ,35);
    irEstimate = irEstimate(1:end/2);
 
 

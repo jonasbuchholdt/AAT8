@@ -1,0 +1,63 @@
+\section{Filter}
+
+The aim of this chapter is to analyse the data from \ref{sec:opt_result} and choose the implementation method. From the beam forming optimization \autoref{sec:genetic_con} it was concluded that there shall be a cost filter and a beam forming filter. This chapter starts analyse the cost filter and design a filter solution, then the beam forming filter will be analysed and a solution will be designed.
+
+
+\section{The cost filter}
+The analysis of the cost filter will be done only with respect to the gain of the transfer function and without taking the phase intro account. The reason to avoid the phase is that the the filter is an input filter to the entire system, and therefore the phase of the filter will affect all speaker the same way and therefore not effect the beam forming phase. \\
+To analyse the cost filter, the cross over frequency, the gain and the slope of the filter have to be determined. The gain and the cross over frequency will be determined first. To determined the gain in \si{\decibel}, a second order polynomia estimation will be done on the data point of the cost filter. The polynomia estimation is done with MATLAB command \texttt{polyfit()} which give the second order polinomia and \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \gls{dc} to \SI{600}{\hertz}. The \SI{600}{\hertz} choice is made such that the estimation fit at lest to the double frequency of beam forming interest. The following \autoref{} shows the estimate compare to the original data point.
+
+
+
+
+
+
+
+As it can be seen on \autoref{} the shape of the estimated cost filter is a low pass filter with gain ... and have a cross over at \SI{91}{\hertz}. The second step is to find the slope of the needed low pass filter. The slope is founded as following \autoref{eq:filter_slope}
+
+\begin{equation}
+\text{slope} = \frac{G_2\si{\decibel}-G_1\si{\decibel}}{\log_{10}{(f_2)}-\log_{10}{(f_1)}}
+\end{equation}
+
+    \startexplain
+    \explain{$f$ is a frequency point }{\si{\hertz}}
+    		\explain{$f_2$ is a frequency point higher that $f_1$ }{\si{\meter}}
+        \explain{$G_1\si{\decibel}$ is the corresponding amplitude to $f_1$}{\si{\decibel}}
+         \explain{$G_2\si{\decibel}$ is the corresponding amplitude to $f_2$}{\si{\decibel}}
+    \stopexplain
+    
+The calculated slope is $17 \frac{\si{\decibel}}{dec}$ and it have been chosen that a standard first order low pass filter will be used. The following \autoref{} shows the error between the data and the filter. The error will make a pressure deference, that defence on frequency. 
+
+
+\section{Beam forming filter}
+The beam forming filter is not as easy as the cost filter to design, since that the phase and the gain have to be exact before the beam forming works. Therefore the phase have to be studied to determined the filter type. On the data point from the \ref{sec:opt_result} it can be seen that the phase is mostly linear in the frequency of interest, and therefore the filter will be a linear phase \gls{fir} filter. The smart thing with choosing a \gls{fir} filter is that the impulse response of the filter just have to be symmetric to achieve linear phase response. This means that optimizing the part of the impulse response and put it together with a mirrored version will always achieve linear phase. A modified version of the genetic optimization algorithm will be used to find a optimized impulse response of the filter. \\
+
+To optimize the impulse respond of the filter, an estimate of the impulse respond have to be determined. One and the used way to estimate the impulse response is to transfer all polar coordinate to a complex rectangular transfer function and take the real of the \gls{ifft} of the complex transfer function. The polar to rectangular transform is done as following \autoref{eq:pol_to_regt}
+
+\begin{equation}\label{eq:pol_to_regt}
+x=rcos(\phi)+i \cdot rsin(\phi)
+\end{equation}
+
+
+     \startexplain
+    \explain{$\phi$ is the angle of the transfer function in radian }{\si{1}}
+        \explain{$r$ is the amplitude of the transfer function}{\si{1}}
+    \stopexplain
+
+The real of the \gls{ifft} gives an estimated impulse response but with a scaled cross over point. the meaning with scaled cross over point is that the cross over point follows the scaling of the sample frequency. With a sample rate of \SI{44.1}{\kilo\hertz} the following transfer function \autoref{} shows the transfer function of the estimated impulse response. It can be seen that the cross over lays to high in frequency and there fore the impulse response have to be change to make a good estimate. The way to lower the cross over point is to extend the part of the impulse respond that have the highest amplitude, which also make the impulse response longer. Thinking about the theory of the \gls{fir} filter, that the lower cross over, the higher order the filter have to be and therefore the impulse respond gets longer. The following \autoref{} shows the estimated impulse respond that will be used for the optimization, where the crossover is approximatly where it shall be. 
+
+
+
+
+
+
+
+Recalling from earlier, a linear phase \gls{fir} filter have to have symmetric impulse respond and therefore the impulse respond will be curcilar rotated such that only the of the impulse respond will be the input of the genetic optimizer. It has to be remembered that the a mirrored version of the impulse respond have to be added to the impulse respond and the optimized impulse respond shall be rotated back. The following \autoref{} shows the rotation principe that is used.
+
+
+
+
+ 
+
+
+
