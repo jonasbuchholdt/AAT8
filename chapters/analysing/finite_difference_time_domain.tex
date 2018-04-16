@@ -1,9 +1,9 @@
 \section{The \gls{fdtd}}\label{sec:fdtd}
-The aim of this section is to give the basic of numerical simulation by using \gls{fdtd} method, such that a speaker array sound propagation can be analysed. The method of using numerical simulate will be descried, such that the method can be adapted to one or more speaker in a sound pressure field. 
-The theory behind \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This make it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specified loudspeaker can be applied to the simulation, and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulation have to be done in a narrow frequency band, before the simulation give a good approximation, the \gls{fdtd} can not include the hole frequency band in one simulation. A second advantage of using \gls{fdtd} is that the calculation is preformed in time domain, which benefit from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a 3 dimensional space, where the speaker box does not scatter the simulation \\
+The aim of this section is to outline the basics of numerical simulation by using the \gls{fdtd} method. With this method, sound propagation from a speaker array can be analysed. The principles this kind of numerical simulation will be described, such that the method can be adapted to one or more speakers in a sound field. 
+The approach of \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This makes it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specific loudspeaker can be applied to the simulation and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulations have to be done in a narrow frequency band, in order for the simulation to give a good approximation. The \gls{fdtd} can not include the whole hearing band in a single simulation. A second advantage of using \gls{fdtd} is that the calculation is performed in time domain, which benefits from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a 3 dimensional space, where the speaker box is set up not to scatter the simulation.\\
 
 \subsection{\gls{fdtd} wave equation}
-In \gls{fdtd} simulation, the two equation which need to be solved is the coupled first order equation of the pressure $p$ and the particle velocity $\vec{v}$. The first formula is the Euler \autoref{fdtd_euler}, which describe the relation between the gradient for the pressure $p$ and the derivative of the particle velocity $\vec{v}$ with respect to time \autoref{fdtd_euler}. 
+In \gls{fdtd} simulation, there are two equations, which need to be solved. The first formula is the Euler \autoref{fdtd_euler}, which describes the relation between the gradient for the pressure $p$ and the derivative of the particle velocity $\vec{v}$ with respect to time. 
 
 \begin{equation}\label{fdtd_euler}
 \frac{\partial \vec{v}}{\partial t} =- \frac{1}{\rho}\vec{\triangledown }p
@@ -16,7 +16,7 @@ In \gls{fdtd} simulation, the two equation which need to be solved is the couple
         \explain{$\vec{v}$ is the particle velocity}{\si{\meter\per\second}}
     \stopexplain
 
-The \autoref{fdtd_euler} is only valid with small variation of pressure. The second \autoref{fdtd_linear} is the linear continuity equation. The equation describe the relation between derivative of pressure $p$ with respect of time and the velocity $\vec{v}$ gradient. They are combined by the density of the medium and the speed of sound. 
+The \autoref{fdtd_euler} is only valid with small variation of pressure. The second \autoref{fdtd_linear} is the linear continuity equation. The equation describes the relation between the derivative of the pressure $p$ with respect of time and the velocity gradient $\triangledown\vec{v}$. They are related trough the density of the medium and the speed of sound. 
 
  \begin{equation}\label{fdtd_linear}
 \frac{\partial p}{\partial t} =- \rho c^2 \vec{\triangledown }\vec{v}
@@ -30,7 +30,8 @@ The \autoref{fdtd_euler} is only valid with small variation of pressure. The sec
         \explain{$\vec{v}$ is the particle velocity}{\si{\meter\per\second}}
     \stopexplain
 
-Both equation are approximated by using finite difference for every point in space and time, by using a 3 dimensional grid of the space. 
+By use of the derivative, both equations are approximated linearly at every point in a three dimensional cartesian grid. This is done with discrete time steps.
+%Both equations are approximated by using finite difference for every point in space and time, by using a 3 dimensional grid of the space. 
 
 
 \subsection{\gls{fdtd} using Cartesian grid}
