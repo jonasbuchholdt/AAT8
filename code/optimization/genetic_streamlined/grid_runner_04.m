@@ -113,7 +113,7 @@ master.reg.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).de
 master.reg.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).filterdata=filterdata;
 
 
-figure(1)
+figure(3)
 subplot(2,2,1)
 plot(f,deltaLpc)
 hold on
@@ -128,7 +128,7 @@ legend('augmented','omnidirectional')
 subplot(2,2,2)
 yyaxis left
 plot(f,filterdata.ogpres,'o')
-title('Filter Requirements: Single Speaker')
+title('Filter Requirements: Beamforming')
 ylabel('Gain [dB]')
 xlabel('Frequency [Hz]')
 xlim([flower fupper])
@@ -189,12 +189,85 @@ legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300
 ax.RAxis.Label.String = 'normed SPL [dB]';
 
 
-figure(2)
+figure(4)
 surf(corLx,corLy,master.cost_cor)
 colormap('jet')
-title('Corrected Cost Map')
+%title('Cost Map')
 xlabel('Lx [m]')
 ylabel('Ly [m]')
 zlabel('Cost Value [1]')
+
+figure(6)
+plot(f,deltaLpc)
+hold on
+plot(f,deltaLpn)
+title('Beamforming Cost')
+xlabel('Frequency [Hz]')
+ylabel('Gain [dB]')
+grid minor
+xlim([flower fupper])
+legend('augmented','omnidirectional')
+
+figure(7)
+yyaxis left
+plot(f,filterdata.ogpres,'o')
+title('Filter Requirements: Beamforming')
+ylabel('Gain [dB]')
+xlabel('Frequency [Hz]')
+xlim([flower fupper])
+hold on
+plot(f,filterdata.regpres)
+yyaxis right
+plot(f,rad2deg(filterdata.ogphase),'o')
+plot(f,rad2deg(filterdata.regphase))
+ylabel('Phase Shift [Deg]')
+
+
+
+figure(8)
+polarplot(angles,polardatog(end,:))
+hold on
+polarplot(angles,polardatog(21,:))
+polarplot(angles,polardatog(16,:))
+polarplot(angles,polardatog(11,:))
+polarplot(angles,polardatog(6,:))
+polarplot(angles,polardatog(1,:))
+title('Optimal Characteristics')
+
+ax = gca;
+thetaticks([0:20:360])
+rticks([-27:3:0])
+ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};
+
+ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160','-140','-120','-100','-80','-60','-40','-20'};
+ax.ThetaZeroLocation = 'top';
+ax.ThetaDir='clockwise';
+%ax.ThetaLim=[-90 90];
+rlim([botlim 0])
+legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
+ax.RAxis.Label.String = 'normed SPL [dB]';
+
+figure(9)
+polarplot(angles,polardatreg(end,:))
+hold on
+polarplot(angles,polardatreg(21,:))
+polarplot(angles,polardatreg(16,:))
+polarplot(angles,polardatreg(11,:))
+polarplot(angles,polardatreg(6,:))
+polarplot(angles,polardatreg(1,:))
+title('Filtered Characteristics')
+
+ax = gca;
+thetaticks([0:20:360])
+rticks([-27:3:0])
+ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};
+
+ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160','-140','-120','-100','-80','-60','-40','-20'};
+ax.ThetaZeroLocation = 'top';
+ax.ThetaDir='clockwise';
+%ax.ThetaLim=[-90 90];
+rlim([botlim 0])
+legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
+ax.RAxis.Label.String = 'normed SPL [dB]';
 
 save('G03.mat','master','Lx','Ly')

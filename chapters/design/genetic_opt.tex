@@ -18,7 +18,10 @@ These transition rules rely on evaluating the fitness of the solutions with the 
 
 \section{Implementation: Approach and Structure}
 \definecolor{green3}{rgb}{0,0.56,0}
-\begin{figure}[h]
+In order to set up a \gls{ga}, the \textit{phenotypes}, which are real world solutions to the real world problem, have to be coded into \textit{genotypes}, which represent those solutions in a mathematical domain. This corresponds to the coded parameter sets that are mentioned in point 1. in \autoref{sec:ga_fundamental}.
+A way to describe the acoustical beamforming problem, that this project is investigating, is illustrated in \autoref{fig:gene_setup}. The parameters, that make up the genotypes, are denoted in \textcolor{green3}{green} letters. The hardware setup consists of three loudspeakers (A,B,C). Each of the speakers is fed a signal, that is a modified version of a common source signal. The signals differ in gain (\textcolor{green3}{\texttt{Va}}, \textcolor{green3}{\texttt{Vb}}, \textcolor{green3}{\texttt{Vc}}) and phase (\textcolor{green3}{\texttt{Phia}}, \textcolor{green3}{\texttt{Phib}}, \textcolor{green3}{\texttt{Phic}}). The positioning of the \textcolor{red}{acoustic centers} of the loudspeakers relative to each other is set up as a isosceles triangle. The triangle is described using the length of its base side (\textcolor{green3}{\texttt{Lx}}) and the corresponding height (\textcolor{green3}{\texttt{Ly}}). Negative values of \textcolor{green3}{\texttt{Ly}} mean, that the tip of the triangle is pointing in the opposite direction compared to the setup in \autoref{fig:gene_setup}. When speaking about genetic algorithm, the formerly mentioned parameter are commonly refered to as \textit{genes}. The particular value, that each of the genes has in a genotype is referred to as an \textit{allele}. The set of genes are refered to as \textit{chromosomes}. In this particular case, each individual genotype has just one chromosome and the alleles are represented in float values.\\
+Because the genetic algorithm works on with a pool of solutions at any given time, it is necessary to initialize a population of genotypes. This corresponds to point 2. in \autoref{sec:ga_fundamental}. The way, that the population is initialized in the algorithm used for this project, is shown in Appendix \ref{axs:pop_init}. The initial alleles are determined with some random values that are combined with some educated guessing (see also \autoref{sec:ga_prior}).\\
+\begin{figure}[H]
 	\begin{sideways}
 	\begin{minipage}{\textheight}
 %		\centering
@@ -80,9 +83,6 @@ These transition rules rely on evaluating the fitness of the solutions with the 
 \caption{Phenotype and Genotype relations, visualization of genes and fitness evaluation. Genotype parameters are denoted in \textcolor{green3}{green} and the fitness evaluation method is denoted in \textcolor{blue}{blue}.}
 \label{fig:gene_setup}
 \end{figure}
-In order to set up a \gls{ga}, the \textit{phenotypes}, which are real world solutions to the real world problem, have to be coded into \textit{genotypes}, which represent those solutions in a mathematical domain. This corresponds to the coded parameter sets that are mentioned in point 1. in \autoref{sec:ga_fundamental}.
-A way to describe the acoustical beamforming problem, that this project is investigating, is illustrated in \autoref{fig:gene_setup}. The parameters, that make up the genotypes, are denoted in \textcolor{green3}{green} letters. The hardware setup consists of three loudspeakers (A,B,C). Each of the speakers is fed a signal, that is a modified version of a common source signal. The signals differ in gain (\textcolor{green3}{\texttt{Va}}, \textcolor{green3}{\texttt{Vb}}, \textcolor{green3}{\texttt{Vc}}) and phase (\textcolor{green3}{\texttt{Phia}}, \textcolor{green3}{\texttt{Phib}}, \textcolor{green3}{\texttt{Phic}}). The positioning of the \textcolor{red}{acoustic centers} of the loudspeakers relative to each other is set up as a isosceles triangle. The triangle is described using the length of its base side (\textcolor{green3}{\texttt{Lx}}) and the corresponding height (\textcolor{green3}{\texttt{Ly}}). Negative values of \textcolor{green3}{\texttt{Ly}} mean, that the tip of the triangle is pointing in the opposite direction compared to the setup in \autoref{fig:gene_setup}. When speaking about genetic algorithm, the formerly mentioned parameter are commonly refered to as \textit{genes}. The particular value, that each of the genes has in a genotype is referred to as an \textit{allele}. The set of genes are refered to as \textit{chromosomes}. In this particular case, each individual genotype has just one chromosome and the alleles are represented in float values.\\
-Because the genetic algorithm works on with a pool of solutions at any given time, it is necessary to initialize a population of genotypes. This corresponds to point 2. in \autoref{sec:ga_fundamental}. The way, that the population is initialized in the algorithm used for this project, is shown in Appendix \ref{axs:pop_init}. The initial alleles are determined with some random values that are combined with some educated guessing (see also \autoref{sec:ga_prior}).\\
 According to point  3. in \autoref{sec:ga_fundamental} there needs to be a function that evaluates the fitness of every genotype based on some criteria. The way that this is achieved is also visualized in \autoref{fig:gene_setup}. The corresponding code is shown in Appendix \ref{axs:fitness}. The coordinates of a \textcolor{blue}{circle} around the centroid of the triangle between the \textcolor{red}{acoustic centers} are calculated. The radius of the circle is signficantly bigger then the size of the speaker array. From these circle coordinates a set of coordinates, that describes the distance to each \textcolor{red}{acoustic center}, is deducted for every one of the speakers. Using these coordinates and the gain and phase parameters from the alleles as well as the frequency, for which the optimization is excecuted, the pressure from each speaker is calculated using \autoref{eq:aug_omni}. The (complex) pressures are added in order to get the resulting pressure along the circumference.\\
 The ultimate goal of running this \gls{ga} is getting phenotype solution, that leads to a particular desired directional characteristic of the speaker array. This is implemented, by weighting the normed pressure along the circumference according to some preferences. This means, pressure in the direction in the direction, in which sound emission is desired, is assigned a low cost, whereas pressure in a direction, in which sound emission is undesired, is assigned a high cost. When the normed and weighted pressure is summed, a fitness value is put out. The formerly described way of applying weight leads to lower values corresponding to fitter solutions.\\
 The final point 4. from \autoref{sec:ga_fundamental} mentions probabilistic transition rules. The implementation of these is shown in Appendices \ref{axs:parents}, \ref{axs:offspring} and \ref{axs:mutation}. The genotypes, that are used to generate new genotypes for the subsequent generation are selected via tournament
@@ -99,40 +99,50 @@ Another form of prior knowledge is used when initializing the population. With t
 Prior knowledge is also incorporated in the way that the optimization is excecuted over the whole frequency range of \SIrange{60}{300}{\hertz}. Heuristic trials have shown, that the placement of the loudspeakers is much more critical for the optimization result at higher frequencies then it is at lower frequencies. When it is intended to actually set up a speaker array that is driven the signal processing parameters that are the result of the optimization process, and measure and experience the performance, then it is not feasible to have different speaker positions for different frequencies. For this reason the optimization process is startet at the highest frequency. The speaker position is then fixed. In the following optimization runs, only gain and phase are optimized. Using the population of the last generation from the previous frequency optimization, allows to have a smaller number of generations when optimizing for the adjacent frequency as many of the genotypes are already close to optimal.
 
 \section{Optimization Results}\label{sec:opt_result}
-The best genotypes for every frequency can be used, to generate polar plots of the expected directional characteristics. Generating these is done similarly to the fitness evaluation by calculating the normed summed pressure along a circumference using \autoref{eq:aug_omni}.
-For a setup with the corner of the array pointing towards the main emission direction, the expected directional characteristics are shown in \autoref{fig:expected_pcor}.\\
+The best genotypes for every frequency can be used to generate polar plots of the expected directional characteristics (\autoref{fig:opt_res_c}). Generating these is done similarly to the fitness evaluation by calculating the normed summed pressure along a circumference using \autoref{eq:aug_omni}.
+Because the optimization algorithm has been fixed to a case, where the main axis of the array is orthogonal to the line between two of the acoustic centers, the signal for two of the speakers is the same. The relation between this signal and the signal for the remaining speaker can be plotted for phase and amplitude (\autoref{fig:opt_res_b}). The regressed curves can later be used to find filter parameter (see \autoref{sec:filter_design}).\\
+Another plot of the expected directional characteristics is made, based on the regressed parameters, in order to estimate, which effect the filtering will have (\autoref{fig:opt_res_d}).
+It has to be noted, that in order to achieve this result, the speaker positions parameters \textcolor{green3}{\texttt{Lx}} and \textcolor{green3}{\texttt{Ly}} were fixed.  The beamforming cost is a frequency dependent value that is described in detail in \autoref{sec:main_axis}. For the given optimization, it is plotted in \autoref{fig:opt_res_a}. The results show, that in low frequencies the speaker array emits approx. \SI{6}{\decibel} less pressure than a comparable arrangement of speakers without beamforming. However, towards higher frequencies, the emitted pressure is higher, leading to negative cost values, with a peak around \SI{240}{\hertz} at approx. \SI{-2}{\decibel}. At frequencies higher than that, the graph tends to rise again and displays a value of approx. \SI{-1}{\decibel} at the upper frequency boundary of \SI{300}{\hertz}. It can be noted, that the values, that have been calculated with the augmented source model (\autoref{eq:aug_omni}) only diverge from those that have been calculated with perfectly omnidirectional sources by a negligible quantity.
+In order to achieve compatibility with the \gls{fdtd} simulation (see \autoref{sec:fdtd_simulation}), the speaker positioning parameters have to fit within a \SI{5}{\centi\meter} grid. This lead to the decision to investigate the beamforming cost for different positions and to settle on a speaker positioning scheme based on the \SI{5}{\centi\meter}-discreteness and beamforming cost as well as practical considerations about the speaker placement.
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\textwidth]{expected_polar_pcor.eps}
-	\caption{Expected directional characteristics, optimization with pressure corrected cost function, correction table based on Appendix \ref{ax:directional_2}, generation count: $N_{start}=60$, $N_{rest}=30$, population size $t=1250$, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.405}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{0.249}{\meter}}
-		\label{fig:expected_pcor}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\textwidth]{filter_req.eps}
-	\caption{Amplitude and phase for loudspeakers B and C, relative to loudspeaker A, corresponding to the expected behaviour shown in \autoref{fig:expected_pcor}}
-		\label{fig:filter_req}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.85\textwidth]{opt_a.eps}
+\subcaption{Beamforming cost}
+\label{fig:opt_res_a}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{opt_b.eps}
+\subcaption{Filter requirements}
+\label{fig:opt_res_b}
+\end{subfigure}\\
+\hspace{0.1\textheight}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{opt_c.eps}
+\subcaption{Directional characteristic, optimal}
+\label{fig:opt_res_c}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{opt_d.eps}
+\subcaption{Directional characteristic, filtered}
+\label{fig:opt_res_d}
+\end{subfigure}
+\caption{Optimization results, with pressure corrected cost function, correction table based on Appendix \ref{ax:directional_2}, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.4}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{-0.4}{\meter}}
+		\label{fig:opt_res}
 \end{figure}
 
-\section{Main axis response}
-To assess the practicability of the speaker array, it can be investigated, how it behaves on the main axis, where the voluntary audience is assumed to be. In order to do this, the frequency dependent sound pressure level on the main axis $L_{p,beam}(f)$ is compared a reference pressure level $L_{p,ref}(f)$, that is emitted by three loudspeakers of the same kind as those in the array, placed closely together. These analytical considerations are undertaken using augmented omnidirectional sources (\autoref{eq:aug_omni}). The velocity for this reference sources is the same, as the one for two frontal sources of the array. In the reference case, all three sources are in phase.
-We can define the frequency dependent beamforming cost $\Delta L_{p}(f)$ as the difference between the reference level $L_{p,ref}(f)$ and the beamformed level $L_{p,beam}(f)$. For all calculations, a distance of $r\,=\,$\SI{10}{\meter} will be used.
+\section{Main axis response}\label{sec:main_axis}
+To assess the practicability of the speaker array, it can be investigated, how it behaves on the main axis, where the voluntary audience is assumed to be. In order to do this, the frequency dependent sound pressure level on the main axis $L_{p,beam}(f)$ is compared a reference pressure level $L_{p,ref}(f)$, that is emitted by three loudspeakers of the same kind as those in the array, placed closely together as illustrated in \autoref{fig:ref_omni_array}. These analytical considerations are undertaken using augmented omnidirectional sources (\autoref{eq:aug_omni}). The velocity for this reference sources is the same, as the one for two frontal sources of the array. In the reference case, all three sources are in phase.
+We can introduce the frequency dependent beamforming cost $\Delta L_{p}(f)$ as the difference between the reference level $L_{p,ref}(f)$ and the beamformed level $L_{p,beam}(f)$ (see \autoref{eq:beam_cost}).  The beamformed level is a pressure level calculated similarly to the cost function in the optimization. The speakers are arranged triangularly and the velocity for speakers B and C is the same as in the formerly mentioned reference case, whereas the velocity and phase of speaker A are set according some optimization result. This case is illustrated in \autoref{fig:ref_caridioid_array}. For all calculations, a distance of $r\,=\,$\SI{10}{\meter} will be used.
 \begin{equation}\label{eq:beam_cost}
 \Delta L_{p}(f)\,=\,L_{p,ref}(f)-L_{p,beam}(f)
 \end{equation}
-For practical applications, it is preferable to have the same frequency response from the speaker array on the main axis as for the case where no beamforming is executed. In order to achieve this, the input signal has to be sent through a filter with the same amplitude response as the beamforming cost. To avoid nonlinear behaviour from the loudspeakers, it is desirable to keep this equalization to a minimum. Because of this, another optimization criterion has emerged. This can mathematically be expressed as the integral over the beamforming cost.
-
-
-The aim of this section is to compare the response of the optimized cardioid speaker model with a line of speakers which radiate the same sound with the same parameter. The transfer function in the front of the cardioid speaker array might not have the same transfer function compare to the line of speakers. Therefore the pressure in the front might be a cost when going from speaker array that radiate omnidirectional to make them radiate with a cardioid patten. The cost can be frequency dependent and therefore the transfer function in the front is changed. It is interesting to investigated the pressure in the front of a line of three speaker, where they all have the same parameters compare to the cardioid speaker model, since the cardioid speaker model is made of three speaker unit. The cost of the cardioid model compared to the three speaker on a line will be analysed analytical in this section and end out with the needed parameter for making a flat frequency response in the front of the speaker array and a conclusion of the power loose. To make this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The difference between thoes two model is then defined as the cost. To do so, an analytical speaker model of one speaker have to be developed such that it have a flat frequency response in the frequency of interest. The speaker model will be a pulsating sphere with a radius of \SI{33}{\centi\meter} where the non linear frequency response is compensated such that the speaker model have a flat frequency response from  ke this comparing, a transfer function is made of both model from \SI{60}{\hertz} to \SI{300}{\hertz}. The pressure in the front of the three alined model might also be frequency dependent, but the frequency where the pressure is lowest will then be used as the reference pressure \\
-
-The main axis response of the three alined speaker is analysed analytical at a distance of \SI{10}{\meter} from the array center. The array center is the median cross of the cardioid speaker array model, which than mean that the speaker position in the alined model is as in the cardioid speaker model, but only where the back speaker is moved to the front line. All three speaker is radiation with a pressure of \SI{1}{\pascal} and the pressure at the main axis at a distance of \SI{10}{\meter} from the array center is the reference pressure point. \autoref{fig:ref_omni_array} shows the alined model, where it can be seen that the array center is behind the acoustical speaker alignement. All speaker have a time delay of zero and a frequency depended velocity 
 
 \begin{figure}[h]
 	\centering
 \begin{picture}(0,0)%
-\includegraphics{ref_caridioid_array.pdf}%
+\includegraphics[scale=0.5]{ref_omni_array.pdf}%
 \end{picture}%
-\setlength{\unitlength}{3315sp}%
+\setlength{\unitlength}{1658sp}%3315sp}%
 %
 \begingroup\makeatletter\ifx\SetFigFont\undefined%
 \gdef\SetFigFont#1#2#3#4#5{%
@@ -141,43 +151,7 @@ The main axis response of the three alined speaker is analysed analytical at a d
   \selectfont}%
 \fi\endgroup%
 \begin{picture}(7975,7142)(-672,-4729)
-\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Va}}%
-\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{Phib}}%
-\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{Phib}}%
-\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{Phia}}%
-\put(2271,2230){\color[rgb]{0,0,0}$L_{p,beam}$}%
-\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
-\put(2566,-1051){\color[rgb]{1,0,0}Array center}%
-\put(2386,-3211){\color[rgb]{0,0,0}Speaker A}%
-\put(1756,-2086){\color[rgb]{1,0,0}Ac. Center A}%
-\put(-179,-601){\color[rgb]{1,0,0}Ac. Center B}%
-\put(-181,-1906){\color[rgb]{0,0,0}Speaker B}%
-\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
-\put(3646,-1906){\color[rgb]{0,0,0}Speaker C}%
-\end{picture}%
-	\caption{Configuration for main axis beamformed pressure.}
-		\label{fig:ref_caridioid_array}
-\end{figure}
-
-
-
-\begin{figure}[h]
-	\centering
-\begin{picture}(0,0)%
-\includegraphics{ref_omni_array.pdf}%
-\end{picture}%
-\setlength{\unitlength}{3315sp}%
-%
-\begingroup\makeatletter\ifx\SetFigFont\undefined%
-\gdef\SetFigFont#1#2#3#4#5{%
-  \reset@font\fontsize{#1}{#2pt}%
-  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
-  \selectfont}%
-\fi\endgroup%
-\begin{picture}(7975,7142)(-672,-4729)
-\put(1711,-331){\color[rgb]{1,0,0}Ac. Center A}%
+\put(1641,-201){\color[rgb]{1,0,0}Ac. Center A}%
 \put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Vb}}%
 \put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
 \put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
@@ -186,36 +160,91 @@ The main axis response of the three alined speaker is analysed analytical at a d
 \put(4906,-3661){\color[rgb]{0,.56,0}\texttt{0}}%
 \put(2271,2230){\color[rgb]{0,0,0}$L_{p,ref}$}%
 \put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
-\put(-409,-601){\color[rgb]{1,0,0}Ac. Center B}%
-\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
-\put(1081,-1906){\color[rgb]{0,0,0}Speaker B}%
-\put(2341,-1906){\color[rgb]{0,0,0}Speaker A}%
-\put(3601,-1906){\color[rgb]{0,0,0}Speaker C}%
+\put(-1409,-201){\color[rgb]{1,0,0}Ac. Center B}%
+\put(3936,-651){\color[rgb]{1,0,0}Ac. Center C}%
+\put(161,-2106){\color[rgb]{0,0,0}Speaker B}%
+\put(1421,-2506){\color[rgb]{0,0,0}Speaker A}%
+\put(2681,-2906){\color[rgb]{0,0,0}Speaker C}%
 \put(2476,-1051){\color[rgb]{1,0,0}Array center}%
 \end{picture}%
 	\caption{Configuration for reference pressure $L_{p,ref}$.}
 		\label{fig:ref_omni_array}
 \end{figure}
 
-The following graph \autoref{fig:graph_plot_three_line} shows the absolute pressure from \SI{60}{\hertz} to \SI{300}{\hertz} of the aligned speaker model. 
-
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{expected_polar_pcor.eps}
-	\caption{The graph shows the frequency response of the aligned speaker model from \SI{60}{\hertz} to \SI{300}{\hertz}}
-		\label{fig:graph_plot_three_line}
+\begin{picture}(0,0)%
+\includegraphics[scale=0.5]{ref_caridioid_array.pdf}%
+\end{picture}%
+\setlength{\unitlength}{1658sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7975,7142)(-672,-4729)
+\put(5941,-3661){\color[rgb]{0,.56,0}\scriptsize{\texttt{Va}}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\scriptsize{\texttt{Vb}}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\scriptsize{\texttt{Vb}}}%
+\put(4906,-4471){\color[rgb]{0,.56,0}\scriptsize{\texttt{Phib}}}%
+\put(4906,-4066){\color[rgb]{0,.56,0}\scriptsize{\texttt{Phib}}}%
+\put(4906,-3661){\color[rgb]{0,.56,0}\scriptsize{\texttt{Phia}}}%
+\put(2271,2230){\color[rgb]{0,0,0}$L_{p,beam}$}%
+\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
+\put(2566,-1051){\color[rgb]{1,0,0}Array center}%
+\put(2386,-3511){\color[rgb]{0,0,0}Speaker A}%
+\put(1056,-2196){\color[rgb]{1,0,0}Ac. Center A}%
+\put(-1150,-1051){\color[rgb]{1,0,0}Ac. Center B}%
+\put(-1000,-2251){\color[rgb]{0,0,0}Speaker B}%
+\put(3736,-601){\color[rgb]{1,0,0}Ac. Center C}%
+\put(3646,-2251){\color[rgb]{0,0,0}Speaker C}%
+\end{picture}%
+	\caption{Configuration for main axis beamformed pressure.}
+		\label{fig:ref_caridioid_array}
+\end{figure}
+For practical applications, it is preferable to have the same frequency response from the speaker array on the main axis as for the case where no beamforming is executed. In order to achieve this, the input signal has to be sent through a filter with the same amplitude response as the beamforming cost. To avoid nonlinear behaviour from the loudspeakers, it is desirable to keep this equalization to a minimum. Because of this, another minimization criterion has emerged. It can be expressed mathematically as the integral over the beamforming cost.
+
+The desired amplitude behaviour of the signals in the loudspeaker array can be achieved by using two filters. First, the signals to all three speakers is run through a filter, that is compensating the beamforming cost. This first filter only has to fulfill certain amplitude specifications, where phase does not matter. Secondly, the signal to the single speaker in the back of the array is run through another filter, that manipulates phase and amplitude according to specifications from \autoref{sec:opt_result} in order to make beamforming happen. The setup is illustrated in \autoref{fig:signal_setup}. Detailed information about the implementation of these filters will be given in \autoref{sec:filter_design}.
+\begin{figure}[h]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics[scale=0.8]{filter_setup.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3315sp}%4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(6083,3409)(166,-4573)
+\put(41,-1936){Speaker B}%
+
+\put(3646,-1936){Speaker C}%
+
+\put(2386,-3241){Speaker A}%
+
+\put(5311,-4471){Cost Filter}%
+
+\put(1286,-4471){Beamforming Filter}%
+
+\end{picture}%
+	\caption{Signal chain for beamforming.}
+		\label{fig:signal_setup}
 \end{figure}
 
-From the graph in \autoref{fig:graph_plot_three_line} it can be seen that the pressure reference point is frequency dependent, when alining three speaker in an array with the same parameters, but the frequency dependency is small. The used 
+%The following graph \autoref{fig:graph_plot_three_line} shows the absolute pressure from \SI{60}{\hertz} to \SI{300}{\hertz} of the aligned speaker model. 
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.7\textwidth]{expected_polar_pcor.eps}
+%	\caption{The graph shows the frequency response of the aligned speaker model from \SI{60}{\hertz} to \SI{300}{\hertz}}
+%		\label{fig:graph_plot_three_line}
+%\end{figure}
 
 
-
-
-
-
-
-
-\section{Conclusion on \gls{sp}-requirements}
-\label{sec:genetic_con}
-
-
+\section{Conclusion on \gls{sp}-requirements}\label{sec:genetic_con}
+The investigations have shown, that at least according to analytical descriptions, the directional characteristics of a triangular loudspeaker array can be shaped in a significant way. The positioning of loudspeakers plays an important role on the signal parameters, that are required. Changing the positions of the loudspeakers will lead to varying results in terms of beamforming cost and directional characteristics. While a main lobe in any direction in relation to the speaker array is technically possible, it has been decided to go with a simplified approach, where the main lobe of the array is perpendicular to a connecting line between two acoustic centers. This leads to a simplified scheme as illustrated in \autoref{fig:signal_setup}, where only two filters are required. The analytical estimates of the directional characteristics of the array will be compared to simulation results that will be obtained with \gls{fdtd} (see. \autoref{sec:fdtd_simulation}. Finally, an implementation of the filters will be executed and polar response measurements will be performed.
