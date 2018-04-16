@@ -3,7 +3,7 @@
 clear all
 warning off
 
- load('G01.mat')
+ load('G03.mat')
 
 
 f=[60:10:300];
@@ -23,16 +23,15 @@ plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
 %ylabel('Phase Shift [Deg]')
 
 
-phase_offset = -0.05;  % minus move the phase up.
+phase_offset = -0.00;  % minus move the phase up.
 population = 1000;
-generation = 20000;
+generation = 15000;
 weight = 0;
 rotate = -0;
 add_gain = +0.00;
 tap = 180;
 
 [solutions,population,the_cost] = fixed_gen(population,generation,phase_offset,weight,tap);
-%%
 ir = generate_ir(solutions,rotate,add_gain,tap);
 
 %ir = ir-ir(end);

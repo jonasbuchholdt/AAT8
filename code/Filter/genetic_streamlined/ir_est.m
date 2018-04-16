@@ -1,7 +1,7 @@
 function  [irEstimate,back_filter_gain,back_filter_phase,gain_for_filter] = ir_est(phase,M)
 
 %%
-load('G01.mat')
+load('G03.mat')
 % f=flip([fbot:fres:ftop]);
 % 
 % for h=1:length(f)
@@ -34,8 +34,8 @@ fr=[1:1:1000*scale];
 
 %fr = fr(1:end-1);
 
-phase = -0.1;
-M=160;
+%phase = -0.1;
+%M=160;
 
 back_filter_gain  = (10.^(polyval(p_gain,fr)./20));%-20*log10(polyval(p_gain,0));
 back_filter_phase = (polyval(p_phase,fr))+phase;

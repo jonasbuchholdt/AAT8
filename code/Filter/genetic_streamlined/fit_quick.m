@@ -54,7 +54,7 @@ weight = [weight(1:800)' ones(1,200)]';
 fitness_phase(k) = sum(abs((actual_phase_respond(1:1000)-wanted_phase_respond(1:1000)).*weight));
 
 % the amplitude cost
-fitness_gain(k) = sum(abs((actual_amplitude_respond(1:1000)-wanted_amplitude_respond(1:1000)).*weight));
+fitness_gain(k) = sum(abs((actual_amplitude_respond(1:1000)-wanted_amplitude_respond(1:1000)).*weight*2));
 
 % the phase and amplitude cost
 cost(k)=fitness_gain(k)+fitness_phase(k); 
