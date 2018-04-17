@@ -1,8 +1,8 @@
 \section{\gls{fdtd} simulation} \label{sec:fdtd_simulation}
-The aim of this chapter is to make a simulation of the zero order gradient speaker, first order gradient speaker and the solution proposed in \autoref{sec:opt_result} using \gls{fdtd}. All simulation cross all three different method of using speaker at low frequency will be compared in both free field and inside a room. The result will be discussed with respect to directionality and efficiency. 
+The aim of this section is to make a simulation of the zero order gradient speaker, first order gradient speaker and the solution proposed in \autoref{sec:opt_result} using \gls{fdtd}. All simulation across all three different methods of using speakers at low frequency will be compared in both free field and inside a room. The result will be discussed with respect to directionality and efficiency. 
 
 \subsection{\gls{fdtd} step size}
-This section will determined the the step size for both grid size and the time step size. As the time step size is depending on the grid step size, the grid step size will be determined first. Recalling \autoref{fdtd_delta_stepsize} state that all three dimention will have the same step size in this project, the calculation is as following \autoref{fdtd_distance_stepsize} 
+This section will determine the the step size for both grid size and the time step size. Because the time step size is depending on the grid step size, the grid step size will be determined first. Recalling \autoref{fdtd_delta_stepsize} states, that all three dimention will have the same step size in this project. The calculation is as follows in\autoref{fdtd_distance_stepsize}.
 
 \begin{subequations}\label{fdtd_distance_stepsize}
 \begin{alignat}{2}
@@ -14,16 +14,16 @@ This section will determined the the step size for both grid size and the time s
 
     \startexplain
     		\explain{$\ delta d$ is the maximum grid cell size }{\si{\meter}}
-        \explain{$c$ is the speed of sound at 20 degree}{\si{\meter\per\second}}
+        \explain{$c$ is the speed of sound at a temperature of \SI{20}{\degree\celsius}}{\si{\meter\per\second}}
         \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
     \stopexplain
 
 Since the maximum grid cell size is \SI{11}{\centi\meter}, the grid cell size is in this project will be less or equal to \SI{10}{\centi\meter}, to be sure that a simulation does not suffer from a limiting grid cell size. \\
 
-From the optimization \autoref{sec:opt_result} it is determined that the optimal distance between the side speaker is \SI{50}{\centi\meter} and to the front speaker it is \SI{30}{\centi\meter}. The greatest common divisor is \SI{5}{\centi\meter} which then is the grid step size in all simulation. Next the time step have to be determined. The condition for time step is staded in \autoref{fdtd_time_stepsize_boundary} and gives following \autoref{fdtd_time_stepsize_con_one}
+From the optimization \autoref{sec:opt_result} it is determined that the optimal distance between the side speaker is \SI{40}{\centi\meter} and to the front speaker it is \SI{40}{\centi\meter}. When arranging the sources in a triangular shape, the greatest common divisor for putting them into a grid is \SI{20}{\centi\meter}. However this is bigger then than the formerly stated \SI{11}{\centi\meter}, which makes it unsuitable for simulation. Instead, it is decided to set the grid step size at \SI{5}{\centi\meter} in all simulations, to ensure flexibility during development. Next the time step has to be determined. The condition for the time step is stated in \autoref{fdtd_time_stepsize_boundary} and dictates the following \autoref{fdtd_time_stepsize_con_one}.
     
  
-    \begin{subequations}\label{fdtd_time_stepsize_con_one}
+\begin{subequations}\label{fdtd_time_stepsize_con_one}
 \begin{alignat}{2}
 \delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2}+\frac{1}{(\delta x)^2} }\cdot c} \right)\\
 \delta t &\leq \sqrt{\frac{2}{3}}  \left( \frac{1}{\sqrt{\frac{1}{(\SI{0.05}{\meter})^2}+\frac{1}{(\SI{0.05}{\meter})^2}+\frac{1}{(\SI{0.05}{\meter})^2} }\cdot \SI{343}{\meter\per\second}} \right)\\
@@ -31,12 +31,12 @@ From the optimization \autoref{sec:opt_result} it is determined that the optimal
 \end{alignat}
 \end{subequations}
     
- Which correspond to a sampling frequency of \SI{14552}{\hertz}. To be sure that a simulation does not suffer from a limiting time step size, the sampling frequency will be rounded up to \SI{14560}{\hertz}.
+This corresponds to a sampling frequency of \SI{14552}{\hertz}. To be sure that a simulation does not suffer from a limiting time step size, the sampling frequency will be rounded up to \SI{14560}{\hertz}.
  
  
 
 \subsection{\gls{fdtd} source}
-There will be used a transparent source, since the speaker box \gls{fdtd} model not will be made in this project. The source have a stability condition which have to be respected and this include the number of dimension. In \autoref{sec:fdtd} the \gls{fdtd} is prepared to three but all simulation in this section will only be in two dimension, since the speaker not is moved in the third dimension.  The stability condition is staded in \autoref{fdtd_transparent_source_impulse_stability} and the stability is as \autoref{fdtd_transparent_source_impulse_stability_calculation}
+The acoustic centers of the speakers will be represented as transparent sources, since a speaker cabinet \gls{fdtd} model will not be incorporated in this project. The source has a stability condition which has to be fulfilled and this includes the number of dimensions. In \autoref{sec:fdtd} the \gls{fdtd} is prepared to dimensions, but all simulations in this section will only be in two-dimensional, since the speakers are not offset in the third dimension.  The stability condition is stated in \autoref{fdtd_transparent_source_impulse_stability} and the stability achieved as shown in \autoref{fdtd_transparent_source_impulse_stability_calculation}.
 
 
 
@@ -48,14 +48,14 @@ There will be used a transparent source, since the speaker box \gls{fdtd} model 
 \end{alignat}
 \end{subequations}
 
-As it can be seen in \autoref{fdtd_transparent_source_impulse_stability_calculation} the transparent sound source is stable with the calculated time and grid size.
+As shown in \autoref{fdtd_transparent_source_impulse_stability_calculation} the transparent sound source is stable with the calculated time and grid size.
 
 % The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{7399}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
 
 
 
 \subsection{\gls{fdtd} implementation}
-The aim of this section is to convert the grid to matrices. Since the grid is in three dimension where the time is the fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
+The aim of this section is to convert the grid to matrices. Since the grid is in three dimensions, where the time is a fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
 
 
 \begin{figure}[H]
@@ -95,30 +95,30 @@ The aim of this section is to convert the grid to matrices. Since the grid is in
 		\label{fig:fdtd_cartesian_grid}
 \end{figure}
 
-All simulation is done i MATLAB and therefore the $x$ direction is implemented as matrix rows direction and $y$ direction is implemented as matrix column direction. The hight $h$ is implemented as the third dimension and the time is implemented as the fourth dimension. The particle velocity will be calculated as the first step and the pressure will be calculated as the second step. The time dimension is only as small as 2 page, because it is only necessary to save at $[l-1]$ and at $[l]$. A page is one dimension in a matrix system, where the number before page  describe in this case the time and not two dimension page. There can be many dimension for page where the implementation of the \gls{fdtd} have two page dimension.  All time further away than $[l-1]$ is not used in the calculation and will be deleted for keeping the needed storage as low as possible. 
+All simulation is implemented in MATLAB. The $x$ direction is implemented as matrix row direction and $y$ direction is implemented as matrix column direction. The height $h$ is implemented as the third dimension and the time is implemented as the fourth dimension. The particle velocity will be calculated as the first step and the pressure will be calculated as the second step. The time dimension is only as small as 2 pages, because it is only necessary to save at $[l-1]$ and at $[l]$. A page is one dimension in a matrix system, where the number before ´´page"  describes the time in this context and not a two dimension page. There can be many dimensions for pages, where the implementation of the \gls{fdtd} has two page dimensions.  All time steps further away than $[l-1]$ are not used in the calculation and will be deleted for keeping the storage requirements as low as possible. 
 
 \subsection{\gls{fdtd} boundary}
-The particle velocity at the boundary in all direction have to be calculated as in \autoref{fdtd_boundary_result} and this is done as a step between the particle velocity matrices and the pressure matrices. This mean for the particle velocity in $x$ direction the first and last matrix row is calculated by the boundary formula and in $y$ direction the first column and the last matrix column is calculated by the boundary formula. 
+The particle velocity at the boundary in all direction has to be calculated as in \autoref{fdtd_boundary_result} and this is done as a step between the particle velocity matrices and the pressure matrices. This means, that for the particle velocity in $x$ direction the first and last matrix row are calculated by the boundary formula and in $y$ direction the first column and the last matrix column is calculated by the boundary formula. 
 
 
 \subsection{\gls{fdtd} plot}
-The aim of the section is to explain how the resulting phase, gain and distance from \autoref{ch:optimization} is implemented in a \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{ch:optimization}. \\
+The aim of the section is to explain how the phase, gain and distance, resulting from \autoref{ch:optimization}, are implemented in the \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{ch:optimization}. \\
 
-To be able to simulate the result from \autoref{ch:optimization} three pressure point is used as the acoustical center. The pressure point is implemented as transparent point sources, where all the point sources is fed with a sinusoid of a single frequency where the phase and gain is adjusted to the specified frequency. The Front speaker will always be feeded with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. Therefore it is only the back speaker which will be adjusted phase and gain wise. The simulation run step is the smallest room size divided by the grid size, such that the wave do not reflect from the wall. \\
+To be able to simulate the result from \autoref{ch:optimization}, three pressure points is used as the acoustical center. The pressure points are implemented as transparent point sources, where all the point sources is fed with a sinusoid of a single frequency where the phase and gain is adjusted to the specified frequency. The front speakers will always be feeded with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. Therefore it is only the back speaker, which will be adjusted in phase and gain. The number of simulation run steps is the smallest room size divided by the grid size, such that the waves do not reflect from the wall. \\
 
-A wave will expand in a circular form and since the simulation stops just before the it hits the first wall, The simulation will be a circular shape. Some of the area is not simulated and is therefore pressure less. The simulation is therefore made so large that the polar plot with a radius of \SI{10}{\meter} still can be calculated, where the used simulation data is only a squared area inside the circular shape and the rest data is discarded.\\
+A wave will expand in a circular form and since the simulation stops just before the it hits the first wall, the simulation result will be a circular shape. Some of the area is not simulated and is therefore without a valid pressure. Because of this, the simulation is made so large that the polar plot with a radius of \SI{10}{\meter} can still be calculated, where the used simulation data is only a squared area inside the circular shape and the rest data is discarded.\\
 
-The polar plot from the analytical model is based on the \gls{rms} pressure, therefore the \gls{rms} pressure of the \gls{fdtd} have to be calculated. The \gls{rms} of the \gls{fdtd} simulation is calculated as following \autoref{fdtd_rms_pressure}
+The polar plot from the analytical model is based on the \gls{rms} pressure, therefore the \gls{rms} pressure of the \gls{fdtd} has to be calculated. The \gls{rms} of the \gls{fdtd} simulation is calculated as following in \autoref{fdtd_rms_pressure}.
 
 \begin{equation}\label{fdtd_rms_pressure}
 P_{rms}(i,j,k)=\sqrt{\frac{\left(p_{(i,j,k)}^{[l= \delta t]} \right))^2 + \left(p_{(i,j,k)}^{[l= 2\delta t]}\right)^2 +...+\left(p_{(i,j,k)}^{[l= n\delta t]}\right)^2}{n}}
 \end{equation}
 
 \subsection{First order gradient speaker}
-In this section, the first order gradient speaker simulation result will be present and compared to the analytical model.
+In this section, the first order gradient speaker simulation result will be presented and compared to the analytical model.
 
 \subsection{The three speaker model}
-In this section, the three speaker model simulation result will be present and compared to the analytical model. The following figures shows the result from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step will be \SI{40}{\hertz}. All result is done according to the description in this chapter. All polar plot is normalized, such that it only shows the attenuation all around the polar plot. The exact pressure from the analytical model and the \gls{fdtd} simulation will be present is the text beneath every figure. 
+In this section, the three speaker array simulation result will be presented and compared to the analytical model. The following figures show the results from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step is \SI{40}{\hertz}. All results have been achieved according to the description in this chapter. All polar plots are normalized, so that they only show the attenuation all around the circumference. The exact pressure from the analytical model and the \gls{fdtd} simulation will be stated in the caption of every figure. 
 
 
 \begin{figure}[H]
@@ -133,7 +133,7 @@ In this section, the three speaker model simulation result will be present and c
 		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{60}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_60_Hz}
 \end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the cardioid speaker model at \SI{60}{\hertz}}
+\caption{The figure compares the analytical model and the \gls{fdtd} model of speaker array at \SI{60}{\hertz}}
 \end{figure}
 
 
@@ -149,7 +149,7 @@ In this section, the three speaker model simulation result will be present and c
 		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{70}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_70_Hz}
 \end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the cardioid speaker model at \SI{70}{\hertz}}
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{70}{\hertz}}
 \end{figure}
 
 
@@ -165,7 +165,7 @@ In this section, the three speaker model simulation result will be present and c
 		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{80}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_80_Hz}
 \end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the cardioid speaker model at \SI{80}{\hertz}}
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{80}{\hertz}}
 \end{figure}
 
 
@@ -181,7 +181,7 @@ In this section, the three speaker model simulation result will be present and c
 		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{90}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_90_Hz}
 \end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the cardioid speaker model at \SI{90}{\hertz}}
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array model at \SI{90}{\hertz}}
 \end{figure}
 
 
@@ -197,7 +197,7 @@ In this section, the three speaker model simulation result will be present and c
 		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{100}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_100_Hz}
 \end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the cardioid speaker model at \SI{100}{\hertz}}
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{100}{\hertz}}
 \end{figure}
 
 \section{Conclusion}
