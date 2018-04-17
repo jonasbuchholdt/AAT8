@@ -19,6 +19,8 @@ the filter type will be determined first. To determined the filter type, a secon
 
 As it can be seen on \autoref{band_stop_filter} the shape of the estimated cost filter is a band stop filter with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{175}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The gain in the front of the filter will need to be \SI{6.4}{\decibel}. \\
 
+\subsection{Band pass filter}
+
 Designing a bandstop filter is done with designing it as a band boost filter and then change the filter from feed forward to feedback coupled filter. Thats mean that the filter will be change to following \autoref{fig:band_pass_filter}
 
 
@@ -29,6 +31,55 @@ Designing a bandstop filter is done with designing it as a band boost filter and
 		\label{fig:band_pass_filter}
 \end{figure}
 
+It can be seen on the figure, that the \SI{-3}{\decibel} bandwidth is \SI{213}{\hertz}, a center frequency of \SI{234}{\hertz} the gain must be \SI{8.5}{\decibel} 
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_pass_filter_h_non_scaled.eps}
+	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+		\label{fig:band_pass_filter_h_non_scaled}
+\end{figure}
+
+The wanted filter is raised by \SI{2}{\decibel} such that the designed filter also fit at low frequency. The output of the filter shall afterwards by atunuated by  \SI{2}{\decibel} to work as wanted.
+
+
+It can be seen on \autoref{fig:band_pass_filter_h_non_scaled} that the \SI{-3}{\decibel} bandwidth is to narrov because the wanted filter have symmetrical shape in linear domain and not in logorithmic doman which the filter have.Therefore the filter bandwidth have to be extended with a factor of 1.1878. The factor is founded by trail and error. After the bandwidth is extended the filter is as following \autoref{fig:band_pass_filter_h}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_pass_filter_h.eps}
+	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+		\label{fig:band_pass_filter_h}
+\end{figure}
+
+
+\subsection{Band stop filter form second order filter}
+To transform a band pass filter to a band stop filter which not is a notch filter, the filter have to be transformed from a feed forward filter to a feedback filter 
+
+
+(BLOCK DIAGRAM)
+
+To transform the bandpass filter to a bandstop filter as descriped above, only the denominator and the numerator have to be switch around.
+
+(The new formula)
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_stop_filter_non_scaled.eps}
+	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+		\label{fig:band_stop_filter_non_scaled}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_stop_filter_scaled.eps}
+	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+		\label{fig:band_stop_filter_scaled}
+\end{figure}
 
 
  The second step is to find the slope of the needed low pass filter. The slope is founded as following \autoref{eq:filter_slope}
