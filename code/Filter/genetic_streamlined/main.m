@@ -45,7 +45,20 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
 
 
 
- yyaxis left
+%  yyaxis left
+%  plot(w,20*log10(solutions.f1.gain*solutions.f1.filter_gain),'--')
+%  hold on
+%  ylabel('Gain [dB]')
+%  xlabel('Frequency [Hz]')
+%  plot(w,20*log10(actual_amplitude_respond*solutions.f1.filter_gain))
+%  yyaxis right
+%  plot(w,rad2deg(solutions.f1.phase),'--')
+%  plot(w,rad2deg(actual_phase_respond))
+%  ylabel('Phase Shift [Deg]')
+%  xlim([60 300])
+
+
+  yyaxis left
  plot(w,20*log10(solutions.f1.gain*solutions.f1.filter_gain),'--')
  hold on
  ylabel('Gain [dB]')
@@ -55,18 +68,19 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
  plot(w,rad2deg(solutions.f1.phase),'--')
  plot(w,rad2deg(actual_phase_respond))
  ylabel('Phase Shift [Deg]')
- xlim([60 300])
-
+ xlim([20 2500])
+ ylim([-600 200])
  
-  figure
-  semilogx(w,actual_amplitude_respond)
-  hold on
-  semilogx(w,actual_phase_respond)
-  semilogx(w,solutions.f1.gain,'b--')
-  semilogx(w,solutions.f1.phase,'r--')
-  xlim([0 5000])
-  figure
-  plot(ir)
+%   figure
+%   semilogx(w,actual_amplitude_respond)
+%   hold on
+%   semilogx(w,actual_phase_respond)
+%   semilogx(w,solutions.f1.gain,'b--')
+%   semilogx(w,solutions.f1.phase,'r--')
+%   xlim([20 20000])
+%   ylim([-8 8])
+   figure
+   plot(ir)
   
 %%save('filter_parameter.mat','solutions')
 

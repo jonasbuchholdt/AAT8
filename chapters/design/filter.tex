@@ -183,10 +183,34 @@ It can be seen at \autoref{ir_estimate_scaled_close} that the fit is close, but 
 
 At the end of all mutation the last point of the impulse response is used as the \gls{dc} offset and the offset will be subtracted from the impulse response , such that the impulse response end at an amplitude of zero. 
 
-
+\section{Result}
 
 
  
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{filter_vs_reg.eps}
+	\caption{The graph shows transfer function of the estimated impulse respond. The dashed line is transfer function that is needed for beam forming filter, where the blue line is the gain and the red line is the phase. The Solid line line is the transfer function of the estimated impulse response, where the blue line is the gain and the red line is the phase. All circle in the start of the graph is the actual optimized point.}
+		\label{fig:filter_vs_reg}
+\end{figure}
 
+Where the corresponding impulse response is as \autoref{fig:ir_estimate_mirror_scale}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{filter_coefficient.eps}
+	\caption{The graph shows the impulse respond where the mirrored version is added to the impulse respond}
+		\label{fig:filter_coefficient}
+\end{figure}
+
+As it can be seen at \autoref{fig:ir_estimate_scaled} that the cut off is lowered and the gain is automatic raised to the wanted area. A closer look on the area of the frequency of interest in 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{filter_vs_data.eps}
+	\caption{The graph shows transfer function of the estimated impulse respond. The dashed line is transfer function that is needed for beam forming filter, where the blue line is the gain and the red line is the phase. The Solid line line is the transfer function of the estimated impulse response, where the blue line is the gain and the red line is the phase. All circle is the actual optimized point.}
+		\label{fig:filter_vs_data}
+\end{figure}
 
