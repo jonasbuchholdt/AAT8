@@ -45,17 +45,17 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
 
 
 
-%  yyaxis left
-%  plot(w,20*log10(solutions.f1.gain*solutions.f1.filter_gain),'--')
-%  hold on
-%  ylabel('Gain [dB]')
-%  xlabel('Frequency [Hz]')
-%  plot(w,20*log10(actual_amplitude_respond*solutions.f1.filter_gain))
-%  yyaxis right
-%  plot(w,rad2deg(solutions.f1.phase),'--')
-%  plot(w,rad2deg(actual_phase_respond))
-%  ylabel('Phase Shift [Deg]')
-%  xlim([60 300])
+ yyaxis left
+ plot(w,20*log10(solutions.f1.gain*solutions.f1.filter_gain),'--')
+ hold on
+ ylabel('Gain [dB]')
+ xlabel('Frequency [Hz]')
+ plot(w,20*log10(actual_amplitude_respond*solutions.f1.filter_gain))
+ yyaxis right
+ plot(w,rad2deg(solutions.f1.phase),'--')
+ plot(w,rad2deg(actual_phase_respond))
+ ylabel('Phase Shift [Deg]')
+ xlim([60 300])
 
 
   yyaxis left
@@ -79,8 +79,12 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
 %   semilogx(w,solutions.f1.phase,'r--')
 %   xlim([20 20000])
 %   ylim([-8 8])
+x = [1:1:length(ir)]
+x = x/44100;
    figure
-   plot(ir)
+   plot(x,ir)
+ ylabel('Impulse response [1]')
+ xlabel('Second [s]')   
   
 %%save('filter_parameter.mat','solutions')
 
