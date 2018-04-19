@@ -16,7 +16,7 @@ global alpha
 global beta
 
 before= 0;
-scale = 5;
+scale = 3;
 fs = 16000;
 rho = 1.21;
 c = 343;
