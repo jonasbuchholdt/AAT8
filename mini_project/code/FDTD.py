@@ -12,7 +12,7 @@ exec(open("./initializer_01.py").read())
 stop_time = simulation_step+1;
 front = np.empty((stop_time));
 for t in range(stop_time):
-    front[t] = np.sin(2*np.pi*100*((t-1)/fs));
+    front[t] = 1000*np.sin(2*np.pi*100*((t-1)/fs));
 
 
 
@@ -30,7 +30,9 @@ for t in range(stop_time):
     k = 0;    
     
 # calculate transparant source correction        
-    pressure[int(spc[1]),int(spc[2]),k,0]=pressure[int(spc[1]),int(spc[2]),k,1]+front[t+1]-impulse;    
+    #pressure[int(spc[0]),int(spc[1]),k,0]=pressure[int(spc[0]),int(spc[1]),k,1]+front[t+1]-impulse;    
+    pressure[int(spc[0]),int(spc[1]),k,0]=front[t]    
+
 
 
 # Particla velocity x 
@@ -58,7 +60,7 @@ for t in range(stop_time):
 
 
 # The pressure
-    pressure[:,:,k,1]=pressure[:,:,k,0]-((rho*(c^2)*delta_t)/grid_size)*((Vx[1:,:,k,1]-Vx[:-1,:,k,1])+(Vy[:,1:,k,1]-Vy[:,:-1,k,1]));
+    pressure[:,:,k,1]=pressure[:,:,k,0]-((rho*(c**2)*delta_t)/grid_size)*((Vx[1:,:,k,1]-Vx[:-1,:,k,1])+(Vy[:,1:,k,1]-Vy[:,:-1,k,1]));
 
 
 # swapping matrix 
@@ -67,7 +69,7 @@ for t in range(stop_time):
     Vy[:,:,k,0]=Vy[:,:,k,1];
     #Vz(:,:,:,1)=Vz(:,:,:,2);
 
-
+exec(open("./plotout.py").read())
 
 
 
