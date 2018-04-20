@@ -1,8 +1,8 @@
-\section{\gls{fdtd} simulation} \label{sec:fdtd_simulation}
-The aim of this section is to make a simulation of the zero order gradient speaker, first order gradient speaker and the solution proposed in \autoref{sec:opt_result} using \gls{fdtd}. All simulation across all three different methods of using speakers at low frequency will be compared in both free field and inside a room. The result will be discussed with respect to directionality and efficiency. 
+\section{\gls{fdtd} implementation} \label{sec:fdtd_simulation}
+The goal of this section is to show the parameters for setting up a \gls{fdtd}-simulation with one omnidirectional sound source placed in the middle of the room. 
 
 \subsection{\gls{fdtd} step size}
-This section will determine the the step size for both grid size and the time step size. Because the time step size is depending on the grid step size, the grid step size will be determined first. Recalling \autoref{fdtd_delta_stepsize} states, that all three dimention will have the same step size in this project. The calculation is as follows in\autoref{fdtd_distance_stepsize}.
+In this section, the step size for both grid- and the time step will be determined. Because the time step size is depending on the grid step size, the grid step size has to be determined first. \autoref{fdtd_delta_stepsize} states, that all three dimentions will have the same step size in this project. The calculation is featured in \autoref{fdtd_distance_stepsize}.
 
 \begin{subequations}\label{fdtd_distance_stepsize}
 \begin{alignat}{2}
@@ -13,14 +13,14 @@ This section will determine the the step size for both grid size and the time st
 \end{subequations}
 
     \startexplain
-    		\explain{$\ delta d$ is the maximum grid cell size }{\si{\meter}}
+    	\explain{$\delta d$ is the maximum grid cell size }{\si{\meter}}
         \explain{$c$ is the speed of sound at a temperature of \SI{20}{\degree\celsius}}{\si{\meter\per\second}}
         \explain{$f_{max}$ is the maximum frequency in the simulation}{\si{\hertz}}
     \stopexplain
 
-Since the maximum grid cell size is \SI{11}{\centi\meter}, the grid cell size is in this project will be less or equal to \SI{10}{\centi\meter}, to be sure that a simulation does not suffer from a limiting grid cell size. \\
+Since the maximum grid cell size is \SI{11}{\centi\meter}, the grid cell size is in this project will be less or equal to \SI{10}{\centi\meter}, to be sure that a simulation does not suffer from problems due to grid cell size. \\
 
-From the optimization \autoref{sec:opt_result} it is determined that the optimal distance between the side speaker is \SI{40}{\centi\meter} and to the front speaker it is \SI{40}{\centi\meter}. When arranging the sources in a triangular shape, the greatest common divisor for putting them into a grid is \SI{20}{\centi\meter}. However this is bigger then than the formerly stated \SI{11}{\centi\meter}, which makes it unsuitable for simulation. Instead, it is decided to set the grid step size at \SI{5}{\centi\meter} in all simulations, to ensure flexibility during development. Next the time step has to be determined. The condition for the time step is stated in \autoref{fdtd_time_stepsize_boundary} and dictates the following \autoref{fdtd_time_stepsize_con_one}.
+In a complicated optimization process in the main project it has been determined, that for the intended function as a loudspeaker array, the optimal distance between the acoustical centers of the two side loudspeakers is \SI{40}{\centi\meter} and the distance to the center of the front speaker is \SI{40}{\centi\meter} as well. When arranging the sources in a triangular shape, the greatest common divisor for putting them into a grid is \SI{20}{\centi\meter}. However this is bigger then than the formerly stated \SI{11}{\centi\meter}, which makes it unsuitable for simulation. Instead, it has been decided to set the grid step size at \SI{5}{\centi\meter} in all simulations, to ensure flexibility during development. Next the time step has to be determined. The condition for the time step is stated in \autoref{fdtd_time_stepsize_boundary} and dictates the following \autoref{fdtd_time_stepsize_con_one}.
     
  
 \begin{subequations}\label{fdtd_time_stepsize_con_one}
@@ -35,27 +35,27 @@ This corresponds to a sampling frequency of \SI{14552}{\hertz}. To be sure that 
  
  
 
-\subsection{\gls{fdtd} source}
-The acoustic centers of the speakers will be represented as transparent sources, since a speaker cabinet \gls{fdtd} model will not be incorporated in this project. The source has a stability condition which has to be fulfilled and this includes the number of dimensions. In \autoref{sec:fdtd} the \gls{fdtd} is prepared to dimensions, but all simulations in this section will only be in two-dimensional, since the speakers are not offset in the third dimension.  The stability condition is stated in \autoref{fdtd_transparent_source_impulse_stability} and the stability achieved as shown in \autoref{fdtd_transparent_source_impulse_stability_calculation}.
+%\subsection{\gls{fdtd} source}
+%The acoustic centers of the speakers will be represented as transparent sources, since a speaker cabinet \gls{fdtd} model will not be incorporated in this project. The source has a stability condition which has to be fulfilled and this includes the number of dimensions. In \autoref{sec:fdtd} the \gls{fdtd} is prepared to dimensions, but all simulations in this section will only be in two-dimensional, since the speakers are not offset in the third dimension.  The stability condition is stated in \autoref{fdtd_transparent_source_impulse_stability} and the stability achieved as shown in \autoref{fdtd_transparent_source_impulse_stability_calculation}.
+%
+%
+%
+%\begin{subequations}\label{fdtd_transparent_source_impulse_stability_calculation}
+%\begin{alignat}{2}
+%\frac{c \delta t}{\delta d} &\leq \frac{1}{\sqrt{N}}\\
+%\frac{343 \cdot \SI{687}{\micro\second}}{\SI{5}{\centi\meter}} &\leq \frac{1}{\sqrt{2}}\\
+%0.471 &\leq 0.707
+%\end{alignat}
+%\end{subequations}
+%
+%As shown in \autoref{fdtd_transparent_source_impulse_stability_calculation} the transparent sound source is stable with the calculated time and grid size.
 
-
-
-\begin{subequations}\label{fdtd_transparent_source_impulse_stability_calculation}
-\begin{alignat}{2}
-\frac{c \delta t}{\delta d} &\leq \frac{1}{\sqrt{N}}\\
-\frac{343 \cdot \SI{687}{\micro\second}}{\SI{5}{\centi\meter}} &\leq \frac{1}{\sqrt{2}}\\
-0.471 &\leq 0.707
-\end{alignat}
-\end{subequations}
-
-As shown in \autoref{fdtd_transparent_source_impulse_stability_calculation} the transparent sound source is stable with the calculated time and grid size.
-
-% The impulse response from the used \gls{dut} will be used as the impulse response in all simulation. All impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{7399}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
+% The impulse response from the used \gls{dut} will be used as the impulse response in all simulations. Every impulse response measurement in this project have a sample frequency of \SI{44.1}{\kilo\hertz} but because the simulation does not have to have higher sample frequency than \SI{7399}{\hertz}, the sample frequency of the measurement will be down sampled with a factor of 6. The choose of a factor of 6 is justified by that this is the highest scalar factor the measurement sampling frequency can be down sampled  and still satisfy the minimum sampling frequency and also keeping the required process power down. This result in a sampling frequency for the simulation of \SI{7.35}{\kilo\hertz}
 
 
 
 \subsection{\gls{fdtd} implementation}
-The aim of this section is to convert the grid to matrices. Since the grid is in three dimensions, where the time is a fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
+The aim of this section is to convert the grid to arrays. Since the grid is in three dimensions, where the time is a fourth dimension, the whole array system for pressure and all of the particle velocity grids will build on four dimensional arrays. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the height of the room, $w$ as the width of the room and $l$ as the length of the room.
 
 
 \begin{figure}[H]
@@ -95,7 +95,7 @@ The aim of this section is to convert the grid to matrices. Since the grid is in
 		\label{fig:fdtd_cartesian_grid}
 \end{figure}
 
-All simulation is implemented in MATLAB. The $x$ direction is implemented as matrix row direction and $y$ direction is implemented as matrix column direction. The height $h$ is implemented as the third dimension and the time is implemented as the fourth dimension. The particle velocity will be calculated as the first step and the pressure will be calculated as the second step. The time dimension is only as small as 2 pages, because it is only necessary to save at $[l-1]$ and at $[l]$. A page is one dimension in a matrix system, where the number before ´´page"  describes the time in this context and not a two dimension page. There can be many dimensions for pages, where the implementation of the \gls{fdtd} has two page dimensions.  All time steps further away than $[l-1]$ are not used in the calculation and will be deleted for keeping the storage requirements as low as possible. 
+The simulation is implemented in Python. The $x$ direction is implemented as matrix row direction and $y$ direction is implemented as matrix column direction. The height $h$ is implemented as the third dimension and the time is implemented as the fourth dimension. The particle velocity will be calculated as the first step and the pressure will be calculated as the second step. The time dimension is only as small as 2 pages, because it is only necessary to save at $[l-1]$ and at $[l]$. A page is one dimension in a matrix system, where the number before ´´page"  describes the time in this context and not a two dimension page. There can be many dimensions for pages, where the implementation of the \gls{fdtd} has two page dimensions.  All time steps further away than $[l-1]$ are not used in the calculation and will be deleted for keeping the storage requirements as low as possible. 
 
 \subsection{\gls{fdtd} boundary}
 The particle velocity at the boundary in all direction has to be calculated as in \autoref{fdtd_boundary_result} and this is done as a step between the particle velocity matrices and the pressure matrices. This means, that for the particle velocity in $x$ direction the first and last matrix row are calculated by the boundary formula and in $y$ direction the first column and the last matrix column is calculated by the boundary formula. 
