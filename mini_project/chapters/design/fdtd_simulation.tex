@@ -102,9 +102,7 @@ The particle velocity at the boundary in all direction has to be calculated as i
 
 
 \subsection{\gls{fdtd} plot}
-The aim of the section is to explain how the phase, gain and distance, resulting from \autoref{ch:optimization}, are implemented in the \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{ch:optimization}. \\
-
-To be able to simulate the result from \autoref{ch:optimization}, three pressure points is used as the acoustical center. The pressure points are implemented as transparent point sources, where all the point sources is fed with a sinusoid of a single frequency where the phase and gain is adjusted to the specified frequency. The front speakers will always be feeded with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. Therefore it is only the back speaker, which will be adjusted in phase and gain. The number of simulation run steps is the smallest room size divided by the grid size, such that the waves do not reflect from the wall. \\
+The speakers will always be feeded with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. The number of simulation run steps is the smallest room size divided by the grid size, such that the waves do not reflect from the wall. \\
 
 A wave will expand in a circular form and since the simulation stops just before the it hits the first wall, the simulation result will be a circular shape. Some of the area is not simulated and is therefore without a valid pressure. Because of this, the simulation is made so large that the polar plot with a radius of \SI{10}{\meter} can still be calculated, where the used simulation data is only a squared area inside the circular shape and the rest data is discarded.\\
 

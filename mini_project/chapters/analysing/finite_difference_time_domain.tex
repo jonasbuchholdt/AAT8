@@ -110,7 +110,7 @@ v_z[i\,\delta x,j\,\delta y,(k\pm \frac{1}{2})\,\delta z]
 The pressure is determined at position $p_{(i,j,k)}^{[l+1]}$. It can be chosen to start with either pressure or velocity arbitrarily. The time step $\delta t$ can be regarded as a scaling factor for time, because Python only works with integer indices. This means $\delta t$ is implemented in the formulas and not in the iteration step. The time $\pm \frac{1}{2}$ is also changed to a integer with adding $\frac{1}{2}$. This scalar is only relevant in the implementation and is disregarded in the rest of this section. The same applies for the step sizes $\delta x$, $\delta y$ and $\delta z$.\\
 
 
-Substituting \autoref{fdtd_euler_diff} into \autoref{fdtd_euler_rewrite_system} and solving for $(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}$ leads to following three Equations \ref{fdtd_particle_velocity}:
+Solving for $(v_x)_{(i+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}$ leads to following three Equations \ref{fdtd_particle_velocity}:
 
 
 \begin{subequations}\label{fdtd_particle_velocity}
@@ -124,7 +124,7 @@ Substituting \autoref{fdtd_euler_diff} into \autoref{fdtd_euler_rewrite_system} 
 
 
 
-Substituting \autoref{fdtd_linear_diff} intro \autoref{fdtd_linear_rewrite_2} and solving for $p_{(i,j,k)}^{[l+1]}$ leads to  \autoref{fdtd_pressure}.
+Solving for $p_{(i,j,k)}^{[l+1]}$ leads to  \autoref{fdtd_pressure}.
 
 
 
@@ -168,7 +168,7 @@ For solving the problem visualized in \autoref{fig:fdtd_boundary_pressure}, an a
 \frac{\partial p}{\partial x}\mid _{(i_0+\frac{1}{2},j,k)}^{[l]} = \frac{2}{\delta x} \left( p_{(i_0+\frac{1}{2},j,k)}^{[l]}-p_{(i_0,j,k)}^{[l]} \right)
 \end{equation}\\
 
-The advantage of \autoref{fdtd_boundary_absorbing_velocity} is that it only requires knowledge of one nearest pressure point, but it is only valid within $\delta x$. \autoref{fdtd_boundary_absorbing} can then be used to express  \autoref{fdtd_boundary_absorbing} as function of $v_x$. Using the same procedure as in \autoref{fdtd_particle_velocity} just with plugging in \autoref{fdtd_boundary_absorbing_velocity} instead, the particle velocity at the boundary is approximated as \autoref{fdtd_boundary_eqp}
+The advantage of \autoref{fdtd_boundary_absorbing_velocity} is that it only requires knowledge of one nearest pressure point, but it is only valid within $\delta x$.  Using the same procedure as in \autoref{fdtd_particle_velocity} just with plugging in \autoref{fdtd_boundary_absorbing_velocity} instead, the particle velocity at the boundary is approximated as \autoref{fdtd_boundary_eqp}
 
 \begin{equation}\label{fdtd_boundary_eqp}
 (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
@@ -185,7 +185,7 @@ The only unknown in \autoref{fdtd_boundary_eqp} is $p_{(i_0+\frac{1}{2},j,k)}^{[
 \Biggr)
 \end{multline}
 
-The integral in the \autoref{fdtd_boundary_absorbing} is replaced with a sum from minus infinity to $l$ in \autoref{fdtd_boundary_velocity2}.
+The integral in the \autoref{fdtd_boundary_velocity} is replaced with a sum from minus infinity to $l$ in \autoref{fdtd_boundary_velocity2}.
 
 \begin{multline}\label{fdtd_boundary_velocity2}
 (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l+\frac{1}{2}]}= (v_x)_{(i_0+\frac{1}{2},j,k)}^{[l-\frac{1}{2}]}-\frac{2 \delta t}{\rho_0 \delta x} \Biggl( 
