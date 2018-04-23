@@ -45,10 +45,10 @@ spc = speaker_center/grid_size;      # coordinates of the sound source
 
 
 
-ro = round(room_x/grid_size)-1;     # number of rows in storage array      [1]
-co = round(room_y/grid_size)-1;     # number of columns in storage array   [1]
-la = round(room_z/grid_size)-1;     # number of layers in storage array    [1]
-ti = 2;                             # number of pages for time in storage  [1] 
+ro = round(room_x/grid_size) - 1;    # number of rows in storage array      [1]
+co = round(room_y/grid_size) - 1;    # number of columns in storage array   [1]
+la = round(room_z/grid_size) - 1;    # number of layers in storage array    [1]
+ti = 2;                              # number of pages for time in storage  [1] 
 
 
 pressure = np.tile(0.0, (ro,co,la,ti));

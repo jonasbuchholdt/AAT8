@@ -9,45 +9,48 @@ Created on Wed Apr 18 10:40:04 2018
 exec(open("./initializer_01.py").read())
 
 import multiprocessing as mp
-#import concurrent as futures
-import os, time
-
-
-
-
+import os
+import time
 
 
 def _p():
-    press = pressure[i,j,k,0]-((rho*c**2*delta_t)/grid_size)*((Vx[i+1,j,k,0]-Vx[i,j,k,0])+(Vy[i,j+1,k,0]-Vy[i,j,k,0])+(Vz[i,j,k+1,0]-Vz[i,j,k,0])); 
+    """Claculate the pressure at time 0"""
+    press = pressure[i,j,k,0] - ((rho*c**2*delta_t)/grid_size)*((Vx[i+1,j,k,0]-Vx[i,j,k,0])+(Vy[i,j+1,k,0]-Vy[i,j,k,0])+(Vz[i,j,k+1,0]-Vz[i,j,k,0])); 
     return press
 
 def _f(d):
-    if d == 1:
+    if d == 0:
+        """Claculate the particle valocity x at time 0"""
         vel_x = Vx[1:-1,:,k,0]-(delta_t/(rho*grid_size))*(pressure[1:,:,k,0]-pressure[:-1,:,k,0]);
         pid = os.getpid()
         print(" Particle velocity x process id {:7d}".format( pid))
         return vel_x
-    if d == 2:
+    if d == 1:
+        """Claculate the particle valocity y at time 0"""
         vel_y = Vy[:,1:-1,k,0]-(delta_t/(rho*grid_size))*(pressure[:,1:,k,0]-pressure[:,:-1,k,0]);
         pid = os.getpid()
         print(" Particle velocity y process id {:7d}".format( pid))
         return vel_y    
-    if d == 3:
+    if d == 2:
+        """Claculate the particle valocity at left boundary x, at time 0"""
         vel_xlb = alpha*Vx[0,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[0,:,k,0];
         pid = os.getpid()
         print(" Boundary x left process id {:7d}".format( pid))
         return vel_xlb
-    if d == 4:
+    if d == 3:
+        """Claculate the particle valocity at right boundary x, at time 0"""
         vel_xrb = alpha*Vx[-1,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[-1,:,k,0];
         pid = os.getpid()
         print(" Boundary x right process id {:7d}".format( pid))
         return vel_xrb 
-    if d == 5:
+    if d == 4:
+        """Claculate the particle valocity at top boundary y, at time 0"""
         vel_ytb = alpha*Vy[:,0,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,0,k,0];
         pid = os.getpid()
         print(" Boundary y top process id {:7d}".format( pid))
         return vel_ytb
-    if d == 6:
+    if d == 5:
+        """Claculate the particle valocity at bottom boundary y, at time 0"""
         vel_ybb = alpha*Vy[:,-1,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,-1,k,0];
         pid = os.getpid()
         print(" Boundary y bottom process id {:7d}".format( pid))
@@ -64,28 +67,22 @@ for t in range(stop_time):
     
 k = 0;
 M = os.cpu_count()
-#pool = futures.futures.ProcessPoolExecutor(max_workers=M)
-
-#pool.join()   
+ 
 # start point
 stop_time = simulation_step;
 for t in range(stop_time):
       
-    
-
-# calculate transparant source correction
-    impulse=0;
+    # calculate transparant source correction
+    impulse = 0;
     for m in range(t):
-        impulse = impulse+it[t-m+1]*front[m];   
+        impulse = impulse + it[t-m+1]*front[m];   
     
-        
-    
-# calculate transparant source        
-    pressure[int(spc[0]),int(spc[1]),k,0]=pressure[int(spc[0]),int(spc[1]),k,1]+front[t+1]-impulse;    
-    #pressure[int(spc[0]),int(spc[1]),k,0]=front[t]    
-    
+    # calculate transparant source        
+    pressure[int(spc[0]),int(spc[1]),k,0] = pressure[int(spc[0]),int(spc[1]),k,1] + front[t+1] - impulse;    
+   
+    # Calculate the particle velocity in parallel   
     pool = mp.Pool(processes=M);
-    result = pool.map(_f,(1 ,2 ,3 ,4 ,5 ,6));    
+    result = pool.map(_f, (0, 1, 2, 3, 4, 5));    
     Vx[1:-1,:,k,1] = result[0];
     Vy[:,1:-1,k,1] = result[1];
     Vx[0,:,k,1] = result[2];
@@ -94,25 +91,19 @@ for t in range(stop_time):
     Vy[:,-1,k,1] = result[5];
     pool.close(); 
 
+    # Calculate the pressure
+    pressure[:,:,k,1] = _p();
 
-# The pressure
-    pressure[:,:,k,1]=pressure[:,:,k,0]-((rho*(c**2)*delta_t)/grid_size)*((Vx[1:,:,k,1]-Vx[:-1,:,k,1])+(Vy[:,1:,k,1]-Vy[:,:-1,k,1]));
+    # Calculate the pressure squared + the earlier pressure squared
+    p_rms[:,:,k] = p_rms[:,:,k] + (pressure[:,:,k,1])**2;
 
-# The RMS pressure
-    p_rms[:,:,k] = p_rms[:,:,k]+(pressure[:,:,k,1])**2;
-
-# swapping matrix 
-    pressure[:,:,k,0]=pressure[:,:,k,1];
-    Vx[:,:,k,0]=Vx[:,:,k,1];
-    Vy[:,:,k,0]=Vy[:,:,k,1];
-    #Vz(:,:,:,1)=Vz(:,:,:,2);
+    # Store the new time in old time by swapping matrix 
+    pressure[:,:,k,0] = pressure[:,:,k,1];
+    Vx[:,:,k,0] = Vx[:,:,k,1];
+    Vy[:,:,k,0] = Vy[:,:,k,1];
     print(t)
 
-
-
-
-#pool.join()
-
+# Calculate the RMS pressure
 p_rms_time = np.sqrt(p_rms[:,:,k]/t);
 p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 

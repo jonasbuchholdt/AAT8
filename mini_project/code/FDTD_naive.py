@@ -8,35 +8,42 @@ Created on Thu Apr 19 09:00:38 2018
 exec(open("./initializer_01.py").read())
 
 def _p(i,j,k):
-    press = pressure[i,j,k,0]-((rho*c**2*delta_t)/grid_size)*((Vx[i+1,j,k,0]-Vx[i,j,k,0])+(Vy[i,j+1,k,0]-Vy[i,j,k,0])+(Vz[i,j,k+1,0]-Vz[i,j,k,0])); 
+    """Claculate the pressure at time 0"""
+    press = pressure[i,j,k,0] - ((rho*c**2*delta_t)/grid_size)*((Vx[i+1,j,k,0] - Vx[i,j,k,0]) + (Vy[i,j+1,k,0] - Vy[i,j,k,0]) + (Vz[i,j,k+1,0] - Vz[i,j,k,0])); 
     return press
 
 def _vx(i,j,k):
-    vel_x = Vx[i+1,j,k,0]-(delta_t/(rho*grid_size))*(pressure[i+1,j,k,1]-pressure[i,j,k,1]);
+    """Claculate the particle valocity x at time 0"""
+    vel_x = Vx[i+1,j,k,0] - (delta_t/(rho*grid_size))*(pressure[i+1,j,k,1] - pressure[i,j,k,1]);
     #vel_x = Vx[1:-1,:,k,0]-(delta_t/(rho*grid_size))*(pressure[1:,:,k,0]-pressure[:-1,:,k,0]);
     return vel_x
 
 def _vy(i,j,k):
-    vel_y = Vy[i,j+1,k,0]-(delta_t/(rho*grid_size))*(pressure[i,j+1,k,1]-pressure[i,j,k,1]);
+    """Claculate the particle valocity y at time 0"""
+    vel_y = Vy[i,j+1,k,0] - (delta_t/(rho*grid_size))*(pressure[i,j+1,k,1] - pressure[i,j,k,1]);
     #vel_y = Vy[:,1:-1,k,0]-(delta_t/(rho*grid_size))*(pressure[:,1:,k,0]-pressure[:,:-1,k,0]);
     return vel_y
 
 def _vxlb(i,j,k):
+    """Claculate the particle valocity at left boundary x, at time 0"""
     vel_xlb = alpha*Vx[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i,j,k,1];
     #vel_xlb = alpha*Vx[0,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[0,:,k,0];
     return vel_xlb
 
 def _vxrb(i,j,k):
+    """Claculate the particle valocity at right boundary x, at time 0"""
     vel_xrb = alpha*Vx[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i-1,j,k,1];
     #vel_xrb = alpha*Vx[-1,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[-1,:,k,0];
     return vel_xrb
 
 def _vytb(i,j,k):
+    """Claculate the particle valocity at top boundary y, at time 0"""
     vel_ytb = alpha*Vy[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i,j,k,1];
     #vel_ytb = alpha*Vy[:,0,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,0,k,0];
     return vel_ytb  
 
 def _vybb(i,j,k):
+    """Claculate the particle valocity at bottom boundary y, at time 0"""
     vel_ybb = alpha*Vy[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i,j-1,k,1];
     #vel_ybb = alpha*Vy[:,-1,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,-1,k,0];
     return vel_ybb
@@ -49,7 +56,7 @@ front = np.empty((stop_time));
 for t in range(stop_time):
     front[t] = np.sin(2*np.pi*100*((t-1)/fs));
 
-
+k = 0;
 
 # start point
 stop_time = simulation_step;
@@ -58,11 +65,10 @@ for t in range(stop_time):
 
 
 # calculate transparant source correction
-    impulse=0;
+    impulse = 0;
     for m in range(t):
-        impulse = impulse+it[t-m+1]*front[m];   
-    
-    k = 0;   
+        impulse = impulse + it[t-m+1]*front[m];   
+           
 
     pressure[int(spc[0]),int(spc[1]),k,0] = pressure[int(spc[0]),int(spc[1]),k,1] + front[t+1] - impulse;  
 
@@ -85,9 +91,9 @@ for t in range(stop_time):
     for i in range(ro):
         j=i;    
         Vx[i,j,k,1] = _vxlb(0,j,k);
-        Vx[i,j,k,1] = _vxrb(ro+1,j,k);    
+        Vx[i,j,k,1] = _vxrb(ro,j,k);    
         Vy[i,j,k,1] = _vytb(i,0,k);
-        Vy[i,j,k,1] = _vybb(i,ro+1,k);
+        Vy[i,j,k,1] = _vybb(i,ro,k);
 
     for i in range(ro):
         for j in range(co):
@@ -96,23 +102,22 @@ for t in range(stop_time):
 
 #swapping matrix 
     tmp = pressure[:,:,:,0];
-    pressure[:,:,:,0]=pressure[:,:,:,1]; 
-    pressure[:,:,:,1]=tmp;
-    tmp=Vx[:,:,:,1];
-    Vx[:,:,:,0]=Vx[:,:,:,1];
-    Vx[:,:,:,1]=tmp;
-    tmp=Vy[:,:,:,0];
-    Vy[:,:,:,0]=Vy[:,:,:,1];
-    Vy[:,:,:,1]=tmp;
+    pressure[:,:,:,0] = pressure[:,:,:,1]; 
+    pressure[:,:,:,1] = tmp;
+    tmp = Vx[:,:,:,1];
+    Vx[:,:,:,0] = Vx[:,:,:,1];
+    Vx[:,:,:,1] = tmp;
+    tmp = Vy[:,:,:,0];
+    Vy[:,:,:,0] = Vy[:,:,:,1];
+    Vy[:,:,:,1] = tmp;
     print(t)
 
-p_rms_time = np.sqrt(p_rms[:,:,k]/t);
+p_rms_time = (p_rms[:,:,k]/t)**(1/2);
 p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import numpy as np
 from matplotlib import cm
 
 
