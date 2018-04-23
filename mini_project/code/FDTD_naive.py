@@ -13,26 +13,32 @@ def _p(i,j,k):
 
 def _vx(i,j,k):
     vel_x = Vx[i+1,j,k,0]-(delta_t/(rho*grid_size))*(pressure[i+1,j,k,1]-pressure[i,j,k,1]);
+    #vel_x = Vx[1:-1,:,k,0]-(delta_t/(rho*grid_size))*(pressure[1:,:,k,0]-pressure[:-1,:,k,0]);
     return vel_x
 
 def _vy(i,j,k):
     vel_y = Vy[i,j+1,k,0]-(delta_t/(rho*grid_size))*(pressure[i,j+1,k,1]-pressure[i,j,k,1]);
+    #vel_y = Vy[:,1:-1,k,0]-(delta_t/(rho*grid_size))*(pressure[:,1:,k,0]-pressure[:,:-1,k,0]);
     return vel_y
 
 def _vxlb(i,j,k):
-    vel_xlb = ((((rho*grid_size)/delta_t)-Z0)/(((rho*grid_size)/delta_t)+Z0)*Vx[i,j,k,0]+2*1/(((rho*grid_size)/delta_t)+Z0)*pressure[i,j,k,1]);
+    vel_xlb = alpha*Vx[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i,j,k,1];
+    #vel_xlb = alpha*Vx[0,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[0,:,k,0];
     return vel_xlb
 
 def _vxrb(i,j,k):
-    vel_xrb = ((((rho*grid_size)/delta_t)-Z0)/(((rho*grid_size)/delta_t)+Z0)*Vx[i,j,k,0]+2*1/(((rho*grid_size)/delta_t)+Z0)*pressure[i-1,j,k,1]);
+    vel_xrb = alpha*Vx[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i-1,j,k,1];
+    #vel_xrb = alpha*Vx[-1,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[-1,:,k,0];
     return vel_xrb
 
 def _vytb(i,j,k):
-    vel_ytb = (((rho*grid_size)/delta_t-Z0)/((rho*grid_size)/delta_t+Z0)*Vy[i,j,k,0]+2*1/((rho*grid_size)/delta_t+Z0)*pressure[i,j,k,1]);
+    vel_ytb = alpha*Vy[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i,j,k,1];
+    #vel_ytb = alpha*Vy[:,0,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,0,k,0];
     return vel_ytb  
 
 def _vybb(i,j,k):
-    vel_ybb = ((rho*grid_size)/delta_t-Z0)/((rho*grid_size)/delta_t+Z0)*Vy[i,j,k,0]+2*1/((rho*grid_size)/delta_t+Z0)*pressure[i,j-1,k,1];
+    vel_ybb = alpha*Vy[i,j,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[i,j-1,k,1];
+    #vel_ybb = alpha*Vy[:,-1,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,-1,k,0];
     return vel_ybb
     
 
@@ -76,12 +82,12 @@ for t in range(stop_time):
             Vy[i,j+1,k,1] = _vy(i,j,k);
 
 
-#    for i in range(ro):
-#        j=i;    
-#        Vx[i,j,k,1] = _vxlb(1,j,k);
-#        Vx[i,j,k,1] = _vxrb(ro+1,j,k);    
-#        Vy[i,j,k,1] = _vytb(i,1,k);
-#        Vy[i,j,k,1] = _vybb(i,ro+1,k);
+    for i in range(ro):
+        j=i;    
+        Vx[i,j,k,1] = _vxlb(0,j,k);
+        Vx[i,j,k,1] = _vxrb(ro+1,j,k);    
+        Vy[i,j,k,1] = _vytb(i,0,k);
+        Vy[i,j,k,1] = _vybb(i,ro+1,k);
 
     for i in range(ro):
         for j in range(co):
@@ -99,7 +105,7 @@ for t in range(stop_time):
     Vy[:,:,:,0]=Vy[:,:,:,1];
     Vy[:,:,:,1]=tmp;
     print(t)
-#%%
+
 p_rms_time = np.sqrt(p_rms[:,:,k]/t);
 p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 
