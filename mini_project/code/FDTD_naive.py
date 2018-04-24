@@ -7,6 +7,15 @@ Created on Thu Apr 19 09:00:38 2018
 """
 exec(open("./initializer_01.py").read())
 
+import multiprocessing as mp
+import os
+import time
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import scipy.interpolate
+import h5py
+
+
 def _p(i,j,k):
     """Claculate the pressure at time 0"""
     press = pressure[i,j,k,0] - ((rho*c**2*delta_t)/grid_size)*((Vx[i+1,j,k,0] - Vx[i,j,k,0]) + (Vy[i,j+1,k,0] - Vy[i,j,k,0]) + (Vz[i,j,k+1,0] - Vz[i,j,k,0])); 
@@ -48,9 +57,10 @@ def _vybb(i,j,k):
     #vel_ybb = alpha*Vy[:,-1,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,-1,k,0];
     return vel_ybb
     
+# Calculation start time
+start = time.time()
 
-
-# calculate hard source
+# Calculate hard source
 stop_time = simulation_step+1;
 front = np.empty((stop_time));
 for t in range(stop_time):
@@ -77,6 +87,8 @@ for t in range(stop_time):
         for j in range(co):
             pressure[i,j,k,1] = _p(i,j,k);
 
+    # calculate the particle velocity     
+    start_for_velocity = time.time()        # Start timer for meassuring velocity calculation
 
     for i in range(ro-1):
         for j in range(co):
@@ -94,6 +106,10 @@ for t in range(stop_time):
         Vx[i,j,k,1] = _vxrb(ro,j,k);    
         Vy[i,j,k,1] = _vytb(i,0,k);
         Vy[i,j,k,1] = _vybb(i,ro,k);
+
+    stop_for_velocity = time.time()         # Stop timer for meassuring velocity calculation
+    time_of_velocity_calculation = (stop_for_velocity-start_for_velocity );
+
 
     for i in range(ro):
         for j in range(co):
@@ -115,24 +131,23 @@ for t in range(stop_time):
 p_rms_time = (p_rms[:,:,k]/t)**(1/2);
 p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 
+# Calculation stop time
+stop = time.time()
 
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
+# Calculate the execution time 
+time_of_calculation = (stop-start);
 
-
-sizes=np.shape(pressure)
-xaxis=np.linspace((-room_x/2),(room_x/2),sizes[0]);
-yaxis=np.linspace((-room_y/2),(room_y/2),sizes[1]);
-
-
-#grid=np.mgrid[(-room_x/2):grid_size:(room_x/2),(-room_y/2):grid_size:(room_y/2)];
-grid=np.meshgrid(xaxis,yaxis)
-
+# Plot the RMS pressure
+limit = 70;
+p_rms_db_cut = p_rms_db[limit:-limit,limit:-limit];
+length = (np.shape(p_rms_db_cut)[1]*grid_size)/2;
 fig = plt.figure()
-ax = fig.gca(projection='3d')
-surf = ax.plot_surface(grid[0],grid[1],p_rms_db[:,:],cmap=cm.coolwarm,linewidth=0)
+plt.imshow(p_rms_db_cut, vmin=p_rms_db_cut.min(), vmax=p_rms_db_cut.max()-30 ,cmap=cm.jet, extent=[-length,length,-length,length])
+plt.colorbar()
+ax = plt.gca()
+ax.set_xlabel([m])
+plt.show()
 
-
-
+# Save simulation
+f = h5py.File('p_rms_db_cut.hdf5', "w") 
 

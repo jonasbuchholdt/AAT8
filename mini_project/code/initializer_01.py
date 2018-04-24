@@ -16,8 +16,8 @@ it = it['it'];
 it = it.T
 
 frequency = 60;                     # setting frequency for simulation    [Hz]
-room_x = 80;                        # room size in x-dimension             [m]
-room_y = 80;                        # room size in y-dimension             [m]
+room_x = 100;                        # room size in x-dimension             [m]
+room_y = 100;                        # room size in y-dimension             [m]
 room_z = 1;                         # room size in y-dimension             [m]                        
 
 grid_size = 0.05;                   # grid resolution                      [m]
@@ -60,5 +60,8 @@ Vz = np.tile(0.0, (ro,co,la+1,ti));
 
 simulation_step = int((room_x/grid_size/2)*2) # simulation step.
 #simulation_step=1;
+
+# Measuring distance
+measure = 8;
 
 
