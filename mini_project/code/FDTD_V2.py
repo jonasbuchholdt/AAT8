@@ -127,16 +127,17 @@ time_of_calculation = (stop-start);
 #%%
 
 # Plot the RMS pressure
-limit = int(stop_time/7);
+limit = int(stop_time/6);
 p_rms_db_cut = p_rms_db[limit:-limit,limit:-limit];
 #p_rms_db_cut = p_rms_db_cut*2
 length = (np.shape(p_rms_db_cut)[1]*grid_size)/2;
-fig = plt.figure()
-plt.imshow(p_rms_db_cut, vmin=p_rms_db_cut.min(), vmax=p_rms_db_cut.max()-30 ,cmap=cm.jet, extent=[-length,length,-length,length])
-plt.colorbar()
-ax = plt.gca()
-ax.set_xlabel([m])
-plt.show()
+#fig = plt.figure()
+#plt.imshow(p_rms_db_cut, vmin=p_rms_db_cut.min(), vmax=p_rms_db_cut.max()-30 ,cmap=cm.jet, extent=[-length,length,-length,length])
+#plt.colorbar()
+#ax = plt.gca()
+#ax.set_xlabel(['m'])
+#ax.set_ylabel('Distance'['m'])
+#plt.show()
 
 # Save simulation
 f = h5py.File('p_rms_db_cut.hdf5', "w") 

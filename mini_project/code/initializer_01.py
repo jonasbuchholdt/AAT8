@@ -25,9 +25,9 @@ it = it['it'];
 it = it.T
 
 frequency = 60;                     # setting frequency for simulation    [Hz]
-room_x = 15;                        # room size in x-dimension             [m]
-room_y = 15;                        # room size in y-dimension             [m]
-room_z = 15;                         # room size in y-dimension             [m]                        
+room_x = 20;                        # room size in x-dimension             [m]
+room_y = 20;                        # room size in y-dimension             [m]
+room_z = 20;                         # room size in y-dimension             [m]                        
 
 grid_size = 0.05;                   # grid resolution                      [m]
 
