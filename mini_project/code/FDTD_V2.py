@@ -152,5 +152,6 @@ simu_pres_drop = p_rms_db_cut[int(center),int(test_point_two)] - p_rms_db_cut[in
 # in 3D and therefore the distance shal only be the dobble.
 analy_pres_drop = 20*np.log10(measure/2/measure);
 
+# The error between the analytical model and the simulation, 
 error = simu_pres_drop - analy_pres_drop;
 

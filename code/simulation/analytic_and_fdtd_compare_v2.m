@@ -1,17 +1,19 @@
 clear all
 %%
-load('impulse_response_5cm_grid_80m_room')
-load('pressureout_03.mat')
-room_x = 80;
-room_y = 80;
+%load('impulse_response_5cm_grid_80m_room')
+%load('pressureout_03.mat')
+room_x = 35;
+room_y = 35;
+room_z = 35;
 grid_size = 0.05;
 simulation_step = (room_x/grid_size)
-%[impulse_response] = FDTD_impulse_response(room_x,room_y,grid_size,simulation_step);
+[impulse_response] = FDTD_impulse_response(room_x,room_y,room_z,grid_size,simulation_step+120);
+save((strcat('impulse_response_3D_40m.mat')),'impulse_response');
 %%
 impulse_response = it;
-for f=60:10:300
+for f=60:10:60
 fprintf('%d Hertz.\n',f);
-[p_rms,grid_size] = FDTD(f,room_x,room_y,simulation_step,impulse_response,solutions);
+[p_rms,grid_size] = FDTD_3D(f,room_x,room_y,room_z,simulation_step+100,impulse_response,solutions);
 pressureout_02_simu.(strcat('f',int2str(f))).pressure = p_rms;
 pressureout_02_simu.(strcat('f',int2str(f))).grid = grid_size;
 pressureout_02_simu.(strcat('f',int2str(f))).room_x = room_x;
@@ -22,13 +24,16 @@ clear pressureout_02_simu;
 end
 
 %%
-p_rms(:,:,1)=pressuretra.f60.pressure(:,:,1);
+speaker_center = [room_x/2 room_y/2 room_z/2];
+sp = speaker_center/grid_size;
+
+%p_rms(:,:,sp(3))=pressuretra.f60.pressure(:,:,sp(3));
 xlength=[-(room_x/2)+grid_size:grid_size:(room_x/2)-grid_size];
 ylength=[-(room_y/2)+grid_size:grid_size:(room_y/2)-grid_size];
 [coorx,coory]=meshgrid(ylength,xlength);
 
 
-temp = 20*log10(abs(p_rms(:,:,1))/(20*10^(-6)));
+temp = 20*log10(abs(p_rms(:,:,sp(3)))/(20*10^(-6)));
 for m=1:length(temp)
     for j=1:length(temp)
         if temp(m,j,1) < 10
@@ -37,10 +42,10 @@ for m=1:length(temp)
     end
 end
 figure
-s = contourf(coorx,coory,temp,110,'LineColor','none');
-%s = surf(coorx,coory,temp)
-%s.EdgeColor='none'
-%shading interp
+%s = contourf(coorx,coory,temp,110,'LineColor','none');
+s = surf(coorx,coory,temp)
+s.EdgeColor='none'
+shading interp
 hold on
 colormap(jet)
 h = colorbar

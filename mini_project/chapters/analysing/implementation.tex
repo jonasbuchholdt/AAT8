@@ -1,0 +1,22 @@
+\section{Considerations of the design} \label{ch:considerations}
+Most of the considerations of the algorithm is already explained in \autoref{sec:fdtd}, where the over all design is explained. The following list provide the name of the function , input and output. 
+
+\begin{itemize}
+\item The pressure formula is named _p() 
+\item The particle velocity in x direction is named _vx()
+\item The particle velocity in y direction is named _vy()
+\item The particle velocity at the left boundary in x direction is named _vxlb()
+\item The particle velocity at the right boundary in x direction is named _vxrb()
+\item The particle velocity at the top boundary in y direction is named _vytb()
+\item The particle velocity at the bottom boundary in y direction is named _vybb()
+\item The input is a transparent source which is calculated for every iteration and added to the center point of the grid. 
+\item The output is the \gls{rms} pressure of every point in grid.
+\end{itemize}
+
+\section{Data type}
+Since the algorithm estimate the pressure and particle velocity in space with respect to time, both pressure and particle velocity is stored in a 4 dimension matrix where the last dimension is the time. Both pressure and particle velocity is a variable which is one or less, as long as the transparent source have an amplitude of one, both variable is stored as an float variable. The bigger the room is, the smaller the numbers is close to the boundary, and to get a good pressure and  
+
+
+
+\section{Optimization}
+Every calculation is depending on each other and have to be calculated for each time step in the right order in serial, with the exception of the individual particle velocity for each time step. This means that the particle velocity x and y and the boundary can be calculated in parallel and a parallel implementation is done.  

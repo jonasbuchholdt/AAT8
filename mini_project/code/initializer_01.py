@@ -7,9 +7,18 @@ Created on Wed Apr 18 10:50:37 2018
 """
 
 #%%
+import ctypes
+import multiprocessing as mp
 import scipy.io as sio
 import math as m
 import numpy as np
+import os
+import time
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import scipy.interpolate
+import h5py
+
 
 it = sio.loadmat("./impulse_response_5cm_grid_80m_room.mat");        # loading impulse response for transparent source
 it = it['it'];
@@ -51,17 +60,21 @@ la = round(room_z/grid_size) - 1;    # number of layers in storage array    [1]
 ti = 2;                              # number of pages for time in storage  [1] 
 
 
-pressure = np.tile(0.0, (ro,co,la,ti));
+
+pressure = mp.Array(ctypes.c_double, np.tile(0.0, (ro,co,la,ti)));
 p_rms = np.tile(0.0, (ro,co,la));
-Vx = np.tile(0.0, (ro+1,co,la,ti));
-Vy = np.tile(0.0, (ro,co+1,la,ti));
-Vz = np.tile(0.0, (ro,co,la+1,ti));
+Vx = mp.Array(ctypes.c_double, np.tile(0.0, (ro+1,co,la,ti)));
+Vy = mp.Array(ctypes.c_double, np.tile(0.0, (ro,co+1,la,ti)));
+Vz = mp.Array(ctypes.c_double, np.tile(0.0, (ro,co,la+1,ti)));
 
 
-simulation_step = int((room_x/grid_size/2)*2) # simulation step.
-#simulation_step=1;
+#simulation_step = int((room_x/grid_size/2)*2) # simulation step.
+simulation_step=1;
 
 # Measuring distance
 measure = 8;
 
+
+vb_s = beta*(2*delta_t)/(rho*grid_size)
+v_s = (delta_t/(rho*grid_size))
 

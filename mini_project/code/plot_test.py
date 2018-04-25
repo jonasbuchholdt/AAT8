@@ -5,24 +5,33 @@ Created on Mon Apr 23 13:06:52 2018
 
 @author: jonas
 """
-
+import ctypes
+#rom multiprocessing.sharedctypes import Array
+import multiprocessing as mp
 import numpy as np
-import matplotlib.pyplot as plt
-import scipy.interpolate
+import os
 
-# Generate data:
-x, y, z = 10 * np.random.random((3,10))
 
-# Set up a regular grid of interpolation points
-xi, yi = np.linspace(x.min(), x.max(), 100), np.linspace(y.min(), y.max(), 100)
-xi, yi = np.meshgrid(xi, yi)
 
-# Interpolate
-rbf = scipy.interpolate.Rbf(x, y, z, function='linear')
-zi = rbf(xi, yi)
+arr = mp.Array(ctypes.c_double, np.zeros(10,float))
 
-plt.imshow(zi, vmin=z.min(), vmax=z.max(), origin='lower',
-           extent=[x.min(), x.max(), y.min(), y.max()])
 
-plt.colorbar()
-plt.show()
+
+def _f(d):
+    if d == 0:
+        arr[1:5] = np.frombuffer(arr.get_obj())[1:5]+1
+  
+        
+M = os.cpu_count()
+
+
+#if __name__ == '__main__':
+
+
+pool = mp.Pool(processes=M);
+pool.map(_f, (0, 1)); 
+pool.close()
+
+arr_get = np.frombuffer(arr.get_obj())
+
+print(arr[:])
