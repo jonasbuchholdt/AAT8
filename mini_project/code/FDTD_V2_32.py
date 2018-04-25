@@ -27,15 +27,15 @@ def _p():
 
 def _vx():
     """Claculate the particle valocity x at time 0"""
-    Vx[1:-1,:,:,1] = Vx[1:-1,:,:,0] - v_s*(pressure[1:,:,:,0] - pressure[:-1,:,:,0]);
+    Vx[1:-1,:,:,1] = Vx[1:-1,:,:,0] - np.float32(v_s*(pressure[1:,:,:,0] - pressure[:-1,:,:,0]));
  
 def _vy():
     """Claculate the particle valocity y at time 0"""
-    Vy[:,1:-1,:,1] = Vy[:,1:-1,:,0] - v_s*(pressure[:,1:,:,0] - pressure[:,:-1,:,0]);
+    Vy[:,1:-1,:,1] = Vy[:,1:-1,:,0] - np.float32(v_s*(pressure[:,1:,:,0] - pressure[:,:-1,:,0]));
 
 def _vz():
     """Claculate the particle valocity y at time 0"""
-    Vz[:,:,1:-1,1] = Vz[:,:,1:-1,0] - v_s*(pressure[:,:,1:,0] - pressure[:,:,:-1,0]);
+    Vz[:,:,1:-1,1] = Vz[:,:,1:-1,0] - np.float32(v_s*(pressure[:,:,1:,0] - pressure[:,:,:-1,0]));
 
 def _vxlb():
     """Claculate the particle valocity at left boundary x, at time 0"""
@@ -68,7 +68,7 @@ def _vybb():
 
 if __name__ == '__main__':
 
-    exec(open("./initializer_01.py").read())
+    exec(open("./initializer_01_32.py").read())
 
 
     # Calculation start time
@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     # Calculate hard source
     stop_time = simulation_step+1;
-    front = np.empty((stop_time));
+    front = np.zeros(stop_time, dtype=np.float32)
     for t in range(stop_time):
         front[t] = 1*np.sin(2*np.pi*100*((t-1)/fs));
         
@@ -96,16 +96,9 @@ if __name__ == '__main__':
 
         # calculate the particle velocity     
         start_for_velocity = time.time()        # Start timer for meassuring velocity calculation 
-        #    Vx[1:-1,:,k,1] = _vx();
-        #    Vy[:,1:-1,k,1] = _vy();
-        #    Vx[0,:,k,1] = _vxlb();
-        #    Vx[-1,:,k,1] = _vxrb();
-        #    Vy[:,0,k,1] = _vytb();
-        #    Vy[:,-1,k,1] = _vybb();
         _vx()
         _vy()
-        _vz()
-  
+        _vz()  
         stop_for_velocity = time.time()         # Stop timer for meassuring velocity calculation
         time_of_velocity_calculation = (stop_for_velocity-start_for_velocity );
     
