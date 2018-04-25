@@ -12,8 +12,45 @@ According to \citep[p. 141]{preview} and based on \citep{royce70} a modified Wat
 \item Refactoring
 \item Optimization
 \end{itemize}
-Because the requirements for Mini-project are clearly specified, a plan-driven development model like the modified Waterfall scheme is suited to the software project. Another aspect, that helps to ensure a smooth development, is that, due to the group size, only two developers are working on the code. This enables a form of communication and up-to-date-keeping, that would be much more complicated when a larger number of participants were involved.
+Because the requirements for Mini-project are clearly specified, a plan-driven development model like the modified Waterfall scheme is suited to the software project. Another aspect, that helps to ensure a smooth development, is that, due to the group size, only two developers are working on the code. This enables a form of communication and up-to-date-keeping, that would be much more complicated when a larger number of participants was involved.
 \section{Development Log}\label{sec:dev_log}
 In this section, brief statements to how the points from \autoref{sec:recap_waterfall} were addressed in the course of the mini-project will be made.
 \subsection{Functionality}\label{ssec:functionality}
-Because the \gls{fdtd}-simulation is part of another project, which deals with low-mid frequency acoustical beamforming, many of the functional requirements were dictated by the usage in the main project.
+Because the \gls{fdtd}-simulation is part of another project, which deals with low-mid frequency acoustical beamforming, many of the functional requirements were dictated by the usage in the main project. The usage in the main project demands, that the simulation routine sets up a \gls{fdtd}-grid with a given room size and different boundary conditions. Furthermore, one ore several transparent sound sources have to be placed in the grid at given positions and the sound emitted by those sources has to be individually adjustable in amplitude and phase. It must be possible to export plots of the pressure field at a given point in time in order to illustrate the behaviour of arrangement of sound sources in the simulation. In the main project, also polar plots are extracted from the \gls{fdtd}-data, but this is not part of the implementation made in the mini-project.
+\subsection{Algorithm}\label{ssec:algorithm}
+An algorithm is needed that insures that the formerly stated functional requirements are achieved. While the theoretical basics are described in \autoref{sec:fdtd}, some more detailed explanations on a more technical level are given in \autoref{ch:implementation}. These go hand in hand with \autoref{ssec:coding}. While the theory of \gls{fdtd} provides well established fundamentals, of what mathematical construct should be implemented, there is still a number of choices, regarding what the implementation should look like considering the intended application. 
+\subsection{Documentation}\label{ssec:documentation}
+Specific requirements on the documentation were given in the mini-project task description. For documentation purposes the document at hand has been written and the code itself has been augmented with comments, based on the proposals given in \citep{pep8}.
+When looking at the modified Waterfall model, the documentation step is a point, that has had a more iterative nature than other points. This is mainly due to the fact, that, within the development process, some difficulties in the implementation have led to more complex coherencies then initially anticipated. Keeping the documentation up to date means coming back to it basically after every change that is being made to the software.
+\subsection{Coding}\label{ssec:coding}
+In the coding phase, everything that had been planned previously has been put into code. However, there was an iterative component when the evaluation (\autoref{ssec:evaluation}) revealed some faulty behaviour of the code. Coding has been executed by two different programmers who kept track of the versions via the means of \textit{git}. All code was written in Python 3.6.5. Several implementations of the code have been made, in order to investigate their behaviour in terms of efficiency (see also \autoref{ssec:optimization}).
+\subsection{Quality Metrics}\label{ssec:qmetrics}
+When quality metrics are to be considered, there are three main issues that come into mind. The functional requirements (\autoref{ssec:functionality}) have to be fulfilled, for reference cases the results should match those known to those cases that are obtained from trusted sources and finally the computation time should be as low as possible.\\
+In order to design a routine that checks the feasibility of simulation results by comparing it to results, that are known to be correct, a suitable example of such a reference case has to be found. Independent of the boundary setup, the conditions in a finite size \gls{fdtd}-grid correspond to acoustical free field conditianons as long as the waves emitted by sources have not reached the boundary. This means, a correct behaviour of the simulation can be confirmed by investigating one of these ``early'' samples. Based on \citep[p. 172]{kinsler2000}, the sound pressure difference at two points with distances $r_1$ and $r_2$ from a pulsating sphere can be described as follows:
+\begin{equation}\label{eq:deltalplong}
+\Delta L_{p}(r_1,r_2)\,=\,20\log_{10}\frac{|j\rho_0 c V_0(\frac{a}{r_1})ka \textbf(e)^{j(\omega t-kr_1)}|}{|j\rho_0 c V_0(\frac{a}{r_2})ka \textbf(e)^{j(\omega t-kr_2)}|}\,\si{\decibel}
+\end{equation}
+\startexplain
+\explain{$\Delta L_{p}$ is the sound pressure level difference.}{\si{\decibel}}
+\explain{$r_1, r_2$ are the distances, for which the pressures are being calculated, \(r>a\).}{\si{\meter}}
+\explain{$t$ is the time, for which the pressure is being calculated.}{\si{\meter}}
+\explain{$\rho_0$ is the specific density of air.}{\si{\kilo\gram\per\cubic\meter}}
+\explain{$c$ is the speed of sound.}{\si{\meter\per\second}}
+\explain{$V_0$ ist the velocity at the surface of the spherical source.}{\si{\meter\per\second}}
+\explain{$a$ is the radius of the spherical source.}{\si{\meter}}
+%\explain{$\theta_a$ is equal to $\tan(ka)$.}{\si{1}}
+\explain{$\omega$ is the angular frequency.}{\si{\second^{-1}}}
+\explain{$k$ is the wavenumber.}{\si{\meter^{-1}}}
+\stopexplain
+\autoref{eq:deltalplong} can be simplified to a great extent when adapting into the context of the \gls{fdtd}-simulation:
+\begin{equation}\label{eq:deltalpshort}
+\Delta L_{p}(r_1,r_2)\,=\,20\log_{10}\frac{r_2}{r_1}\,\si{\decibel}
+\end{equation}
+When a single sound source is positioned in the \gls{fdtd}-grid, the \gls{rms}-pressure at two points with known distances to the source can be recorded. If level difference at these points approximately matches the value according to \autoref{eq:deltalpshort}, that can be interpreted as a sign for the simulation to work correctly.\\
+In terms of implementation a test like this is excecuted using the \texttt{unittest} module.
+MORE TEXT HERE!
+In order to assess computation time, different implementations are run on the same machine with the same parameters and the time is measured. In this context, the ``bottleneck'' of the computation can be determined and discussed: MORE TEXT HERE?
+\subsection{Evaluation}\label{ssec:evaluation}
+\subsection{Refactoring}\label{ssec:refactoring}
+\subsection{Optimization}\label{ssec:optimization}
+One of the tasks listed in the problem description for the mini-project involves implementing the algorithm in a way, that parallel processing is used. This can be done for \gls{fdtd}-simulation. However, because of the nature of the computational tasks, it takes a great deal of effort to make a implementation using parallel computing that comes even remotely close to a well designed implementation without the explicit use of parallel computing.
