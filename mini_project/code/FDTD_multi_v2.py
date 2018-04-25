@@ -80,7 +80,7 @@ for t in range(stop_time):
     # Calculate the particle velocity in parallel
     start_for_velocity = time.time()        # Start timer for meassuring velocity calculation
     pool = mp.Pool(processes=M);
-    pool.map(_f, (0, 1, 2, 3, 4, 5)); 
+    pool.map(_f, (0, 1)); 
     pool.close()
     #pool.join()
     #Vx[1:-1,:,k,1] = result[0];

@@ -13,13 +13,20 @@ import os
 
 
 
-arr = mp.Array(ctypes.c_double, np.zeros(10,float))
+R = 10
 
+Vx = mp.Array(ctypes.c_double, (R*R*R*R));
+arr_get1 = np.frombuffer(Vx.get_obj()).reshape((R,R,R,R))
+#A = np.zeros((R, R ,R)).astype(np.float64)
+Amp = mp.sharedctypes.RawArray(ctypes.c_double , (R*R*R*R))
+arr_get2 = np.frombuffer(Amp, dtype=np.float64).reshape((R,R,R,R))
+#arr_get.base.base
 
 
 def _f(d):
     if d == 0:
-        arr[1:5] = np.frombuffer(arr.get_obj())[1:5]+1
+        b=1
+        arr_get2[:,:,:,:] = arr_get2[:,:,:,:]+1
   
         
 M = os.cpu_count()
@@ -32,6 +39,6 @@ pool = mp.Pool(processes=M);
 pool.map(_f, (0, 1)); 
 pool.close()
 
-arr_get = np.frombuffer(arr.get_obj())
 
-print(arr[:])
+
+#print(arr_get)
