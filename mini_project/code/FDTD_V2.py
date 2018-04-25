@@ -19,50 +19,48 @@ import h5py
 
 def _p():
     """Claculate the pressure at time 0"""
-    press = pressure[:,:,k,0] - ((rho*(c**2)*delta_t)/grid_size)*((Vx[1:,:,k,1] - Vx[:-1,:,k,1]) + (Vy[:,1:,k,1] - Vy[:,:-1,k,1])); 
-    return press
+    pressure[:,:,:,1] = pressure[:,:,:,0] - p_s*((Vx[1:,:,:,1] - Vx[:-1,:,:,1]) + (Vy[:,1:,:,1] - Vy[:,:-1,:,1]) + (Vz[:,:,1:,1] - Vz[:,:,:-1,1])); 
+
 
 def _vx():
     """Claculate the particle valocity x at time 0"""
-    vel_x = Vx[1:-1,:,k,0] - (delta_t/(rho*grid_size))*(pressure[1:,:,k,0] - pressure[:-1,:,k,0]);
-    #pid = os.getpid()
-    #print(" Particle velocity x process id {:7d}".format( pid))
-    return vel_x
-
+    Vx[1:-1,:,:,1] = Vx[1:-1,:,:,0] - v_s*(pressure[1:,:,:,0] - pressure[:-1,:,:,0]);
+ 
 def _vy():
     """Claculate the particle valocity y at time 0"""
-    vel_y = Vy[:,1:-1,k,0] - (delta_t/(rho*grid_size))*(pressure[:,1:,k,0] - pressure[:,:-1,k,0]);
-    #pid = os.getpid()
-    #print(" Particle velocity y process id {:7d}".format( pid))
-    return vel_y
+    Vy[:,1:-1,:,1] = Vy[:,1:-1,:,0] - v_s*(pressure[:,1:,:,0] - pressure[:,:-1,:,0]);
+
+def _vz():
+    """Claculate the particle valocity y at time 0"""
+    Vz[:,:,1:-1,1] = Vz[:,:,1:-1,0] - v_s*(pressure[:,:,1:,0] - pressure[:,:,:-1,0]);
 
 def _vxlb():
     """Claculate the particle valocity at left boundary x, at time 0"""
-    vel_xlb = alpha*Vx[0,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[0,:,k,0];
+    Vx[0,:,k,1] = alpha*Vx[0,:,k,0] - vb_s*pressure[0,:,k,0];
     #pid = os.getpid()
     #print(" Boundary x left process id {:7d}".format( pid))
-    return vel_xlb
+    #return vel_xlb
 
 def _vxrb():
     """Claculate the particle valocity at right boundary x, at time 0"""
-    vel_xrb = alpha*Vx[-1,:,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[-1,:,k,0];
+    Vx[-1,:,k,1] = alpha*Vx[-1,:,k,0] - vb_s*pressure[-1,:,k,0];
     #pid = os.getpid()
     #print(" Boundary x right process id {:7d}".format( pid))
-    return vel_xrb
+    #return vel_xrb
 
 def _vytb():
     """Claculate the particle valocity at top boundary y, at time 0"""
-    vel_ytb = alpha*Vy[:,0,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,0,k,0];
+    Vy[:,0,k,1] = alpha*Vy[:,0,k,0] - vb_s*pressure[:,0,k,0];
     #pid = os.getpid()
     #print(" Boundary y top process id {:7d}".format( pid))
-    return vel_ytb  
+    #return vel_ytb  
 
 def _vybb():
     """Claculate the particle valocity at bottom boundary y, at time 0"""
-    vel_ybb = alpha*Vy[:,-1,k,0] - beta*(2*delta_t)/(rho*grid_size)*pressure[:,-1,k,0];
+    Vy[:,-1,k,1] = alpha*Vy[:,-1,k,0] - vb_s*pressure[:,-1,k,0];
     #pid = os.getpid()
     #print(" Boundary y bottom process id {:7d}".format( pid))
-    return vel_ybb
+    #return vel_ybb
 
 
 # Calculation start time
@@ -86,34 +84,38 @@ for t in range(stop_time):
         impulse = impulse + it[t-m+1]*front[m];   
     
     # Claculate the transparant source        
-    pressure[int(spc[0]),int(spc[1]),k,0] = pressure[int(spc[0]),int(spc[1]),k,1] + front[t+1] - impulse;       
+    pressure[int(spc[0]),int(spc[1]),int(spc[2]),0] = pressure[int(spc[0]),int(spc[1]),int(spc[2]),1] + front[t+1] - impulse;       
 
     # calculate the particle velocity     
     start_for_velocity = time.time()        # Start timer for meassuring velocity calculation 
-    Vx[1:-1,:,k,1] = _vx();
-    Vy[:,1:-1,k,1] = _vy();
-    Vx[0,:,k,1] = _vxlb();
-    Vx[-1,:,k,1] = _vxrb();
-    Vy[:,0,k,1] = _vytb();
-    Vy[:,-1,k,1] = _vybb();
+#    Vx[1:-1,:,k,1] = _vx();
+#    Vy[:,1:-1,k,1] = _vy();
+#    Vx[0,:,k,1] = _vxlb();
+#    Vx[-1,:,k,1] = _vxrb();
+#    Vy[:,0,k,1] = _vytb();
+#    Vy[:,-1,k,1] = _vybb();
+    _vx()
+    _vy()
+    _vz()
+  
     stop_for_velocity = time.time()         # Stop timer for meassuring velocity calculation
     time_of_velocity_calculation = (stop_for_velocity-start_for_velocity );
     
     # Calculate the pressure
-    pressure[:,:,k,1] = _p();
+    _p();
 
     # The pressure squared + the earlier pressure squared
     if t >= measure/grid_size:
-        p_rms[:,:,k] = p_rms[:,:,k] + (pressure[:,:,k,1])**2;
+        p_rms[:,:,int(spc[2])] = p_rms[:,:,int(spc[2])] + (pressure[:,:,int(spc[2]),1])**2;
 
     # Store the new time in old time by swapping matrix  
-    pressure[:,:,k,0] = pressure[:,:,k,1];
-    Vx[:,:,k,0] = Vx[:,:,k,1];
-    Vy[:,:,k,0] = Vy[:,:,k,1];
+    pressure[:,:,:,0] = pressure[:,:,:,1];
+    Vx[:,:,:,0] = Vx[:,:,:,1];
+    Vy[:,:,:,0] = Vy[:,:,:,1];
     print(t)
 
 # Claculate the RMS pressure
-p_rms_time = np.sqrt(p_rms[:,:,k]/(stop_time-measure/grid_size));
+p_rms_time = np.sqrt(p_rms[:,:,int(spc[2])]/(stop_time-measure/grid_size));
 p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 
 # Calculation stop time
@@ -142,7 +144,7 @@ f = h5py.File('p_rms_db_cut.hdf5', "w")
 # The test
 # Test point
 center = np.ceil(np.shape(p_rms_db_cut)[1]/2);
-test_point_one = center+((measure/4)/grid_size);
+test_point_one = center+((measure/2)/grid_size);
 test_point_two = center+(measure/grid_size);
 
 # Simulation pressure drop with quadruple area

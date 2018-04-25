@@ -25,9 +25,9 @@ it = it['it'];
 it = it.T
 
 frequency = 60;                     # setting frequency for simulation    [Hz]
-room_x = 100;                        # room size in x-dimension             [m]
-room_y = 100;                        # room size in y-dimension             [m]
-room_z = 1;                         # room size in y-dimension             [m]                        
+room_x = 15;                        # room size in x-dimension             [m]
+room_y = 15;                        # room size in y-dimension             [m]
+room_z = 15;                         # room size in y-dimension             [m]                        
 
 grid_size = 0.05;                   # grid resolution                      [m]
 
@@ -61,20 +61,35 @@ ti = 2;                              # number of pages for time in storage  [1]
 
 
 
-pressure = mp.Array(ctypes.c_double, np.tile(0.0, (ro,co,la,ti)));
+pressure_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*co*la*ti))
+pressure = np.frombuffer(pressure_share, dtype=np.float64).reshape((ro,co,la,ti))
+
+Vx_share = mp.sharedctypes.RawArray(ctypes.c_double , ((ro+1)*co*la*ti))
+Vx = np.frombuffer(Vx_share, dtype=np.float64).reshape(((ro+1),co,la,ti))
+
+Vy_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*(co+1)*la*ti))
+Vy = np.frombuffer(Vy_share, dtype=np.float64).reshape((ro,(co+1),la,ti))
+
+Vz_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*co*(la+1)*ti))
+Vz = np.frombuffer(Vz_share, dtype=np.float64).reshape((ro,co,(la+1),ti))
+
 p_rms = np.tile(0.0, (ro,co,la));
-Vx = mp.Array(ctypes.c_double, np.tile(0.0, (ro+1,co,la,ti)));
-Vy = mp.Array(ctypes.c_double, np.tile(0.0, (ro,co+1,la,ti)));
-Vz = mp.Array(ctypes.c_double, np.tile(0.0, (ro,co,la+1,ti)));
+
+#pressure = np.tile(0.0, (ro,co,la,ti));
+#p_rms = np.tile(0.0, (ro,co,la));
+#Vx = np.tile(0.0, (ro+1,co,la,ti));
+#Vy = np.tile(0.0, (ro,co+1,la,ti));
+#Vz = np.tile(0.0, (ro,co,la+1,ti));
 
 
-#simulation_step = int((room_x/grid_size/2)*2) # simulation step.
-simulation_step=1;
+simulation_step = int((room_x/grid_size/2)*2) # simulation step.
+print(simulation_step)
+#simulation_step=2;
 
 # Measuring distance
-measure = 8;
+measure = 2;
 
 
 vb_s = beta*(2*delta_t)/(rho*grid_size)
 v_s = (delta_t/(rho*grid_size))
-
+p_s = ((rho*(c**2)*delta_t)/grid_size)
