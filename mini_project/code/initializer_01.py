@@ -8,6 +8,11 @@ Created on Wed Apr 18 10:50:37 2018
 
 #%%
 
+import ctypes
+import multiprocessing as mp
+import scipy.io as sio
+import math as m
+import numpy as np
 
 
 it = sio.loadmat("./impulse_response_5cm_grid_80m_room.mat");        # loading impulse response for transparent source
