@@ -6,9 +6,12 @@ Created on Wed Apr 18 10:40:04 2018
 @author: jonas
 """
 
-exec(open("./initializer_01.py").read())
 
+import ctypes
 import multiprocessing as mp
+import scipy.io as sio
+import math as m
+import numpy as np
 import os
 import time
 import matplotlib.pyplot as plt
@@ -63,98 +66,103 @@ def _vybb():
     #return vel_ybb
 
 
-# Calculation start time
-start = time.time()
+if __name__ == '__main__':
 
-# Calculate hard source
-stop_time = simulation_step+1;
-front = np.empty((stop_time));
-for t in range(stop_time):
-    front[t] = 1*np.sin(2*np.pi*100*((t-1)/fs));
+    exec(open("./initializer_01.py").read())
+
+
+    # Calculation start time
+    start = time.time()
+
+    # Calculate hard source
+    stop_time = simulation_step+1;
+    front = np.empty((stop_time));
+    for t in range(stop_time):
+        front[t] = 1*np.sin(2*np.pi*100*((t-1)/fs));
+        
+    k = 0;
+
+    # start point
+    stop_time = simulation_step;
+    for t in range(stop_time):
+        
+        # Calculate transparant source correction
+        impulse = 0;
+        for m in range(t):
+            impulse = impulse + it[t-m+1]*front[m];   
     
-k = 0;
+        # Claculate the transparant source        
+        pressure[int(spc[0]),int(spc[1]),int(spc[2]),0] = pressure[int(spc[0]),int(spc[1]),int(spc[2]),1] + front[t+1] - impulse;       
 
-# start point
-stop_time = simulation_step;
-for t in range(stop_time):
-      
-    # Calculate transparant source correction
-    impulse = 0;
-    for m in range(t):
-        impulse = impulse + it[t-m+1]*front[m];   
-    
-    # Claculate the transparant source        
-    pressure[int(spc[0]),int(spc[1]),int(spc[2]),0] = pressure[int(spc[0]),int(spc[1]),int(spc[2]),1] + front[t+1] - impulse;       
-
-    # calculate the particle velocity     
-    start_for_velocity = time.time()        # Start timer for meassuring velocity calculation 
-#    Vx[1:-1,:,k,1] = _vx();
-#    Vy[:,1:-1,k,1] = _vy();
-#    Vx[0,:,k,1] = _vxlb();
-#    Vx[-1,:,k,1] = _vxrb();
-#    Vy[:,0,k,1] = _vytb();
-#    Vy[:,-1,k,1] = _vybb();
-    _vx()
-    _vy()
-    _vz()
+        # calculate the particle velocity     
+        start_for_velocity = time.time()        # Start timer for meassuring velocity calculation 
+        #    Vx[1:-1,:,k,1] = _vx();
+        #    Vy[:,1:-1,k,1] = _vy();
+        #    Vx[0,:,k,1] = _vxlb();
+        #    Vx[-1,:,k,1] = _vxrb();
+        #    Vy[:,0,k,1] = _vytb();
+        #    Vy[:,-1,k,1] = _vybb();
+        _vx()
+        _vy()
+        _vz()
   
-    stop_for_velocity = time.time()         # Stop timer for meassuring velocity calculation
-    time_of_velocity_calculation = (stop_for_velocity-start_for_velocity );
+        stop_for_velocity = time.time()         # Stop timer for meassuring velocity calculation
+        time_of_velocity_calculation = (stop_for_velocity-start_for_velocity );
     
-    # Calculate the pressure
-    _p();
+        # Calculate the pressure
+        _p();
 
-    # The pressure squared + the earlier pressure squared
-    if t >= measure/grid_size:
-        p_rms[:,:,int(spc[2])] = p_rms[:,:,int(spc[2])] + (pressure[:,:,int(spc[2]),1])**2;
+        # The pressure squared + the earlier pressure squared
+        if t >= measure/grid_size:
+            p_rms[:,:,int(spc[2])] = p_rms[:,:,int(spc[2])] + (pressure[:,:,int(spc[2]),1])**2;
 
-    # Store the new time in old time by swapping matrix  
-    pressure[:,:,:,0] = pressure[:,:,:,1];
-    Vx[:,:,:,0] = Vx[:,:,:,1];
-    Vy[:,:,:,0] = Vy[:,:,:,1];
-    print(t)
+        # Store the new time in old time by swapping matrix  
+        pressure[:,:,:,0] = pressure[:,:,:,1];
+        Vx[:,:,:,0] = Vx[:,:,:,1];
+        Vy[:,:,:,0] = Vy[:,:,:,1];
+        print(t)
 
-# Claculate the RMS pressure
-p_rms_time = np.sqrt(p_rms[:,:,int(spc[2])]/(stop_time-measure/grid_size));
-p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
+    # Claculate the RMS pressure
+    p_rms_time = np.sqrt(p_rms[:,:,int(spc[2])]/(stop_time-measure/grid_size));
+    p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 
-# Calculation stop time
-stop = time.time()
+    # Calculation stop time
+    stop = time.time()
 
-# Calculate the execution time 
-time_of_calculation = (stop-start);
+    # Calculate the execution time 
+    time_of_calculation = (stop-start);
 
-#%%
+    #%%
 
-# Plot the RMS pressure
-limit = int(stop_time/6);
-p_rms_db_cut = p_rms_db[limit:-limit,limit:-limit];
-#p_rms_db_cut = p_rms_db_cut*2
-length = (np.shape(p_rms_db_cut)[1]*grid_size)/2;
-#fig = plt.figure()
-#plt.imshow(p_rms_db_cut, vmin=p_rms_db_cut.min(), vmax=p_rms_db_cut.max()-30 ,cmap=cm.jet, extent=[-length,length,-length,length])
-#plt.colorbar()
-#ax = plt.gca()
-#ax.set_xlabel(['m'])
-#ax.set_ylabel('Distance'['m'])
-#plt.show()
+    # Plot the RMS pressure
+    limit = int(stop_time/6);
+    p_rms_db_cut = p_rms_db[limit:-limit,limit:-limit];
+    #p_rms_db_cut = p_rms_db_cut*2
+    length = (np.shape(p_rms_db_cut)[1]*grid_size)/2;
+    #fig = plt.figure()
+    #plt.imshow(p_rms_db_cut, vmin=p_rms_db_cut.min(), vmax=p_rms_db_cut.max()-30 ,cmap=cm.jet, extent=[-length,length,-length,length])
+    #plt.colorbar()
+    #ax = plt.gca()
+    #ax.set_xlabel(['m'])
+    #ax.set_ylabel('Distance'['m'])
+    #plt.show()
 
-# Save simulation
-f = h5py.File('p_rms_db_cut.hdf5', "w") 
+    # Save simulation
+    f = h5py.File('p_rms_db_cut.hdf5', "w") 
 
-# The test
-# Test point
-center = np.ceil(np.shape(p_rms_db_cut)[1]/2);
-test_point_one = center+((measure/2)/grid_size);
-test_point_two = center+(measure/grid_size);
+    # The test
+    # Test point
+    center = np.ceil(np.shape(p_rms_db_cut)[1]/2);
+    test_point_one = center+((measure/2)/grid_size);
+    test_point_two = center+(measure/grid_size);
 
-# Simulation pressure drop with quadruple area
-simu_pres_drop = p_rms_db_cut[int(center),int(test_point_two)] - p_rms_db_cut[int(center),int(test_point_one)];
+    # Simulation pressure drop with quadruple area
+    simu_pres_drop = p_rms_db_cut[int(center),int(test_point_two)] - p_rms_db_cut[int(center),int(test_point_one)];
 
-# analytical pressure drop with quadruple area. The analytical calculation is
-# in 3D and therefore the distance shal only be the dobble.
-analy_pres_drop = 20*np.log10(measure/2/measure);
+    # analytical pressure drop with quadruple area. The analytical calculation is
+    # in 3D and therefore the distance shal only be the dobble.
+    analy_pres_drop = 20*np.log10(measure/2/measure);
 
-# The error between the analytical model and the simulation, 
-error = simu_pres_drop - analy_pres_drop;
+    # The error between the analytical model and the simulation, 
+    error = simu_pres_drop - analy_pres_drop;
 
