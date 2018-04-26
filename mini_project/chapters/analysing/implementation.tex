@@ -5,6 +5,7 @@ Most of the considerations of the algorithm is already explained in \autoref{sec
 \item The pressure formula is named _p() 
 \item The particle velocity in x direction is named _vx()
 \item The particle velocity in y direction is named _vy()
+\item The particle velocity in z direction is named _vz()
 \item The particle velocity at the left boundary in x direction is named _vxlb()
 \item The particle velocity at the right boundary in x direction is named _vxrb()
 \item The particle velocity at the top boundary in y direction is named _vytb()
@@ -14,9 +15,18 @@ Most of the considerations of the algorithm is already explained in \autoref{sec
 \end{itemize}
 
 \section{Data type}
-Since the algorithm estimate the pressure and particle velocity in space with respect to time, both pressure and particle velocity is stored in a 4 dimension matrix where the last dimension is the time. Both pressure and particle velocity is a variable which is one or less, as long as the transparent source have an amplitude of one, both variable is stored as an float variable. The bigger the room is, the smaller the numbers is close to the boundary, and to get a good pressure and  
+Since the algorithm estimate the pressure and particle velocity in space with respect to time, both pressure and particle velocity is stored in a 4 dimension matrix where the last dimension is the time. Both pressure and particle velocity is a shared variable which value is one or less, as long as the transparent source have an amplitude of one. All array is stored as a shared float, because the array data excite 50 mb, and all formula is made as an function. To avoid to much data transfer between parts of the code, data is shared, where the pointer name is the direction name.
 
 
 
 \section{Optimization}
-Every calculation is depending on each other and have to be calculated for each time step in the right order in serial, with the exception of the individual particle velocity for each time step. This means that the particle velocity x and y and the boundary can be calculated in parallel and a parallel implementation is done.  
+Every calculation is depending on each other and have to be calculated for each time step in the right order in serial, with the exception of the individual particle velocity for each time step. This means that the particle velocity x, y, z and the boundary can be calculated in parallel. Another optimization possibility is to go from double precision to single precision. A test function will be made to see if de calculation error is critical or not with using single precision.
+
+\section{Test Plan}
+The test plan is to compare the pressure drop of the simulation with the analytical model. By physical knowing, the pressure will attenuate by \SI{6}{\decibel} for every double of distance in fare field and \SI{3}{\decibel} in near field. Since the \gls{fdtd} is an approximation of the far field scenario, an analytical model will be set up as a doctest, where the test compare the analytical model and the simulation. To keep the computation time down, the chosen distance is one and two meter. The test will be run in both double precision and single precision, to see if the single precision is precise as double precision.
+
+\section{Profiling and benchmarking}
+Most for the code have to run in series but the particle velocity can be run i both parallel and serial, and therefore the profiling and benchmarking will be focused on this part. To do the benchmarking of the particle velocity, the time before the particle velocity starts will be recorded, and the time after the particle velocity is finish will be recorded. This two time will be subtracted to fine the spend calculation time of the calculation. All three implementation will be tested to find the best benchmark of the code. The following \autoref{} shows the benchmark time for all three implementation with different room size. The resend to do more than one room size is to determine if the processing is lacking from memory or processing power.
+
+
+
