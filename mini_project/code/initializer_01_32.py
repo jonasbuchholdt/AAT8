@@ -18,11 +18,11 @@ room_x = 10;                        # room size in x-dimension             [m]
 room_y = 10;                        # room size in y-dimension             [m]
 room_z = 10;                         # room size in y-dimension             [m]                        
 
-grid_size = np.float32(0.05);                   # grid resolution                      [m]
+grid_size = 0.05;                   # grid resolution                      [m]
 
 before= 0;                          # variable for progress output         [1]
-c = np.float32(343);                            # speed of sound in air           [m*s^-1]
-rho = np.float32(1.21);                         # specific density of air        [kg*m^-3]
+c = 343;                            # speed of sound in air           [m*s^-1]
+rho = 1.21;                         # specific density of air        [kg*m^-3]
 
 # calculating minimum stable sample frequency based on grid size
 fs_min = np.float32((np.sqrt(3/(grid_size**2))*c)/(np.sqrt(2/3)))

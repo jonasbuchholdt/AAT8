@@ -9,6 +9,7 @@ Created on Wed Apr 18 10:40:04 2018
 
 import ctypes
 import multiprocessing as mp
+import multiprocessing.sharedctypes
 import scipy.io as sio
 import math as m
 import numpy as np

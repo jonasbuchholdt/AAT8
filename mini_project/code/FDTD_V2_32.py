@@ -107,8 +107,8 @@ if __name__ == '__main__':
         _p();
 
         # The pressure squared + the earlier pressure squared
-        if t >= measure/grid_size:
-            p_rms[:,:,int(spc[2])] = p_rms[:,:,int(spc[2])] + (pressure[:,:,int(spc[2]),1])**2;
+        #if t >= stop_time/2: #measure/grid_size:
+        p_rms[:,:,int(spc[2])] = p_rms[:,:,int(spc[2])] + (pressure[:,:,int(spc[2]),1])**2;
 
         # Store the new time in old time by swapping matrix  
         pressure[:,:,:,0] = pressure[:,:,:,1];
@@ -117,7 +117,7 @@ if __name__ == '__main__':
         print(t)
 
     # Claculate the RMS pressure
-    p_rms_time = np.sqrt(p_rms[:,:,int(spc[2])]/(stop_time-measure/grid_size));
+    p_rms_time = np.sqrt(p_rms[:,:,int(spc[2])]/(stop_time));#-measure/grid_size));
     p_rms_db = 20*np.log10(p_rms_time[:,:]/(20*10**(-6)));
 
     # Calculation stop time
