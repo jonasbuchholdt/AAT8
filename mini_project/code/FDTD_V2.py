@@ -144,7 +144,7 @@ if __name__ == '__main__':
     plt.colorbar()
     ax = plt.gca()
     ax.set_xlabel(['m'])
-    ax.set_ylabel('Distance'['m'])
+    ax.set_ylabel(['m'])
     plt.show()
 
     # Save simulation

@@ -9,6 +9,7 @@ Created on Wed Apr 18 10:40:04 2018
 
 import ctypes
 import multiprocessing as mp
+import multiprocessing.sharedctypes
 import scipy.io as sio
 import math as m
 import numpy as np
@@ -137,7 +138,7 @@ if __name__ == '__main__':
     plt.colorbar()
     ax = plt.gca()
     ax.set_xlabel(['m'])
-    ax.set_ylabel('Distance'['m'])
+    ax.set_ylabel(['m'])
     plt.show()
 
     # Save simulation

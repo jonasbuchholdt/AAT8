@@ -8,15 +8,9 @@ Created on Wed Apr 18 10:50:37 2018
 
 #%%
 
-import ctypes
-import multiprocessing as mp
-import scipy.io as sio
-import math as m
-import numpy as np
 
-
-it = sio.loadmat("./impulse_response_5cm_grid_80m_room.mat");        # loading impulse response for transparent source
-it = it['it'];
+it = sio.loadmat("./impulse_response_3D_40m.mat");        # loading impulse response for transparent source
+it = it['impulse_response'];
 it = np.float32(it.T)
 
 frequency = 300;                     # setting frequency for simulation    [Hz]
@@ -68,7 +62,7 @@ Vy = np.frombuffer(Vy_share, dtype=np.float32).reshape((ro,(co+1),la,ti))
 Vz_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*(la+1)*ti))
 Vz = np.frombuffer(Vz_share, dtype=np.float32).reshape((ro,co,(la+1),ti))
 
-p_rmst = np.zeros((ro,co,la), dtype=np.float32)
+p_rms = np.zeros((ro,co,la), dtype=np.float32)
 
 
 
