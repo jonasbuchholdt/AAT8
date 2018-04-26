@@ -19,7 +19,7 @@ it = sio.loadmat("./impulse_response_5cm_grid_80m_room.mat");        # loading i
 it = it['it'];
 it = it.T
 
-frequency = 60;                     # setting frequency for simulation    [Hz]
+frequency = 300;                     # setting frequency for simulation    [Hz]
 room_x = 20;                        # room size in x-dimension             [m]
 room_y = 20;                        # room size in y-dimension             [m]
 room_z = 20;                         # room size in y-dimension             [m]                        
