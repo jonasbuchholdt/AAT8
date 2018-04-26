@@ -19,9 +19,17 @@ the filter type will be determined first. To determined the filter type, a secon
 
 As it can be seen on \autoref{band_stop_filter} the shape of the estimated cost filter is a band stop filter with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{175}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The gain in the front of the filter will need to be \SI{6.4}{\decibel}. \\
 
-\subsection{Band pass filter}
+\subsection{Parametric equalizer as cost filter}
 
-Designing a bandstop filter is done with designing it as a band boost filter and then change the filter from feed forward to feedback coupled filter. Thats mean that the filter will be change to following \autoref{fig:band_pass_filter}
+Designing a bandstop filter is done with designing it as a bandpass filter, and use it in a feedback circuit. The following block diagram \autoref{} shows a block diagram a bandstop filter. 
+
+
+
+To design a bandpass filter, the filter parameter is   
+
+
+
+That means that the filter will be change to following \autoref{fig:band_pass_filter}
 
 
 \begin{figure}[H]

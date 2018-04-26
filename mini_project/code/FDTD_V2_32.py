@@ -23,7 +23,7 @@ import h5py
 
 def _p():
     """Claculate the pressure at time 0"""
-    pressure[:,:,:,1] = pressure[:,:,:,0] - p_s*((Vx[1:,:,:,1] - Vx[:-1,:,:,1]) + (Vy[:,1:,:,1] - Vy[:,:-1,:,1]) + (Vz[:,:,1:,1] - Vz[:,:,:-1,1])); 
+    pressure[:,:,:,1] = pressure[:,:,:,0] - np.float32(p_s*((Vx[1:,:,:,1] - Vx[:-1,:,:,1]) + (Vy[:,1:,:,1] - Vy[:,:-1,:,1]) + (Vz[:,:,1:,1] - Vz[:,:,:-1,1]))); 
 
 
 def _vx():
