@@ -71,14 +71,29 @@ The corresponding transfer function to block diagram \autoref{fig:bandstop_filte
 H_{stop}(s) = \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
 \end{equation}
 
+A bode plot of the \autoref{eq:bandstop_filter_eq} is showen in \autoref{fig:bandstop_filter_eq_bodeplot}
+
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{band_pass_filter_h_non_scaled.eps}
-	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
-		\label{fig:band_pass_filter_h_non_scaled}
+	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot.eps}
+	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
+		\label{fig:bandstop_filter_eq_bodeplot}
 \end{figure}
+
+On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits very well from \SI{80}{\hertz} and upwards but the frequency that is below \SI{80}{\hertz} is to fare off. To solve this problem, the data point can be atenuated to fit on the steap slop of the filter. 
+
+
+As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot} the parameter have to be changed a bit to fit the data point. By tryil and error the following filter parameters have been selected for the cost filter. 
+
+\begin{itemize}
+\item Gain $G = \SI{7.2}{\decibel}$
+\item Bandwidth is $BW = 2\pi \SI{253}{\hertz} = 1589.6$
+\item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
+\item The filter goodness $Q = \frac{1470.3}{1338.3} = 0.9249$
+\end{itemize}
+
 
 The wanted filter is raised by \SI{2}{\decibel} such that the designed filter also fit at low frequency. The output of the filter shall afterwards by atunuated by  \SI{2}{\decibel} to work as wanted.
 
