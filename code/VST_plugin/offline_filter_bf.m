@@ -1,5 +1,17 @@
 clear variables
 load('filter_parameter.mat')
+
+phase_offset = -0.00;  % minus move the phase up.
+population = 1000;
+generation = 7000;
+weight = 0;
+rotate = -0;
+add_gain = +0.00;
+tap = 200;
+phase = 38;
+
+ir = generate_ir(solutions,rotate,add_gain,tap,phase);
+
 fs=44100;
 ts=2;
 gainLin=1;
@@ -40,25 +52,38 @@ x(end-fadeOutSamps+1:end) = x(end-fadeOutSamps+1:end) .* fadeOut;
 startSilence = ceil(fs/10);
 endSilence = 2*fs;
 OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
-filtered = filter(solutions.f1.ir_estimate,1,solutions.f1.filter_gain*OG);
-crcorred = crosscorr(solutions.f1.ir_estimate,solutions.f1.filter_gain*OG);
-tf=fft(crcorred)./fft(OG);
+filtered = filter(ir,1,solutions.f1.filter_gain*OG);
+% crcorred = xcorr(solutions.f1.filter_gain*OG,ir);
+tf=fft(filtered)./fft(OG);
 fraxis=(0:1:length(OG)-1)*fs/length(OG);
-
+%[freqResp ,w] = freqz(ir,1,22050,44100);
 figure(1)
 plot(OG)
 hold on
 plot(filtered)
-plot(crcorred)
+% plot(crcorred)
 
 figure(2)
 yyaxis left
-plot(fraxis,abs(tf))
+semilogx(fraxis(1:length(fraxis/2)),20*log10(abs(tf(1:length(fraxis/2)))))
+hold on
+
 ylabel('Gain [dB]')
 xlabel('Frequency [Hz]')
-hold on
-% plot(f,amplitude2)
-% plot(f,amplitude3)
+
 yyaxis right
-plot(fraxis,rad2deg(angle(tf)))
+semilogx(fraxis(1:length(fraxis/2)),rad2deg(angle(tf(1:length(fraxis/2)))))
+
 ylabel('Phase Shift [Deg]')
+
+scaling=1/max(abs(filtered));
+og_scaled=scaling.*OG;
+filtered_scaled=scaling.*filtered;
+audiowrite('front_bf.wav',og_scaled,fs)
+audiowrite('rear_bf.wav',filtered_scaled,fs)
+
+% figure(3)
+% yyaxis left
+% semilogx(w,20*log10(abs(solutions.f1.filter_gain*freqResp(1:length(w)))))
+% yyaxis right
+% semilogx(w,rad2deg(angle(freqResp(1:length(w)))))

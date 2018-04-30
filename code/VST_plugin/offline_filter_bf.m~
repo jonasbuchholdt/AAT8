@@ -1,9 +1,13 @@
 clear variables
 load('filter_parameter.mat')
+ir = generate_ir(solutions,rotate,add_gain,tap,phase);
+
 fs=44100;
 ts=2;
 gainLin=1;
 
+flower=20;
+fupper=22000;
 
 % Set up swept sine using chirp function
 t = 0:1/fs:ts - (1/fs);
@@ -37,4 +41,33 @@ x(end-fadeOutSamps+1:end) = x(end-fadeOutSamps+1:end) .* fadeOut;
 % We'll also add some to the start to account for latency
 startSilence = ceil(fs/10);
 endSilence = 2*fs;
-dataOut = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+filtered = filter(solutions.f1.ir_estimate,1,solutions.f1.filter_gain*OG);
+crcorred = xcorr(solutions.f1.filter_gain*OG,solutions.f1.ir_estimate);
+tf=fft(filtered)./fft(OG);
+fraxis=(0:1:length(OG)-1)*fs/length(OG);
+[freqResp ,w] = freqz(solutions.f1.ir_estimate,1,22050,44100);
+figure(1)
+plot(OG)
+hold on
+plot(filtered)
+plot(crcorred)
+
+figure(2)
+yyaxis left
+semilogx(fraxis(1:length(fraxis/2)),20*log10(abs(tf(1:length(fraxis/2)))))
+hold on
+
+ylabel('Gain [dB]')
+xlabel('Frequency [Hz]')
+
+yyaxis right
+semilogx(fraxis(1:length(fraxis/2)),rad2deg(angle(tf(1:length(fraxis/2)))))
+
+ylabel('Phase Shift [Deg]')
+
+figure(3)
+yyaxis left
+semilogx(w,20*log10(abs(solutions.f1.filter_gain*freqResp(1:length(w)))))
+yyaxis right
+semilogx(w,rad2deg(angle(freqResp(1:length(w)))))
