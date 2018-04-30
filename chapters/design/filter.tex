@@ -15,22 +15,39 @@ the filter type will be determined first. To determined the filter type, a secon
 	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
 		\label{fig:band_stop_filter}
 \end{figure}
-
-
-As it can be seen on \autoref{band_stop_filter} the shape of the estimated cost filter is a band stop filter with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{175}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The gain in the front of the filter will need to be \SI{6.4}{\decibel}. \\
+It can also be seen on \autoref{band_stop_filter} the shape of the estimated cost filter is a band stop filter. \\
 
 \subsection{Parametric equalizer as cost filter}
 
-Designing a bandstop filter is done with designing it as a bandpass filter, and use it in a feedback circuit. The following block diagram \autoref{} shows a block diagram a bandstop filter. 
+Designing a bandstop filter is done with designing it as a bandpass filter, and use it in a feedback circuit. The following block diagram \autoref{fig:bandstop_filter_blockdiagram} shows a block diagram of a bandstop filter. 
+
+\begin{figure}[H]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics{bandstop_filter_blockdiagram.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(4634,1218)(2056,-973)
+\put(2071, 74){Input}%
+\put(3196,-376){-}%
+\put(3556,-781){Gain}%
+\put(4681,-781){Bandpass}%
+\put(2791,-286){+}%
+\put(6076, 74){Output}%
+\end{picture}%
+	\caption{The figure shows the block diagram of a bandstop filter}
+		\label{fig:bandstop_filter_blockdiagram}
+\end{figure}
 
 
-
-To design a bandpass filter, the filter parameter is   
-
-
-
-That means that the filter will be change to following \autoref{fig:band_pass_filter}
-
+Designing the bandpass filter part of the bandstop filter, the bandpass filter part is changed such that the center frequency is at \SI{0}{\decibel} and the shape is a bandpass filter and not a bandstop filter. To change the filter, the parameter is inverter and subtracted \SI{2.1}{\decibel}. The following \autoref{fig:band_pass_filter} shows the bandpass filter.
 
 \begin{figure}[H]
 	\centering
@@ -39,7 +56,21 @@ That means that the filter will be change to following \autoref{fig:band_pass_fi
 		\label{fig:band_pass_filter}
 \end{figure}
 
-It can be seen on the figure, that the \SI{-3}{\decibel} bandwidth is \SI{213}{\hertz}, a center frequency of \SI{234}{\hertz} the gain must be \SI{8.5}{\decibel} 
+On \autoref{fig:band_pass_filter} it can be seen that the \SI{-3}{\decibel} bandwidth is \SI{213}{\hertz} with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{234}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. and the gain will need to be \SI{6.4}{\decibel}.. The initial filter parameters is then:
+
+\begin{itemize}
+\item Gain $G = \SI{8.5}{\decibel}$
+\item Bandwidth is $BW = 2\pi \SI{213}{\hertz} = 1338.3$
+\item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
+\item The filter goodness $Q = \frac{1470.3}{1338.3} = 1.0986$
+\end{itemize}
+
+The corresponding transfer function to block diagram \autoref{fig:bandstop_filter_blockdiagram} is as \autoref{eq:bandstop_filter_eq}
+
+\begin{equation}\label{eq:bandstop_filter_eq}
+H_{stop}(s) = \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
+\end{equation}
+
 
 
 \begin{figure}[H]

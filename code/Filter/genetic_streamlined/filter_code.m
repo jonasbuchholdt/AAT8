@@ -43,8 +43,12 @@ slope = (full_filter_gain(11)-full_filter_gain(1))/(log10(fr(11))-log10(fr(1)))
 % bandwidth = 341 Hz - 128 hz
 
 
-bandwidth = (341-128*1.1878)*1.3175;
-omega_0 = 234-0;
+%bandwidth = (341-128*1.1878)*1.3175;
+%omega_0 = 234-0;
+
+bandwidth = 2*pi*213
+omega_0 = 2*pi*234
+gain = 10^(8.5/20)
 
 Q = omega_0/bandwidth;
 
@@ -56,7 +60,7 @@ h_boost(k) = (1+(((omega_0/Q*s(k))/(s(k)^2+omega_0/Q*s(k)+omega_0^2))*2.3));
 end
 
 for k=1:1:10000
-h_cut(k) = ((((s(k)^2+omega_0/Q*s(k)+omega_0^2)/(s(k)^2+omega_0/Q*s(k)*(1+2.3)+omega_0^2))));
+h_cut(k) = ((((s(k)^2+omega_0/Q*s(k)+omega_0^2)/(s(k)^2+omega_0/Q*s(k)*(1+gain)+omega_0^2))));
 end
 
 abs_h = abs(h_cut);
@@ -65,7 +69,9 @@ abs_h = abs(h_cut);
 
 db_abs_h = 20*log10(abs_h);
 
-semilogx(db_abs_h,'color','b')
+x = [1:1:10000]/(2*pi);
+
+semilogx(x,db_abs_h,'color','b')
 
 
 xlim([20 1000])
