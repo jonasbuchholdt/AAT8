@@ -82,75 +82,116 @@ A bode plot of the \autoref{eq:bandstop_filter_eq} is showen in \autoref{fig:ban
 		\label{fig:bandstop_filter_eq_bodeplot}
 \end{figure}
 
-On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits very well from \SI{80}{\hertz} and upwards but the frequency that is below \SI{80}{\hertz} is to fare off. To solve this problem, the data point can be atenuated to fit on the steap slop of the filter. 
+On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{80}{\hertz} and upwards but the frequency that is below \SI{80}{\hertz} is to fare off. To solve this problem, the data point can be attenuated to fit on the steap slop of the filter. Therefore the datapoint is attenuated by \SI{2}{\decibel} and as wall as the filter. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_attenuated.eps}
+	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
+		\label{fig:bandstop_filter_eq_bodeplot_attenuated}
+\end{figure}
 
 
-As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot} the parameter have to be changed a bit to fit the data point. By tryil and error the following filter parameters have been selected for the cost filter. 
+As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the parameter have to be changed a bit to fit the data point. By tryil and error the following filter parameters have been selected for the cost filter. 
+
+
 
 \begin{itemize}
-\item Gain $G = \SI{7.2}{\decibel}$
+\item Gain $G = \SI{10.5}{\decibel}$
 \item Bandwidth is $BW = 2\pi \SI{253}{\hertz} = 1589.6$
 \item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
 \item The filter goodness $Q = \frac{1470.3}{1338.3} = 0.9249$
 \end{itemize}
 
-
-The wanted filter is raised by \SI{2}{\decibel} such that the designed filter also fit at low frequency. The output of the filter shall afterwards by atunuated by  \SI{2}{\decibel} to work as wanted.
-
-
-It can be seen on \autoref{fig:band_pass_filter_h_non_scaled} that the \SI{-3}{\decibel} bandwidth is to narrov because the wanted filter have symmetrical shape in linear domain and not in logorithmic doman which the filter have.Therefore the filter bandwidth have to be extended with a factor of 1.1878. The factor is founded by trail and error. After the bandwidth is extended the filter is as following \autoref{fig:band_pass_filter_h}
-
+The corresponding bode plot for the above filter parameters is as \autoref{fig:bandstop_filter_eq_bodeplot_finish}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{band_pass_filter_h.eps}
-	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
-		\label{fig:band_pass_filter_h}
+	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_finish.eps}
+	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
+		\label{fig:bandstop_filter_eq_bodeplot_finish}
 \end{figure}
 
 
-\subsection{Band stop filter form second order filter}
-To transform a band pass filter to a band stop filter which not is a notch filter, the filter have to be transformed from a feed forward filter to a feedback filter 
-
-
-(BLOCK DIAGRAM)
-
-To transform the bandpass filter to a bandstop filter as descriped above, only the denominator and the numerator have to be switch around.
-
-(The new formula)
-
+The wanted filter is attenuated by \SI{2}{\decibel} such that the designed filter also fit at low frequency, Therefore the \SI{6.5}{\decibel} gain in front of the filter have to be incresed with \SI{2}{\decibel} to work as wanted. The gain in front of the cost filter than have to be \SI{8.5}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{band_stop_filter_non_scaled.eps}
-	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
-		\label{fig:band_stop_filter_non_scaled}
+\begin{picture}(0,0)%
+\includegraphics{bandstop_filter_blockdiagram_gain.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(6029,1218)(661,-973)
+\put(1486,-106){In_Gain}%
+\put(3196,-376){-}%
+\put(3556,-781){Gain}%
+\put(4681,-781){Bandpass}%
+\put(2791,-286){+}%
+\put(6076, 74){Output}%
+\put(676, 74){Input}%
+\end{picture}%
+	\caption{The figure shows the block diagram of a bandstop filter}
+		\label{fig:bandstop_filter_blockdiagram_gain}
 \end{figure}
 
+The transfer function for for the filter is then \autoref{eq:bandstop_filter_eq_analogue}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{band_stop_filter_scaled.eps}
-	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
-		\label{fig:band_stop_filter_scaled}
-\end{figure}
+\begin{equation}\label{eq:bandstop_filter_eq_analogue}
+H_{stop}(s) = \text{In_Gain} \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
+\end{equation}
 
+\subsection{Converting the cost filter to differential equation}
+In order to implement the cost filter in MATLAB to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s in \autoref{eq:bandstop_filter_eq_analogue}, the bilinear transformation is as following 
 
- The second step is to find the slope of the needed low pass filter. The slope is founded as following \autoref{eq:filter_slope}
-
-\begin{equation}
-\text{slope} = \frac{G_2\si{\decibel}-G_1\si{\decibel}}{\log_{10}{(f_2)}-\log_{10}{(f_1)}}
+\begin{equation}\label{eq:bandstop_filter_bilinear}
+H_{stop}(z) = H_{stop}(s) \mid_{s=\frac{2}{T_s}\frac{z-1}{z+1}} 
 \end{equation}
 
     \startexplain
-    \explain{$f$ is a frequency point }{\si{\hertz}}
-    		\explain{$f_2$ is a frequency point higher that $f_1$ }{\si{\meter}}
-        \explain{$G_1\si{\decibel}$ is the corresponding amplitude to $f_1$}{\si{\decibel}}
-         \explain{$G_2\si{\decibel}$ is the corresponding amplitude to $f_2$}{\si{\decibel}}
+        \explain{$H(z)$ is the digital transfer function}{1}
+        \explain{$T_s$ is the sample time}{\si{\second}}
     \stopexplain
-    
-The calculated slope is $17 \frac{\si{\decibel}}{dec}$ and it have been chosen that a standard first order low pass filter will be used. The following \autoref{} shows the error between the data and the filter. The error will make a pressure deference, that defence on frequency. 
 
+By applying the conversion \autoref{eq:bandstop_filter_bilinear} to the analogue cost filter, the filter become \autoref{eq:bandstop_filter_eq_z}
+
+\begin{equation}\label{eq:bandstop_filter_eq_z}
+H_{stop}(s) = \text{In_Gain} \frac{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}+\omega_0^2}{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}(1+Gain)+\omega_0^2}
+\end{equation}
+
+The \autoref{eq:bandstop_filter_eq_z} is changed such that all fixed values is changed to a- end b coefficient. The following \autoref{eq:bandstop_filter_peak_att} is the digital transfer function.
+
+
+\begin{equation}\label{eq:bandstop_filter_peak_att}
+        H_{stop}(z) =  \text{In_Gain} \frac{z^2 \cdot a_{stop1} + z \cdot a_{stop2} + a_{stop3}}{z^2 \cdot b_{stop1} + z \cdot b_{stop2} + b_{stop3}}
+    \end{equation}
+    
+    \startexplain
+     \explain{$H_{stop}(z)$ is the digital transferfunction for the attenuating peak filter.}{\si{1}}
+     \explain{$b_{stop1} = 4 \cdot Q + \omega_0 \cdot(1+G) \cdot T_s \cdot 2 + \omega_0^2 \cdot T_s^2 \cdot Q  $ }{\si{1}}
+     \explain{$b_{stop2} =-8 \cdot Q + 2 \cdot  \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
+     \explain{$b_{stop3} = 4 \cdot Q - 2 \cdot \omega_0 \cdot T_s \cdot (1+G) + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
+     \explain{$a_{stop1} = 4 \cdot Q + 2 \cdot \omega_0 \cdot T_s + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
+     \explain{$a_{stop2} = -8 \cdot Q + 2 \cdot  \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
+     \explain{$a_{stop3} = 4 \cdot Q - 2 \cdot \omega_0 \cdot T_s + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
+    \stopexplain
+
+The last step is to convert the cost filter from z-Domain to transfer function intro differential equation in discrete time domain "n". The following step in \autoref{} is doing the domain conversion.
+
+
+
+\begin{subequations}\label{eq:bandstop_filter_peak_n}
+\begin{alignat}{2}
+ H_{stop}(z)=\frac{Y(z)}{X(z)} &=  \text{In_Gain} \frac{z^2 \cdot a_{stop1} + z \cdot a_{stop2} + a_{stop3}}{z^2 \cdot b_{stop1} + z \cdot b_{stop2} + b_{stop3}} \label{eq:bandstop_filter_peak_n_1}\\
+ H_{stop}(z)=\frac{Y(z)}{X(z)} &=  \text{In_Gain} \frac{z^2 \cdot a_{stop1} + z \cdot a_{stop2} + a_{stop3}}{z^2 \cdot b_{stop1} + z \cdot b_{stop2} + b_{stop3}}  \label{eq:bandstop_filter_peak_n_2}
+\end{alignat}
+\end{subequations}
 
 \section{Beam forming filter}
 The beam forming filter is not as easy as the cost filter to design, since that the phase and the gain have to be exact before the beam forming works. Therefore the phase have to be studied to determined the filter type. On the data point from the \ref{sec:opt_result} it can be seen that the phase is mostly linear in the frequency of interest, and therefore the filter will be a linear phase \gls{fir} filter. The smart thing with choosing a \gls{fir} filter is that the impulse response of the filter just have to be symmetric to achieve linear phase response. This means that optimizing the part of the impulse response and put it together with a mirrored version will always achieve linear phase. One disadvantages is that the cut off frequency is in the low frequency and therefore the filter order have to be high. \\

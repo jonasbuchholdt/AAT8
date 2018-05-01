@@ -29,9 +29,11 @@ frz = [1:1:460];
 
 %plot(frz,filter_gain)
 figure
-semilogx(-((polyval(p_gain,f_full))+8.5),'b--')
+semilogx(-((polyval(p_gain,f_full))+8.5+2),'b--')
 hold on
-semilogx(f,-(-amplitude1+full_filter_gain(175-60)-1+8.5),'o','color','b')
+set(gca,'XGrid','on'); 
+set(gca,'YGrid','on'); 
+semilogx(f,-(-amplitude1+full_filter_gain(175-60)-1+8.5+2),'o','color','b')
 
  ylabel('Gain [dB]')
  xlabel('Frequency [Hz]')
@@ -50,9 +52,9 @@ slope = (full_filter_gain(11)-full_filter_gain(1))/(log10(fr(11))-log10(fr(1)))
 %bandwidth = (341-128*1.1878)*1.3175;
 %omega_0 = 234-0;
 
-bandwidth = 2*pi*213
+bandwidth = 2*pi*(213+40)
 omega_0 = 2*pi*234
-gain = 10^(8.5/20)
+gain = 10^((8.5+2)/20)
 
 %bandwidth = 2*pi*(213+40)
 %omega_0 = 2*pi*234
