@@ -51,7 +51,8 @@ x(end-fadeOutSamps+1:end) = x(end-fadeOutSamps+1:end) .* fadeOut;
 % We'll also add some to the start to account for latency
 startSilence = ceil(fs/10);
 endSilence = 2*fs;
-OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+%OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+OG=audioread('cost_filtered.wav');
 filtered = filter(ir,1,solutions.f1.filter_gain*OG);
 % crcorred = xcorr(solutions.f1.filter_gain*OG,ir);
 tf=fft(filtered)./fft(OG);
@@ -79,8 +80,8 @@ ylabel('Phase Shift [Deg]')
 scaling=1/max(abs(filtered));
 og_scaled=scaling.*OG;
 filtered_scaled=scaling.*filtered;
-audiowrite('front_bf.wav',og_scaled,fs)
-audiowrite('rear_bf.wav',filtered_scaled,fs)
+audiowrite('front_nohp.wav',og_scaled,fs)
+audiowrite('rear_nohp.wav',filtered_scaled,fs)
 
 % figure(3)
 % yyaxis left
