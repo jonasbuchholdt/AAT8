@@ -10,13 +10,14 @@ fs=44100;
 tf=fft(frontout)./fft(frontin);
 
 if abs(max(rearout))>=abs(max(frontout))
-    frontn=frontout./abs(max(rearout));
-    rearn=rearout./abs(max(rearout));
+    frontn=frontout;%frontout./abs(max(rearout));
+    rearn=rearout;%rearout./abs(max(rearout));
+
 end
 fraxis=(0:1:length(frontn)-1)*fs/length(frontn);
 
-audiowrite('front_final.wav',frontn,44100)
-audiowrite('back_final.wav',rearn,44100)
+audiowrite('front_final_10s.wav',frontn,44100)
+audiowrite('back_final_10s.wav',rearn,44100)
 
 tf2=fft(rearn)./fft(frontn);
 
