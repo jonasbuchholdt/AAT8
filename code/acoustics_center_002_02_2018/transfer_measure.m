@@ -2,8 +2,8 @@
 clear all
 gain = -18;
 cmd = 'ir'
-[x_axis,result] = Lacoustics(cmd,gain);
-plot(result)
+[f_axis,f_result,t_axis,t_result] = Lacoustics(cmd,gain);
+plot(t_axis,t_result)
 
 %% sound card calibration
 clear all

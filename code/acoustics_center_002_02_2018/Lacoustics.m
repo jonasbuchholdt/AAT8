@@ -26,6 +26,8 @@ switch cmd
         [fs,impulse_response,irtime,tf,faxis]=IRmeas_fft_rme(ts,tw,flower,fupper,playgain,player);
         t_axis = irtime;
         t_result = impulse_response;
+        f_axis = faxis;
+        f_result = tf;
        
     case 'transfer'
         [faxis, transfer_function, irtime, impulse_response] = Tranfer_function(gain);
