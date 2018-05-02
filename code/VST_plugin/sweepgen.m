@@ -1,5 +1,6 @@
+clear variables
 fs=44100;
-ts=2;
+ts=10;
 gainLin=1;
 
 flower=20;
@@ -38,4 +39,28 @@ x(end-fadeOutSamps+1:end) = x(end-fadeOutSamps+1:end) .* fadeOut;
 startSilence = ceil(fs/10);
 endSilence = 2*fs;
 OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
-audiowrite('og_sweep.wav',OG,fs)
+
+
+Ts=1/fs;
+bw=2*pi*(213+40);
+o0=2*pi*234;
+G=10^((8.5+2)/20);
+Q=o0/bw;
+
+b(1)=4*Q+o0*(1+G)*Ts*2+(o0^2)*(Ts^2)*Q;
+b(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
+b(3)=4*Q-2*o0*Ts*(1+G)+(o0^2)*(Ts^2)*Q;
+a(1)=4*Q+2*o0*Ts+(o0^2)*(Ts^2)*Q;
+a(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
+a(3)=4*Q-2*o0*Ts+(o0^2)*(Ts^2)*Q;
+
+filtered=filter(a,b,OG);
+
+
+
+audiowrite('og_sweep_10s.wav',OG,fs)
+audiowrite('cost_sweep_10s.wav',filtered,fs)
+
+plot(OG)
+hold on
+plot(filtered)
