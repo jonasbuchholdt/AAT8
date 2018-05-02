@@ -49,8 +49,9 @@ hold on
 xlim([60 300])
 ylabel('Gain [dB]')
 xlabel('Frequency [Hz]')
+ylim([4.2 5.8])
 
 yyaxis right
 plot(fraxis(1:length(fraxis/2)),rad2deg(angle(tf2(1:length(fraxis/2)))))
-
+ylim([80 170])
 ylabel('Phase Shift [Deg]')

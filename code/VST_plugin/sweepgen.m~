@@ -55,10 +55,9 @@ a(1)=4*Q+2*o0*Ts+(o0^2)*(Ts^2)*Q;
 a(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
 a(3)=4*Q-2*o0*Ts+(o0^2)*(Ts^2)*Q;
 
-filtered=filter(a,b,OG*filtergain);
+filtered=filter(a,b,OG*moregain);
 
-filteredn=filtered./max(abs(filtered));
-OGn=OG./max(abs(filtered));
+
 
 audiowrite('og_sweep_10s.wav',OGn,fs)
 audiowrite('cost_sweep_10s.wav',filteredn,fs)
