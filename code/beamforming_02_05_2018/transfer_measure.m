@@ -43,12 +43,13 @@ plot(t_result)
 %%
 clear all
 cmd = 'transfer'
-gain = -10;
+gain = -7;
 [f_axis,f_result,t_axis,t_result] = Lacoustics(cmd,gain);
 figure(1)
 
-%t_result(1:end) =[zeros(250,1);t_result(251:end)];
-plot(t_result)
+t_result = t_result(1:end/2);
+t_axis = t_axis(1:end/2);
+plot(t_axis,t_result)
 [result,w] = freqz(t_result,1,22000,44100);
 
 result = abs(result);
@@ -59,7 +60,7 @@ semilogx(w,result)
 hold on
 grid on
 
-axis([20 20000 50 100])
+axis([20 5000 50 100])
 xlabel('Frequency [Hz]')
 ylabel('Pressure [Pa]')
 
@@ -80,9 +81,9 @@ circres= 5;                             % angle resolution on circumference [deg
 
 flower= 20;                             % lower frequency border for sweep      [Hz]
 fupper=22000;                           % upper frequency border for sweep      [Hz]
-ts= 1;                                  % length of sweep                        [s]
+ts= 10;                                  % length of sweep                        [s]
 tw= 1;                                  % est. length of IR                      [s]
-playgain=-18;                            % gain for sweep playback               [dB]
+playgain=-7;                            % gain for sweep playback               [dB]
 
 filename='beamforming_02.mat';                  % file name for storage
 
