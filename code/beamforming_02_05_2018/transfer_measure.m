@@ -84,7 +84,7 @@ ts= 1;                                  % length of sweep                       
 tw= 1;                                  % est. length of IR                      [s]
 playgain=-18;                            % gain for sweep playback               [dB]
 
-filename='acoustics_center_02.mat';                  % file name for storage
+filename='beamforming_02.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at

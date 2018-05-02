@@ -68,10 +68,10 @@ function [fs,ir,irtime,tf,faxis]=IRmeas_fft_beamforming(ts,tw,flower,fupper,gain
             
             
             %% Beamforming files 
-
-            dataOutArray(:,1) = dataOut./1;
-            dataOutArray(:,2) = dataOut./1;
-            dataOutArray(:,3) = dataOut./1;
+            dataOut = audioread('og_final_10s.wav');
+            dataOutArray(:,1) = audioread('front_final_10s.wav');
+            dataOutArray(:,2) = audioread('back_final_10s.wav');
+            dataOutArray(:,3) = audioread('back_final_10s.wav');
             %%
             
             y(:,1) = playRecord(player, dataOutArray);
