@@ -11,7 +11,9 @@
 *.cb
 *.cb2
 /master.pdf
-
+/code/sine_swept/beamforming_01.mat
+/code/sine_swept/beamforming_02.mat
+/code/sine_swept/beamforming_03.mat
 
 ## Intermediate documents:
 *.dvi
