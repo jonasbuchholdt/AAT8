@@ -41,28 +41,30 @@ figure
 plot(t_result)
 
 %%
+for i=1:20
 clear all
 cmd = 'transfer'
 gain = -7;
 [f_axis,f_result,t_axis,t_result] = Lacoustics(cmd,gain);
-figure(1)
-
-t_result = t_result(1:end/2);
-t_axis = t_axis(1:end/2);
-plot(t_axis,t_result)
-[result,w] = freqz(t_result,1,22000,44100);
-
-result = abs(result);
-result=20*log10(result/(20*10^-6));
-
-figure(2)
-semilogx(w,result)
-hold on
-grid on
-
-axis([20 5000 50 100])
-xlabel('Frequency [Hz]')
-ylabel('Pressure [Pa]')
+end
+% figure(1)
+% 
+% t_result = t_result(1:end/2);
+% t_axis = t_axis(1:end/2);
+% plot(t_axis,t_result)
+% [result,w] = freqz(t_result,1,22000,44100);
+% 
+% result = abs(result);
+% result=20*log10(result/(20*10^-6));
+% 
+% figure(2)
+% semilogx(w,result)
+% hold on
+% grid on
+% 
+% axis([50 500 50 100])
+% xlabel('Frequency [Hz]')
+% ylabel('Pressure [Pa]')
 
 %%
 
@@ -77,7 +79,7 @@ ylabel('Pressure [Pa]')
 clear variables
 
 
-circres= 5;                             % angle resolution on circumference [degree]
+circres= 45;                             % angle resolution on circumference [degree]
 
 flower= 20;                             % lower frequency border for sweep      [Hz]
 fupper=22000;                           % upper frequency border for sweep      [Hz]
@@ -85,7 +87,7 @@ ts= 10;                                  % length of sweep                      
 tw= 1;                                  % est. length of IR                      [s]
 playgain=-7;                            % gain for sweep playback               [dB]
 
-filename='beamforming_02.mat';                  % file name for storage
+filename='beamforming_04.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at
@@ -117,7 +119,7 @@ for k = 1:(360/circres)
          pause(1)
          actualangle=ET250_3D('get')
      end
-    pause(1)
+    pause(4)
         %[fs,out.ir,irtime,out.tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,playgain,player);
         cmd = 'transfer'
         gain = playgain;
@@ -134,6 +136,30 @@ end
 ET250_3D('udp_stop')
 %%
 
+
+%%
+
+figure(1)
+
+t_result = data100.ir(1:end/2);
+irtimeh = irtime(1:end/2);
+plot(irtimeh,t_result)
+[result,w] = freqz(t_result,1,22000,44100);
+
+result = abs(result);
+result=20*log10(result/(20*10^-6));
+
+figure(2)
+semilogx(w,result)
+hold on
+grid on
+
+axis([20 20000 20 100])
+xlabel('Frequency [Hz]')
+ylabel('Pressure [Pa]')
+
+
+%%
 clear all
 load('Pioneer_A-616_16.mat')
 %%

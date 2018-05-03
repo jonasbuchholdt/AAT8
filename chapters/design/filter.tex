@@ -113,7 +113,11 @@ The corresponding bode plot for the above filter parameters is as \autoref{fig:b
 \end{figure}
 
 
-The wanted filter is attenuated by \SI{2}{\decibel} such that the designed filter also fit at low frequency. Recalling from \autoref{fig:band_pass_filter}, the filter was attenuated by \SI{2.1}{\decibel} such that the center frequency was at \SI{0}{\decibel} the filter have to be gained by \SI{2.1}{\decibel}. In \autoref{fig:bandstop_filter_eq_bodeplot_finish} the filter is attenuated further with \SI{2}{\decibel} and therefore the front gain which i called $In_Gain$ shall be amplified by \SI{4.1}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter} The gain in front of the cost filter than have to be \SI{10.5}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
+The wanted filter is attenuated by \SI{2}{\decibel} such that the designed filter also fit at low frequency. 
+
+%Recalling from \autoref{fig:band_pass_filter}, the filter was attenuated by \SI{2.1}{\decibel} such that the center frequency was at \SI{0}{\decibel} the filter have to be gained by \SI{2.1}{\decibel}. 
+
+Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_finish} the filter is attenuated further with \SI{2}{\decibel} and therefore the front gain which i called $In_Gain$ shall be amplified by \SI{2}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter} The gain in front of the cost filter than have to be \SI{8.4}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
 
 \begin{figure}[H]
 	\centering
@@ -141,11 +145,23 @@ The wanted filter is attenuated by \SI{2}{\decibel} such that the designed filte
 		\label{fig:bandstop_filter_blockdiagram_gain}
 \end{figure}
 
-The transfer function for for the filter is then \autoref{eq:bandstop_filter_eq_analogue}
-
 \begin{equation}\label{eq:bandstop_filter_eq_analogue}
 H_{stop}(s) = \text{In_Gain} \cdot \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
 \end{equation}
+
+The corresponding cost filter to the transfer function \autoref{eq:bandstop_filter_eq_analogue} is \autoref{{fig:cost_filter_final}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{cost_filter_final.eps}
+	\caption{The figure shows the bode plot of the block diagram \autoref{fig:bandstop_filter_blockdiagram_gain}}
+		\label{fig:cost_filter_final}
+\end{figure}
+
+
+The transfer function for for the filter is then \autoref{eq:bandstop_filter_eq_analogue}
+
+
 
 \subsection{Converting the cost filter to differential equation}
 In order to implement the cost filter in MATLAB to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s in \autoref{eq:bandstop_filter_eq_analogue}, the bilinear transformation is as following 
@@ -198,22 +214,22 @@ The last step is to convert the cost filter from z-Domain to transfer function i
     \centering
 $\Updownarrow$
 \begin{equation}\label{eq:z_to_n3}
-        Y(z) \cdot (b_{peak1} + b_{peak2} \cdot z^{-1} + b_{peak3} \cdot z^{-2}) = X(z) \cdot G \cdot (a_{peak1} + a_{peak2} \cdot z^{-2})
+        Y(z) \cdot (b_{stop1} + b_{stop2} \cdot z^{-1} + b_{stop3} \cdot z^{-2}) = X(z) \cdot \text{In_Gain} \cdot (a_{stop1} + a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
     \end{equation}
        \centering
 $\Updownarrow$
 \begin{equation}\label{eq:z_to_n4}
-         Y(z) \cdot b_{peak1} + Y(z) \cdot b_{peak2} \cdot z^{-1} + Y(z) \cdot b_{peak3} \cdot z^{-2} =  G \cdot (X(z) \cdot a_{peak1} + X(z) \cdot a_{peak2} \cdot z^{-1})
+         Y(z) \cdot b_{stop} + Y(z) \cdot b_{stop2} \cdot z^{-1} + Y(z) \cdot b_{stop3} \cdot z^{-2} =  \text{In_Gain} \cdot (X(z) \cdot a_{stop1} + X(z) \cdot a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
     \end{equation}
     \centering
     $\Downarrow Z^{-1}$
 \begin{equation}\label{eq:z_to_n5}
-         b_{peak1} \cdot y[n] + b_{peak2} \cdot y[n-1] + b_{peak3} \cdot y[n-2] =  G \cdot (a_{peak1} \cdot x[n] + a_{peak2} \cdot x[n-2])
+         b_{stop1} \cdot y[n] + b_{stop2} \cdot y[n-1] + b_{stop3} \cdot y[n-2] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] +  a_{stop2} \cdot x[n-1] + a_{stop3} \cdot x[n-2])
     \end{equation}
     \centering
     $\Updownarrow$
 \begin{equation}\label{eq:z_to_n6}
-         b_{peak1} \cdot y[n] =  G \cdot (a_{peak1} \cdot x[n] + a_{peak2} \cdot x[n-2]) -  b_{peak2} \cdot y[n-1] - b_{peak3} \cdot y[n-2]
+         b_{stop1} \cdot y[n] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] + a_{stop2} \cdot x[n-2] + a_{stop3} \cdot x[n-2]) -  b_{stop2} \cdot y[n-1] - b_{stop3} \cdot y[n-2]
     \end{equation}
     \centering
     $\Updownarrow$

@@ -29,14 +29,18 @@ frz = [1:1:460];
 
 %plot(frz,filter_gain)
 figure
-semilogx(-((polyval(p_gain,f_full))+8.5+2),'b--')
-hold on
+%semilogx(-((polyval(p_gain,f_full))+8.5+2),'b--')
+%hold on
 set(gca,'XGrid','on'); 
 set(gca,'YGrid','on'); 
-semilogx(f,-(-amplitude1+full_filter_gain(175-60)-1+8.5+2),'o','color','b')
-
+%semilogx(f,-(-amplitude1+full_filter_gain(175-60)-1+8.5+2),'o','color','b')
+semilogx(f,amplitude1,'o','color','b')
+hold on
  ylabel('Gain [dB]')
  xlabel('Frequency [Hz]')
+
+set(gca,'XGrid','on')
+set(gca,'YGrid','on')
 %yyaxis right
 
 slope = (full_filter_gain(11)-full_filter_gain(1))/(log10(fr(11))-log10(fr(1)))
@@ -55,6 +59,7 @@ slope = (full_filter_gain(11)-full_filter_gain(1))/(log10(fr(11))-log10(fr(1)))
 bandwidth = 2*pi*(213+40)
 omega_0 = 2*pi*234
 gain = 10^((8.5+2)/20)
+in_gain = 10^((8.4)/20)
 
 %bandwidth = 2*pi*(213+40)
 %omega_0 = 2*pi*234
@@ -68,7 +73,7 @@ s = i.*omega;
 
 
 for k=1:1:100000
-h_cut(k) = ((((s(k)^2+omega_0/Q*s(k)+omega_0^2)/(s(k)^2+omega_0/Q*s(k)*(gain)+omega_0^2))));
+h_cut(k) = in_gain*((((s(k)^2+omega_0/Q*s(k)+omega_0^2)/(s(k)^2+omega_0/Q*s(k)*(gain)+omega_0^2))));
 end
 
 abs_h = abs(h_cut);
