@@ -14,9 +14,9 @@ it = it['impulse_response'];
 it = np.float32(it.T)
 
 frequency = 300;                     # setting frequency for simulation    [Hz]
-room_x = 20;                        # room size in x-dimension             [m]
-room_y = 20;                        # room size in y-dimension             [m]
-room_z = 20;                         # room size in y-dimension             [m]                        
+room_x = 30;                        # room size in x-dimension             [m]
+room_y = 30;                        # room size in y-dimension             [m]
+room_z = 30;                         # room size in y-dimension             [m]                        
 
 grid_size = 0.05;                   # grid resolution                      [m]
 
@@ -50,17 +50,17 @@ ti = 2;                              # number of pages for time in storage  [1]
 
 
 
-pressure_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*co*la*ti))
-pressure = np.frombuffer(pressure_share, dtype=np.float64).reshape((ro,co,la,ti))
-
-Vx_share = mp.sharedctypes.RawArray(ctypes.c_double , ((ro+1)*co*la*ti))
-Vx = np.frombuffer(Vx_share, dtype=np.float64).reshape(((ro+1),co,la,ti))
-
-Vy_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*(co+1)*la*ti))
-Vy = np.frombuffer(Vy_share, dtype=np.float64).reshape((ro,(co+1),la,ti))
-
-Vz_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*co*(la+1)*ti))
-Vz = np.frombuffer(Vz_share, dtype=np.float64).reshape((ro,co,(la+1),ti))
+#pressure_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*co*la*ti))
+#pressure = np.frombuffer(pressure_share, dtype=np.float64).reshape((ro,co,la,ti))
+#
+#Vx_share = mp.sharedctypes.RawArray(ctypes.c_double , ((ro+1)*co*la*ti))
+#Vx = np.frombuffer(Vx_share, dtype=np.float64).reshape(((ro+1),co,la,ti))
+#
+#Vy_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*(co+1)*la*ti))
+#Vy = np.frombuffer(Vy_share, dtype=np.float64).reshape((ro,(co+1),la,ti))
+#
+#Vz_share = mp.sharedctypes.RawArray(ctypes.c_double , (ro*co*(la+1)*ti))
+#Vz = np.frombuffer(Vz_share, dtype=np.float64).reshape((ro,co,(la+1),ti))
 
 p_rms = np.zeros((ro,co,la), dtype=np.float64)
 
