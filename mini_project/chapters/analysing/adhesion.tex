@@ -28,10 +28,10 @@ In the coding phase, everything that had been planned previously has been put in
 When quality metrics are to be considered, there are three main issues that come into mind. The functional requirements (\autoref{ssec:functionality}) have to be fulfilled, for reference cases the results should match those known to those cases that are obtained from trusted sources and finally the computation time should be as low as possible.\\
 In order to design a routine that checks the feasibility of simulation results by comparing it to results, that are known to be correct, a suitable example of such a reference case has to be found. Independent of the boundary setup, the conditions in a finite size \gls{fdtd}-grid correspond to acoustical free field conditianons as long as the waves emitted by sources have not reached the boundary. This means, a correct behaviour of the simulation can be confirmed by investigating one of these ``early'' samples. Based on \citep[p. 172]{kinsler2000}, the sound pressure difference at two points with distances $r_1$ and $r_2$ from a pulsating sphere can be described as follows:
 \begin{equation}\label{eq:deltalplong}
-\Delta L_{p}(r_1,r_2)\,=\,20\log_{10}\frac{|j\rho_0 c V_0(\frac{a}{r_1})ka \textbf(e)^{j(\omega t-kr_1)}|}{|j\rho_0 c V_0(\frac{a}{r_2})ka \textbf(e)^{j(\omega t-kr_2)}|}\,\si{\decibel}
+\Delta L_{p,a}(r_1,r_2)\,=\,20\log_{10}\frac{|j\rho_0 c V_0(\frac{a}{r_1})ka \textbf(e)^{j(\omega t-kr_1)}|}{|j\rho_0 c V_0(\frac{a}{r_2})ka \textbf(e)^{j(\omega t-kr_2)}|}\,\si{\decibel}
 \end{equation}
 \startexplain
-\explain{$\Delta L_{p}$ is the sound pressure level difference.}{\si{\decibel}}
+\explain{$\Delta L_{p,a}$ is the sound pressure level difference.}{\si{\decibel}}
 \explain{$r_1, r_2$ are the distances, for which the pressures are being calculated, \(r>a\).}{\si{\meter}}
 \explain{$t$ is the time, for which the pressure is being calculated.}{\si{\meter}}
 \explain{$\rho_0$ is the specific density of air.}{\si{\kilo\gram\per\cubic\meter}}
@@ -44,13 +44,16 @@ In order to design a routine that checks the feasibility of simulation results b
 \stopexplain
 \autoref{eq:deltalplong} can be simplified to a great extent when adapting into the context of the \gls{fdtd}-simulation:
 \begin{equation}\label{eq:deltalpshort}
-\Delta L_{p}(r_1,r_2)\,=\,20\log_{10}\frac{r_2}{r_1}\,\si{\decibel}
+\Delta L_{p,a}(r_1,r_2)\,=\,20\log_{10}\frac{r_2}{r_1}\,\si{\decibel}
 \end{equation}
 When a single sound source is positioned in the \gls{fdtd}-grid, the \gls{rms}-pressure at two points with known distances to the source can be recorded. If level difference at these points approximately matches the value according to \autoref{eq:deltalpshort}, that can be interpreted as a sign for the simulation to work correctly.\\
-In terms of implementation a test like this is excecuted using the \texttt{unittest} module.
-MORE TEXT HERE!
+%In terms of implementation a test like this is excecuted using the \texttt{unittest} module.
+%MORE TEXT HERE!
 In order to assess computation time, different implementations are run on the same machine with the same parameters and the time is measured. In this context, the ``bottleneck'' of the computation can be determined and discussed: MORE TEXT HERE?
 \subsection{Evaluation}\label{ssec:evaluation}
+In order to get an rough estimate over which order of magnitude of precision can be achieved in \gls{fdtd}-simulation, a comparison test was set up. A single transparent sound source was set up amidst a three-dimensional cubic room. The grid size was set to $\delta x=\delta y=\delta z = \SI{0.05}{\meter}$. The source radiated sound at a frequency of $f=\SI{300}{\hertz}$. The \gls{rms} pressure was logged at distances of $r_1=\SI{1}{\meter}$ and $r_2=\SI{2}{\meter}$ from the source. The difference between the simulated pressures $\Delta L_{p,s}=L_{r2}-L_{r1}$ was compared to the analytical pressure difference according to \autoref{eq:deltalpshort}. For the distances as stated above $\Delta L_{p,a}=\SI{6.02}{\decibel}$.\\
+
 \subsection{Refactoring}\label{ssec:refactoring}
 \subsection{Optimization}\label{ssec:optimization}
-One of the tasks listed in the problem description for the mini-project involves implementing the algorithm in a way, that parallel processing is used. This can be done for \gls{fdtd}-simulation. However, because of the nature of the computational tasks, it takes a great deal of effort to make a implementation using parallel computing that comes even remotely close to a well designed implementation without the explicit use of parallel computing.
+One of the tasks listed in the problem description for the mini-project involves implementing the algorithm in a way, that parallel processing is used. This can be done for \gls{fdtd}-simulation. However, because of the nature of the computational tasks, it takes a great deal of effort to make an implementation using parallel computing on the CPU, that comes even remotely close to a well designed implementation without the explicit use of parallel computing.
+However, it might be possible to implement the simulation on a GPU and gain performance by doing so. 
