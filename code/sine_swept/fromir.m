@@ -1,8 +1,8 @@
 clear variables
-close all
-load('beamforming_03.mat')
+%close all
+load('beamforming_01.mat')
 
-f=[60 100 150 200 250 300];
+f=[60 90 120 160 190 220];
 
 fs=44100;
 
@@ -20,7 +20,7 @@ end
 
 p1=zeros(length(angles),1);
 plotdata=p1;
-figure(1)
+figure(2)
 
 for h=1:length(f)
     for k=1:length(angles)

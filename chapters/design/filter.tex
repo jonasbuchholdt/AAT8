@@ -234,7 +234,7 @@ $\Updownarrow$
     \centering
     $\Updownarrow$
 \begin{equation}\label{eq:z_to_n7}
-         y_{peak}[n] = \frac{G \cdot a_{peak1}}{b_{peak1}} \cdot x[n] + \frac{G \cdot a_{peak2}}{b_{peak1}} \cdot x[n-2] -  \frac{b_{peak2}}{b_{peak1}} \cdot y_{peak}[n-1] - \frac{b_{peak3}}{b_{peak1}} \cdot y_{peak}[n-2]
+         y_{peak}[n] = \frac{\text{In_Gain}  \cdot a_{peak1}}{b_{peak1}} \cdot x[n] + \frac{\text{In_Gain}  \cdot a_{peak2}}{b_{peak1}} \cdot x[n-1] +  \frac{\text{In_Gain}  \cdot a_{peak3}}{b_{peak1}} \cdot x[n-2] -  \frac{b_{peak2}}{b_{peak1}} \cdot y_{peak}[n-1] - \frac{b_{peak3}}{b_{peak1}} \cdot y_{peak}[n-2]
     \end{equation}
     
     \startexplain
