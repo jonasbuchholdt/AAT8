@@ -51,7 +51,20 @@ When a single sound source is positioned in the \gls{fdtd}-grid, the \gls{rms}-p
 %MORE TEXT HERE!
 In order to assess computation time, different implementations are run on the same machine with the same parameters and the time is measured. In this context, the ``bottleneck'' of the computation can be determined and discussed: MORE TEXT HERE?
 \subsection{Evaluation}\label{ssec:evaluation}
-In order to get an rough estimate over which order of magnitude of precision can be achieved in \gls{fdtd}-simulation, a comparison test was set up. A single transparent sound source was set up amidst a three-dimensional cubic room. The grid size was set to $\delta x=\delta y=\delta z = \SI{0.05}{\meter}$. The source radiated sound at a frequency of $f=\SI{300}{\hertz}$. The \gls{rms} pressure was logged at distances of $r_1=\SI{1}{\meter}$ and $r_2=\SI{2}{\meter}$ from the source. The difference between the simulated pressures $\Delta L_{p,s}=L_{r2}-L_{r1}$ was compared to the analytical pressure difference according to \autoref{eq:deltalpshort}. For the distances as stated above $\Delta L_{p,a}=\SI{6.02}{\decibel}$.\\
+In order to get an rough estimate over which order of magnitude of precision can be achieved in \gls{fdtd}-simulation, a comparison test was set up. A single transparent sound source was set up amidst a three-dimensional cubic room with an edge length $D$. The grid size was set to $\delta x=\delta y=\delta z = \SI{0.05}{\meter}$. The source radiated sound at a frequency of $f=\SI{300}{\hertz}$. The \gls{rms} pressure was logged at distances of $r_1=\SI{1}{\meter}$ and $r_2=\SI{2}{\meter}$ from the source. The difference between the simulated pressures $\Delta L_{p,s}=L_{r2}-L_{r1}$ was compared to the analytical pressure difference according to \autoref{eq:deltalpshort}. For the distances as stated above $\Delta L_{p,a}=\SI{6.021}{\decibel}$. The error will denoted as $\epsilon_{s}=\Delta L_{p,a} - \Delta L_{p,s}$. This means, that negative values of $\epsilon_{s}$ indicate, that the simulated pressure drop is bigger then it is expected according to the analytical model. Simulations were carried out with single- and double precision floats, in order to see if this impedes the error $\epsilon_s$.
+\begin{table}[]
+\centering
+\caption{}
+\label{tab:pressure_difference}
+\begin{tabular}{l|l|l}
+      & \multicolumn{2}{c}{\(\epsilon_s\)[\si{\decibel}]} \\ \hline
+\(D\)[\si{\meter}] & Single Precision & Double Precision \\ \hline
+10    & - 0.686          & - 0.686          \\ \hline
+20    & - 0.750          & - 0.750          \\ \hline
+30    & - 0.040          & - 0.040         
+\end{tabular}
+\end{table} 
+
 
 \subsection{Refactoring}\label{ssec:refactoring}
 \subsection{Optimization}\label{ssec:optimization}
