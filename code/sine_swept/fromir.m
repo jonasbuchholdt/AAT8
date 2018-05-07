@@ -2,7 +2,7 @@ clear variables
 close all
 load('beamforming_03.mat')
 
-f=[60 100 150 200 250 300];
+f=[60 95 160 210 260 295];
 
 fs=44100;
 
