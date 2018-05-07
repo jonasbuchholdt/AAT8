@@ -66,3 +66,19 @@ In order to get an rough estimate over which order of magnitude of precision can
 \end{table} 
 
 \autoref{tab:pressure_difference} indicates, that there is no advantage in using double precision variables over single precision variables. In an acoustical context, the results are virtually indistinguishable. Because single precision calculations offer increased performance, they are preferable. The simulation grid size appears to have an influence on the error $\epsilon_s$. Grid size and error do not appear to be reciprocal, but it can be noted, that $\epsilon_s$ is significantly smaller for a edge length of $D=\SI{30}{\meter}$ then at the other lengths investigated. Supposedly this is also depending on the grid resolution $\delta d$.
+
+\begin{table}[h]
+\centering
+\caption{Velocity step calculation times in a 3D-grid, calculated on a computer with an I7 920 processor and \SI{12}{\giga\byte} RAM, (*) extrapolation from the time measured in a 2D-grid}
+\label{tab:times}
+\begin{tabular}{l|c|r|r|r|r|r}
+                                         & \multicolumn{6}{c}{Calculation time [\si{\second}]}                                                                                                                             \\ \cline{2-7} 
+                                         & \multicolumn{3}{c|}{Single Precision}                                                    & \multicolumn{3}{c}{Double Precision}                                                 \\ \hline
+\multicolumn{1}{l|}{(D)\,[\si{\meter}]} & naive*                        & \multicolumn{1}{c|}{single} & \multicolumn{1}{c|}{multi} & \multicolumn{1}{c|}{naive*} & \multicolumn{1}{c|}{single} & \multicolumn{1}{c}{multi} \\ \hline
+10                                       & \multicolumn{1}{r|}{200.00}   & 0.15                        & 0.19                       & 0.16                        & 0.37                        & 0.27                      \\
+20                                       & \multicolumn{1}{r|}{2340.00}  & 2.19                        & 1.10                       & 27,37                       & 29.93                       & 20.02                     \\
+30                                       & \multicolumn{1}{r|}{48150.00} & 53.38                       & 61.03                      & 81870.00                            & 251.8                            & 487.26                         
+\end{tabular}
+\end{table}
+
+\autoref{tab:times} shows the times it took to calculate a single velocity step in a grid with the given edge lenght \(D\). In every scenario, except the \SI{10}{\meter} Double Precision grid, the naive implementation proves to be the slowest by far. The implementations that utilize array operations do not show an unambiguous behaviour. For some cases the multicore implementation has performance benefits. However, this seems to only be the case for grids within a certain sweet spot size, where the additional thread management begins to pay off and the computation is not yet slowed down by limitations related to the shared memory.
