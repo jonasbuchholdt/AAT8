@@ -14,9 +14,9 @@ it = it['impulse_response'];
 it = np.float32(it.T)
 
 frequency = 300;                     # setting frequency for simulation    [Hz]
-room_x = 30;                        # room size in x-dimension             [m]
-room_y = 30;                        # room size in y-dimension             [m]
-room_z = 30;                         # room size in y-dimension             [m]                        
+room_x = 10;                        # room size in x-dimension             [m]
+room_y = 10;                        # room size in y-dimension             [m]
+room_z = 10;                         # room size in y-dimension             [m]                        
 
 grid_size = 0.05;                   # grid resolution                      [m]
 
