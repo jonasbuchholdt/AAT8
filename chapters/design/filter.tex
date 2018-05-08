@@ -56,13 +56,13 @@ Designing the bandpass filter part of the bandstop filter, the bandpass filter p
 		\label{fig:band_pass_filter}
 \end{figure}
 
-On \autoref{fig:band_pass_filter} it can be seen that the \SI{-3}{\decibel} bandwidth is \SI{213}{\hertz} with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{234}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The initial filter parameters is then:
+On \autoref{fig:band_pass_filter} it can be seen that the \SI{-3}{\decibel} bandwidth is \SI{293}{\hertz} with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{234}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The initial filter parameters is then:
 
 \begin{itemize}
 \item Gain $G = \SI{8.5}{\decibel}$
-\item Bandwidth is $BW = 2\pi \SI{213}{\hertz} = 1338.3$
+\item Bandwidth is $BW = 2\pi \SI{293}{\hertz} = 1841$
 \item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
-\item The filter goodness $Q = \frac{1470.3}{1338.3} = 1.0986$
+\item The filter goodness $Q = \frac{1470.3}{1841} = 0.7986$
 \end{itemize}
 
 The corresponding transfer function to block diagram \autoref{fig:bandstop_filter_blockdiagram} is as \autoref{eq:bandstop_filter_eq}
@@ -82,7 +82,7 @@ A bode plot of the \autoref{eq:bandstop_filter_eq} is showen in \autoref{fig:ban
 		\label{fig:bandstop_filter_eq_bodeplot}
 \end{figure}
 
-On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{80}{\hertz} and upwards but the frequency that is below \SI{80}{\hertz} is to fare off. To solve this problem, the data point can be attenuated to fit on the steap slop of the filter. Therefore the datapoint is attenuated by \SI{2}{\decibel} and as wall as the filter. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
+On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is to fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. Therefore the data point is attenuated by \SI{4}{\decibel} and as wall as the filter. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
 
 \begin{figure}[H]
 	\centering
@@ -92,32 +92,21 @@ On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter
 \end{figure}
 
 
-As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the parameter have to be changed a bit to fit the data point. By tryil and error the following filter parameters have been selected for the cost filter. 
+As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that the change have affacted the fit positive. The filter therefore have the following filter parameters.
 
 
 
 \begin{itemize}
-\item Gain $G = \SI{10.5}{\decibel}$
-\item Bandwidth is $BW = 2\pi \SI{253}{\hertz} = 1589.6$
+\item Gain $G = \SI{12.5}{\decibel}$
+\item Bandwidth is $BW = 2\pi \SI{293}{\hertz} = 1841$
 \item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
-\item The filter goodness $Q = \frac{1470.3}{1338.3} = 0.9249$
+\item The filter goodness $Q = \frac{1470.3}{1841} = 0.7986$
 \end{itemize}
 
-The corresponding bode plot for the above filter parameters is as \autoref{fig:bandstop_filter_eq_bodeplot_finish}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_finish.eps}
-	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
-		\label{fig:bandstop_filter_eq_bodeplot_finish}
-\end{figure}
-
-
-The wanted filter is attenuated by \SI{2}{\decibel} such that the designed filter also fit at low frequency. 
 
 %Recalling from \autoref{fig:band_pass_filter}, the filter was attenuated by \SI{2.1}{\decibel} such that the center frequency was at \SI{0}{\decibel} the filter have to be gained by \SI{2.1}{\decibel}. 
 
-Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_finish} the filter is attenuated further with \SI{2}{\decibel} and therefore the front gain which i called $In_Gain$ shall be amplified by \SI{2}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter} The gain in front of the cost filter than have to be \SI{8.4}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
+Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated further with \SI{4}{\decibel} and therefore the front gain which i called $In_Gain$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter} The gain in front of the cost filter than have to be \SI{10.4}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
 
 \begin{figure}[H]
 	\centering
@@ -149,7 +138,7 @@ Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_finish} the filter is at
 H_{stop}(s) = \text{In_Gain} \cdot \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
 \end{equation}
 
-The corresponding cost filter to the transfer function \autoref{eq:bandstop_filter_eq_analogue} is \autoref{{fig:cost_filter_final}}
+The corresponding cost filter to the transfer function \autoref{eq:bandstop_filter_eq_analogue} is \autoref{fig:cost_filter_final}
 
 \begin{figure}[H]
 	\centering
@@ -353,7 +342,7 @@ As it can be seen at \autoref{fig:ir_estimate_scaled} that the cut off is lowere
 
 \begin{figure}[H]
 \begin{subfigure}[c]{0.5\textwidth}
-\includegraphics[width=0.85\textwidth]{opt_a.eps}
+\includegraphics[width=0.85\textwidth]{opt_c_final.eps}
 \subcaption{cost filter}
 \label{fig:opt_res_a}
 \end{subfigure}

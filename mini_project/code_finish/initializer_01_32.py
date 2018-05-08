@@ -7,16 +7,24 @@ Created on Wed Apr 18 10:50:37 2018
 """
 
 #%%
-
+import ctypes
+import multiprocessing as mp
+import multiprocessing.sharedctypes
+import scipy.io as sio
+import math as m
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import scipy.interpolate
 
 it = sio.loadmat("./impulse_response_3D_40m.mat");        # loading impulse response for transparent source
 it = it['impulse_response'];
 it = np.float32(it.T)
 
 frequency = 300;                     # setting frequency for simulation    [Hz]
-room_x = 10;                        # room size in x-dimension             [m]
-room_y = 10;                        # room size in y-dimension             [m]
-room_z = 10;                         # room size in y-dimension             [m]                        
+room_x = 30;                        # room size in x-dimension             [m]
+room_y = 30;                        # room size in y-dimension             [m]
+room_z = 30;                         # room size in y-dimension             [m]                        
 
 grid_size = 0.05;                   # grid resolution                      [m]
 
@@ -50,18 +58,18 @@ ti = 2;                              # number of pages for time in storage  [1]
 
 
 # The pressure and particle velocity matrices
-pressure_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*la*ti))
-pressure = np.frombuffer(pressure_share, dtype=np.float32).reshape((ro,co,la,ti))
-
-Vx_share = mp.sharedctypes.RawArray(ctypes.c_float , ((ro+1)*co*la*ti))
-Vx = np.frombuffer(Vx_share, dtype=np.float32).reshape(((ro+1),co,la,ti))
-
-Vy_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*(co+1)*la*ti))
-Vy = np.frombuffer(Vy_share, dtype=np.float32).reshape((ro,(co+1),la,ti))
-
-Vz_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*(la+1)*ti))
-Vz = np.frombuffer(Vz_share, dtype=np.float32).reshape((ro,co,(la+1),ti))
-
+#pressure_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*la*ti))
+#pressure = np.frombuffer(pressure_share, dtype=np.float32).reshape((ro,co,la,ti))
+#
+#Vx_share = mp.sharedctypes.RawArray(ctypes.c_float , ((ro+1)*co*la*ti))
+#Vx = np.frombuffer(Vx_share, dtype=np.float32).reshape(((ro+1),co,la,ti))
+#
+#Vy_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*(co+1)*la*ti))
+#Vy = np.frombuffer(Vy_share, dtype=np.float32).reshape((ro,(co+1),la,ti))
+#
+#Vz_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*(la+1)*ti))
+#Vz = np.frombuffer(Vz_share, dtype=np.float32).reshape((ro,co,(la+1),ti))
+#
 p_rms = np.zeros((ro,co,la), dtype=np.float32)
 
 
