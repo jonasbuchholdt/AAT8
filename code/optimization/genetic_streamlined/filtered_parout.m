@@ -44,6 +44,8 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h)))).Phib=0;
     solutions.(strcat('f',int2str(f(h)))).Phic=0;
     solutions.(strcat('f',int2str(f(h)))).Pa=solutions.(strcat('f',int2str(f(h)))).Pa*beamgain*abs(FRb(index));
+    solutions.(strcat('f',int2str(f(h)))).Lx=0.4;
+    solutions.(strcat('f',int2str(f(h)))).Ly=-0.4;
 end
 
 
