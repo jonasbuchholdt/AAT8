@@ -57,19 +57,19 @@ la = int(round(room_z/grid_size) - 1);    # number of layers in storage array   
 ti = 2;                              # number of pages for time in storage  [1] 
 
 
-# The pressure and particle velocity matrices
-#pressure_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*la*ti))
-#pressure = np.frombuffer(pressure_share, dtype=np.float32).reshape((ro,co,la,ti))
-#
-#Vx_share = mp.sharedctypes.RawArray(ctypes.c_float , ((ro+1)*co*la*ti))
-#Vx = np.frombuffer(Vx_share, dtype=np.float32).reshape(((ro+1),co,la,ti))
-#
-#Vy_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*(co+1)*la*ti))
-#Vy = np.frombuffer(Vy_share, dtype=np.float32).reshape((ro,(co+1),la,ti))
-#
-#Vz_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*(la+1)*ti))
-#Vz = np.frombuffer(Vz_share, dtype=np.float32).reshape((ro,co,(la+1),ti))
-#
+ The pressure and particle velocity matrices
+pressure_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*la*ti))
+pressure = np.frombuffer(pressure_share, dtype=np.float32).reshape((ro,co,la,ti))
+
+Vx_share = mp.sharedctypes.RawArray(ctypes.c_float , ((ro+1)*co*la*ti))
+Vx = np.frombuffer(Vx_share, dtype=np.float32).reshape(((ro+1),co,la,ti))
+
+Vy_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*(co+1)*la*ti))
+Vy = np.frombuffer(Vy_share, dtype=np.float32).reshape((ro,(co+1),la,ti))
+
+Vz_share = mp.sharedctypes.RawArray(ctypes.c_float , (ro*co*(la+1)*ti))
+Vz = np.frombuffer(Vz_share, dtype=np.float32).reshape((ro,co,(la+1),ti))
+
 p_rms = np.zeros((ro,co,la), dtype=np.float32)
 
 
