@@ -47,6 +47,7 @@ for h=1:length(f)
     solutions.(strcat('f',int2str(f(h)))).Lx=0.4;
     solutions.(strcat('f',int2str(f(h)))).Ly=-0.4;
 end
-
+solutions.Lx=0.4;
+solutions.Ly=-0.4;
 
 save('pressureout_04.mat','solutions')
