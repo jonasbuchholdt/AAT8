@@ -1,32 +1,28 @@
-\section{Considerations of the design} \label{ch:considerations}
-Most of the considerations of the algorithm is already explained in \autoref{sec:fdtd}, where the over all design is explained. The following list provide the name of the function , input and output. 
+\section{Design Considerations} \label{ch:considerations}
+Most of the considerations in the algorithm are already explained in \autoref{sec:fdtd}, where the over all design is explained. The following list provides the name of functions in the implementations that have been made. 
 
 \begin{itemize}
-\item The pressure formula is named _p() 
-\item The particle velocity in x direction is named _vx()
-\item The particle velocity in y direction is named _vy()
-\item The particle velocity in z direction is named _vz()
-\item The particle velocity at the left boundary in x direction is named _vxlb()
-\item The particle velocity at the right boundary in x direction is named _vxrb()
-\item The particle velocity at the top boundary in y direction is named _vytb()
-\item The particle velocity at the bottom boundary in y direction is named _vybb()
-\item The input is a transparent source which is calculated for every iteration and added to the center point of the grid. 
-\item The output is the \gls{rms} pressure of every point in grid.
+\item The pressure formula is named \texttt{_p()} 
+\item The particle velocity in x direction is named \texttt{_vx()}
+\item The particle velocity in y direction is named \texttt{_vy()}
+\item The particle velocity in z direction is named \texttt{_vz()}
+\item The particle velocity at the left boundary in x direction is named \texttt{_vxlb()}
+\item The particle velocity at the right boundary in x direction is named \texttt{_vxrb()}
+\item The particle velocity at the top boundary in y direction is named \texttt{_vytb()}
+\item The particle velocity at the bottom boundary in y direction is named \texttt{_vybb()}
+\item The input is a sound pressure emitted by a transparent source, which is calculated for every iteration and injected at the center point of the grid. 
+\item The output of the simulation is the \gls{rms} pressure of every point in grid after a predetermined number of samples.
 \end{itemize}
 
 \section{Data type}
-Since the algorithm estimate the pressure and particle velocity in space with respect to time, both pressure and particle velocity is stored in a 4 dimension matrix where the last dimension is the time. Both pressure and particle velocity is a shared variable which value is one or less, as long as the transparent source have an amplitude of one. All array is stored as a shared float, because the array data excite 50 mb, and all formula is made as an function. To avoid to much data transfer between parts of the code, data is shared, where the pointer name is the direction name.
+Since the algorithm estimates pressure and particle velocity in space with respect to time, both pressure and particle velocity are stored in a 4 dimensional array where one of the dimensions is the time. Both pressure and particle velocity are set up as shared variables, which have expected values of one or less, if for example the transparent source injects pressure with an amplitude of one. The pressure of the source(s) may vary depending on the application. It has been chosen to store the array as shared floats. Because the array data for a typical room exceeds a size of \SI{50}{\mega\byte} and all calculations are executed in functions, data transfer between parts of the code is avoided. Data is shared in way, where the pointer name is the direction name (\texttt{x,y,z}).
 
-
-
-\section{Optimization}
-Every calculation is depending on each other and have to be calculated for each time step in the right order in serial, with the exception of the individual particle velocity for each time step. This means that the particle velocity x, y, z and the boundary can be calculated in parallel. Another optimization possibility is to go from double precision to single precision. A test function will be made to see if de calculation error is critical or not with using single precision.
 
 \section{Test Plan}
-The test plan is to compare the pressure drop of the simulation with the analytical model. By physical knowing, the pressure will attenuate by approx. \SI{6}{\decibel} for every double of distance in fare field and approx. \SI{3}{\decibel} in near field. Since the \gls{fdtd} is an approximation of the far field scenario, an analytical model will be set up as a doctest, where the test compare the analytical model and the simulation. To keep the computation time down, the chosen distance is one and two meter. The test will be run in both double precision and single precision, to see if the single precision is as precise as double precision.
+The test intended test method is to compare the pressure drop of the simulation with an analytical model, which is explained in detail in \autoref{ssec:qmetrics}. According to this, the pressure will attenuate by approx. \SI{6}{\decibel} for every double of distance in far field. Since the \gls{fdtd} is an approximation of the far field scenario, an analytical model will utilized to set up a doctest, where the test compares the pressure drop from the analytical model to the simulation. To keep the computation time down, the distances chosen for the pressure drop calculations are one and two meter. The test will be run with both double precision and single precision variables.
 
 \section{Profiling and benchmarking}
-Most for the code have to run in series but the particle velocity can be run i both parallel and serial, and therefore the profiling and benchmarking will be focused on this part. To do the benchmarking of the particle velocity, the time before the particle velocity starts will be recorded, and the time after the particle velocity is finish will be recorded. This two time will be subtracted to fine the spend calculation time of the calculation. All three implementation will be tested to find the best benchmark of the code. The following \autoref{} shows the benchmark time for all three implementation with different room size. The resend to do more than one room size is to determine if the processing is lacking from memory or processing power.
+Most of the code has to run in series, but the particle velocity can be run in both parallel and serial, and therefore benchmarking will be focused on this part. To do the benchmarking of the particle velocity, the time, at which the particle velocity calculation starts, and the time, at which the particle velocity calculation has finished, will be recorded. These two times will be subtracted, resulting in the calculation time. All three implementations (naive, single core, multicore) will be tested. Details can be found in \autoref{ssec:evaluation}.
 
 
 
