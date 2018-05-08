@@ -1,0 +1,23 @@
+load('pressureout_03.mat')
+f=[fbot:fres:ftop];
+
+fs=44100;
+Ts=1/fs;
+bw=2*pi*(213+40);
+o0=2*pi*234;
+G=10^((8.5+2)/20);
+Q=o0/bw;
+filtergain=10^(10.5/20);
+
+bc(1)=4*Q+o0*(1+G)*Ts*2+(o0^2)*(Ts^2)*Q;
+bc(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
+bc(3)=4*Q-2*o0*Ts*(1+G)+(o0^2)*(Ts^2)*Q;
+ac(1)=4*Q+2*o0*Ts+(o0^2)*(Ts^2)*Q;
+ac(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
+ac(3)=4*Q-2*o0*Ts+(o0^2)*(Ts^2)*Q;
+
+[h,w]=freqz(bc,ac)
+
+plot(h)
+hold on
+plot(w)
