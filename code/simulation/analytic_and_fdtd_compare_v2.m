@@ -1,28 +1,29 @@
 clear all
 %%
-%load('impulse_response_5cm_grid_80m_room')
-%load('pressureout_03.mat')
-room_x = 35;
-room_y = 35;
-room_z = 35;
+load('impulse_response_3D_40m')
+load('pressureout_03.mat')
+room_x = 2;
+room_y = 2;
+room_z = 2;
 grid_size = 0.05;
 simulation_step = (room_x/grid_size)
-[impulse_response] = FDTD_impulse_response(room_x,room_y,room_z,grid_size,simulation_step+120);
-save((strcat('impulse_response_3D_40m.mat')),'impulse_response');
+%[impulse_response] = FDTD_impulse_response(room_x,room_y,room_z,grid_size,simulation_step+120);
+%save((strcat('impulse_response_3D_40m.mat')),'impulse_response');
 %%
-impulse_response = it;
-for f=60:10:60
+
+for f=60:10:100
 fprintf('%d Hertz.\n',f);
 [p_rms,grid_size] = FDTD_3D(f,room_x,room_y,room_z,simulation_step+100,impulse_response,solutions);
-pressureout_02_simu.(strcat('f',int2str(f))).pressure = p_rms;
-pressureout_02_simu.(strcat('f',int2str(f))).grid = grid_size;
-pressureout_02_simu.(strcat('f',int2str(f))).room_x = room_x;
-pressureout_02_simu.(strcat('f',int2str(f))).room_y = room_y;
-pressure = pressureout_02_simu.(strcat('f',int2str(f)));
-save((strcat('pressureout_02_simu_',int2str(f),'Hz.mat')),'pressure');
-clear pressureout_02_simu;
+result.(strcat('f',int2str(f))).pressure = p_rms;
+%pressure = simulated_pressure_01.(strcat('f',int2str(f)));
 end
+result.grid = grid_size;
+result.room_x = room_x;
+result.room_y = room_y;
+result.room_z = room_z;
 
+save((strcat('simulated_pressure_01.mat')),'result');
+clear simulated_pressure_01;
 %%
 speaker_center = [room_x/2 room_y/2 room_z/2];
 sp = speaker_center/grid_size;
@@ -63,8 +64,8 @@ figure
 contour(coorx,coory,temp,'ShowText','on')
 axis equal
 %%
-psum = p_rms(:,:,1);
-r=10;
+psum = p_rms(:,:,sp(3));
+r=3;
 pp=[];
 thetap=[];
 

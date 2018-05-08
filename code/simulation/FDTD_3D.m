@@ -5,11 +5,13 @@ function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,roomz,simulation_step,it
 %%
 
 
-%load('pressureout_02.mat')
- %frequency = 60;
- %roomx = 30
- %roomy = 30
-
+% load('pressureout_02.mat')
+%  frequency = 60;
+%  roomx = 30
+%  roomy = 30
+%  roomz = 30
+%  simulation_step = 600
+ 
 room_x = roomx;
 room_y = roomy;
 room_z = roomz;
@@ -69,10 +71,10 @@ s2y = (s1y-y_distance)/grid_size;
 s3y = (s1y-y_distance)/grid_size;
 s1y = s1y/grid_size;
 
-%%
 
-v_s = -(delta_t/(rho*grid_size));
-p_s = -((rho*(c^2)*delta_t)/grid_size);
+
+v_s = single(-(delta_t/(rho*grid_size)));
+p_s = single(-((rho*(c^2)*delta_t)/grid_size));
 
 f_min = 100;
 run_time = ceil((1/f_min)/(1/fs));
@@ -85,20 +87,43 @@ la = round(room_z/grid_size)-1;
 ti = 2; % store time 
 
 
-pressure = repmat(0, [ro co la ti]);
-p_rms = repmat(0, [ro co la]);
-Vx = repmat(0, [ro+1 co la ti]);
-Vy = repmat(0, [ro co+1 la ti]);
-Vz = repmat(0, [ro co la+1 ti]);
+pressure = repmat(single(0), [ro co la ti]);
+p_rms = repmat(single(0), [ro co la]);
+Vx = repmat(single(0), [ro+1 co la ti]);
+Vy = repmat(single(0), [ro co+1 la ti]);
+Vz = repmat(single(0), [ro co la+1 ti]);
 
 
 
-for t=1:simulation_step+1   
-    front(t) = gain_front*sin(2*pi*f*((t-1)/fs));
+
+    
+front(1) = gain_front*sin(2*pi*f*((1-1)/fs));
+ %front(t) = sin(2*pi*f*((t-1)/fs));
+back(1)  = gain_back*sin(2*pi*f*((1-1)/fs)+phase);
+
+
+for t=1:simulation_step+1
+    
+    front(t+1) = gain_front*sin(2*pi*f*((t+1-1)/fs));
     %front(t) = sin(2*pi*f*((t-1)/fs));
-    back(t)  = gain_back*sin(2*pi*f*((t-1)/fs)+phase);
-end
+    back(t+1)  = gain_back*sin(2*pi*f*((t+1-1)/fs)+phase);
+  
+    impulse_front=0;
+        for m=1:t
+            impulse_front = impulse_front+it(t-m+1)*front(m);
+        end
 
+     impulse_back=0;
+        for m=1:t
+            impulse_back = impulse_back+it(t-m+1)*back(m);
+        end
+     
+     speaker_back(t) = back(t+1)-impulse_back;
+     speaker_front(t) = front(t+1)-impulse_front;
+     
+        
+end
+%%
 
 tic
 % calculate inside room pressure
@@ -114,9 +139,9 @@ for t=1:simulation_step
             impulse_back = impulse_back+it(t-m+1)*back(m);
         end
 
-     pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)=pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)+back(t+1)-impulse_back;
-     pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)=pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)+front(t+1)-impulse_front;
-     pressure(sp(1)+s3y,sp(2)+s3x,sp(3),1)=pressure(sp(1)+s3y,sp(2)+s3x,sp(3),1)+front(t+1)-impulse_front;
+     pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)=pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)+speaker_back(t);
+     pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)=pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)+speaker_front(t);
+     pressure(sp(1)+s3y,sp(2)+s3x,sp(3),1)=pressure(sp(1)+s3y,sp(2)+s3x,sp(3),1)+speaker_front(t);
    %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
 
 %vx_eq

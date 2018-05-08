@@ -92,21 +92,7 @@ On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter
 \end{figure}
 
 
-As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that the change have affacted the fit positive. The filter therefore have the following filter parameters.
-
-
-
-\begin{itemize}
-\item Gain $G = \SI{12.5}{\decibel}$
-\item Bandwidth is $BW = 2\pi \SI{293}{\hertz} = 1841$
-\item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
-\item The filter goodness $Q = \frac{1470.3}{1841} = 0.7986$
-\end{itemize}
-
-
-%Recalling from \autoref{fig:band_pass_filter}, the filter was attenuated by \SI{2.1}{\decibel} such that the center frequency was at \SI{0}{\decibel} the filter have to be gained by \SI{2.1}{\decibel}. 
-
-Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated further with \SI{4}{\decibel} and therefore the front gain which i called $In_Gain$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter} The gain in front of the cost filter than have to be \SI{10.4}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
+As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that the change have affacted the fit positive. The filter gain is therefore changed to  $G = \SI{12.5}{\decibel}$ in the parameters. Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated with \SI{4}{\decibel} and therefore the front gain which i called $In_Gain$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter}. The gain in front of the cost filter then have to be \SI{10.4}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
 
 \begin{figure}[H]
 	\centering
@@ -344,30 +330,33 @@ As it can be seen at \autoref{fig:ir_estimate_scaled} that the cut off is lowere
 \begin{subfigure}[c]{0.5\textwidth}
 \includegraphics[width=0.85\textwidth]{opt_c_final.eps}
 \subcaption{cost filter}
-\label{fig:opt_res_a}
+\label{fig:opt_res_a_finish}
 \end{subfigure}
 \begin{subfigure}[c]{0.5\textwidth}
 \includegraphics[width=0.95\textwidth]{filter_vs_data.eps}
 \subcaption{Beamforming filter}
-\label{fig:filter_vs_data}
+\label{fig:filter_vs_data_finish}
 \end{subfigure}\\
 \hspace{0.1\textheight}
 \begin{subfigure}[c]{0.5\textwidth}
 \includegraphics[width=0.95\textwidth]{opt_c.eps}
 \subcaption{Directional characteristic, optimal}
-\label{fig:opt_res_c}
+\label{fig:opt_res_c_finish}
 \end{subfigure}
 \begin{subfigure}[c]{0.5\textwidth}
 \includegraphics[width=0.95\textwidth]{polar_filtered.eps}
 \subcaption{Directional characteristic, filtered}
-\label{fig:polar_filtered}
+\label{fig:polar_filtered_finish}
 \end{subfigure}
 \caption{Filter results, with pressure corrected cost filter, correction table based on Appendix \ref{ax:directional_2}, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.4}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{-0.4}{\meter}}
-		\label{fig:opt_res}
+		\label{fig:opt_res_finish}
 \end{figure}
 
 
 \section{Conclusion}
-It can be concluded that it is possible to design the cost filter as a band stop \gls{iir} filter and the beamforming filter as a low pass \gls{fir} filter. It can also be concluded that the filter does not change the beamforming significant, it accely change the beamforming less than \SI{1}{\decibel} for all frequency, both in the back and in the side of the polar plot \autoref{fig:opt_res}
+It can be concluded that it is possible to design the cost filter as a band stop \gls{iir} filter and the beamforming filter as a low pass \gls{fir} filter. It can also be concluded that the filter does not change the beamforming significant, it accely change the  beamforming less than or equal \SI{1}{\decibel} for all frequency, both in the back and in the side of the polar plot \autoref{fig:opt_res_finish}.
+
+
+
 
 
