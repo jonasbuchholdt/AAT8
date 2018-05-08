@@ -1,6 +1,6 @@
 clear all
 load('impulse_response_3D_40m')
-load('pressureout_03.mat')
+load('pressureout_04.mat')
 room_x = 20;
 room_y = 20;
 room_z = 20;
