@@ -37,14 +37,13 @@ la = round(room_z/grid_size)-1;
 ti = 2; % store time 
 
 
-pressure = repmat(0, [ro co la ti]);
-p_rms = repmat(0, [ro co la]);
-Vx = repmat(0, [ro+1 co la ti]);
-Vy = repmat(0, [ro co+1 la ti]);
-Vz = repmat(0, [ro co la+1 ti]);
+pressure = repmat(single(0), [ro co la ti]);
+Vx = repmat(single(0), [ro+1 co la ti]);
+Vy = repmat(single(0), [ro co+1 la ti]);
+Vz = repmat(single(0), [ro co la+1 ti]);
 
-v_s = -(delta_t/(rho*grid_size));
-p_s = -((rho*(c^2)*delta_t)/grid_size);
+v_s = single(-(delta_t/(rho*grid_size)));
+p_s = single(-((rho*(c^2)*delta_t)/grid_size));
 
 
 

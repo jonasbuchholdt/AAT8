@@ -5,12 +5,12 @@ function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,roomz,simulation_step,it
 %%
 
 
-% load('pressureout_02.mat')
-%  frequency = 60;
-%  roomx = 30
-%  roomy = 30
-%  roomz = 30
-%  simulation_step = 600
+ %load('pressureout_04.mat')
+ % frequency = 60;
+ % roomx = 30
+ % roomy = 30
+ % roomz = 30
+ % simulation_step = 600
  
 room_x = roomx;
 room_y = roomy;
@@ -27,7 +27,8 @@ phase      = solutions.(strcat('f',int2str(frequency))).Phia;
 
 
 x_distance_half = x_distance/2;
-grid_size = gcd(round(x_distance_half*100),round(y_distance*100))/100;
+%grid_size = gcd(round(x_distance_half*100),round(y_distance*100))/100;
+grid_size = 0.05;
 before= 1;
 befores = 0;
 c = 343;
@@ -101,7 +102,7 @@ front(1) = gain_front*sin(2*pi*f*((1-1)/fs));
  %front(t) = sin(2*pi*f*((t-1)/fs));
 back(1)  = gain_back*sin(2*pi*f*((1-1)/fs)+phase);
 
-
+%%
 for t=1:simulation_step+1
     
     front(t+1) = gain_front*sin(2*pi*f*((t+1-1)/fs));
@@ -110,12 +111,12 @@ for t=1:simulation_step+1
   
     impulse_front=0;
         for m=1:t
-            impulse_front = impulse_front+it(t-m+1)*front(m);
+            impulse_front = impulse_front+it(t-(m)+1)*front(m);
         end
 
      impulse_back=0;
         for m=1:t
-            impulse_back = impulse_back+it(t-m+1)*back(m);
+            impulse_back = impulse_back+it(t-(m)+1)*back(m);
         end
      
      speaker_back(t) = back(t+1)-impulse_back;
@@ -123,21 +124,21 @@ for t=1:simulation_step+1
      
         
 end
-%%
+
 
 tic
 % calculate inside room pressure
 for t=1:simulation_step
     
-    impulse_front=0;
-        for m=1:t
-            impulse_front = impulse_front+it(t-m+1)*front(m);
-        end
-
-     impulse_back=0;
-        for m=1:t
-            impulse_back = impulse_back+it(t-m+1)*back(m);
-        end
+%     impulse_front=0;
+%         for m=1:t
+%             impulse_front = impulse_front+it(t-m+1)*front(m);
+%         end
+% 
+%      impulse_back=0;
+%         for m=1:t
+%             impulse_back = impulse_back+it(t-m+1)*back(m);
+%         end
 
      pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)=pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)+speaker_back(t);
      pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)=pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)+speaker_front(t);
