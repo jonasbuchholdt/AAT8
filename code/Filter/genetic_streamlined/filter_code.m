@@ -82,13 +82,13 @@ slope = (full_filter_gain(11)-full_filter_gain(1))/(log10(fr(11))-log10(fr(1)))
 
 bandwidth = 2*pi*293%(213+40)
 omega_0 = 2*pi*234
-gain = 10^((10.5+2)/20)
+gain = 10^((12.5)/20)
 in_gain = 10^((10.4)/20)
 
 %bandwidth = 2*pi*293
 %omega_0 = 2*pi*234
 %gain = 10^(8.5/20)
-%in_gain = 1
+%in_gain = 1;
 
 Q = omega_0/bandwidth;
 
@@ -98,12 +98,10 @@ s = i.*omega;
 
 
 for k=1:1:100000
-h_cut(k) = in_gain*((((s(k)^2+omega_0/Q*s(k)+omega_0^2)/(s(k)^2+omega_0/Q*s(k)*(gain)+omega_0^2))));
+h_cut(k) = in_gain*((((s(k)^2+(omega_0/Q)*s(k)+omega_0^2)/(s(k)^2+(omega_0/Q)*s(k)*(gain)+omega_0^2))));
 end
 
 abs_h = abs(h_cut);
-%semilogx(abs_h)
-
 
 db_abs_h = 20*log10(abs_h);
 

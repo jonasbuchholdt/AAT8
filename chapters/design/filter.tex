@@ -1,98 +1,26 @@
 \section{Filter}\label{sec:filter_design}
 
-The aim of this chapter is to analyse the data from \ref{sec:opt_result} and choose the implementation method. From the beam forming optimization \autoref{sec:genetic_con} it was concluded that there shall be a cost filter and a beam forming filter. This chapter starts analyse the cost filter and design a filter solution, then the beam forming filter will be analysed and a solution will be designed.
+The aim of this chapter is to analyse the data from \ref{sec:opt_result} and choose the implementation method. From the beamforming optimization \autoref{sec:genetic_con} it was concluded that there shall be a cost filter and a beam forming filter. This chapter starts analyse the cost filter and design a filter solution, then the beamforming filter will be analysed and a solution will be designed.
 
 
 \section{The cost filter}
-The analysis of the cost filter will be done only with respect to the gain of the transfer function and without taking the phase intro account. The reason to avoid the phase is that the filter is an input filter to the entire system, and therefore the phase of the filter will affect all speaker the same way and therefore not effect the beam forming. \\
+The analysis of the cost filter will be done only with respect to the gain of the transfer function and without taking the phase intro account. The reason to avoid the phase is that the filter is an input filter to the entire system, and therefore the phase of the filter will affect all speaker the same way and therefore not effect the beamforming. \\
 To analyse the cost filter, the filter type and the slope or Q of the filter have to be determined. 
 
-the filter type will be determined first. To determined the filter type, a second order polynomia estimation will be done on the data point of the cost filter. The polynomia estimation is done with MATLAB command \texttt{polyfit()} with a second order regression. This give a second order polinomia where  \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \SI{60}{\hertz} to \SI{400}{\hertz}. The \SI{400}{\hertz} choice is made such that the estimation fit at lest to the double frequency of beam forming interest. The following \autoref{} shows the estimate compare to the original data point.
+The filter type will be determined first. To determined the filter type, a third order polynomial estimation will be done on the data point of the cost data. The polynomial estimation is done with MATLAB command \texttt{polyfit()} with a third order regression. This give a third order polynomial where  \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \SI{20}{\hertz} to \SI{430}{\hertz}. The \SI{430}{\hertz} choice is made such that the estimation fit at least have \SI{3}{\decibel} bandwidth. The following \autoref{fig:band_stop_filter} shows the estimate  \texttt{polyfit()} compare to the original data point.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{band_stop_filter.eps}
-	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
+	\caption{The graph shows the \texttt{polyfit()} of the cost data point, where the blue solid line is the wanted transfer function. All circle in the graph is the actual optimized point.}
 		\label{fig:band_stop_filter}
 \end{figure}
-It can also be seen on \autoref{band_stop_filter} the shape of the estimated cost filter is a band stop filter. \\
+
+It can be seen on \autoref{fig:band_stop_filter} that the shape of the estimated cost transfer function is a band stop filter, with a gain of more that \SI{0}{\decibel}. To achieve such filter a parametric equalizer with a gain is chosen. \\
 
 \subsection{Parametric equalizer as cost filter}
 
-Designing a bandstop filter is done with designing it as a bandpass filter, and use it in a feedback circuit. The following block diagram \autoref{fig:bandstop_filter_blockdiagram} shows a block diagram of a bandstop filter. 
-
-\begin{figure}[H]
-	\centering
-\begin{picture}(0,0)%
-\includegraphics{bandstop_filter_blockdiagram.pdf}%
-\end{picture}%
-\setlength{\unitlength}{4144sp}%
-%
-\begingroup\makeatletter\ifx\SetFigFont\undefined%
-\gdef\SetFigFont#1#2#3#4#5{%
-  \reset@font\fontsize{#1}{#2pt}%
-  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
-  \selectfont}%
-\fi\endgroup%
-\begin{picture}(4634,1218)(2056,-973)
-\put(2071, 74){Input}%
-\put(3196,-376){-}%
-\put(3556,-781){Gain}%
-\put(4681,-781){Bandpass}%
-\put(2791,-286){+}%
-\put(6076, 74){Output}%
-\end{picture}%
-	\caption{The figure shows the block diagram of a bandstop filter}
-		\label{fig:bandstop_filter_blockdiagram}
-\end{figure}
-
-
-Designing the bandpass filter part of the bandstop filter, the bandpass filter part is changed such that the center frequency is at \SI{0}{\decibel} and the shape is a bandpass filter and not a bandstop filter. To change the filter, the parameter is inverter and subtracted \SI{2.1}{\decibel}. The following \autoref{fig:band_pass_filter} shows the bandpass filter.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{band_pass_filter.eps}
-	\caption{The graph shows transfer function of the estimated transfer function, where the blue  Solid line is the gain. All circle in the graph is the actual optimized point.}
-		\label{fig:band_pass_filter}
-\end{figure}
-
-On \autoref{fig:band_pass_filter} it can be seen that the \SI{-3}{\decibel} bandwidth is \SI{293}{\hertz} with a relative gain of \SI{8.5}{\decibel}, and have a center frequency of \SI{234}{\hertz}. There needs to be a gain factor before the filter, to achieve the wanted band stop filter. The initial filter parameters is then:
-
-\begin{itemize}
-\item Gain $G = \SI{8.5}{\decibel}$
-\item Bandwidth is $BW = 2\pi \SI{293}{\hertz} = 1841$
-\item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
-\item The filter goodness $Q = \frac{1470.3}{1841} = 0.7986$
-\end{itemize}
-
-The corresponding transfer function to block diagram \autoref{fig:bandstop_filter_blockdiagram} is as \autoref{eq:bandstop_filter_eq}
-
-\begin{equation}\label{eq:bandstop_filter_eq}
-H_{stop}(s) = \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
-\end{equation}
-
-A bode plot of the \autoref{eq:bandstop_filter_eq} is showen in \autoref{fig:bandstop_filter_eq_bodeplot}
-
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot.eps}
-	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
-		\label{fig:bandstop_filter_eq_bodeplot}
-\end{figure}
-
-On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is to fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. Therefore the data point is attenuated by \SI{4}{\decibel} and as wall as the filter. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_attenuated.eps}
-	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
-		\label{fig:bandstop_filter_eq_bodeplot_attenuated}
-\end{figure}
-
-
-As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that the change have affacted the fit positive. The filter gain is therefore changed to  $G = \SI{12.5}{\decibel}$ in the parameters. Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated with \SI{4}{\decibel} and therefore the front gain which i called $\test{In_Gain}$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter}. The gain in front of the cost filter then have to be \SI{10.4}{\decibel}. The corresponding block diagram for the filter including the gain in front of the filter is as \autoref{fig:bandstop_filter_blockdiagram_gain}
+Designing a bandstop filter is done with designing it as a bandpass filter, and use it in a feedback circuit. The following \autoref{fig:bandstop_filter_blockdiagram_gain} shows a block diagram of a parametric bandstop filter with input gain. 
 
 \begin{figure}[H]
 	\centering
@@ -120,11 +48,74 @@ As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that t
 		\label{fig:bandstop_filter_blockdiagram_gain}
 \end{figure}
 
-\begin{equation}\label{eq:bandstop_filter_eq_analogue}
-H_{stop}(s) = \text{In_Gain} \cdot \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(1+Gain)+\omega_0^2}
+
+Designing the bandpass filter part of the bandstop filter, the bandpass filter part is changed such that the center frequency is at \SI{0}{\decibel} and the shape is a bandpass filter, not a bandstop filter. To change the filter, the parameter is inverter and \SI{2.1}{\decibel} attenuated. The following \autoref{fig:band_pass_filter} shows the bandpass filter that have to be designed.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{band_pass_filter.eps}
+	\caption{The graph shows the \texttt{polyfit()} of the cost data point, where the blue solid line is the wanted transfer function of the bandpass filter. All circle in the graph is the actual optimized point}
+		\label{fig:band_pass_filter}
+\end{figure}
+
+On \autoref{fig:band_pass_filter} it can be seen that the \SI{-3}{\decibel} bandwidth is \SI{293}{\hertz} and have a gain of \SI{8.5}{\decibel} from the lowest data point to the fighest data point. The bandpass filter have a center frequency of \SI{234}{\hertz} and the initial filter parameters is then:
+
+\begin{itemize}
+\item Gain $G = \SI{8.5}{\decibel}$
+\item Bandwidth is $BW = 2\pi \SI{293}{\hertz} = 1841$
+\item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
+\item The filter goodness $Q = \frac{1470.3}{1841} = 0.7986$
+\end{itemize}
+
+The corresponding transfer function to block diagram \autoref{fig:bandstop_filter_blockdiagram_gain} is as \autoref{eq:bandstop_filter_eq}
+
+\begin{equation}\label{eq:bandstop_filter_eq}
+H_{stop}(s) = \text{In_Gain} \cdot \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2+\frac{\omega_0}{Q}s(G)+\omega_0^2}
 \end{equation}
 
-The corresponding cost filter to the transfer function \autoref{eq:bandstop_filter_eq_analogue} is \autoref{fig:cost_filter_final}
+    \startexplain
+        \explain{$G = 1 + G'$, where $G'$ correspond to the $\text{Gain}$ in block diagram \autoref{fig:bandstop_filter_blockdiagram_gain}}{1}
+    \stopexplain
+
+
+A bode plot of the \autoref{eq:bandstop_filter_eq} where the $\text{In_Gain}$ is set to \SI{0}{\decibel} is shown in \autoref{fig:bandstop_filter_eq_bodeplot}
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot.eps}
+	\caption{The figure shows the bode plot of the \autoref{eq:bandstop_filter_eq}}
+		\label{fig:bandstop_filter_eq_bodeplot}
+\end{figure}
+
+On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is too fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. The disadvantage of fitting the data point to the steeper slope of the transfer function is that the gain of the filter have to be higher. A higher filter gain result in a higher $\text{In_Gain}$ which amplify the frequency below \SI{60}{\hertz} and above \SI{300}{\hertz}. The data point is attenuated by \SI{4}{\decibel} and the filter is gained by \SI{4}{\decibel}. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_attenuated.eps}
+	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
+		\label{fig:bandstop_filter_eq_bodeplot_attenuated}
+\end{figure}
+
+
+As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that the change have affacted the fit positive. The filter gain is therefore changed to  $G = \SI{12.5}{\decibel}$ in the parameters. Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated with \SI{4}{\decibel} and therefore the front gain which i called $\text{In_Gain}$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter}. The gain in front of the cost filter then have to be \SI{10.4}{\decibel}. The final filter parameter is then as follows
+
+
+
+
+\begin{itemize}
+\item Gain $\text{In_Gain} = \SI{10.5}{\decibel}$
+\item Gain $G = \SI{12.5}{\decibel}$
+\item Bandwidth is $BW = 2\pi \SI{293}{\hertz} = 1841$
+\item Center frequency is $\omega_0 = 2\pi \SI{234}{\hertz} = 1470.3$
+\item The filter goodness $Q = \frac{1470.3}{1841} = 0.7986$
+\end{itemize}
+
+
+
+
+The corresponding cost filter to the transfer function \autoref{eq:bandstop_filter_eq} with the above filter parameters is \autoref{fig:cost_filter_final}
 
 \begin{figure}[H]
 	\centering
@@ -133,13 +124,12 @@ The corresponding cost filter to the transfer function \autoref{eq:bandstop_filt
 		\label{fig:cost_filter_final}
 \end{figure}
 
-
-The transfer function for for the filter is then \autoref{eq:bandstop_filter_eq_analogue}
-
+It can be seen in \autoref{fig:cost_filter_final} that the frequency that is out of interest is amplified up to \SI{10.4}{\decibel}. This is a issue that will be solved with a MATLAB bandpass filter that not inflict frequency from \SI{60}{\hertz} to \SI{300}{\hertz}.
+ 
 
 
 \subsection{Converting the cost filter to differential equation}
-In order to implement the cost filter in MATLAB to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s in \autoref{eq:bandstop_filter_eq_analogue}, the bilinear transformation is as following 
+In order to implement the cost filter in MATLAB to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s domain in \autoref{eq:bandstop_filter_eq} to z domain. The bilinear transformation is as following 
 
 \begin{equation}\label{eq:bandstop_filter_bilinear}
 H_{stop}(z) = H_{stop}(s) \mid_{s=\frac{2}{T_s}\frac{z-1}{z+1}} 
@@ -153,7 +143,7 @@ H_{stop}(z) = H_{stop}(s) \mid_{s=\frac{2}{T_s}\frac{z-1}{z+1}}
 By applying the conversion \autoref{eq:bandstop_filter_bilinear} to the analogue cost filter, the filter become \autoref{eq:bandstop_filter_eq_z}
 
 \begin{equation}\label{eq:bandstop_filter_eq_z}
-H_{stop}(s) = \text{In_Gain} \cdot \frac{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}+\omega_0^2}{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}(1+Gain)+\omega_0^2}
+H_{stop}(s) = \text{In_Gain} \cdot \frac{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}+\omega_0^2}{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}(G)+\omega_0^2}
 \end{equation}
 
 The \autoref{eq:bandstop_filter_eq_z} is changed such that all fixed values is changed to a- end b coefficient. The following \autoref{eq:bandstop_filter_peak_att} is the digital transfer function.
@@ -165,15 +155,15 @@ The \autoref{eq:bandstop_filter_eq_z} is changed such that all fixed values is c
     
     \startexplain
      \explain{$H_{stop}(z)$ is the digital transferfunction for the attenuating peak filter.}{\si{1}}
-     \explain{$b_{stop1} = 4 \cdot Q + \omega_0 \cdot(1+G) \cdot T_s \cdot 2 + \omega_0^2 \cdot T_s^2 \cdot Q  $ }{\si{1}}
+     \explain{$b_{stop1} = 4 \cdot Q + \omega_0 \cdot G \cdot T_s \cdot 2 + \omega_0^2 \cdot T_s^2 \cdot Q  $ }{\si{1}}
      \explain{$b_{stop2} =-8 \cdot Q + 2 \cdot  \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
-     \explain{$b_{stop3} = 4 \cdot Q - 2 \cdot \omega_0 \cdot T_s \cdot (1+G) + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
+     \explain{$b_{stop3} = 4 \cdot Q - 2 \cdot \omega_0 \cdot T_s \cdot G + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
      \explain{$a_{stop1} = 4 \cdot Q + 2 \cdot \omega_0 \cdot T_s + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
      \explain{$a_{stop2} = -8 \cdot Q + 2 \cdot  \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
      \explain{$a_{stop3} = 4 \cdot Q - 2 \cdot \omega_0 \cdot T_s + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
     \stopexplain
 
-The last step is to convert the cost filter from z-Domain to transfer function intro differential equation in discrete time domain "n". The following step in \autoref{} is doing the domain conversion.
+The last step is to convert the cost filter from z domain intro differential equation in discrete time domain n. The following step in \autoref{eq:z_to_n} is doing the domain conversion.
 
 
 
@@ -185,32 +175,32 @@ The last step is to convert the cost filter from z-Domain to transfer function i
 \end{subequations}
 
 
-\begin{subequations}
+\begin{subequations}\label{eq:z_to_n}
     \centering
 $\Updownarrow$
-\begin{equation}\label{eq:z_to_n3}
-        Y(z) \cdot (b_{stop1} + b_{stop2} \cdot z^{-1} + b_{stop3} \cdot z^{-2}) = X(z) \cdot \text{In_Gain} \cdot (a_{stop1} + a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
-    \end{equation}
+\begin{multline}\label{eq:z_to_n3}
+        Y(z) \cdot (b_{stop1} + b_{stop2} \cdot z^{-1} + b_{stop3} \cdot z^{-2}) \\ = X(z) \cdot \text{In_Gain} \cdot (a_{stop1} + a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
+\end{multline}
        \centering
 $\Updownarrow$
-\begin{equation}\label{eq:z_to_n4}
-         Y(z) \cdot b_{stop} + Y(z) \cdot b_{stop2} \cdot z^{-1} + Y(z) \cdot b_{stop3} \cdot z^{-2} =  \text{In_Gain} \cdot (X(z) \cdot a_{stop1} + X(z) \cdot a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
-    \end{equation}
+\begin{multline}\label{eq:z_to_n4}
+         Y(z) \cdot b_{stop} + Y(z) \cdot b_{stop2} \cdot z^{-1} + Y(z) \cdot b_{stop3} \cdot z^{-2} \\=  \text{In_Gain} \cdot (X(z) \cdot a_{stop1} + X(z) \cdot a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
+    \end{multline}
     \centering
     $\Downarrow Z^{-1}$
-\begin{equation}\label{eq:z_to_n5}
-         b_{stop1} \cdot y[n] + b_{stop2} \cdot y[n-1] + b_{stop3} \cdot y[n-2] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] +  a_{stop2} \cdot x[n-1] + a_{stop3} \cdot x[n-2])
-    \end{equation}
+\begin{multline}\label{eq:z_to_n5}
+         b_{stop1} \cdot y[n] + b_{stop2} \cdot y[n-1] + b_{stop3} \cdot y[n-2] \\=  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] +  a_{stop2} \cdot x[n-1] + a_{stop3} \cdot x[n-2])
+    \end{multline}
     \centering
     $\Updownarrow$
-\begin{equation}\label{eq:z_to_n6}
-         b_{stop1} \cdot y[n] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] + a_{stop2} \cdot x[n-2] + a_{stop3} \cdot x[n-2]) -  b_{stop2} \cdot y[n-1] - b_{stop3} \cdot y[n-2]
-    \end{equation}
+\begin{multline}\label{eq:z_to_n6}
+         b_{stop1} \cdot y[n] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] + a_{stop2} \cdot x[n-2] + a_{stop3} \cdot x[n-2]) \\-  b_{stop2} \cdot y[n-1] - b_{stop3} \cdot y[n-2]
+    \end{multline}
     \centering
     $\Updownarrow$
-\begin{equation}\label{eq:z_to_n7}
-         y_{peak}[n] = \frac{\text{In_Gain}  \cdot a_{peak1}}{b_{peak1}} \cdot x[n] + \frac{\text{In_Gain}  \cdot a_{peak2}}{b_{peak1}} \cdot x[n-1] +  \frac{\text{In_Gain}  \cdot a_{peak3}}{b_{peak1}} \cdot x[n-2] -  \frac{b_{peak2}}{b_{peak1}} \cdot y_{peak}[n-1] - \frac{b_{peak3}}{b_{peak1}} \cdot y_{peak}[n-2]
-    \end{equation}
+\begin{multline}\label{eq:z_to_n7}
+         y_{peak}[n] = \frac{\text{In_Gain}  \cdot a_{peak1}}{b_{peak1}} \cdot x[n] + \frac{\text{In_Gain}  \cdot a_{peak2}}{b_{peak1}} \cdot x[n-1] \\+  \frac{\text{In_Gain}  \cdot a_{peak3}}{b_{peak1}} \cdot x[n-2] -  \frac{b_{peak2}}{b_{peak1}} \cdot y_{peak}[n-1] - \frac{b_{peak3}}{b_{peak1}} \cdot y_{peak}[n-2]
+    \end{multline}
     
     \startexplain
      \explain{$y[n]$ is the output sample.}{\si{1}}
