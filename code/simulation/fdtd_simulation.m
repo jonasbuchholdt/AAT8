@@ -5,8 +5,8 @@ function FDTD_SIMULATION(frequency,pressure)
 %grid_size = 0.05;
 
 p_rms=pressure.(strcat('f',int2str(frequency))).pressure;
-xlength=[-(pressure.(strcat('f',int2str(frequency))).room_x/2)+pressure.(strcat('f',int2str(frequency))).grid:pressure.(strcat('f',int2str(frequency))).grid:(pressure.(strcat('f',int2str(frequency))).room_x/2)-pressure.(strcat('f',int2str(frequency))).grid];
-ylength=[-(pressure.(strcat('f',int2str(frequency))).room_y/2)+pressure.(strcat('f',int2str(frequency))).grid:pressure.(strcat('f',int2str(frequency))).grid:(pressure.(strcat('f',int2str(frequency))).room_y/2)-pressure.(strcat('f',int2str(frequency))).grid];
+xlength=[-(pressure.room_x/2)+pressure.grid:pressure.grid:(pressure.room_x/2)-pressure.grid];
+ylength=[-(pressure.room_y/2)+pressure.grid:pressure.grid:(pressure.room_y/2)-pressure.grid];
 [coorx,coory]=meshgrid(ylength,xlength);
 
 % p_rms(:,:,1)=pressure.f60.pressure(:,:,1);
@@ -14,8 +14,10 @@ ylength=[-(pressure.(strcat('f',int2str(frequency))).room_y/2)+pressure.(strcat(
 % ylength=[-(room_y/2)+grid_size:grid_size:(room_y/2)-grid_size];
 % [coorx,coory]=meshgrid(ylength,xlength);
 
+speaker_center = [pressure.room_x/2 pressure.room_y/2 pressure.room_z/2];
+sp = speaker_center/pressure.grid;
 
-temp = 20*log10(abs(p_rms(:,:,1))/(20*10^(-6)));
+temp = 20*log10(abs(p_rms(:,:,sp(3)))/(20*10^(-6)));
 for m=1:length(temp)
     for j=1:length(temp)
         if temp(m,j,1) < 10

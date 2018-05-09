@@ -1,9 +1,9 @@
 clear all
 load('impulse_response_3D_40m')
 load('pressureout_04.mat')
-room_x = 20;
-room_y = 20;
-room_z = 20;
+room_x = 30;
+room_y = 30;
+room_z = 30;
 grid_size = 0.05;
 simulation_step = (room_x/grid_size)
 %[impulse_response] = FDTD_impulse_response(room_x,room_y,room_z,grid_size,simulation_step+120);
@@ -65,7 +65,7 @@ contour(coorx,coory,temp,'ShowText','on')
 axis equal
 %%
 psum = p_rms(:,:,sp(3));
-r=8;
+r=10;
 pp=[];
 thetap=[];
 
