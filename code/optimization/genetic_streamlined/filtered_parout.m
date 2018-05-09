@@ -23,9 +23,9 @@ o0=2*pi*234;
 Q=o0/bw;
 filtergain=10^(10.4/20);
 
-bc(1)=4*Q+o0*(1+G)*Ts*2+(o0^2)*(Ts^2)*Q;
+bc(1)=4*Q+o0*(G)*Ts*2+(o0^2)*(Ts^2)*Q;
 bc(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
-bc(3)=4*Q-2*o0*Ts*(1+G)+(o0^2)*(Ts^2)*Q;
+bc(3)=4*Q-2*o0*Ts*(G)+(o0^2)*(Ts^2)*Q;
 ac(1)=4*Q+2*o0*Ts+(o0^2)*(Ts^2)*Q;
 ac(2)=-8*Q+2*(o0^2)*(Ts^2)*Q;
 ac(3)=4*Q-2*o0*Ts+(o0^2)*(Ts^2)*Q;
@@ -50,4 +50,4 @@ end
 solutions.Lx=0.4;
 solutions.Ly=-0.4;
 
-save('pressureout_04.mat','solutions')
+save('pressureout_05.mat','solutions')
