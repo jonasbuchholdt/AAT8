@@ -115,7 +115,7 @@ plot(taxis,envelope(rearout))
 plot(taxis,envelope(frontoutn))
 plot(taxis,envelope(rearoutn))
 plot(taxis,envelope(reference))
-legend('Original sweep','Cost filter','Cost + beam filter','Cost filter + BP','Cost + beam + BP','Front output','Rear output','Reference')
+legend('original sweep','cost filter','cost + beam filter','cost filter + BP','cost + beam + BP','front output','rear output','reference')
 xlabel('Time [s]')
 ylabel('Amplitude [1]')
 grid minor
@@ -130,7 +130,7 @@ semilogx(fraxis,20*log10(abs(fft(rearout))))
 semilogx(fraxis,20*log10(abs(fft(frontoutn))))
 semilogx(fraxis,20*log10(abs(fft(rearoutn))))
 semilogx(fraxis,20*log10(abs(fft(rearoutn))))
-xlim([20 2000])
+xlim([40 1000])
 grid minor
 legend('OG','cost filtered','beam filtered','frontout','rearout','normed front','normed rear','reference')
 xlabel('Frequency [Hz]')
@@ -140,10 +140,7 @@ figure(3)
 yyaxis left
 plot(fraxis,20*log10(abs(fft(rearoutn)./fft(frontoutn))))
 ylim([4.2 5.8])
-xlabel('Frequency [Hz]')
-ylabel('Gain [dB]')
 yyaxis right
 plot(fraxis,rad2deg(angle(fft(rearoutn)./fft(frontoutn))))
 xlim([60 300])
-ylabel('Phase [Deg]')
 
