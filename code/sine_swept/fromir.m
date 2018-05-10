@@ -1,14 +1,14 @@
 clear variables
-close all
-load('beamforming_03.mat')
+%close all
+load('beamforming_14.mat')
 
-f=[60 95 160 210 260 295];
+f=[60 100 150 200 250 400];
 
 fs=44100;
 
-astart=5;
-ares=5;
-astop=340;
+astart=10;
+ares=10;
+astop=360;
 
 angles=[astart:ares:astop];
 

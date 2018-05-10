@@ -44,7 +44,7 @@ plot(t_result)
 for i=1:20
 clear all
 cmd = 'transfer'
-gain = -7;
+gain = -10;
 [f_axis,f_result,t_axis,t_result] = Lacoustics(cmd,gain);
 end
 % figure(1)
@@ -79,15 +79,15 @@ end
 clear variables
 
 
-circres= 45;                             % angle resolution on circumference [degree]
+circres= 10;                             % angle resolution on circumference [degree]
 
 flower= 20;                             % lower frequency border for sweep      [Hz]
 fupper=22000;                           % upper frequency border for sweep      [Hz]
 ts= 10;                                  % length of sweep                        [s]
 tw= 1;                                  % est. length of IR                      [s]
-playgain=-7;                            % gain for sweep playback               [dB]
+playgain=-10;                            % gain for sweep playback               [dB]
 
-filename='beamforming_04.mat';                  % file name for storage
+filename='beamforming_14.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at
@@ -119,7 +119,7 @@ for k = 1:(360/circres)
          pause(1)
          actualangle=ET250_3D('get')
      end
-    pause(4)
+    pause(5)
         %[fs,out.ir,irtime,out.tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,playgain,player);
         cmd = 'transfer'
         gain = playgain;
