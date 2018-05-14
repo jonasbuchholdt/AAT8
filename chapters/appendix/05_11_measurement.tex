@@ -56,12 +56,12 @@ The following material was used:
 \item 3 pcs. Loudspeaker cabinet, plywood, outside dimensions: (400x400x400)\SI{}{\milli\meter}, wall~thickness:~\SI{20}{\milli\meter}, equipped with \citep{seas33}
 \item Speaker mount for turntable
 \begin{itemize}[noitemsep]
-\item Steel mounting contraption, see \autoref{fig:speakerstand}
+\item Steel mounting contraption, see REFERENCE TO HARDWARE CHAPTER
 \item 3 speaker legs, \SI{40}{\milli\meter} box section, top: aluminium, {\(\varnothing\)~:~\SI{34.8}{\milli\meter}}, height: \SI{1}{\meter}
 \item Circular \gls{mdf} cutout, thickness: \SI{12}{\milli\meter}, {\(\varnothing\)~:~\SI{800}{\milli\meter}}
 \item \gls{mdf} cutout, thickness: \SI{20}{\milli\meter}, surface: approx. (300x600)\SI{}{\milli\meter}, bolt pattern drilled according to the bottom side of the ET 250-3D turntable
 \item \gls{mdf} cutout for counterweight mounting, thickness: \SI{12}{\milli\meter}, surface : (400x400)\SI{}{\milli\meter}
-\item triangular cutout (isosceles), thickness: \SI{12}{\milli\meter}, approximate outside dimensions base width x height: (970x600)\SI{}{\milli\meter}
+\item triangular cutout (isosceles), thickness: \SI{12}{\milli\meter}, approximate outside dimensions (base width x height): (970x600)\SI{}{\milli\meter}
 \item 2 Electrovoice S-200 speakers as counterweight
 \item Ratchet strap
 \item 4 bolts M8x80, associated washers
@@ -73,7 +73,15 @@ The following material was used:
 \end{itemize}
 
 
-\begin{figure}[h]\label{fig:speakerstand}
-  \includegraphics[width=\textwidth]{drawing_cut.jpg}
-  \caption{Drawing of the base section of the array supporting contraption. It was used in combination with speaker legs with a length of $l\,=\,\SI{1}{\meter}$.}
+
+\section*{Setup}
+When setting up the speaker array according to dimensions that have been decided upon in \autoref{sec:opt_result}, a substential effort was undertaken to insure a secure stance. The turntable was mounted to one of the platform grids used in the anechoic chamber by screwing bolts through a \gls{mdf}-plate and the grid into the threads on the underside of the turntable. A round \gls{mdf} plate was mounted using the boltpattern on the upside of the turntable. Fixed to the round plate a custom made steel contraption (\autoref{fig:speakerstand}) was bolted, which itself held the legs of the speakers in place. while allowing some adjustability. In a height of approx \SI{1}{\meter} above the turntable the three speaker cabinets were mounted to the legs. On top of the speaker a triangular \gls{mdf} cutout was employed to enhance rigidity. A picture of the array is given in \autoref{fig:05_11_setup}.
+
+\begin{figure}[h]\label{fig:05_11_setup}
+	\centering
+    \includegraphics[width=0.5\textwidth]{05_11_setup.jpg}
+    \caption{Speaker array setup on the turntable in the anechoic chamber.}
 \end{figure}
+
+The height of the centers of the speaker cabinet above the grid turned out to be \SI{1.37}{\meter}. The microphone was set up in the same height. The horizontal distancedistance between the array center and the microphone was \SI{4.92}{\meter}.
+The input and the output gain of the \gls{bandk} 2636 microphone power supply were both set to \SI{+10}{\decibel}. The input gain on the Fireface UCX was set to \SI{0}{\decibel}. On the playback side, the power amplifiers had a fixed voltage gain of \SI{+10}{\decibel} and the \texttt{playgain}-parameter in the measurement routine was set to \SI{-10}{\decibel}. The playback signals were normed so that the absolute of the biggest amplitude in on of the filtered sweeps (see \autoref{sec:filter_design} is a digital value of 1.
