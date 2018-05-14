@@ -42,7 +42,9 @@ x(end-fadeOutSamps+1:end) = x(end-fadeOutSamps+1:end) .* fadeOut;
 startSilence = ceil(fs/10);
 endSilence = 2*fs;
 % OG: Original Sweep, base of all filtering / scaling
-OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+%OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+
+OG = audioread('chililoop.wav');
 
 %%
 % Cost Filtering, Band Stop with Gain
@@ -96,14 +98,15 @@ frontoutn=frontout./max(abs(rearout));
 rearoutn=rearout./max(abs(rearout));
 reference=OG./max(abs(rearout));
 
-audiowrite('18_05_11_front_speakers.wav',frontoutn,fs)
-audiowrite('18_05_11_rear_speaker.wav',rearoutn,fs)
-audiowrite('18_05_11_reference_sweep.wav',reference,fs)
+audiowrite('front_music.wav',frontoutn,fs)
+audiowrite('rear_music.wav',rearoutn,fs)
+audiowrite('ref_music.wav',reference,fs)
 
 %%
 % Plotting Section
 fraxis=(0:1:length(OG)-1)*fs/length(OG);
 taxis=[0:(1/fs):length(OG)/fs-(1/fs)];
+l=length(OG);
 
 figure(1)
 plot(taxis,envelope(OG))
@@ -121,18 +124,18 @@ ylabel('Amplitude [1]')
 grid minor
 
 figure(2)
-semilogx(fraxis,20*log10(abs(fft(OG))))
+semilogx(fraxis,20*log10(abs(fft(OG)/l)))
 hold on
-semilogx(fraxis,20*log10(abs(fft(costfiltered))))
-semilogx(fraxis,20*log10(abs(fft(beamfiltered))))
-semilogx(fraxis,20*log10(abs(fft(frontout))))
-semilogx(fraxis,20*log10(abs(fft(rearout))))
-semilogx(fraxis,20*log10(abs(fft(frontoutn))))
-semilogx(fraxis,20*log10(abs(fft(rearoutn))))
-semilogx(fraxis,20*log10(abs(fft(rearoutn))))
+semilogx(fraxis,20*log10(abs(fft(costfiltered)/l)))
+semilogx(fraxis,20*log10(abs(fft(beamfiltered)/l)))
+semilogx(fraxis,20*log10(abs(fft(frontout)/l)))
+semilogx(fraxis,20*log10(abs(fft(rearout)/l)))
+semilogx(fraxis,20*log10(abs(fft(frontoutn)/l)))
+semilogx(fraxis,20*log10(abs(fft(rearoutn)/l)))
+semilogx(fraxis,20*log10(abs(fft(rearoutn)/l)))
 xlim([20 2000])
 grid minor
-legend('OG','cost filtered','beam filtered','frontout','rearout','normed front','normed rear','reference')
+legend('Original sweep','Cost filter','Cost + beam filter','Cost filter + BP','Cost + beam + BP','Front output','Rear output','Reference')
 xlabel('Frequency [Hz]')
 ylabel('Level [dB]')
 

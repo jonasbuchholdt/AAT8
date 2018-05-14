@@ -1,6 +1,6 @@
 clear variables
 load('filter_parameter.mat')
-phase_offset = -0.00;  % minus move the phase up.
+phase_offset = -0.00;  % minus moves the phase up.
 population = 1000;
 generation = 7000;
 weight = 0;
