@@ -15,7 +15,10 @@
 /code/sine_swept/beamforming_02.mat
 /code/sine_swept/beamforming_03.mat
 /code/sine_swept/plot_big/*.mat
-
+/code/VST_plugin/chililoop.wav
+/code/VST_plugin/front_music.wav
+/code/VST_plugin/rear_music.wav
+/code/VST_plugin/ref_music.wav
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
