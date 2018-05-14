@@ -65,22 +65,7 @@ for k=1:n
             g = 0.001*rand();
             gaussian = g*(1+(1/(sigma*sqrt(2*pi)))*exp((-1/2).*((x-mu)/sigma).^2)); 
             population.(strcat('gene',int2str(k))).ir_estimate = population.(strcat('gene',int2str(k))).ir_estimate.*gaussian;
-            population.(strcat('gene',int2str(k))).ir_estimate = population.(strcat('gene',int2str(k))).ir_estimate - population.(strcat('gene',int2str(k))).ir_estimate(end);
-        elseif what_mut >=0.8 && what_mut<0.9     
-            %irEstimate = population.(strcat('gene',int2str(k))).ir_estimate;
-            %irEstimate = [flip(irEstimate) irEstimate];
-            %x = [1:1:M];
-            %xq = [1:0.01:M];
-            %vq = interp1(x,irEstimate,xq);
-            %vq = circshift(vq ,-10);
-            %irEstimate = downsample(vq,100);
-            %irEstimate = circshift(irEstimate ,-M/2);
-            %irEstimate = irEstimate(1:end/2);
-            %population.(strcat('gene',int2str(k))).ir_estimate = irEstimate;        
-            %population.(strcat('gene',int2str(k))).ir_estimate(1) = population.(strcat('gene',int2str(k))).ir_estimate(1)-0.0001*(randn());
-            %population.(strcat('gene',int2str(k))).ir_estimate(2) = population.(strcat('gene',int2str(k))).ir_estimate(2)-0.0001*(randn());
-            %population.(strcat('gene',int2str(k))).ir_estimate(3) = population.(strcat('gene',int2str(k))).ir_estimate(3)-0.00001*(randn());
-            %population.(strcat('gene',int2str(k))).ir_estimate = population.(strcat('gene',int2str(k))).ir_estimate - population.(strcat('gene',int2str(k))).ir_estimate(end);
+            population.(strcat('gene',int2str(k))).ir_estimate = population.(strcat('gene',int2str(k))).ir_estimate - population.(strcat('gene',int2str(k))).ir_estimate(end);  
         else
 %            population.(strcat('gene',int2str(k))).Phib= mod(-2*pi+4*pi*(rand()),2*pi);
         end
