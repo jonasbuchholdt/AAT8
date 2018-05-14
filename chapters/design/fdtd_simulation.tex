@@ -31,22 +31,27 @@ From the optimization \autoref{sec:opt_result} it is determined that the optimal
 \end{alignat}
 \end{subequations}
     
-This corresponds to a sampling frequency of \SI{14552}{\hertz}. To be sure that a simulation does not suffer from a limiting time step size, the sampling frequency will be rounded up to \SI{14560}{\hertz}.
+A time step of \SI{687}{\micro\second}  corresponds to a sampling frequency of \SI{14552}{\hertz}. This sample frequency should make a stable simulation. It have been chosen to make a safety margin, and according to \autoref{fdtd_time_stepsize_con_one} lower sample frequency will make the simulation unstable, and therefore the sample frequency is only allowed to be higher. The sample frequency will be rounded up to \SI{14560}{\hertz}.
  
  
 
 \subsection{\gls{fdtd} source}
-The acoustic centers of the speakers will be represented as transparent sources, since a speaker cabinet \gls{fdtd} model will not be incorporated in this project. The source has a stability condition which has to be fulfilled and this includes the number of dimensions. In \autoref{sec:fdtd} the \gls{fdtd} is prepared to dimensions, but all simulations in this section will only be in two-dimensional, since the speakers are not offset in the third dimension.  The stability condition is stated in \autoref{fdtd_transparent_source_impulse_stability} and the stability achieved as shown in \autoref{fdtd_transparent_source_impulse_stability_calculation}.
+The acoustic centers of the speakers will be represented as transparent sources, since a speaker cabinet \gls{fdtd} model will not be incorporated in this project. The source has a stability condition which has to be fulfilled and this includes the number of dimensions. In \autoref{sec:fdtd} the \gls{fdtd} is prepared to a three dimensions simulation, and all simulation will be done i three dimension.  The stability condition is stated in \autoref{fdtd_transparent_source_impulse_stability} and the stability achieved as shown in \autoref{fdtd_transparent_source_impulse_stability_calculation}.
 
 
 
 \begin{subequations}\label{fdtd_transparent_source_impulse_stability_calculation}
 \begin{alignat}{2}
 \frac{c \delta t}{\delta d} &\leq \frac{1}{\sqrt{N}}\\
-\frac{343 \cdot \SI{687}{\micro\second}}{\SI{5}{\centi\meter}} &\leq \frac{1}{\sqrt{2}}\\
-0.471 &\leq 0.707
+\frac{343 \cdot \SI{687}{\micro\second}}{\SI{5}{\centi\meter}} &\leq \frac{1}{\sqrt{3}}\\
+0.471 &\leq 0.577
 \end{alignat}
 \end{subequations}
+
+    \startexplain
+    		\explain{$N$ is the number of dimension}{1}
+    \stopexplain
+
 
 As shown in \autoref{fdtd_transparent_source_impulse_stability_calculation} the transparent sound source is stable with the calculated time and grid size.
 

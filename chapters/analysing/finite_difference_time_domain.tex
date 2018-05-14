@@ -1,6 +1,6 @@
 \section{The \gls{fdtd}}\label{sec:fdtd}
 The aim of this section is to outline the basics of numerical simulation by using the \gls{fdtd} method. With this method, sound propagation from a speaker array can be analysed. The principles this kind of numerical simulation will be described, such that the method can be adapted to one or more speakers in a sound field. 
-The approach of \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This makes it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specific loudspeaker can be applied to the simulation and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulations have to be done in a narrow frequency band, in order for the simulation to give a good approximation. The \gls{fdtd} can not include the whole hearing band in a single simulation. A second advantage of using \gls{fdtd} is that the calculation is performed in time domain, which benefits from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a 3 dimensional space, where the speaker box is set up not to scatter the simulation.\\
+The approach of \gls{fdtd} is to solve the wave equation by a finite-difference approximation for both time and space derivatives. This makes it possible to easily simulate the sound pressure and particle velocity of a speaker at any time step. One advantage of using \gls{fdtd} is that the impulse response of a specific loudspeaker can be applied to the simulation and therefore it is possible to simulate the speaker that is used in this project. For using \gls{fdtd} with a specified speaker, all simulations have to be done in a narrow frequency band, in order for the simulation to give a good approximation. The \gls{fdtd} can not include the whole hearing band in a single simulation. A second advantage of using \gls{fdtd} is that the calculation is performed in time domain, which benefits from that the pressure and the particle velocity at a specified time step can be analyzed directly by solving two coupled equation.\citep{fdtddaga}. This section will end out with a \gls{fdtd} model of a three dimensional space, where the speaker box is set up not to scatter the simulation.\\
 
 \subsection{\gls{fdtd} wave equation}
 In \gls{fdtd} simulation, there are two equations, which need to be solved. The first formula is the Euler \autoref{fdtd_euler}, which describes the relation between the gradient for the pressure $p$ and the derivative of the particle velocity $\vec{v}$ with respect to time. 
@@ -63,7 +63,7 @@ Using a Cartesian grid for \gls{fdtd} approximation is a well known technique (s
 \put(4996,-1096){Particle velocity z-direction}%
 \put(7066,704){$\delta z$}%
 \end{picture}%
-	\caption{A 3 dimensional example of a Cartesian grid.}
+	\caption{A three dimensional example of a Cartesian grid.}
 		\label{fig:fdtd_cartesian_grid}
 \end{figure}
 
@@ -243,7 +243,7 @@ p(t)= Z_0v_n(t)+Z_1\int_{-\infty}^{t} v_n(\tau)d\tau +Z_1\frac{\partial u_n(t)}{
     		\explain{$v_n(t)$ is the component of the particle velocity orthogonal to the boundary plan}{\si{\meter\per\second}}
     \stopexplain
 
-One arising problem in this method is, that the particle velocity at the boundary, when the boundary is at plane $x=(i_0+0.5)\delta x$, which is the boundary at the $x$ velocity plane, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ planes. The problem is visualized in \autoref{fig:fdtd_boundary_pressure} for 1 dimension.
+One arising problem in this method is, that the particle velocity at the boundary, when the boundary is at plane $x=(i_0+0.5)\delta x$, which is the boundary at the $x$ velocity plane, cannot be calculated by using the pressure at $p_{(i_0+1,j,z)}$ and the same is applicable for $y$ and $z$ planes. The problem is visualized in \autoref{fig:fdtd_boundary_pressure} for one dimension.
 
 \begin{figure}[H]
 	\centering
@@ -263,7 +263,7 @@ One arising problem in this method is, that the particle velocity at the boundar
 \put(4996,-781){Particle velocity x-direction}%
 \put(4996,-421){Unknown pressure point}%
 \end{picture}%
-	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension.}
+	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in one dimension.}
 		\label{fig:fdtd_boundary_pressure}
 \end{figure}
 

@@ -5,9 +5,7 @@ The aim of this chapter is to analyse the data from \ref{sec:opt_result} and cho
 
 \section{The cost filter}
 The analysis of the cost filter will be done only with respect to the gain of the transfer function and without taking the phase intro account. The reason to avoid the phase is that the filter is an input filter to the entire system, and therefore the phase of the filter will affect all speaker the same way and therefore not effect the beamforming. \\
-To analyse the cost filter, the filter type and the slope or Q of the filter have to be determined. 
-
-The filter type will be determined first. To determined the filter type, a third order polynomial estimation will be done on the data point of the cost data. The polynomial estimation is done with MATLAB command \texttt{polyfit()} with a third order regression. This give a third order polynomial where  \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \SI{20}{\hertz} to \SI{430}{\hertz}. The \SI{430}{\hertz} choice is made such that the estimation fit at least have \SI{3}{\decibel} bandwidth. The following \autoref{fig:band_stop_filter} shows the estimate  \texttt{polyfit()} compare to the original data point.
+The shape of the graph in \ref{sec:opt_result} can be associated with a band stop filter with gain and therefore the cost filter design will be a band stop filter. To analyse the cost filter, the \SI{3}{\decibel} bandwidth, the Q and the gain of the filter have to be determined. To determined all needed filter data, the data have to be extended with an estimated function. The estimated function is done with polynomial estimation in MATLAB with the command \texttt{polyfit()} and with a third order regression. This give a third order polynomial where  \texttt{polyval()} is used to estimate the filter transfer function. The estimation will be done from \SI{20}{\hertz} to \SI{430}{\hertz}. The \SI{430}{\hertz} choice is made such that the estimation fit at least have \SI{3}{\decibel} bandwidth. The following \autoref{fig:band_stop_filter} shows the estimate  \texttt{polyfit()} compare to the original data point.
 
 \begin{figure}[H]
 	\centering
@@ -16,7 +14,7 @@ The filter type will be determined first. To determined the filter type, a third
 		\label{fig:band_stop_filter}
 \end{figure}
 
-It can be seen on \autoref{fig:band_stop_filter} that the shape of the estimated cost transfer function is a band stop filter, with a gain of more that \SI{0}{\decibel}. To achieve such filter a parametric equalizer with a gain is chosen. \\
+It can be seen on \autoref{fig:band_stop_filter} that the shape of the estimated cost transfer function can be realized with a band stop filter, with a gain of more that \SI{0}{\decibel}. To achieve such filter a parametric equalizer with a gain is chosen. \\
 
 \subsection{Parametric equalizer as cost filter}
 
@@ -74,7 +72,7 @@ H_{stop}(s) = \text{In_Gain} \cdot \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2
 \end{equation}
 
     \startexplain
-        \explain{$G = 1 + G'$, where $G'$ correspond to the $\text{Gain}$ in block diagram \autoref{fig:bandstop_filter_blockdiagram_gain}}{1}
+        \explain{$G = 1 + G'$, where $G$ correspond to the $\text{Gain}$ in block diagram \autoref{fig:bandstop_filter_blockdiagram_gain} and$G'$ correspond to the bandpass gain}{1}
     \stopexplain
 
 
@@ -89,17 +87,17 @@ A bode plot of the \autoref{eq:bandstop_filter_eq} where the $\text{In_Gain}$ is
 		\label{fig:bandstop_filter_eq_bodeplot}
 \end{figure}
 
-On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is too fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. The disadvantage of fitting the data point to the steeper slope of the transfer function is that the gain of the filter have to be higher. A higher filter gain result in a higher $\text{In_Gain}$ which amplify the frequency below \SI{60}{\hertz} and above \SI{300}{\hertz}. The data point is attenuated by \SI{4}{\decibel} and the filter is gained by \SI{4}{\decibel}. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
+On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. The disadvantage of fitting the data point to the steeper slope of the transfer function is that the gain of the filter have to be higher. A higher filter gain result in a higher $\text{In_Gain}$ which amplify the frequency below \SI{60}{\hertz} and above \SI{300}{\hertz}. The data point is attenuated by \SI{4}{\decibel} and the bandpass filter is gained by \SI{4}{\decibel}. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_attenuated.eps}
-	\caption{The figure shows the bode plot of the \autoref{{eq:bandstop_filter_eq}}}
+	\caption{The figure shows the bode plot of the \autoref{eq:bandstop_filter_eq}}
 		\label{fig:bandstop_filter_eq_bodeplot_attenuated}
 \end{figure}
 
 
-As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} that the change have affacted the fit positive. The filter gain is therefore changed to  $G = \SI{12.5}{\decibel}$ in the parameters. Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated with \SI{4}{\decibel} and therefore the front gain which i called $\text{In_Gain}$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter}. The gain in front of the cost filter then have to be \SI{10.4}{\decibel}. The final filter parameter is then as follows
+As it can be seen on \autoref{fig:bandstop_filter_eq_bodeplot_attenuated}, the change have affected the fit positive. The filter gain is therefore changed to  $G = \SI{12.5}{\decibel}$ in the parameters. Recalling from \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} the filter is attenuated with \SI{4}{\decibel} and therefore the front gain which is called $\text{In_Gain}$ shall be amplified by \SI{4}{\decibel} plus the \SI{6.4}{\decibel} which correspond to the inverting in \autoref{fig:band_pass_filter}. The gain in front of the cost filter then have to be \SI{10.4}{\decibel}. The final filter parameter is then as follows
 
 
 
@@ -124,12 +122,12 @@ The corresponding cost filter to the transfer function \autoref{eq:bandstop_filt
 		\label{fig:cost_filter_final}
 \end{figure}
 
-It can be seen in \autoref{fig:cost_filter_final} that the frequency that is out of interest is amplified up to \SI{10.4}{\decibel}. This is a issue that will be solved with a MATLAB bandpass filter that not inflict frequency from \SI{60}{\hertz} to \SI{300}{\hertz}.
+It can be seen in \autoref{fig:cost_filter_final} that the frequency that is out of interest is amplified up to \SI{10.4}{\decibel}. This is an issue that will be solved with a MATLAB bandpass filter that not inflict frequency from \SI{60}{\hertz} to \SI{300}{\hertz}.
  
 
 
 \subsection{Converting the cost filter to differential equation}
-In order to implement the cost filter in MATLAB to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s domain in \autoref{eq:bandstop_filter_eq} to z domain. The bilinear transformation is as following 
+In order to implement the cost filter in MATLAB and to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s domain in \autoref{eq:bandstop_filter_eq} to z domain. The bilinear transformation is as following 
 
 \begin{equation}\label{eq:bandstop_filter_bilinear}
 H_{stop}(z) = H_{stop}(s) \mid_{s=\frac{2}{T_s}\frac{z-1}{z+1}} 
@@ -146,7 +144,7 @@ By applying the conversion \autoref{eq:bandstop_filter_bilinear} to the analogue
 H_{stop}(s) = \text{In_Gain} \cdot \frac{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}+\omega_0^2}{(\frac{2}{T_s}\frac{z-1}{z+1})^2+\frac{\omega_0}{Q}\frac{2}{T_s}\frac{z-1}{z+1}(G)+\omega_0^2}
 \end{equation}
 
-The \autoref{eq:bandstop_filter_eq_z} is changed such that all fixed values is changed to a- end b coefficient. The following \autoref{eq:bandstop_filter_peak_att} is the digital transfer function.
+The \autoref{eq:bandstop_filter_eq_z} is changed such that all fixed values is changed to a- and b coefficient. The following \autoref{eq:bandstop_filter_peak_att} is the digital transfer function.
 
 
 \begin{equation}\label{eq:bandstop_filter_peak_att}
@@ -154,7 +152,7 @@ The \autoref{eq:bandstop_filter_eq_z} is changed such that all fixed values is c
     \end{equation}
     
     \startexplain
-     \explain{$H_{stop}(z)$ is the digital transferfunction for the attenuating peak filter.}{\si{1}}
+     \explain{$H_{stop}(z)$ is the digital transfer function for the stop filter}{\si{1}}
      \explain{$b_{stop1} = 4 \cdot Q + \omega_0 \cdot G \cdot T_s \cdot 2 + \omega_0^2 \cdot T_s^2 \cdot Q  $ }{\si{1}}
      \explain{$b_{stop2} =-8 \cdot Q + 2 \cdot  \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
      \explain{$b_{stop3} = 4 \cdot Q - 2 \cdot \omega_0 \cdot T_s \cdot G + \omega_0^2 \cdot T_s^2 \cdot Q$ }{\si{1}}
@@ -170,6 +168,7 @@ The last step is to convert the cost filter from z domain intro differential equ
 \begin{subequations}\label{eq:bandstop_filter_peak_n}
 \begin{alignat}{2}
  H_{stop}(z)=\frac{Y(z)}{X(z)} &=  \text{In_Gain} \cdot \frac{z^2 \cdot a_{stop1} + z \cdot a_{stop2} + a_{stop3}}{z^2 \cdot b_{stop1} + z \cdot b_{stop2} + b_{stop3}} \label{eq:bandstop_filter_peak_n_1}\\
+ \Downarrow\\
  H_{stop}(z)=\frac{Y(z)}{X(z)} &=  \text{In_Gain} \cdot \frac{a_{stop1} + z^{-1} \cdot a_{stop2} +  z^{-2} \cdot a_{stop3}}{b_{stop1} + z^{-1} \cdot b_{stop2} +  z^{-2} \cdot b_{stop3}}  \label{eq:bandstop_filter_peak_n_2}
 \end{alignat}
 \end{subequations}
@@ -184,7 +183,7 @@ $\Updownarrow$
        \centering
 $\Updownarrow$
 \begin{multline}\label{eq:z_to_n4}
-         Y(z) \cdot b_{stop} + Y(z) \cdot b_{stop2} \cdot z^{-1} + Y(z) \cdot b_{stop3} \cdot z^{-2} \\=  \text{In_Gain} \cdot (X(z) \cdot a_{stop1} + X(z) \cdot a_{stop2} \cdot z^{-1} + a_{stop3} \cdot z^{-2})
+         Y(z) \cdot b_{stop} + Y(z) \cdot b_{stop2} \cdot z^{-1} + Y(z) \cdot b_{stop3} \cdot z^{-2} \\=  \text{In_Gain} \cdot (X(z) \cdot a_{stop1} + X(z) \cdot a_{stop2} \cdot z^{-1} + X(z) \cdot  a_{stop3} \cdot z^{-2})
     \end{multline}
     \centering
     $\Downarrow Z^{-1}$
@@ -194,12 +193,12 @@ $\Updownarrow$
     \centering
     $\Updownarrow$
 \begin{multline}\label{eq:z_to_n6}
-         b_{stop1} \cdot y[n] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] + a_{stop2} \cdot x[n-2] + a_{stop3} \cdot x[n-2]) \\-  b_{stop2} \cdot y[n-1] - b_{stop3} \cdot y[n-2]
+         b_{stop1} \cdot y[n] =  \text{In_Gain} \cdot (a_{stop1} \cdot x[n] + a_{stop2} \cdot x[n-1] + a_{stop3} \cdot x[n-2]) \\-  b_{stop2} \cdot y[n-1] - b_{stop3} \cdot y[n-2]
     \end{multline}
     \centering
     $\Updownarrow$
 \begin{multline}\label{eq:z_to_n7}
-         y_{peak}[n] = \frac{\text{In_Gain}  \cdot a_{peak1}}{b_{peak1}} \cdot x[n] + \frac{\text{In_Gain}  \cdot a_{peak2}}{b_{peak1}} \cdot x[n-1] \\+  \frac{\text{In_Gain}  \cdot a_{peak3}}{b_{peak1}} \cdot x[n-2] -  \frac{b_{peak2}}{b_{peak1}} \cdot y_{peak}[n-1] - \frac{b_{peak3}}{b_{peak1}} \cdot y_{peak}[n-2]
+         y[n] = \frac{\text{In_Gain}  \cdot a_{stop1}}{b_{stop1}} \cdot x[n] + \frac{\text{In_Gain}  \cdot a_{stop2}}{b_{stop1}} \cdot x[n-1] \\+  \frac{\text{In_Gain}  \cdot a_{stop3}}{b_{stop1}} \cdot x[n-2] -  \frac{b_{stop2}}{b_{stop1}} \cdot y[n-1] - \frac{b_{stop3}}{b_{stop1}} \cdot y[n-2]
     \end{multline}
     
     \startexplain
@@ -210,12 +209,12 @@ $\Updownarrow$
 
 
 \section{Beam forming filter}
-The beam forming filter is not as easy as the cost filter to design, since that the phase and the gain have to be exact before the beam forming works. Therefore the phase have to be studied to determined the filter type. On the data point from the \ref{sec:opt_result} it can be seen that the phase is mostly linear in the frequency of interest, and therefore the filter will be a linear phase \gls{fir} filter. The smart thing with choosing a \gls{fir} filter is that the impulse response of the filter just have to be symmetric to achieve linear phase response. This means that optimizing the part of the impulse response and put it together with a mirrored version will always achieve linear phase. One disadvantages is that the cut off frequency is in the low frequency and therefore the filter order have to be high. \\
+The beam forming filter is not as easy as the cost filter to design, since that the phase and the gain have to be exact before the beamforming works. Therefore the phase have to be studied to determined the filter type. On the data point from the \ref{sec:opt_result} it can be seen that the phase is mostly linear in the frequency of interest, and therefore the filter will be a linear phase \gls{fir} filter. The smart thing with choosing a \gls{fir} filter is that the impulse response of the filter just have to be symmetric to achieve linear phase response. This means that it is only necessary to optimizing the half part of the impulse response and put it together with a mirrored version of it self. This method will always achieve linear phase. One disadvantages is that the cut off frequency is in the low frequency range which mean that the filter will have many taps. \\
 
- A modified version of the genetic optimization algorithm will be used to find a optimized impulse response of the filter. To optimize the impulse respond of the filter, an estimate of the impulse respond have to be determined. One and the used way to estimate the impulse response is to transfer all polar coordinate to a complex rectangular transfer function and take the real of the \gls{ifft} of the complex transfer function. The polar to rectangular transform is done as following \autoref{eq:pol_to_regt}
+ A modified version of the genetic optimization algorithm will be used to find a optimized impulse response of the filter. \autoref{ax:opt_imp_filter} explain the modification for the genetic algorithm. To optimize the impulse respond of the filter, an estimate of the impulse respond have to be determined. First the data is extended by the \texttt{polyfit()},  \texttt{polyval()} function in MATLAB with an order of two. Next, the used way to estimate the impulse response is to transfer all polar coordinate to a complex rectangular transfer function and take the real of the \gls{ifft}. The polar to rectangular transform is done as following \autoref{eq:pol_to_regt}
 
 \begin{equation}\label{eq:pol_to_regt}
-x=rcos(\phi)+j \cdot rsin(\phi)
+x=r \cos(\phi)+j \cdot r \sin(\phi)
 \end{equation}
 
 
@@ -225,12 +224,12 @@ x=rcos(\phi)+j \cdot rsin(\phi)
         \explain{$j$ is the imaginary unit}{\si{1}}
     \stopexplain
 
-The real of the \gls{ifft} gives an estimated impulse response but with a scaled cross over point. The meaning with scaled cross over point is that the cross over point follows the scaling of the sample frequency. With a sample rate of \SI{44.1}{\kilo\hertz} the following  \autoref{} shows the transfer function of the estimated impulse response. 
+The real of the \gls{ifft} gives an estimated impulse response but with a scaled cross over point. The meaning with scaled cross over point is that the cross over point follows the scaling of the sample frequency. With a sample rate of \SI{44.1}{\kilo\hertz} the following  \autoref{fig:ir_estimate_non_scaled} shows the transfer function of the estimated impulse response. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{ir_estimate_non_scaled.eps}
-	\caption{The graph shows transfer function of the estimated impulse respond. The dashed line is transfer function that is needed for beam forming filter, where the blue line is the gain and the red line is the phase. The Solid line line is the transfer function of the estimated impulse response, where the blue line is the gain and the red line is the phase. All circle in the start of the graph is the actual optimized point.}
+	\caption{The graph shows transfer function of the estimated impulse respond. The dashed line is transfer function that is needed for beam forming filter, where the blue line is the gain and the red line is the phase. The Solid line is the transfer function of the estimated impulse response, where the blue line is the gain and the red line is the phase. All circle in the start of the graph is the actual optimized point.}
 		\label{fig:ir_estimate_non_scaled}
 \end{figure}
 
@@ -240,11 +239,11 @@ It can be seen that the cross over lays at a too high frequency and the gain at 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{ir_estimate_non_mirror.eps}
-	\caption{The graph shows the impulse respond where the mirrored version is added to the impulse respond}
+	\caption{The graph shows the impulse respond where the mirrored version not is added to the impulse respond}
 		\label{fig:ir_estimate_non_mirror}
 \end{figure}
 
-The version where the mirrored impulse response is added to the impulse response and the phase is matched to the wanted phase and is the corresponding impulse response to \autoref{fig:ir_estimate_non_scaled} is \autoref{fig:ir_estimate_mirror}
+To change the above \autoref{fig:ir_estimate_non_mirror} to a linear phase filter, a mirrored version of itself is added to the left of the graph. To tweet the phase such that it fit the wanted phase, the impulse response is circle shifted to the right until the phase fit. Th following \autoref{fig:ir_estimate_mirror} shows the result and the impulse respond for the solid line in \autoref{fig:ir_estimate_non_scaled}.
 
 \begin{figure}[H]
 	\centering
@@ -254,7 +253,7 @@ The version where the mirrored impulse response is added to the impulse response
 \end{figure}
 
 
-The impulse response have to be change the right way to make a good estimate. The way to lower the cross over point is to extend the part of the impulse respond that it have the highest amplitude, which also make the impulse response longer. Thinking about the theory of the \gls{fir} filter, that the lower cross over, the higher order the filter have to be and therefore the impulse respond gets longer. The following \autoref{} shows the estimated impulse respond that will be used for the optimization, where the crossover is approximatly where it shall be. 
+The impulse response have to be change the right way to make a good estimate. The way to lower the cross over point is to extend the part of the impulse respond that have the highest amplitude, which also make the impulse response longer. Thinking about the theory of the \gls{fir} filter, that the lower cross over, the higher order the filter have to be and therefore the impulse respond gets longer.  The following  \autoref{fig:ir_estimate_scaled} shows the transfer function of the extended impulse response.
 
 
 \begin{figure}[H]
@@ -265,6 +264,8 @@ The impulse response have to be change the right way to make a good estimate. Th
 \end{figure}
 
 
+The extended impulse respond that will be used for the optimization, where the cross over is changed with adding tabs to the \gls{fir} filter is as \autoref{fig:ir_estimate_mirror_scale}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{ir_estimate_mirror_scale.eps}
@@ -272,7 +273,9 @@ The impulse response have to be change the right way to make a good estimate. Th
 		\label{fig:ir_estimate_mirror_scale}
 \end{figure}
 
-Where the corresponding impulse response is as \autoref{fig:ir_estimate_mirror_scale}
+
+The fit on \autoref{fig:ir_estimate_scaled} seems to fit well, but to determined a visual fitness \autoref{fig:ir_estimate_scaled_close} shows a closer look on the frequency of interest.
+
 
 \begin{figure}[H]
 	\centering
@@ -281,23 +284,28 @@ Where the corresponding impulse response is as \autoref{fig:ir_estimate_mirror_s
 		\label{fig:ir_estimate_scaled_close}
 \end{figure}
 
-As it can be seen at \autoref{fig:ir_estimate_scaled} that the cut off is lowered and the gain is automatic raised to the wanted area. A closer look on the area of the frequency of interest in 
-
-It can be seen at \autoref{ir_estimate_scaled_close} that the fit is close, but the gain can be optimized. Recalling from earlier, a linear phase \gls{fir} filter have to have symmetric impulse response and therefore the impulse respond where the mirrored version is not added will be used as initial guess for the genetic optimizer. To optimize the impulse response there will be used high probability for mutation and crossover. The resend to use high probability for mutation, is that the shape of the impulse response is changed a bit for every mutation, and it is the shape there needs to be change to get the optimized \gls{fir} filter coefficient. In the mutation part, the following mutation is done.
+As it can be seen at \autoref{fig:ir_estimate_scaled}, the cut off is lowered and the gain is automatic raised to the wanted area. A closer look on the area of the frequency of interest shows that the fit is close, but the gain can be optimized. Recalling from earlier, a linear phase \gls{fir} filter have to have symmetric impulse response and therefore the impulse respond where the mirrored version is not added will be used as initial guess for the genetic optimizer. To optimize the impulse response there will be used high probability for mutation and crossover. The resend to use high probability for mutation, is that the shape of the impulse response is changed a bit for every mutation, and it is the shape there needs to be change to get the optimized \gls{fir} filter coefficient. In the mutation part, the following mutation is done.
 
 \begin{itemize}
 \item One single random chosen point in the impulse response is change by moving it up and down wards.
 \item One random chosen area of the impulse response is change by moving it up and down wards with a Gaussian shape, where $\mu$ and $\sigma$ is random chosen.
-\item An up-sampling is done on the impulse respond with a factor of ten. After the up-sampling the value at time zero is copied and used ans the new zero point after the impulse response is shifted one sample to the right. The resend to up-sample is that the shift only is one tenth. This technique do that the cost can be minimized more than without up-sampling. The up-sampling is done with linear interpolation. This mutation ends with a down sampling with a factor of ten such that the impulse respond is at the same length as at the start.
+\item An up-sampling is done on the impulse respond with a factor of ten. After the up-sampling the value at time zero is copied and used as the new zero point after the impulse response is shifted one sample to the right. The resend to up-sample is that the shift only is one tenth. This technique do that the cost can be minimized more than without up-sampling. The up-sampling is done with linear interpolation. This mutation ends with a down sampling with a factor of ten such that the impulse respond is at the same length as at the start.
 \item There is one mutation that only multiply a factor to the impulse respond. 
 \end{itemize}
 
-At the end of all mutation the last point of the impulse response is used as the \gls{dc} offset and the offset will be subtracted from the impulse response , such that the impulse response end at an amplitude of zero. 
+At the end of all mutation the last point of the impulse response is used as the \gls{dc} offset and the offset will be subtracted from the impulse response, such that the impulse response end at an amplitude of zero. 
 
 \section{Result}
+The genetic algorithm did convergence to the regressed transfer function. The following \autoref{fig:filter_coefficient} shows the optimized impulse response.
 
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{filter_coefficient.eps}
+	\caption{The graph shows the impulse respond where the mirrored version is added to the impulse respond}
+		\label{fig:filter_coefficient}
+\end{figure}
 
- 
+The corresponding transfer function to the above impulse response \autoref{fig:filter_coefficient} is as following \autoref{fig:filter_vs_reg}.
 
 \begin{figure}[H]
 	\centering
@@ -306,14 +314,8 @@ At the end of all mutation the last point of the impulse response is used as the
 		\label{fig:filter_vs_reg}
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{filter_coefficient.eps}
-	\caption{The graph shows the impulse respond where the mirrored version is added to the impulse respond}
-		\label{fig:filter_coefficient}
-\end{figure}
 
-As it can be seen at \autoref{fig:ir_estimate_scaled} that the cut off is lowered and the gain is automatic raised to the wanted area. A closer look on the area of the frequency of interest in 
+It can be seen on \autoref{fig:filter_vs_reg} that the optimized transfer function fits the regressed filter op to \SI{1}{\kilo\hertz}. The weighting function in the genetic algorithm was only weighting up to \SI{1}{\kilo\hertz} and therefore the frequency above does not fit, and do not need to fit. Since the phase can be shifted by only circle shift the impulse response, the phase have the half weight than the gain.  A closer look on the area of the frequency of interest in is visualized is the filter result \autoref{fig:opt_res_finish}
 
 
 \begin{figure}[H]
