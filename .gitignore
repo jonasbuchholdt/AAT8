@@ -1,4 +1,4 @@
-## Core latex/pdflatex auxiliary files:
+﻿## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
 *.log
@@ -14,6 +14,7 @@
 /code/sine_swept/beamforming_01.mat
 /code/sine_swept/beamforming_02.mat
 /code/sine_swept/beamforming_03.mat
+/code/sine_swept/plot_big/*.mat
 
 ## Intermediate documents:
 *.dvi
