@@ -1,8 +1,8 @@
 clear variables
 %close all
-load('beamforming_14.mat')
+load('music_02.mat')
 
-f=[60 100 150 200 250 400];
+f=[60 100 150 200 250 300];
 
 fs=44100;
 
@@ -20,7 +20,7 @@ end
 
 p1=zeros(length(angles),1);
 plotdata=p1;
-figure(1)
+figure(5)
 
 for h=1:length(f)
     for k=1:length(angles)
@@ -43,7 +43,7 @@ ax = gca;
 ax.ThetaZeroLocation = 'top';
 ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
-rlim([-27 0])
+rlim([-30 0])
 rticks([-27:3:0])
 thetaticks([0:20:360])
 ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};

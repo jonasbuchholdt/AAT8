@@ -87,7 +87,7 @@ ts= 10;                                  % length of sweep                      
 tw= 1;                                  % est. length of IR                      [s]
 playgain=-10;                            % gain for sweep playback               [dB]
 
-filename='beamforming_14.mat';                  % file name for storage
+filename='music_02.mat';                  % file name for storage
 
 incal=0.1;                              % Input Calibration: What digital
                                         % RMS value corresponds to 1 Pa at
@@ -112,14 +112,14 @@ for k = 1:(360/circres)
         currentangle = 0;
     end    
      ET250_3D('set',currentangle);
-     pause(1)
+     pause(0.1)
      actualangle=ET250_3D('get');
      
      while currentangle~=actualangle
-         pause(1)
+         pause(0.1)
          actualangle=ET250_3D('get')
      end
-    pause(5)
+    pause(2)
         %[fs,out.ir,irtime,out.tf,faxis]=IRmeas_fft(ts,tw,flower,fupper,playgain,player);
         cmd = 'transfer'
         gain = playgain;

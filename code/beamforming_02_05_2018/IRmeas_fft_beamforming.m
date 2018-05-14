@@ -68,10 +68,22 @@ function [fs,ir,irtime,tf,faxis]=IRmeas_fft_beamforming(ts,tw,flower,fupper,gain
             
             
             %% Beamforming files 
-            dataOut = audioread('18_05_11_reference_sweep.wav');
-            dataOutArray(:,1) = audioread('18_05_11_rear_speaker.wav');
-            dataOutArray(:,2) = audioread('18_05_11_front_speakers.wav');
-            dataOutArray(:,3) = audioread('18_05_11_front_speakers.wav');
+%             dataOut = audioread('ref_music.wav');
+%             dataOutArray(:,1) = audioread('rear_music.wav');
+%             dataOutArray(:,2) = audioread('front_music.wav');
+%             dataOutArray(:,3) = audioread('front_music.wav');
+
+             %% Beamforming files 
+            d = audioread('ref_music.wav');
+            a = audioread('rear_music_eq.wav');
+            b = audioread('front_music_eq.wav');
+            c = audioread('front_music_eq.wav');
+            
+            dataOut = d(:,1);
+             dataOutArray(:,1) = a(:,1);
+             dataOutArray(:,2) = b(:,1);
+             dataOutArray(:,3) = c(:,1);
+            
             %%
             
             y(:,1) = playRecord(player, dataOutArray);
