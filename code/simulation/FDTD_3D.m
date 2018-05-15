@@ -1,4 +1,4 @@
-function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,roomz,simulation_step,it,solutions)
+function [p_rms_export,grid_size] = FDTD(frequency,roomx,roomy,roomz,simulation_step,it,solutions)
 
 % this file is able to make an fdtd simulation of a speaket with only knowing the impulse
 % response
@@ -204,6 +204,6 @@ end
 
 p_rms(:,:,sp(3)) = sqrt(p_rms(:,:,sp(3))./t);
 
-
+p_rms_export=p_rms(:,:,sp(3));
 
 
