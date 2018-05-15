@@ -60,7 +60,7 @@ As shown in \autoref{fdtd_transparent_source_impulse_stability_calculation} the 
 
 
 \subsection{\gls{fdtd} implementation}
-The aim of this section is to convert the grid to matrices. Since the grid is in three dimensions, where the time is a fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
+The aim of this section is to convert the grid to matrices. Since the grid is in three dimensions, where the time is a fourth dimension, the whole matrix system for pressure and all particle velocity matrices will built on four dimensional matrices. The following \autoref{fig:fdtd_cartesian_grid_matrice} shows a simple grid in a corner with entry notation of $h$ as the hight of the room, $w$ as the width of the room and $l$ as the length of the room.
 
 
 \begin{figure}[H]
@@ -97,7 +97,7 @@ The aim of this section is to convert the grid to matrices. Since the grid is in
 \put(4996,-1771){Particle velocity z-direction}%
 \end{picture}%
 	\caption{The figure visualized a boundary plan through particle velocity plan $x$ in 1 dimension}
-		\label{fig:fdtd_cartesian_grid}
+		\label{fig:fdtd_cartesian_grid_matrice}
 \end{figure}
 
 All simulation is implemented in MATLAB. The $x$ direction is implemented as matrix row direction and $y$ direction is implemented as matrix column direction. The height $h$ is implemented as the third dimension and the time is implemented as the fourth dimension. The particle velocity will be calculated as the first step and the pressure will be calculated as the second step. The time dimension is only as small as 2 pages, because it is only necessary to save at $[l-1]$ and at $[l]$. A page is one dimension in a matrix system, where the number before ´´page"  describes the time in this context and not a two dimension page. There can be many dimensions for pages, where the implementation of the \gls{fdtd} has two page dimensions.  All time steps further away than $[l-1]$ are not used in the calculation and will be deleted for keeping the storage requirements as low as possible. 
