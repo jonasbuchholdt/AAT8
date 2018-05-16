@@ -5,27 +5,27 @@ f=[60 100 150 200 250 300];
 
 fs=44100;
 
-astart=5;
-ares=5;
+astart=10;
+ares=10;
 astop=360;
 
 angles=[astart:ares:astop];
 
 for h=1:(astop/ares)
-    load('beamforming_25.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
+    load('beamforming_11.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
     IR1s=eval(strcat('data',int2str((astart+(h-1)*ares)*10),'.ir(1:end/2)'));
     [tf1(:,h),w]=freqz(IR1s,1,10000,fs);
     clearlist={strcat('data',int2str((astart+(h-1)*ares)*10))};
     clear(clearlist{:})
 end
 [discard index]=min(abs(w-f));
-% for h=1:(astop/ares)
-%     load('beamforming_29.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
-%     IR2s=eval(strcat('data',int2str((astart+(h-1)*ares)*10),'.ir(1:end/2)'));
-%     [tf2(:,h),w]=freqz(IR2s,1,10000,fs);
-%     clearlist={strcat('data',int2str((astart+(h-1)*ares)*10))};
-%     clear(clearlist{:})
-% end
+for h=1:(astop/ares)
+    load('beamforming_29.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
+    IR2s=eval(strcat('data',int2str((astart+(h-1)*ares)*10),'.ir(1:end/2)'));
+    [tf2(:,h),w]=freqz(IR2s,1,10000,fs);
+    clearlist={strcat('data',int2str((astart+(h-1)*ares)*10))};
+    clear(clearlist{:})
+end
 %%
 % tf1(:,2)=tf2(:,2);
 % tf1(:,16)=tf2(:,16);
@@ -38,9 +38,6 @@ end
 % tf1(:,157)=tf2(:,157);
 % tf1(:,176)=tf2(:,176);
 
-tf1(:,32)=(tf1(:,31)+tf1(:,33))./2;
-% tf1(:,29)=(tf1(:,28)+tf1(:,30))./2;
-% tf1(:,43)=(tf1(:,42)+tf1(:,44))./2;
 
 %%
 p1=zeros(length(angles),1);
@@ -81,17 +78,15 @@ figure(2)
 for h=1:length(f)
     for k=1:length(angles)
         p2(k)=rad2deg(angle(tf1(index(h),k)));
-%         if k>1
+        %        if k>1
 %             if abs(p2(k-1)-p2(k))>170
-%                 p2(k)=p2(k)-360;
+%                 p2(k)=p2(k)+360;
 %             elseif abs(p2(k-1)+p2(k))<-140
 %                 p2(k)=p2(k)-360;
 %             end
-%         end
+%        end
     end
-%     if h==3
-%         p2=p2+360
-%     end
+    
 %    p2(3)=(p2(2)+p2(4))/2;
     polarplot(deg2rad([angles angles(1)]),[p2 p2(1)])
     hold on
