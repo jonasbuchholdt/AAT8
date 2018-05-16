@@ -42,9 +42,9 @@ x(end-fadeOutSamps+1:end) = x(end-fadeOutSamps+1:end) .* fadeOut;
 startSilence = ceil(fs/10);
 endSilence = 2*fs;
 % OG: Original Sweep, base of all filtering / scaling
-%OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
+OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
 
-OG = audioread('chililoop.wav');
+%OG = audioread('chililoop.wav');
 
 %%
 % Cost Filtering, Band Stop with Gain

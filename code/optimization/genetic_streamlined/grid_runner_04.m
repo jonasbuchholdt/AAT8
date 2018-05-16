@@ -18,7 +18,7 @@ for k=1:length(Ly)
         estimated_finish=mean(times)*((length(Ly)-k)*length(Lx)+(length(Lx)-h));
         display(strcat('Performing Optimizations, time left: ',int2str(floor(estimated_finish/3600)),':',int2str(floor(mod(estimated_finish,3600)/60)),':',int2str(floor(mod(estimated_finish,60)))))
     end
-    save('test.mat','master','Lx','Ly')
+%    save('test.mat','master','Lx','Ly')
 end
 
 %%
@@ -60,7 +60,7 @@ end
 
 
 
-    save('G03.mat','master','Lx','Ly')
+%    save('G03.mat','master','Lx','Ly')
 %%
 
 clear variables
@@ -81,8 +81,8 @@ Lxopt=Lx(min_col);
 Lyopt=Ly(min_row);
 
 % %-----Manual plot target
-% Lxopt=0.4;
-% Lyopt=-0.25;
+%Lxopt=0.4;
+%Lyopt=-0.4;
 % %-----------------------
 
 display(strcat('Lx: ',num2str(Lxopt),', Ly: ',num2str(Lyopt)))
@@ -104,9 +104,14 @@ angles=[0:pi/180:2.*pi];         % measurement points along the radius
 polardatog=pdata(master.og,Lxopt,Lyopt,'pressure_table_01.mat','phase_table_neutral.mat',angles);
 polardatreg=pdata(master.reg,Lxopt,Lyopt,'pressure_table_01.mat','phase_table_neutral.mat',angles);
 
-
-
-polardatfil=pdata(filter,Lxopt,Lyopt,'pressure_table_01.mat','phase_table_neutral.mat',angles);
+load('pressureout_05.mat')
+master.fltrd.S_40_40=solutions;
+for h=1:length(f)
+    master.fltrd.S_40_40.(strcat('f',int2str(f(h)))).Va=master.fltrd.S_40_40.(strcat('f',int2str(f(h)))).Pa;
+    master.fltrd.S_40_40.(strcat('f',int2str(f(h)))).Vb=master.fltrd.S_40_40.(strcat('f',int2str(f(h)))).Pb;
+    master.fltrd.S_40_40.(strcat('f',int2str(f(h)))).Vc=master.fltrd.S_40_40.(strcat('f',int2str(f(h)))).Pc;
+end
+polardatfil=pdata(master.fltrd,Lxopt,Lyopt,'pressure_table_01.mat','phase_table_neutral.mat',angles);
 
 for h=1:length(f)
     master.reg.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).(strcat('f',int2str(f(h)))).Pa=1*(10^(deltaLpn(h)/20))*(master.reg.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).(strcat('f',int2str(f(h)))).Va)/(master.reg.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).(strcat('f',int2str(f(h)))).Vb);
@@ -229,28 +234,30 @@ botlim=-27;
 % 
 % 
 % 
-% figure(8)
-% polarplot(angles,polardatog(end,:))
-% hold on
-% polarplot(angles,polardatog(21,:))
-% polarplot(angles,polardatog(16,:))
-% polarplot(angles,polardatog(11,:))
-% polarplot(angles,polardatog(6,:))
-% polarplot(angles,polardatog(1,:))
-% title('Optimal Characteristics')
-% 
-% ax = gca;
-% thetaticks([0:20:360])
-% rticks([-27:3:0])
-% ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};
-% 
-% ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160','-140','-120','-100','-80','-60','-40','-20'};
-% ax.ThetaZeroLocation = 'top';
-% ax.ThetaDir='clockwise';
-% %ax.ThetaLim=[-90 90];
-% rlim([botlim 0])
-% legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
-% ax.RAxis.Label.String = 'normed SPL [dB]';
+figure(8)
+polarplot(angles,polardatog(end,:))
+hold on
+polarplot(angles,polardatog(21,:))
+polarplot(angles,polardatog(16,:))
+polarplot(angles,polardatog(11,:))
+polarplot(angles,polardatog(6,:))
+polarplot(angles,polardatog(1,:))
+title('Optimal Characteristics')
+
+ax = gca;
+thetaticks([0:20:360])
+rticks([-27:3:0])
+ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};
+
+ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160','-140','-120','-100','-80','-60','-40','-20'};
+ax.ThetaZeroLocation = 'top';
+ax.ThetaDir='clockwise';
+%ax.ThetaLim=[-90 90];
+rlim([botlim 0])
+legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
+ax.RAxis.Label.String = 'normed SPL [dB]';
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
 
 figure(9)
 polarplot(angles,polardatreg(end,:))
@@ -260,7 +267,32 @@ polarplot(angles,polardatreg(16,:))
 polarplot(angles,polardatreg(11,:))
 polarplot(angles,polardatreg(6,:))
 polarplot(angles,polardatreg(1,:))
-title('Filtered Characteristics')
+title('Regressed')
+
+ax = gca;
+thetaticks([0:20:360])
+rticks([-27:3:0])
+ax.RTickLabel={'','-24','','-18','','-12','','-6','','0'};
+
+ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160','-140','-120','-100','-80','-60','-40','-20'};
+ax.ThetaZeroLocation = 'top';
+ax.ThetaDir='clockwise';
+%ax.ThetaLim=[-90 90];
+rlim([botlim 0])
+legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
+ax.RAxis.Label.String = 'normed SPL [dB]';
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
+
+figure(10)
+polarplot(angles,polardatfil(end,:))
+hold on
+polarplot(angles,polardatfil(21,:))
+polarplot(angles,polardatfil(16,:))
+polarplot(angles,polardatfil(11,:))
+polarplot(angles,polardatfil(6,:))
+polarplot(angles,polardatfil(1,:))
+title('Filter')
 
 ax = gca;
 thetaticks([0:20:360])
@@ -275,4 +307,6 @@ rlim([botlim 0])
 legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
 ax.RAxis.Label.String = 'normed SPL [dB]';
 
-save('G03.mat','master','Lx','Ly')
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
+%save('G03.mat','master','Lx','Ly')

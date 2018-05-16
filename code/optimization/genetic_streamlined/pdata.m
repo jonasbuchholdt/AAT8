@@ -1,7 +1,7 @@
 function [Lppolar]=pdata(instruct,Lxopt,Lyopt,prpath,phpath,angles)
 
-load('pressure_table_01.mat')           % path for correction tables
-load('phase_table_neutral.mat')
+load(prpath)           % path for correction tables
+load(phpath)
 
 flower=instruct.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).fbot;
 fupper=instruct.(strcat('S_',int2str(abs(Lxopt*100)),'_',int2str(abs(Lyopt*100)))).ftop;
