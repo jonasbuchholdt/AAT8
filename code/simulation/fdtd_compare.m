@@ -2,14 +2,16 @@
 
 %%
 clear all
-frequency = 300;
+frequency = 70;
 load('G03')
 load('pressureout_05.mat')
 load('simulated_pressure_02_60_300.mat')
 
-%FDTD_SIMULATION(frequency,result)
+FDTD_SIMULATION(frequency,result)
+
+%%
 %[x,pp,psum] = FDTD_ANALYTIC(frequency,result,master.og.S_40_40)
-[x,pp,psum] = FDTD_ANALYTIC(frequency,result,solutions)
+%[x,pp,psum] = FDTD_ANALYTIC(frequency,result,solutions)
 
 p_a=20*log10(abs(psum)/(20*10^(-6)));
 p_s=20*log10(abs(pp)/(20*10^(-6)));

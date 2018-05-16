@@ -31,11 +31,14 @@ s = surf(coorx,coory,temp)
 s.EdgeColor='none'
 %shading interp
 hold on
-colormap(jet)
-h = colorbar
+
 axis equal
 xlim([-12 12])
 ylim([-12 12])
+zlim([10 100])
+caxis([10 100])
+colormap(jet)
+h = colorbar
 view(2)
 ylabel('Meter [m]')
 xlabel('Meter [m]')
