@@ -1,5 +1,5 @@
-function FDTD_ANALYTIC(frequency,pressure,solutions)
-
+function [thetasort_sim,pp,psum]=FDTD_ANALYTIC(frequency,pressure,solutions)
+%%
 
 %load('pressureout.mat')
 load('cor_table_ones.mat')
@@ -13,7 +13,7 @@ ylength=[-(pressure.room_y/2)+pressure.grid:pressure.grid:(pressure.room_y/2)-pr
 speaker_center = [pressure.room_x/2 pressure.room_y/2 pressure.room_z/2];
 sp = speaker_center/pressure.grid;
 
-temp = 20*log10(abs(p_rms(:,:,sp(3)))/(20*10^(-6)));
+temp = 20*log10(abs(p_rms(:,:,1))/(20*10^(-6)));
 for m=1:length(temp)
     for j=1:length(temp)
         if temp(m,j,1) < 10
@@ -22,7 +22,7 @@ for m=1:length(temp)
     end
 end
 
-psum = p_rms(:,:,sp(3));
+psum = p_rms(:,:,1);
 r=10;
 pp=[];
 thetap=[];
@@ -53,7 +53,7 @@ ppnorm_sim=pp./max(pp);
 Lppolar_sim=20.*log10(abs(ppnorm_sim));
 
 
-
+%%
 
 thetap=[];
 ftop=300;                               % upper frequency border for which parameters should be found
@@ -64,7 +64,7 @@ f_cor=flip(f_mat);
 p_cor=p_mat;
 botlim=-36;
 
-f=flip([fbot:fres:ftop]);
+f=frequency;
 
 r=10;
 ppnorm=0;
@@ -74,61 +74,63 @@ thetasort=[];
 
 angles=[0:pi/180:2.*pi];         % measurement points along the radius
 c=343;
-a=13*2.54/2;
+a=0.0076;
 rho0=1.21;
 t=0;
 coory = 0;
 coorx = 0;
 
 
-for h=1:length(f)
 
-[s1x,s1y,s2x,s2y,s3x,s3y]=tricenter(solutions.(strcat('f',int2str(f(h)))).Lx,solutions.(strcat('f',int2str(f(h)))).Ly);
+
+[s1x,s1y,s2x,s2y,s3x,s3y]=tricenter(solutions.(strcat('f',int2str(f))).Lx,solutions.(strcat('f',int2str(f))).Ly);
 
 
 coorx=sin(angles).*r;
 coory=cos(angles).*r;
 
 
-omega=2*pi*f(h);
+omega=2*pi*f;
 k=omega/c;
 thetaa=tan(k*a);
 
 yshift1=coory-s1y;
 xshift1=coorx-s1x;
 phis1=2*pi-mod(angle(xshift1+i.*yshift1)+deg2rad(270),2*pi)';
-corrections1=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
+corrections1=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
 
 yshift2=coory-s2y;
 xshift2=coorx-s2x;
 phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(270),2*pi)';
-corrections2=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
+corrections2=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
 
 yshift3=coory-s3y;
 xshift3=coorx-s3x;
 phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(270),2*pi)';
-corrections3=interp2(phi_cor,f_cor,p_cor,phis1,f(h),'spline');
+corrections3=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
 
-p1=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Va.*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phia)).*corrections1;
-p2=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Vb.*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib)).*corrections2;
-p3=rho0.*c.*solutions.(strcat('f',int2str(f(h)))).Vc.*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+solutions.(strcat('f',int2str(f(h)))).Phib)).*corrections3;
+p1=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pa./413).*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phia)).*corrections1;
+p2=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pb./413).*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib)).*corrections2;
+p3=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pc./413).*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib)).*corrections3;
+
+
 
 psum=p1+p2+p3;
 
 ppnorm=psum./max(psum);
-Lppolar(h,:)=20.*log10(abs(ppnorm));
+Lppolar=20.*log10(abs(ppnorm));
  for z=1:size(Lppolar,2)
-     if Lppolar(h,z)<botlim
-         Lppolar(h,z)=Lppolar(h,z-1);
+     if Lppolar(z)<botlim
+         Lppolar(z)=Lppolar(z-1);
      end
  end
-end
 
-fv = (frequency-60)/10;
 
-h=1;
+
+
+
 figure
-polarplot(angles,Lppolar(end-fv,:))
+polarplot(angles,Lppolar)
 hold on
 polarplot(thetasort_sim,Lppolar_sim)
 
@@ -148,4 +150,9 @@ legend(anal,simu,'Location','northoutside')
 ax.RAxis.Label.String = 'normed SPL [dB]';
 
 set(gca,'FontSize', 16);
+
+
+
+
+
 

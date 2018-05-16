@@ -126,15 +126,32 @@ In this section, the first order gradient speaker simulation result will be pres
 In this section, the three speaker array simulation result will be presented and compared to the analytical model. The following figures show the results from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step is \SI{40}{\hertz}. All results have been achieved according to the description in this chapter. All polar plots are normalized, so that they only show the attenuation all around the circumference. The exact pressure from the analytical model and the \gls{fdtd} simulation will be stated in the caption of every figure. 
 
 
+Until now the analytical model have been based on relative pressure. This have been done because the radius of the acoustical center sphere have been unknown. At this point it is now possible to estimate the acoustical sphere radius for this problem by solving 'a' in \autoref{eq:aug_omni} with knowing the frequency, the pressure on the main axis at a distance of \SI{10}{\meter} by doing a \gls{fdtd} simulating. It have been chosen that the acoustical center sphere shall be solved from \SI{60}{\hertz}. The particle velocity is calculated from the impedance relation, which state
+
+\begin{equation}
+Z_{air}=\frac{p_a}{v}
+\end{equation}  
+
+    \startexplain
+    		\explain{$Z_{air}$ is the air impedance}{1}
+    		\explain{$p_a$ is the sound pressure at a distance of \SI{10}{\meter} of the analytical model}{\si{\pascal}}
+    		\explain{$v$ is the velocity}{1}
+    \stopexplain
+
+The sphere radius 'a' is solved to be \SI{7.6}{\milli\meter}. The following ploar plot will both show the absolute and the relative pressure for both the analytical model and the \gls{fdtd} simulation
+
+
+
+
 \begin{figure}[H]
 \centering
 \begin{subfigure}[htbp]{0.55\textwidth}
-		\includegraphics[width=\textwidth]{60_hz_fdtd_plot}
+		\includegraphics[width=\textwidth]{60_hz_fdtd_plot.eps}
 		\caption{The figure shows the \gls{fdtd} simulation of \SI{60}{\hertz}}
 		\label{fig:fdtd_60_Hz}
 \end{subfigure}
 \begin{subfigure}[htbp]{0.35\textwidth}
-		\includegraphics[width=\textwidth]{60_hz_polar_plot}
+		\includegraphics[width=\textwidth]{60_hz_polar_plot.eps}
 		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{60}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_60_Hz}
 \end{subfigure} 
@@ -145,64 +162,80 @@ In this section, the three speaker array simulation result will be presented and
 \begin{figure}[H]
 \centering
 \begin{subfigure}[htbp]{0.55\textwidth}
-		\includegraphics[width=\textwidth]{70_hz_fdtd_plot}
+		\includegraphics[width=\textwidth]{100_hz_fdtd_plot.eps}
 		\caption{The figure shows the \gls{fdtd} simulation of \SI{70}{\hertz}}
-		\label{fig:fdtd_70_Hz}
-\end{subfigure}
-\begin{subfigure}[htbp]{0.35\textwidth}
-		\includegraphics[width=\textwidth]{70_hz_polar_plot}
-		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{70}{\hertz} with a radius of \SI{10}{\meter}}
-		\label{fig:polar_70_Hz}
-\end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{70}{\hertz}}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-\begin{subfigure}[htbp]{0.55\textwidth}
-		\includegraphics[width=\textwidth]{80_hz_fdtd_plot}
-		\caption{The figure shows the \gls{fdtd} simulation of \SI{80}{\hertz}}
-		\label{fig:fdtd_80_Hz}
-\end{subfigure}
-\begin{subfigure}[htbp]{0.35\textwidth}
-		\includegraphics[width=\textwidth]{80_hz_polar_plot}
-		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{80}{\hertz} with a radius of \SI{10}{\meter}}
-		\label{fig:polar_80_Hz}
-\end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{80}{\hertz}}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-\begin{subfigure}[htbp]{0.55\textwidth}
-		\includegraphics[width=\textwidth]{90_hz_fdtd_plot}
-		\caption{The figure shows the \gls{fdtd} simulation of \SI{90}{\hertz}}
-		\label{fig:fdtd_90_Hz}
-\end{subfigure}
-\begin{subfigure}[htbp]{0.35\textwidth}
-		\includegraphics[width=\textwidth]{90_hz_polar_plot}
-		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{90}{\hertz} with a radius of \SI{10}{\meter}}
-		\label{fig:polar_90_Hz}
-\end{subfigure} 
-\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array model at \SI{90}{\hertz}}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-\begin{subfigure}[htbp]{0.55\textwidth}
-		\includegraphics[width=\textwidth]{100_hz_fdtd_plot}
-		\caption{The figure shows the \gls{fdtd} simulation of \SI{100}{\hertz}}
 		\label{fig:fdtd_100_Hz}
 \end{subfigure}
 \begin{subfigure}[htbp]{0.35\textwidth}
-		\includegraphics[width=\textwidth]{100_hz_polar_plot}
-		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{100}{\hertz} with a radius of \SI{10}{\meter}}
+		\includegraphics[width=\textwidth]{100_hz_polar_plot.eps}
+		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{70}{\hertz} with a radius of \SI{10}{\meter}}
 		\label{fig:polar_100_Hz}
 \end{subfigure} 
 \caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{100}{\hertz}}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[htbp]{0.55\textwidth}
+		\includegraphics[width=\textwidth]{150_hz_fdtd_plot.eps}
+		\caption{The figure shows the \gls{fdtd} simulation of \SI{80}{\hertz}}
+		\label{fig:fdtd_150_Hz}
+\end{subfigure}
+\begin{subfigure}[htbp]{0.35\textwidth}
+		\includegraphics[width=\textwidth]{150_hz_polar_plot.eps}
+		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{80}{\hertz} with a radius of \SI{10}{\meter}}
+		\label{fig:polar_150_Hz}
+\end{subfigure} 
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{150}{\hertz}}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[htbp]{0.55\textwidth}
+		\includegraphics[width=\textwidth]{200_hz_fdtd_plot.eps}
+		\caption{The figure shows the \gls{fdtd} simulation of \SI{90}{\hertz}}
+		\label{fig:fdtd_200_Hz}
+\end{subfigure}
+\begin{subfigure}[htbp]{0.35\textwidth}
+		\includegraphics[width=\textwidth]{200_hz_polar_plot.eps}
+		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{90}{\hertz} with a radius of \SI{10}{\meter}}
+		\label{fig:polar_200_Hz}
+\end{subfigure} 
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array model at \SI{200}{\hertz}}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[htbp]{0.55\textwidth}
+		\includegraphics[width=\textwidth]{250_hz_fdtd_plot.eps}
+		\caption{The figure shows the \gls{fdtd} simulation of \SI{100}{\hertz}}
+		\label{fig:fdtd_250_Hz}
+\end{subfigure}
+\begin{subfigure}[htbp]{0.35\textwidth}
+		\includegraphics[width=\textwidth]{250_hz_polar_plot.eps}
+		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{100}{\hertz} with a radius of \SI{10}{\meter}}
+		\label{fig:polar_250_Hz}
+\end{subfigure} 
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{250}{\hertz}}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[htbp]{0.55\textwidth}
+		\includegraphics[width=\textwidth]{300_hz_fdtd_plot.eps}
+		\caption{The figure shows the \gls{fdtd} simulation of \SI{100}{\hertz}}
+		\label{fig:fdtd_300_Hz}
+\end{subfigure}
+\begin{subfigure}[htbp]{0.35\textwidth}
+		\includegraphics[width=\textwidth]{300_hz_polar_plot.eps}
+		\caption{The figure shows the analytical- and \gls{fdtd} polar plot at \SI{100}{\hertz} with a radius of \SI{10}{\meter}}
+		\label{fig:polar_300_Hz}
+\end{subfigure} 
+\caption{The figure compares the analytical model and the \gls{fdtd} model of the speaker array at \SI{300}{\hertz}}
 \end{figure}
 
 \section{Conclusion}

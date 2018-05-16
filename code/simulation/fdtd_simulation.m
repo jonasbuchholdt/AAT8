@@ -17,7 +17,7 @@ ylength=[-(pressure.room_y/2)+pressure.grid:pressure.grid:(pressure.room_y/2)-pr
 speaker_center = [pressure.room_x/2 pressure.room_y/2 pressure.room_z/2];
 sp = speaker_center/pressure.grid;
 
-temp = 20*log10(abs(p_rms(:,:,sp(3)))/(20*10^(-6)));
+temp = 20*log10(abs(p_rms(:,:,1))/(20*10^(-6)));
 for m=1:length(temp)
     for j=1:length(temp)
         if temp(m,j,1) < 10
@@ -34,13 +34,16 @@ hold on
 colormap(jet)
 h = colorbar
 axis equal
-xlim([-25 25])
-ylim([-25 25])
+xlim([-12 12])
+ylim([-12 12])
 view(2)
 ylabel('Meter [m]')
 xlabel('Meter [m]')
 set(get(h,'label'),'string','Pascal [Pa]');
 
-set(gca,'FontSize', 16);
+set(gca,'FontSize', 14);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
+
 
 
