@@ -88,10 +88,80 @@ The input and the output gain of the \gls{bandk} 2636 microphone power supply we
 The desired positioning of the acoustic centers of the speakers was found to be describable as \texttt{Lx}$\,=\,\SI{40}{\centi\meter}$ and \texttt{Ly}$\,=\,\SI{-40}{\centi\meter}$ in \autoref{sec:opt_result}. In order to make achieve the positioning without the loudspeaker cabinets physically interfering, the azimuth of both of the two front loudspeakers \texttt{B} and \texttt{C} was rotated by \SI{50}{\degree} inwards. The speaker positions were adjusted according to the finding of \autoref{ax:directional_2}, that the acoustic center of the speaker is approx. \SI{17}{\centi\meter}. The array center was set on the rotational axis of the turntable, in order to match the way, the point sources are set up in the analytical model and the \gls{fdtd} simulation.
 This positioning was used as a baseline for measurements and was later adjusted to account for imprecisions and assymetries in the way the speakers were set up and further tweaked with an heuristic approach to changing the positions in order to achieve the best possible result with the given hardware and without changing the \gls{sp}-parameters. It is assumed that these tweeks were necessary in order to account for the influence that the speaker cabinets had on the sound field. By the time of the final measurements, the rear speaker \texttt{A} had been moved towards the front by \SI{4.5}{\centi\meter}, the side speakers had been moved towards the inside by \SI{2}{\centi\meter} each, and their azimuth angle had been increased to approx. \SI{55}{\degree}.
 To illustrate the way, the speakers were set up, a birdseye view is given in \autoref{fig:array_pic}.
-\begin{figure}[h]\label{fig:array_pic}
+\begin{figure}[h]
 	\centering
     \includegraphics[width=0.5\textwidth]{speaker_array.jpg}
+    \label{fig:array_pic}
     \caption{Speaker array arrangement}
 \end{figure}
 
 \section*{Results}
+In the course of the measurement campaign, numerous polar responses have been measured. The main assessment on how the results are to be interpreted in the context of the overall project can be found in REFERENCE TO MAIN CHAPTER.\\
+For this appendix, only an overview over the measured data is given.
+The first measurement that was conducted, the polar response of the beamforming array with the speaker cabinets arranged in the inital positioning was recorded. The results are shown in \autoref{fig:05_11_initial}.
+\begin{figure}[h]
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.85\textwidth]{05_11_initial_pr.eps}
+\subcaption{Pressure}
+\label{fig:05_11_init_pr}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{05_11_initial_ph.eps}
+\subcaption{Phase}
+\label{fig:05_11_init_ph}
+\end{subfigure}\\
+\caption{Polar response, initial positioning}  
+\label{fig:05_11_initial}
+\end{figure}
+
+\begin{figure}[h]
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.85\textwidth]{05_11_A_pr.eps}
+\subcaption{Speaker A, pressure}
+\label{fig:05_11_A_pr}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{05_11_A_ph.eps}
+\subcaption{Speaker A, phase}
+\label{fig:05_11_A_ph}
+\end{subfigure}\\
+\hspace{0.1\textheight}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.85\textwidth]{05_11_B_pr.eps}
+\subcaption{Speaker B, pressure}
+\label{fig:05_11_A_pr}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{05_11_B_ph.eps}
+\subcaption{Speaker B, phase}
+\label{fig:05_11_A_ph}
+\end{subfigure}\\
+\hspace{0.1\textheight}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.85\textwidth]{05_11_C_pr.eps}
+\subcaption{Speaker C, pressure}
+\label{fig:05_11_A_pr}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{05_11_C_ph.eps}
+\subcaption{Speaker C, phase}
+\label{fig:05_11_A_ph}
+\end{subfigure}\\
+\caption{Polar responses of each speakers alone, final positioning}  
+\label{fig:05_11_single}
+\end{figure}
+
+\begin{figure}[h]
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.85\textwidth]{05_11_all_pr.eps}
+\subcaption{Pressure}
+\label{fig:05_11_all_pr}
+\end{subfigure}
+\begin{subfigure}[c]{0.5\textwidth}
+\includegraphics[width=0.95\textwidth]{05_11_all_ph.eps}
+\subcaption{Phase}
+\label{fig:05_11_all_ph}
+\end{subfigure}\\
+\caption{Polar response of the speaker array without beamforming enables, final positioning}  
+\label{fig:05_11_all}
+\end{figure}
