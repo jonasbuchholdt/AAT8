@@ -5,14 +5,14 @@ f=[60 100 150 200 250 300];
 
 fs=44100;
 
-astart=5;
-ares=5;
+astart=2;
+ares=2;
 astop=360;
 
 angles=[astart:ares:astop];
 
 for h=1:(astop/ares)
-    load('beamforming_25.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
+    load('ir_01.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
     IR1s=eval(strcat('data',int2str((astart+(h-1)*ares)*10),'.ir(1:end/2)'));
     [tf1(:,h),w]=freqz(IR1s,1,10000,fs);
     clearlist={strcat('data',int2str((astart+(h-1)*ares)*10))};
@@ -38,7 +38,7 @@ end
 % tf1(:,157)=tf2(:,157);
 % tf1(:,176)=tf2(:,176);
 
-tf1(:,32)=(tf1(:,31)+tf1(:,33))./2;
+% tf1(:,32)=(tf1(:,31)+tf1(:,33))./2;
 % tf1(:,29)=(tf1(:,28)+tf1(:,30))./2;
 % tf1(:,43)=(tf1(:,42)+tf1(:,44))./2;
 
