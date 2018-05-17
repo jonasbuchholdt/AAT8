@@ -141,7 +141,7 @@ ET250_3D('udp_stop')
 
 figure(1)
 
-t_result = data100.ir(1:end/2);
+t_result = data3600.ir(1:end/2);
 irtimeh = irtime(1:end/2);
 plot(irtimeh,t_result)
 [result,w] = freqz(t_result,1,22000,44100);
@@ -156,7 +156,7 @@ grid on
 
 axis([20 20000 20 100])
 xlabel('Frequency [Hz]')
-ylabel('Pressure [Pa]')
+ylabel('SPL [dB]')
 
 
 %%
