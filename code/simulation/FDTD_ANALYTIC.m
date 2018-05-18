@@ -1,6 +1,10 @@
 function [thetasort_sim,pp,psum]=FDTD_ANALYTIC(frequency,pressure,solutions)
 %%
 
+[plotdata,degree] = FDTD_MEASUREMENT(frequency);
+
+measurment=plotdata-max(plotdata);
+
 %load('pressureout.mat')
 load('cor_table_ones.mat')
 %load('pressuresec.mat')
@@ -133,6 +137,7 @@ figure
 polarplot(angles,Lppolar)
 hold on
 polarplot(thetasort_sim,Lppolar_sim)
+polarplot(degree,measurment)
 
 ax = gca;
 thetaticks([0:20:360])
@@ -146,13 +151,14 @@ ax.ThetaDir='clockwise';
 rlim([botlim 0])
 anal = strcat('f = ',int2str(frequency),' Hz (Analytical)');
 simu = strcat('f = ',int2str(frequency),' Hz (FDTD)');
-legend(anal,simu,'Location','northoutside')
+result = strcat('f = ',int2str(frequency),' Hz (measurement)');
+legend(anal,simu,result,'Location','northoutside')
 ax.RAxis.Label.String = 'normed SPL [dB]';
 
-set(gca,'FontSize', 16);
 
-
-
+set(gca,'FontSize', 14);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
 
 
 
