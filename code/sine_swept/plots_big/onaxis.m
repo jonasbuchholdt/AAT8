@@ -1,4 +1,4 @@
-clear all
+%clear all
 
 angle=360;
 fs=44100;
@@ -18,11 +18,13 @@ fs=44100;
     [tf2f(:),w]=freqz(IR2s,1,22000,fs);
     
     tf2 = tf2f./calibration.preamp_transfer_function';
-  
+ tt = tf2(61:1:301);
+ wt = w(61:1:301);
+    
     figure(1)
 plot(w,20*log10(abs(tf1)/(20*10^(-6))))
 hold on
-plot(w,20*log10(abs(tf2)/(20*10^(-6))))
+plot(wt,20*log10(abs(tt)/(20*10^(-6)))-flip((Lppolar(:,1)')-77))
 xlim([60 300])
 %figure(2)
 %semilogx(w,20*log(abs(tf2./tf1)))
@@ -36,6 +38,10 @@ xlabel('Frequency [Hz]')
 ylabel('SPL [dB]')
 legend('Active','Disable')
 
+%pbaspect([2 1 1])
 set(gca,'FontSize', 12);
 set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
 fig.PaperPositionMode   = 'auto';
+
+
+

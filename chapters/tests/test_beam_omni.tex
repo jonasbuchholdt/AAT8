@@ -2,7 +2,7 @@
 
 The aim of this section is to evaluate the beamforming array performance. In \autoref{} it was discovered that the pressure in front of the beamforming array do not act linear form \SI{60}{\hertz} to \SI{300}{\hertz} and therefore a cost filter was needed. This section will evaluate the use of a cost filter with reference to a omnidirectional measurement of the speaker array. The comparing case which is used in \autoref{sec:main_axis}, where all speaker is placed on a line in \autoref{fig:ref_omni_array} has to be changed because of physical constrains. First of all it would be needed to build a new speaker stand of this measurement, and next the middle speaker do not have space to be placed in the line. Since the acoustical center of speaker B and C in \autoref{fig:ref_omni_array} have to be \SI{40}{\centi\meter} apart, and theys cabinet both are \SI{40}{\centi\meter} in width, they have to be placed against each other and therefore the speaker A can not be placed as shown. Therefore it have been decided that the comparing between beamforming array and omnidirectional array is done with the same position but when the array in in omnidirectional mode all speaker gets the same signal. It would have been possible to build a new stand, where speaker A was placed such that at  least all the acoustical center was aligned with the right distance. This stand was not build.
 
-To do the comparisen the test is done as in \autoref{sec:05_11_results} where the beamforming is off and on. This means that the reference sweep was played on all speaker when the beamforming is off, and therefore the pressure is comparable with the beamforming on. The difference of thoes two measurement should be zero if the cost filter is working prefect and the acoustical center is at is exact position. The following \autoref{} shows the \gls{spl} in front of the array on the main axis with and without beamforming.
+To do the comparisen the test is done as in \autoref{sec:05_11_results} where the beamforming is off and on. This means that the reference sweep was played on all speaker when the beamforming is off, and therefore the pressure is comparable with the beamforming on. The difference of thoes two measurement should be zero if the cost filter is working prefect and the acoustical center is at is exact position. The following \autoref{fig:beamforming_off_on} shows the \gls{spl} in front of the array on the main axis with and without beamforming.
 
   \begin{figure}[H]
 	\centering
@@ -12,25 +12,40 @@ To do the comparisen the test is done as in \autoref{sec:05_11_results} where th
 \end{figure}
 
 
+In \autoref{fig:beamforming_off_on} the graph with and without beamforming shows that the cost filter do have a function and actually works very well from \SI{70}{\hertz} to \SI{250}{\hertz}. Outside those frequency, the graph shows that the array with beamforming does not fit the omnidirectional test. As explain, the cost filter is build on the aligned array en the test is done as a triangle, this might have an effect. To investigate the different between the aligned model and the triangle model with disabled beamforming, the difference in there analytical model will be analysed to research the problem. The following \autoref{fig:beamforming_aligned_triangle} shows the pressure graph of both analytical model in relative to the aligned model.
 
+  \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{beamforming_aligned_triangle.eps}
+	\caption{The figure shows the relative pressure in front for the aligned array and the triangle array without beamforming}
+		\label{fig:beamforming_aligned_triangle}
+\end{figure}
 
+The difference in the analytical models in \autoref{fig:beamforming_aligned_triangle} supports that the pressure between the aligned model and the triangle model without beamforming is different. The triangle model drops in pressure when the frequency go to \SI{30}{\hertz} as in \autoref{fig:beamforming_off_on} but more drastic. This shows that changing from the aligned model to the triangle model that the cost is different specially on the high frequency as also is seen in \autoref{fig:beamforming_off_on}. This model change is then one of the factor that do that the graph with beamforming disabled in \autoref{fig:beamforming_off_on} have a offset in raising frequency. The following \autoref{fig:beamforming_off_on_corrected} shows the graph where the difference from \autoref{fig:beamforming_aligned_triangle} is added to the triangle model without beamforming in  \autoref{fig:beamforming_off_on}
 
+  \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{beamforming_off_on_corrected.eps}
+	\caption{The figure shows the \gls{spl} in front for the array with a distance of \SI{4.92}{\meter}, where the blue graph is with beamforming and the red graph is without beamforming and with the analytical correction}
+		\label{fig:beamforming_off_on_corrected}
+\end{figure}
 
+At this point, the cost filter seems to fit very well according to the graphs in \autoref{fig:beamforming_off_on_corrected}. It can be seen that there is a gain offset of \SI{2}{\decibel} otherwise both graph do have much similar shape. 
 
-
-because of the change the cost filter might have to be changed 
+It is interesting to see how the beamforming filter does all around the speaker array. Therefore the different between the array with active and disabled beamforming will present next. The analytical correction is not added to the beamforming polar plot. The following \autoref{fig:polar_plot_dif_result} shows the ploar plot of the difference. 
 
 
  \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{polar_plot_dif_result.eps}
+	\includegraphics[width=0.9\textwidth]{polar_plot_dif_result.eps}
 	\caption{The figure shows the \gls{spl} in front for the array with a distance of \SI{4.92}{\meter}, where the blue graph is with beamforming and the red graph is without beamforming}
 		\label{fig:polar_plot_dif_result}
 \end{figure}
 
 
-instead of using the case in autoref{} it was desided to use a direct comparing 
 
-other stand
 
-direct comparing.
+\section{Conclusion}
+It can be concluded that the cost filter works as intended but there is approximate \SI{2}{\decibel} gain differ in the measurement over most of the frequency with beamforming active and with beamforming disabled when the analytical correction is added to the measurement. 
+
+
