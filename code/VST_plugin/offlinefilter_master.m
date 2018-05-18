@@ -108,20 +108,33 @@ fraxis=(0:1:length(OG)-1)*fs/length(OG);
 taxis=[0:(1/fs):length(OG)/fs-(1/fs)];
 l=length(OG);
 
+% figure(1)
+% plot(taxis,envelope(OG))
+% hold on
+% plot(taxis,envelope(costfiltered))
+% plot(taxis,envelope(beamfiltered))
+% plot(taxis,envelope(frontout))
+% plot(taxis,envelope(rearout))
+% plot(taxis,envelope(frontoutn))
+% plot(taxis,envelope(rearoutn))
+% plot(taxis,envelope(reference))
+% legend('Original sweep','Cost filter','Cost + beam filter','Cost filter + BP','Cost + beam + BP','Front output','Rear output','Reference')
+% xlabel('Time [s]')
+% ylabel('Amplitude [1]')
+% grid minor
+
 figure(1)
-plot(taxis,envelope(OG))
-hold on
-plot(taxis,envelope(costfiltered))
-plot(taxis,envelope(beamfiltered))
-plot(taxis,envelope(frontout))
-plot(taxis,envelope(rearout))
 plot(taxis,envelope(frontoutn))
+hold on
 plot(taxis,envelope(rearoutn))
 plot(taxis,envelope(reference))
-legend('Original sweep','Cost filter','Cost + beam filter','Cost filter + BP','Cost + beam + BP','Front output','Rear output','Reference')
+xlim([0 length(frontoutn)/fs])
+ylim([0 1])
+legend('Front output','Rear output','Reference sweep')
 xlabel('Time [s]')
-ylabel('Amplitude [1]')
+ylabel('Sweep Envelope [1]')
 grid minor
+
 
 figure(2)
 semilogx(fraxis,20*log10(abs(fft(OG)/l)))

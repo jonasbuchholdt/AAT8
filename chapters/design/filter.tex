@@ -1,6 +1,6 @@
 \section{Filter}\label{sec:filter_design}
 
-The aim of this chapter is to analyse the data from \ref{sec:opt_result} and choose the implementation method. From the beamforming optimization \autoref{sec:genetic_con} it was concluded that there shall be a cost filter and a beam forming filter. This chapter starts analyse the cost filter and design a filter solution, then the beamforming filter will be analysed and a solution will be designed.
+The aim of this chapter is to analyze the data from \ref{sec:opt_result} and choose the implementation method. From the beamforming optimization \autoref{sec:genetic_con} it was concluded that there shall be a cost filter and a beam forming filter. This chapter starts analyse the cost filter and design a filter solution, then the beamforming filter will be analysed and a solution will be designed.
 
 
 \section{The cost filter}
@@ -344,9 +344,19 @@ It can be seen on \autoref{fig:filter_vs_reg} that the optimized transfer functi
 		\label{fig:opt_res_finish}
 \end{figure}
 
+\section{Filtering the test signal for directionality measurement}\label{sec:signal_filtering}
+For the sake of simplicity, when investigating the directional characteristics of a speaker array as described in \autoref{ax:directional_3}, the filtering is done offline and the measurement routine is fed different signals as reference and outputs. These are achieved by generating a sweep in MATLAB and then using the \texttt{filter} function. The resulting signals are stored as wave files and are therefore normed so that there is no value bigger then 1.
+The upper envelope of the sweep time signals is illustrated in \autoref{fig:time_signals}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{time_signals.eps}
+	\caption{Upper envelope of sweeps for array polar response measurement}
+		\label{fig:time_signal}
+\end{figure}
+
 
 \section{Conclusion}
-It can be concluded that it is possible to design the cost filter as a band stop \gls{iir} filter and the beamforming filter as a low pass \gls{fir} filter. It can also be concluded that the filter does not change the beamforming significant, it accely change the  beamforming less than or equal \SI{1}{\decibel} for all frequency, both in the back and in the side of the polar plot \autoref{fig:opt_res_finish}.
+It can be concluded that it is possible to design the cost filter as a band stop \gls{iir} filter and the beamforming filter as a low pass \gls{fir} filter. It can also be concluded that the filter does not change the optimal beamforming significantly, it actually only differs from the optimum directional characteristics less than or equal to \SI{1}{\decibel} for all frequencies, both in the back and in the side of the polar plot \autoref{fig:opt_res_finish}.
 
 
 

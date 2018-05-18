@@ -34,8 +34,8 @@ for k=1:size(p_raw,1)
 end
 phi_mat=phi_mat';
 
-save('cor_table_01.mat','phi_mat','f_mat','p_mat')
-correction=20*log10(interp2(phi_mat,f_mat,p_mat,phinter,finter,'spline'))
+%save('cor_table_01.mat','phi_mat','f_mat','p_mat')
+%correction=20*log10(interp2(phi_mat,f_mat,p_mat,phinter,finter,'spline'))
 
 close all
 surf(phi_mat,f_mat,p_mat)

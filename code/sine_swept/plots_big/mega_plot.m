@@ -109,3 +109,6 @@ ax.ThetaTickLabel={'0','20','40','60','80','100','120','140','160','180','-160',
 ax.RAxis.Label.String = 'Phase [Deg]';
 legend('f =  60 Hz','f = 100 Hz','f = 150 Hz','f = 200 Hz','f = 250 Hz','f = 300 Hz')
 set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+set(gca,'FontSize', 12);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';

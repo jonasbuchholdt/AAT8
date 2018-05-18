@@ -1,8 +1,8 @@
 \section{Problem Description}
-In order to realize a directional low-mid emission with the chosen speaker configuration, signal parameters have to be chosen in a specific manner. The directional characteristics of the speaker array depend on the amplitude and phase of the signal that is transduced via the individual speakers. The resulting directional characteristics of a given set of signal-parameters can be described by the use of a analytical model, that has been supplemented with knowledge from measuring the polar response of the speakers.\\
+In order to realize a directional low-mid emission with the chosen speaker configuration, signal parameters have to be chosen in a specific manner. The directional characteristics of the speaker array depend on the amplitude and phase of the signal that is transduced via the individual speakers. The resulting directional characteristics of a given set of signal-parameters can be described by the use of an analytical model, that has been supplemented with knowledge from measuring the polar response of the speakers.\\
 Assuming, that the model describing the directional characteristics of the array is sufficiently accurate, it is possible to form an optimization problem. Any set of \gls{sp} parameters can be evaluated by plugging it into the supplemented analytical model, which will be used to form an objective function. Solutions, that resemble the desired directional characteristic are considered optimal.\\
 The supplemented analytical model describes intricate physical behaviour and is related to the desired behaviour of the speaker array.  This makes it favourable to approach the given problem with combinatorial optimization. Specifically, it has been chosen to handle the problem with a \gls{ga}, where the supplemented analytical model used to evaluate the \textit{fitness}.
-
+This decision is based on the \gls{ga} being a flexible approach compared to finding a specific way of solving the optimization problem as a continuous problem. When using a \gls{ga}, changes in the objective function can be accounted for with relatively little effort. This is especially handy in a development process like it is the case in this project. The basic framework of the optimization stays the same, while changes to the speaker configuration, definition of the cost, and mathematical representation of the sound radiated from the speaker can be made. In this project this has been the case with the introduction of the supplemented speaker model in \autoref{sec:correction}. The use of a correction table would introduce problems when trying to approach the optimization as a continuous optimization problem.
 
 \section{\gls{ga}: Fundamentals}\label{sec:ga_fundamental}
 In \citep[p. 7]{goldberg89}, the author designates four main properties in order to elucidate genetic algorithms. 
@@ -83,7 +83,7 @@ Because the genetic algorithm works with a pool of solutions at any given time, 
 \caption{Phenotype and Genotype relations, visualization of genes and fitness evaluation. Genotype parameters are denoted in \textcolor{green3}{green} and the fitness evaluation method is denoted in \textcolor{blue}{blue}.}
 \label{fig:gene_setup}
 \end{figure}
-According to point  3. in \autoref{sec:ga_fundamental}, there needs to be a function that evaluates the fitness of every genotype based on some criteria. The way that this is achieved is also visualized in \autoref{fig:gene_setup}. The corresponding code is shown in Appendix \ref{axs:fitness}. The coordinates of a \textcolor{blue}{circle} around the centroid of the triangle between the \textcolor{red}{acoustic centers} are calculated. The radius of the circle is significantly bigger than the size of the speaker array. In this project, the chosen radius is ten meter for both the analytical model and the simulation. From these circle coordinates a set of coordinates, that describes the distance to each \textcolor{red}{acoustic center}, is deduced for every one of the speakers. Using these coordinates, the gain and phase parameters from the alleles as well as the frequency, for which the optimization is excecuted, the pressure from each speaker is calculated using \autoref{eq:aug_omni}. The pressures are added in order to get the resulting pressure along the circumference. At this point it is crucial to take intro account the phase and therefore it is not the absolute pressure but the complex pressure that is added together.\\
+According to point  3. in \autoref{sec:ga_fundamental}, there needs to be a function that evaluates the fitness of every genotype based on some criteria. The way that this is achieved is also visualized in \autoref{fig:gene_setup}. The corresponding code is shown in Appendix \ref{axs:fitness}. The coordinates of a \textcolor{blue}{circle} around the centroid of the triangle between the \textcolor{red}{acoustic centers} are calculated. The position of the centroid will from now on be related to as the \textit{array center}. The radius of the circle is significantly bigger than the size of the speaker array. In this project, the chosen radius is ten meter for both the analytical model and the simulation. From these circle coordinates a set of coordinates, that describes the distance to each \textcolor{red}{acoustic center}, is deduced for every one of the speakers. Using these coordinates, the gain and phase parameters from the alleles as well as the frequency, for which the optimization is excecuted, the pressure from each speaker is calculated using \autoref{eq:aug_omni}. The pressures are added in order to get the resulting pressure along the circumference. At this point it is crucial to take intro account the phase and therefore it is not the absolute pressure but the complex pressure that is added together.\\
 The ultimate goal of running this \gls{ga} is getting phenotype solution, that leads to a particular desired directional characteristic of the speaker array. This is implemented, by weighting the normed absolute pressure along the circumference according to beam forming preferences. This means, pressure in the direction in the direction, in which sound emission is desired, is assigned a low cost, whereas pressure in a direction, in which sound emission is undesired, is assigned a high cost. When the normed and weighted pressure is summed, a fitness value is calculated. The formerly described way of applying weight leads to lower values corresponding to fitter solutions.\\
 The final point 4. from \autoref{sec:ga_fundamental} mentions probabilistic transition rules. The implementation of these is shown in Appendices \ref{axs:parents}, \ref{axs:offspring} and \ref{axs:mutation}. The genotypes, that are used to generate new genotypes for the subsequent generation are selected via tournament
 selection \citep{tournament}. This ensures plenty of randomness while there is still some pressure caused by the fitness of the individual solution.
@@ -105,40 +105,6 @@ We can introduce the frequency dependent beamforming cost $\Delta L_{p}(f)$ as t
 \begin{equation}\label{eq:beam_cost}
 \Delta L_{p}(f)\,=\,L_{p,ref}(f)-L_{p,beam}(f)
 \end{equation}
-
-\begin{figure}[h]
-	\centering
-\begin{picture}(0,0)%
-\includegraphics[scale=0.5]{ref_omni_array.pdf}%
-\end{picture}%
-\setlength{\unitlength}{1658sp}%3315sp}%
-%
-\begingroup\makeatletter\ifx\SetFigFont\undefined%
-\gdef\SetFigFont#1#2#3#4#5{%
-  \reset@font\fontsize{#1}{#2pt}%
-  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
-  \selectfont}%
-\fi\endgroup%
-\begin{picture}(7975,7142)(-672,-4729)
-\put(1641,-201){\color[rgb]{1,0,0}Ac. Center A}%
-\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
-\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{0}}%
-\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{0}}%
-\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{0}}%
-\put(2271,2230){\color[rgb]{0,0,0}$L_{p,ref}$}%
-\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
-\put(-1409,-201){\color[rgb]{1,0,0}Ac. Center B}%
-\put(3936,-651){\color[rgb]{1,0,0}Ac. Center C}%
-\put(161,-2106){\color[rgb]{0,0,0}Speaker B}%
-\put(1421,-2506){\color[rgb]{0,0,0}Speaker A}%
-\put(2681,-2906){\color[rgb]{0,0,0}Speaker C}%
-\put(2476,-1051){\color[rgb]{1,0,0}Array center}%
-\end{picture}%
-	\caption{Configuration for reference pressure $L_{p,ref}$.}
-		\label{fig:ref_omni_array}
-\end{figure}
 
 \begin{figure}[h]
 	\centering
@@ -172,6 +138,40 @@ We can introduce the frequency dependent beamforming cost $\Delta L_{p}(f)$ as t
 \end{picture}%
 	\caption{Configuration for main axis beamformed pressure.}
 		\label{fig:ref_caridioid_array}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+\begin{picture}(0,0)%
+\includegraphics[scale=0.5]{ref_omni_array.pdf}%
+\end{picture}%
+\setlength{\unitlength}{1658sp}%3315sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(7975,7142)(-672,-4729)
+\put(1641,-201){\color[rgb]{1,0,0}Ac. Center A}%
+\put(5941,-3661){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(5941,-4066){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(5941,-4471){\color[rgb]{0,.56,0}\texttt{Vb}}%
+\put(4906,-4471){\color[rgb]{0,.56,0}\texttt{0}}%
+\put(4906,-4066){\color[rgb]{0,.56,0}\texttt{0}}%
+\put(4906,-3661){\color[rgb]{0,.56,0}\texttt{0}}%
+\put(2271,2230){\color[rgb]{0,0,0}$L_{p,ref}$}%
+\put(2535,219){\color[rgb]{0,.82,0}\SI{10}{\meter}}%
+\put(-1409,-201){\color[rgb]{1,0,0}Ac. Center B}%
+\put(3936,-651){\color[rgb]{1,0,0}Ac. Center C}%
+\put(161,-2106){\color[rgb]{0,0,0}Speaker B}%
+\put(1421,-2506){\color[rgb]{0,0,0}Speaker A}%
+\put(2681,-2906){\color[rgb]{0,0,0}Speaker C}%
+\put(2476,-1051){\color[rgb]{1,0,0}Former array center}%
+\end{picture}%
+	\caption{Configuration for reference pressure $L_{p,ref}$.}
+		\label{fig:ref_omni_array}
 \end{figure}
 For practical applications, it is preferable to have the same frequency response from the speaker array on the main axis as for the case where no beamforming is executed. In order to achieve this, the input signal has to be sent through a filter with the same amplitude response as the beamforming cost. To avoid nonlinear behaviour from the loudspeakers, it is desirable to keep this equalization to a minimum. Because of this, another minimization criterion has emerged. It can be expressed mathematically as the integral over the beamforming cost.
 
