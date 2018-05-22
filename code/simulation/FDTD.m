@@ -1,14 +1,14 @@
-function [p_rms,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,it,solutions)
+function [p_rms_export,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,it,solutions)
 
 % this file is able to make an fdtd simulation of a speaket with only knowing the impulse
 % response
 %%
 
 
-%load('pressureout_02.mat')
- %frequency = 60;
- %roomx = 30
- %roomy = 30
+%load('pressureout_05.mat')
+ frequency = 300;
+ %roomx = 10
+ %roomy = 10
 
 room_x = roomx;
 room_y = roomy;
@@ -21,11 +21,14 @@ gain_front = solutions.(strcat('f',int2str(frequency))).Pb;
 gain_back  = solutions.(strcat('f',int2str(frequency))).Pa;
 phase      = solutions.(strcat('f',int2str(frequency))).Phia;
 
-
+ %gain_front = 1;
+ %gain_back  = 1;
+ %phase      = 0;
 
 
 x_distance_half = x_distance/2;
 grid_size = gcd(round(x_distance_half*100),round(y_distance*100))/100;
+grid_size = 0.05;
 before= 1;
 befores = 0;
 c = 343;
@@ -35,7 +38,7 @@ rho = 1.21;
 c = 343;
 delta_t = 1/fs;
 
-a=1;
+a=0.5;
 Z_FDTD = (rho*grid_size)/delta_t;
 Z0 = rho*c*((1+sqrt(1-a))/(1-sqrt(1-a)));
 alpha = (1-Z0/Z_FDTD)/(1+Z0/Z_FDTD);
@@ -47,7 +50,11 @@ beta = 1/(1+Z0/Z_FDTD);
 
 
 speaker_center = [room_x/2 room_y/2 room_z/2];
-sp = speaker_center/grid_size;
+
+sp1 = [1 room_y-1 room_z/2]/grid_size;
+sp2 = [1 1 room_z/2]/grid_size;
+%sp = speaker_center/grid_size;
+
 
 
 
@@ -72,7 +79,7 @@ s2y = (s1y-y_distance)/grid_size;
 s3y = (s1y-y_distance)/grid_size;
 s1y = s1y/grid_size;
 
-%%
+
 
 f_min = 100;
 run_time = ceil((1/f_min)/(1/fs));
@@ -114,10 +121,17 @@ for t=1:simulation_step
             impulse_back = impulse_back+it(t-m+1)*back(m);
         end
 
-     pressure(sp(1)+s1y,sp(2)+s1x,1,1)=pressure(sp(1)+s1y,sp(2)+s1x,1,1)+back(t+1)-impulse_back;
-     pressure(sp(1)+s2y,sp(2)+s2x,1,1)=pressure(sp(1)+s2y,sp(2)+s2x,1,1)+front(t+1)-impulse_front;
-     pressure(sp(1)+s3y,sp(2)+s3x,1,1)=pressure(sp(1)+s3y,sp(2)+s3x,1,1)+front(t+1)-impulse_front;
-   %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp1(1)+s1y),round(sp1(2)+s1x),1,1)=pressure(round(sp1(1)+s1y),round(sp1(2)+s1x),1,1)+back(t+1)-impulse_back;
+     pressure(round(sp1(1)+s2y),round(sp1(2)+s2x),1,1)=pressure(round(sp1(1)+s2y),round(sp1(2)+s2x),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp1(1)+s3y),round(sp1(2)+s3x),1,1)=pressure(round(sp1(1)+s3y),round(sp1(2)+s3x),1,1)+front(t+1)-impulse_front;
+
+     
+     pressure(round(sp2(1)+s1y),round(sp2(2)+s1x),1,1)=pressure(round(sp2(1)+s1y),round(sp2(2)+s1x),1,1)+back(t+1)-impulse_back;
+     pressure(round(sp2(1)+s2y),round(sp2(2)+s2x),1,1)=pressure(round(sp2(1)+s2y),round(sp2(2)+s2x),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp2(1)+s3y),round(sp2(2)+s3x),1,1)=pressure(round(sp2(1)+s3y),round(sp2(2)+s3x),1,1)+front(t+1)-impulse_front;
+     
+     
+     %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
 
 %vx_eq
 k = 1;
@@ -179,7 +193,7 @@ end
 
 k=1;
 p_rms(:,:,k) = sqrt(p_rms(:,:,k)./t);
-
+p_rms_export=p_rms(:,:,k);
 
 
 

@@ -221,7 +221,7 @@ Z= Z_0+j\omega M
          \explain{$M$ is the mass per unit square meter of the boundary}{\si{1}}
     \stopexplain
 
- \citep{finiteproblems} proposes a general approximated impedance \autoref{fdtd_general_absorbing} deduced from \autoref{fdtd_thin_absorbing} and \autoref{fdtd_light_absorbing}, which is useful for \gls{fdtd} simulation in low frequency.
+ \citep{finiteproblems} proposes a general approximated impedance \autoref{fdtd_general_absorbing} deduced from \autoref{fdtd_thin_absorbing} and \autoref{fdtd_light_absorbing}, which is useful for \gls{fdtd} simulation in low frequency. 
 
 \begin{equation}\label{fdtd_general_absorbing}
 Z(\omega)= Z_0+\frac{Z_{-1}}{j\omega}+j\omega Z_1
@@ -231,6 +231,8 @@ Z(\omega)= Z_0+\frac{Z_{-1}}{j\omega}+j\omega Z_1
     		\explain{$Z_1$ is the }{\si{1}}
     		\explain{$Z(\omega)$ is an combinationed value for the frequency dependent impedance around the frequency of interest}{\si{1}}
     \stopexplain
+
+The impedance $Z_0$, $Z-{-1}$ and $Z_1$ can be founded for specific wall type be experiments \citep{finiteproblems}.
     
 In time domain \autoref{fdtd_general_absorbing} can be expressed as the boundary condition \autoref{fdtd_boundary_absorbing}
 

@@ -1,50 +1,67 @@
-clear all
 
-for f=60:10:300
+clear all
+load('impulse_response_5cm_grid_80m_room.mat')
+load('pressureout_05.mat')
+
+for f=60:10:60
   
-room_x = 40;
-room_y = 40;
+room_x = 7.8;
+room_y = 4.1;
+room_z = 0.05;
 frequency = f;
 grid_size = 0.05;
-simulation_step = (room_x/grid_size/2)-10
+simulation_step = length(it)%(room_x/grid_size)+14404
 
-[p_rms,grid_size] = FDTD(frequency,room_x,room_y,simulation_step);
 
-pressureone.(strcat('f',int2str(frequency))).pressure = p_rms;
-pressureone.(strcat('f',int2str(frequency))).grid = grid_size;
-pressureone.(strcat('f',int2str(frequency))).room_x = room_x;
-pressureone.(strcat('f',int2str(frequency))).room_y = room_y;
-pressureone.(strcat('f',int2str(frequency))).scale = scale;
+[p_rms,grid_size] = FDTD(frequency,room_x,room_y,simulation_step,it,solutions);
+
+pressuresec.(strcat('f',int2str(frequency))).pressure = p_rms;
+pressuresec.(strcat('f',int2str(frequency))).grid = grid_size;
+pressuresec.(strcat('f',int2str(frequency))).room_x = room_x;
+pressuresec.(strcat('f',int2str(frequency))).room_y = room_y;
 end
-%%
+
 %load('pressuresec.mat')
-p_rms=pressuresec.f100.pressure;
-xlength=[-(pressuresec.f100.room_x/2)+pressuresec.f100.grid:pressuresec.f100.grid:(pressuresec.f100.room_x/2)-pressuresec.f100.grid];
-ylength=[-(pressuresec.f100.room_y/2)+pressuresec.f100.grid:pressuresec.f100.grid:(pressuresec.f100.room_y/2)-pressuresec.f100.grid];
+p_rms=pressuresec.f60.pressure;
+xlength=[-(pressuresec.f60.room_x/2)+pressuresec.f60.grid:pressuresec.f60.grid:(pressuresec.f60.room_x/2)-pressuresec.f60.grid];
+ylength=[-(pressuresec.f60.room_y/2)+pressuresec.f60.grid:pressuresec.f60.grid:(pressuresec.f60.room_y/2)-pressuresec.f60.grid];
 [coorx,coory]=meshgrid(ylength,xlength);
 
-
 temp = 20*log10(abs(p_rms(:,:,1))/(20*10^(-6)));
-for m=1:length(temp)
-    for j=1:length(temp)
-        if temp(m,j,1) < 10
-           temp(m,j,1) = 10;
-        end
-    end
-end
+% for m=1:length(temp)
+%     for j=1:length(temp)
+%         if temp(m,j,1) < 10
+%            temp(m,j,1) = 10;
+%         end
+%     end
+% end
+
+figure(1)
+%s = contourf(coorx,coory,temp,110,'LineColor','none');
 s = surf(coorx,coory,temp)
-colormap(jet)
-colorbar
 s.EdgeColor='none'
 %shading interp
-axis equal
+hold on
 
-figure
-contour(coorx,coory,temp,'ShowText','on')
 axis equal
+xlim([-2.0 2.0])
+ylim([-3.85 3.85])
+zlim([10 100])
+caxis([70 100])
+colormap(jet)
+h = colorbar
+view(2)
+ylabel('Meter [m]')
+xlabel('Meter [m]')
+set(get(h,'label'),'string','Pascal [Pa]');
+
+set(gca,'FontSize', 14);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
+
 %%
 psum = p_rms(:,:,1);
-r=10;
+r=20;
 pp=[];
 thetap=[];
 
