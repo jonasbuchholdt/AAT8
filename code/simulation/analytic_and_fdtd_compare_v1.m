@@ -5,8 +5,8 @@ load('pressureout_05.mat')
 
 for f=60:10:60
   
-room_x = 7.8;
-room_y = 4.1;
+room_x = 40;
+room_y = 30;
 room_z = 0.05;
 frequency = f;
 grid_size = 0.05;
@@ -20,7 +20,7 @@ pressuresec.(strcat('f',int2str(frequency))).grid = grid_size;
 pressuresec.(strcat('f',int2str(frequency))).room_x = room_x;
 pressuresec.(strcat('f',int2str(frequency))).room_y = room_y;
 end
-
+%%
 %load('pressuresec.mat')
 p_rms=pressuresec.f60.pressure;
 xlength=[-(pressuresec.f60.room_x/2)+pressuresec.f60.grid:pressuresec.f60.grid:(pressuresec.f60.room_x/2)-pressuresec.f60.grid];
@@ -44,8 +44,8 @@ s.EdgeColor='none'
 hold on
 
 axis equal
-xlim([-2.0 2.0])
-ylim([-3.85 3.85])
+xlim([-15 15])
+ylim([-20 20])
 zlim([10 100])
 caxis([70 100])
 colormap(jet)

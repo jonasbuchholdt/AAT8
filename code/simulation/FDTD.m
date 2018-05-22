@@ -6,7 +6,7 @@ function [p_rms_export,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,i
 
 
 %load('pressureout_05.mat')
- frequency = 300;
+ frequency = 60;
  %roomx = 10
  %roomy = 10
 
@@ -21,9 +21,9 @@ gain_front = solutions.(strcat('f',int2str(frequency))).Pb;
 gain_back  = solutions.(strcat('f',int2str(frequency))).Pa;
 phase      = solutions.(strcat('f',int2str(frequency))).Phia;
 
- %gain_front = 1;
- %gain_back  = 1;
- %phase      = 0;
+ gain_front = 1;
+ gain_back  = 1;
+ phase      = 0;
 
 
 x_distance_half = x_distance/2;
@@ -51,8 +51,8 @@ beta = 1/(1+Z0/Z_FDTD);
 
 speaker_center = [room_x/2 room_y/2 room_z/2];
 
-sp1 = [1 room_y-1 room_z/2]/grid_size;
-sp2 = [1 1 room_z/2]/grid_size;
+sp1 = [room_x-10 room_y-12 room_z/2]/grid_size;
+sp2 = [room_x-10 12 room_z/2]/grid_size;
 %sp = speaker_center/grid_size;
 
 
@@ -122,13 +122,13 @@ for t=1:simulation_step
         end
 
      pressure(round(sp1(1)+s1y),round(sp1(2)+s1x),1,1)=pressure(round(sp1(1)+s1y),round(sp1(2)+s1x),1,1)+back(t+1)-impulse_back;
-     pressure(round(sp1(1)+s2y),round(sp1(2)+s2x),1,1)=pressure(round(sp1(1)+s2y),round(sp1(2)+s2x),1,1)+front(t+1)-impulse_front;
-     pressure(round(sp1(1)+s3y),round(sp1(2)+s3x),1,1)=pressure(round(sp1(1)+s3y),round(sp1(2)+s3x),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp1(1)+s1y),round(sp1(2)+s2x),1,1)=pressure(round(sp1(1)+s1y),round(sp1(2)+s2x),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp1(1)+s1y),round(sp1(2)+s3x),1,1)=pressure(round(sp1(1)+s1y),round(sp1(2)+s3x),1,1)+front(t+1)-impulse_front;
 
      
      pressure(round(sp2(1)+s1y),round(sp2(2)+s1x),1,1)=pressure(round(sp2(1)+s1y),round(sp2(2)+s1x),1,1)+back(t+1)-impulse_back;
-     pressure(round(sp2(1)+s2y),round(sp2(2)+s2x),1,1)=pressure(round(sp2(1)+s2y),round(sp2(2)+s2x),1,1)+front(t+1)-impulse_front;
-     pressure(round(sp2(1)+s3y),round(sp2(2)+s3x),1,1)=pressure(round(sp2(1)+s3y),round(sp2(2)+s3x),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp2(1)+s1y),round(sp2(2)+s2x),1,1)=pressure(round(sp2(1)+s1y),round(sp2(2)+s2x),1,1)+front(t+1)-impulse_front;
+     pressure(round(sp2(1)+s1y),round(sp2(2)+s3x),1,1)=pressure(round(sp2(1)+s1y),round(sp2(2)+s3x),1,1)+front(t+1)-impulse_front;
      
      
      %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
