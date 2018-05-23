@@ -1,7 +1,7 @@
 clear variables
-load('regressed_06.mat')
+load('flat_02.mat')
 
-load('cor_table_01.mat')
+load('cor_table_ones.mat')
 
 
 phi_cor=phi_mat;
