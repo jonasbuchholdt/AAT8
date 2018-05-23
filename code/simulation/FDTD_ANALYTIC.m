@@ -6,7 +6,7 @@ function [thetasort_sim,pp,psum]=FDTD_ANALYTIC(frequency,pressure,solutions)
 measurment=plotdata-max(plotdata);
 
 %load('pressureout.mat')
-load('cor_table_ones.mat')
+load('pressure_table_01.mat')
 %load('pressuresec.mat')
 
 p_rms=pressure.(strcat('f',int2str(frequency))).pressure;
@@ -83,7 +83,7 @@ rho0=1.21;
 t=0;
 coory = 0;
 coorx = 0;
-
+speakerangle = rad2deg(50);
 
 
 
@@ -101,21 +101,21 @@ thetaa=tan(k*a);
 yshift1=coory-s1y;
 xshift1=coorx-s1x;
 phis1=2*pi-mod(angle(xshift1+i.*yshift1)+deg2rad(270),2*pi)';
-corrections1=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
+corrections1=interp2(phi_cor,flip(f_cor),p_cor,phis1,f,'spline');
 
 yshift2=coory-s2y;
 xshift2=coorx-s2x;
-phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(270),2*pi)';
-corrections2=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
+phis2=2*pi-mod(angle(xshift2+i.*yshift2)-deg2rad(270)-speakerangle,2*pi)';
+corrections2=interp2(phi_cor,flip(f_cor),p_cor,phis1,f,'spline');
 
 yshift3=coory-s3y;
 xshift3=coorx-s3x;
-phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(270),2*pi)';
-corrections3=interp2(phi_cor,f_cor,p_cor,phis1,f,'spline');
+phis3=2*pi-mod(angle(xshift3+i.*yshift3)-deg2rad(270)+speakerangle,2*pi)';
+corrections3=interp2(phi_cor,flip(f_cor),p_cor,phis1,f,'spline');
 
-p1=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pa./413).*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phia)).*corrections1;
-p2=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pb./413).*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib)).*corrections2;
-p3=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pc./413).*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib)).*corrections3;
+p1=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pa./413).*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phia));
+p2=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pb./413).*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib));
+p3=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pc./413).*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib));
 
 
 
@@ -129,13 +129,26 @@ Lppolar=20.*log10(abs(ppnorm));
      end
  end
 
+p1c=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pa./413).*(a./sqrt((xshift1.^2)+(yshift1.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift1.^2)+(yshift1.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phia)).*corrections1;
+p2c=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pb./413).*(a./sqrt((xshift2.^2)+(yshift2.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift2.^2)+(yshift2.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib)).*corrections2;
+p3c=rho0.*c.*(solutions.(strcat('f',int2str(f))).Pc./413).*(a./sqrt((xshift3.^2)+(yshift3.^2))).*cos(thetaa).*exp(i.*(omega.*t-k.*(sqrt((xshift3.^2)+(yshift3.^2))-a)+thetaa+solutions.(strcat('f',int2str(f))).Phib)).*corrections3;
 
+ psum=p1c+p2c+p3c;
+
+ppnorm=psum./max(psum);
+Lppolarc=20.*log10(abs(ppnorm));
+ for z=1:size(Lppolarc,2)
+     if Lppolarc(z)<botlim
+         Lppolarc(z)=Lppolarc(z-1);
+     end
+ end
 
 
 
 figure
 polarplot(angles,Lppolar)
 hold on
+polarplot(angles,Lppolarc)
 polarplot(thetasort_sim,Lppolar_sim)
 polarplot(degree,measurment)
 
@@ -150,9 +163,10 @@ ax.ThetaDir='clockwise';
 %ax.ThetaLim=[-90 90];
 rlim([botlim 0])
 anal = strcat('f = ',int2str(frequency),' Hz (Analytical)');
+analc = strcat('f = ',int2str(frequency),' Hz (Analytical augmented)');
 simu = strcat('f = ',int2str(frequency),' Hz (FDTD)');
 result = strcat('f = ',int2str(frequency),' Hz (measurement)');
-legend(anal,simu,result,'Location','northoutside')
+legend(anal,analc,simu,result,'Location','northoutside')
 ax.RAxis.Label.String = 'normed SPL [dB]';
 
 
