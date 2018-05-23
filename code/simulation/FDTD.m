@@ -6,7 +6,7 @@ function [p_rms_export,grid_size] = FDTD(frequency,roomx,roomy,simulation_step,i
 
 
 %load('pressureout_05.mat')
- frequency = 60;
+ frequency = 300;
  %roomx = 10
  %roomy = 10
 

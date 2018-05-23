@@ -38,7 +38,7 @@ temp = 20*log10(abs(p_rms(:,:,1))/(20*10^(-6)));
 
 figure(1)
 %s = contourf(coorx,coory,temp,110,'LineColor','none');
-s = surf(coorx,coory,temp)
+s = surf(coorx,coory,temp);
 s.EdgeColor='none'
 %shading interp
 hold on
