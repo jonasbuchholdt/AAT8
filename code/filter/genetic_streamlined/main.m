@@ -68,7 +68,7 @@ ir = generate_ir(solutions,rotate,add_gain,tap,phase);
  plot(w,rad2deg(solutions.f1.phase),'--')
  plot(w,rad2deg(actual_phase_respond))
  ylabel('Phase Shift [Deg]')
- xlim([20 2500])
+ xlim([60 300])
  ylim([-600 200])
  
 %   figure
@@ -91,10 +91,10 @@ x = x/44100;
 
 %% save to kirsch
 
-for k=60:10:300
-filter.gain((k/10)-6+1)  =  actual_amplitude_respond(k)*solutions.f1.filter_gain
-filter.phase((k/10)-6+1) =  actual_phase_respond(k)
-end
+% for k=60:10:300
+% filter.gain((k/10)-6+1)  =  actual_amplitude_respond(k)*solutions.f1.filter_gain
+% filter.phase((k/10)-6+1) =  actual_phase_respond(k)
+% end
 
 f = [60:10:300]
 figure
@@ -103,10 +103,10 @@ figure
  hold on
  ylabel('Gain [dB]')
  xlabel('Frequency [Hz]')
- plot(f,20*log10(filter.gain/1.002))
+ %plot(f,20*log10(filter.gain/1.002))
  yyaxis right
  plot(w,rad2deg(solutions.f1.phase),'--')
- plot(f,rad2deg(filter.phase))
+ %plot(f,rad2deg(filter.phase))
  ylabel('Phase Shift [Deg]')
  xlim([60 300])
 

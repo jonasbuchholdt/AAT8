@@ -75,7 +75,17 @@ y = downsample(vq,5)
 y = y';
 
 %data = y;
-data = y./p2;
+
+%_____
+data = p1;
+
+astart=2;
+ares=2;
+astop=360;
+angles=[astart:ares:astop];
+%_______
+
+%data = y./p2;
 %data = tf_beam;
 %data = tf_omni;
 %data = tf_beam_first;

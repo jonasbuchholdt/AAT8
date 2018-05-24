@@ -76,23 +76,23 @@ H_{stop}(s) = \text{In_Gain} \cdot \frac{s^2+\frac{\omega_0}{Q}s+\omega_0^2}{s^2
     \stopexplain
 
 
-A bode plot of the \autoref{eq:bandstop_filter_eq} where the $\text{In_Gain}$ is set to \SI{0}{\decibel} is shown in \autoref{fig:bandstop_filter_eq_bodeplot}
+A magnitude plot of the \autoref{eq:bandstop_filter_eq} where the $\text{In_Gain}$ is set to \SI{0}{\decibel} is shown in \autoref{fig:bandstop_filter_eq_bodeplot}
 
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot.eps}
-	\caption{The figure shows the bode plot of the \autoref{eq:bandstop_filter_eq}}
+	\caption{The figure shows the magnitude plot of the \autoref{eq:bandstop_filter_eq}}
 		\label{fig:bandstop_filter_eq_bodeplot}
 \end{figure}
 
-On the bode plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. The disadvantage of fitting the data point to the steeper slope of the transfer function is that the gain of the filter have to be higher. A higher filter gain result in a higher $\text{In_Gain}$ which amplify the frequency below \SI{60}{\hertz} and above \SI{300}{\hertz}. The data point is attenuated by \SI{4}{\decibel} and the bandpass filter is gained by \SI{4}{\decibel}. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
+On the magnitude plot  \autoref{fig:bandstop_filter_eq_bodeplot} the filter parameter fits well from \SI{100}{\hertz} and upwards but the frequency that is below \SI{100}{\hertz} is fare off. To solve this problem, the data point can be attenuated to fit on the steep slop of the filter. The disadvantage of fitting the data point to the steeper slope of the transfer function is that the gain of the filter have to be higher. A higher filter gain result in a higher $\text{In_Gain}$ which amplify the frequency below \SI{60}{\hertz} and above \SI{300}{\hertz}. The data point is attenuated by \SI{4}{\decibel} and the bandpass filter is gained by \SI{4}{\decibel}. The following \autoref{fig:bandstop_filter_eq_bodeplot_attenuated} shows the result.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{bandstop_filter_eq_bodeplot_attenuated.eps}
-	\caption{The figure shows the bode plot of the \autoref{eq:bandstop_filter_eq}}
+	\caption{The figure shows the magnitude plot of the \autoref{eq:bandstop_filter_eq}}
 		\label{fig:bandstop_filter_eq_bodeplot_attenuated}
 \end{figure}
 
@@ -118,7 +118,7 @@ The corresponding cost filter to the transfer function \autoref{eq:bandstop_filt
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{cost_filter_final.eps}
-	\caption{The figure shows the bode plot of the block diagram \autoref{fig:bandstop_filter_blockdiagram_gain}}
+	\caption{The figure shows the magnitude plot of the block diagram \autoref{fig:bandstop_filter_blockdiagram_gain}}
 		\label{fig:cost_filter_final}
 \end{figure}
 
@@ -343,6 +343,12 @@ It can be seen on \autoref{fig:filter_vs_reg} that the optimized transfer functi
 \caption{Filter results, with pressure corrected cost filter, correction table based on Appendix \ref{ax:directional_2}, \textcolor{green3}{\texttt{Lx}}\,$=$\,\SI{0.4}{\meter}, \textcolor{green3}{\texttt{Ly}}\,$=\,$\SI{-0.4}{\meter}}
 		\label{fig:opt_res_finish}
 \end{figure}
+
+
+\section{Result} 
+It might be interesting to look at the resulting magnitude response of the beamforming array with filtered data. The \autoref{} shows the magnitude plot of the analytical model where the filter parameters is  added.
+
+
 
 \section{Filtering the test signal for directionality measurement}\label{sec:signal_filtering}
 For the sake of simplicity, when investigating the directional characteristics of a speaker array as described in \autoref{ax:directional_3}, the filtering is done offline and the measurement routine is fed different signals as reference and outputs. These are achieved by generating a sweep in MATLAB and then using the \texttt{filter} function. The resulting signals are stored as wave files and are therefore normed so that there is no value bigger then 1.

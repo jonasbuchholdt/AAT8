@@ -1,7 +1,9 @@
-clear variables
+%clear variables
 
 speakerangle=0;
-load('regressed_06.mat')
+load('filter_in_reg.mat')
+
+%load('filter_parameter.mat')
 
 load('cor_table_ones.mat')
 phi_cor=phi_mat;
