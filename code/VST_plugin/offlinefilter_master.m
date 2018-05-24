@@ -44,7 +44,7 @@ endSilence = 2*fs;
 % OG: Original Sweep, base of all filtering / scaling
 OG = [zeros(startSilence,1); x'; zeros(endSilence,1);zeros(506,1)];
 
-%OG = audioread('chililoop.wav');
+OG = audioread('chililoop.wav');
 
 %%
 % Cost Filtering, Band Stop with Gain
