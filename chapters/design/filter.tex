@@ -345,8 +345,9 @@ It can be seen on \autoref{fig:filter_vs_reg} that the optimized transfer functi
 \end{figure}
 
 
-\section{Result} 
-It might be interesting to look at the resulting magnitude response of the beamforming array with filtered data. The \autoref{fig:end_spl} shows the magnitude plot of the analytical model where the filter parameters is  added.
+\section{Effectiveness of Cost Filtering} 
+For practical reasons, the beamforming cost, to which the cost filter has been fit, has been calculated from the optimal datapoints for the beamforming filter, opposed to the filter curve that is actually used for beamforming (both visible in \autoref{fig:polar_filtered_finish}). Therefore it has to be checked, what frequency response from the array can actually be expected, taking to account, that the beamforming will be excecuted with the the beamforming filter instead of the optimal parameters. \autoref{fig:end_spl} shows 
+%It might be interesting to look at the resulting magnitude response of the beamforming array with filtered data. The \autoref{fig:end_spl} shows the magnitude plot of the analytical model where the filter parameters is  added.
 
 \begin{figure}[H]
 	\centering
@@ -355,16 +356,6 @@ It might be interesting to look at the resulting magnitude response of the beamf
 		\label{fig:end_spl}
 \end{figure}
 
-
-\section{Filtering the test signal for directionality measurement}\label{sec:signal_filtering}
-For the sake of simplicity, when investigating the directional characteristics of a speaker array as described in \autoref{ax:directional_3}, the filtering is done offline and the measurement routine is fed different signals as reference and outputs. These are achieved by generating a sweep in MATLAB and then using the \texttt{filter} function. The resulting signals are stored as wave files and are therefore normed so that there is no value bigger then 1.
-The upper envelope of the sweep time signals is illustrated in \autoref{fig:time_signals}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\textwidth]{time_signals.eps}
-	\caption{Upper envelope of sweeps for array polar response measurement}
-		\label{fig:time_signal}
-\end{figure}
 
 
 \section{Conclusion of filter design}
