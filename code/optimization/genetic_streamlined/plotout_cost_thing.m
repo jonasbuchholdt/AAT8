@@ -65,6 +65,7 @@ end
 
 clear variables
 load('G03.mat')
+load('filter_in_reg.mat')
 load('pressure_table_01.mat')           % path for correction tables
 load('phase_table_neutral.mat') 
 Lx=0.2:0.05:1;
@@ -74,7 +75,11 @@ fupper=master.og.(strcat('S_',int2str(abs(Lx(1)*100)),'_',int2str(abs(Ly(1)*100)
 fres=master.og.(strcat('S_',int2str(abs(Lx(1)*100)),'_',int2str(abs(Ly(1)*100)))).fres;
 speakerangle=master.og.(strcat('S_',int2str(abs(Lx(1)*100)),'_',int2str(abs(Ly(1)*100)))).speakerangle;
 f=[flower:fres:fupper];
-
+master.og.S_40_40=solutions;
+master.og.S_40_40.fbot=60;
+master.og.S_40_40.ftop=300;
+master.og.S_40_40.fres=10;
+master.og.S_40_40.speakerangle=deg2rad(50);
 [~,I]=min(abs(master.cost(:)));
 [min_row, min_col] = ind2sub(size(master.cost),I);
 Lxopt=Lx(min_col);
