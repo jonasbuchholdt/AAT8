@@ -218,20 +218,20 @@ grid minor
 xlim([flower fupper])
 legend('augmented','omnidirectional')
 
-% figure(7)
-% yyaxis left
-% plot(f,filterdata.ogpres,'o')
-% title('Filter Requirements: Beamforming')
-% ylabel('Gain [dB]')
-% xlabel('Frequency [Hz]')
-% xlim([flower fupper])
-% hold on
-% plot(f,filterdata.regpres)
-% yyaxis right
-% plot(f,rad2deg(filterdata.ogphase),'o')
-% plot(f,rad2deg(filterdata.regphase))
-% ylabel('Phase Shift [Deg]')
-% 
+figure(7)
+yyaxis left
+plot(f,filterdata.ogpres,'o')
+title('Filter Requirements: Beamforming')
+ylabel('Gain [dB]')
+xlabel('Frequency [Hz]')
+xlim([flower fupper])
+hold on
+plot(f,filterdata.regpres)
+yyaxis right
+plot(f,rad2deg(filterdata.ogphase),'o')
+plot(f,rad2deg(filterdata.regphase))
+ylabel('Phase Shift [Deg]')
+legend('Optimal pressure','Pressure, 2nd order regression','Optimal phase','Phase, linear regression')
 % 
 % 
 figure(8)

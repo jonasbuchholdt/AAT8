@@ -346,13 +346,14 @@ It can be seen on \autoref{fig:filter_vs_reg} that the optimized transfer functi
 
 
 \section{Effectiveness of Cost Filtering} 
-For practical reasons, the beamforming cost, to which the cost filter has been fit, has been calculated from the optimal datapoints for the beamforming filter, opposed to the filter curve that is actually used for beamforming (both visible in \autoref{fig:polar_filtered_finish}). Therefore it has to be checked, what frequency response from the array can actually be expected, taking to account, that the beamforming will be excecuted with the the beamforming filter instead of the optimal parameters. \autoref{fig:end_spl} shows 
+For practical reasons, the beamforming cost, to which the cost filter has been fit, has been calculated from the optimal datapoints for the beamforming filter, opposed to the filter curve that is actually used for beamforming (both visible in \autoref{fig:polar_filtered_finish}). Therefore it has to be checked, what frequency response from the array can actually be expected, taking to account, that the beamforming will be excecuted with the the beamforming filter instead of the optimal parameters. \autoref{fig:end_spl} shows the sum of the beamforming cost calculated with the beamforming filter and the cost filter that has been implemented previously. If the implemented cost filter was based on the beamforming cost corresponding to the beamforming filter, then the graph should show a linear response at a deviation of \SI{0}{\decibel}. Opposed to that, some deviation from a linear response has to be expected, due to the cost filter being fit to the cost derived from the optimal values. The deviation in the order of magnitude of \SI{\pm 1.3}{\decibel} is deemed negligible.
 %It might be interesting to look at the resulting magnitude response of the beamforming array with filtered data. The \autoref{fig:end_spl} shows the magnitude plot of the analytical model where the filter parameters is  added.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{end_spl.eps}
-	\caption{The figure shows the calculated \si{\decibel} different in frequency, where the cost filter is added to the \gls{fir} filter. It has to be remembered that the cost filter is calculated from the original data and not the regressed data, and therefore the frequency response is not flat compare to if the cost filter was based on the regressed data}
+	\caption{Cost Deviation due to filtered beamforming parameters.}
+	%The figure shows the calculated \si{\decibel} different in frequency, where the cost filter is added to the \gls{fir} filter. It has to be remembered that the cost filter is calculated from the original data and not the regressed data, and therefore the frequency response is not flat compare to if the cost filter was based on the regressed data}
 		\label{fig:end_spl}
 \end{figure}
 
