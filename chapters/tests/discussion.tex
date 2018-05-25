@@ -21,7 +21,17 @@ The main application of the beamforming array was intended to outdoor venue, whe
 
 
 \subsection{Simulation}\label{sec:dis:simulation}
-The aim of this section is to shortly investigate the wave behaver of the speaker array inside with wall reflection. This project have covered the design of the beamforming array and the behaver in free field condition. The indoor application have been keep out of interest, because of the starting point of application, which have been focused on outdoor event. The last point in the introduction was questioning the indoor application of the beamforming array. At this point there is many possibility since every room is different. The room could be a big concert hall or just a small room for living. It have been chosen to simulate a concert hall because of the monitoring application and the living room for home application. For the living room, it have been chosen to use a standard listening room of size (\SI{4.15}{\meter} x \SI{7.8}{\meter}) which correspond to the \gls{aau} standard listening room. All simulation will be done in 2 dimension because of the computation time and memory requirement. It will not give the exact simulation of the room, but since the reflection coefficient of the room wall not is measured there is already many unknown parameters in this simulation. Therefore the simulation give an impression of the wave behaviour in the room and not valid result. The result from a simulation of a size like the listening room is shown in \autoref{fig:Indoor_simulation_60_100} and \autoref{fig:Indoor_simulation_200_300}
+The aim of this section is to shortly investigate the wave behaver of the speaker array inside with wall reflection. This project have covered the design of the beamforming array and the behaver in free field condition. The indoor application have been keep out of interest, because of the starting point of application, which have been focused on outdoor event. The last point in the introduction was questioning the indoor application of the beamforming array. At this point there is many possibility since every room is different. The room could be a big concert hall or just a small room for living. It have been chosen to simulate a concert hall because of the monitoring application and the living room for home application. For the living room, it have been chosen to use a standard listening room of size (\SI{4.15}{\meter} x \SI{7.8}{\meter}) which correspond to the \gls{aau} standard listening room. All simulation will be done in 2 dimension because of the computation time and memory requirement. It will not give the exact simulation of the room, but since the reflection coefficient of the room wall not is measured there is already many unknown parameters in this simulation. The reflection in this simulation is done where the $Z_{-1}$ and $Z_{1}$ is unknown and set to zero, because in many case the characteristic wall impedance $Z_0$ is the predominant part \citep{fdtd_imp}. $Z_0$ can be approximated with using the absorbing coefficient \citep{fdtd_imp}. The following \autoref{eq:absorb} shows the approximated characteristic wall impedance $Z_0$ calculation
+
+\begin{equation}\label{eq:absorb}
+Z_0 = \rho c \frac{1+\sqrt{1-\alpha}}{1-\sqrt{1-\alpha}}
+\end{equation}
+
+        \startexplain
+        \explain{$a$ is the absorbing coefficient}{\si{1}}
+    \stopexplain
+    
+ The simulation give an impression of the wave behaviour in the room and not valid result. The result from a simulation of a size like the listening room is shown in \autoref{fig:Indoor_simulation_60_100} and \autoref{fig:Indoor_simulation_200_300}
 
 
 
@@ -47,7 +57,7 @@ The aim of this section is to shortly investigate the wave behaver of the speake
 \subcaption{Indoor simulation of  \SI{100}{\hertz} with beamforming}
 \label{fig:Indoor_simulation_100_off}
 \end{subfigure}
-\caption{The figure shows a 2 dimension \gls{fdtd} simulation in a room of size  (\SI{4.15}{\meter} x \SI{7.8}{\meter})}
+\caption{The figure shows a 2 dimension \gls{fdtd} simulation in a room of size  (\SI{4.15}{\meter} x \SI{7.8}{\meter}) where the absorbing coefficient is set to 0.5}
 		\label{fig:Indoor_simulation_60_100}
 \end{figure}
 
@@ -73,7 +83,7 @@ The aim of this section is to shortly investigate the wave behaver of the speake
 \subcaption{Indoor simulation of  \SI{300}{\hertz} without beamforming}
 \label{fig:Indoor_simulation_300_off}
 \end{subfigure}
-\caption{The figure shows a 2 dimension \gls{fdtd} simulation in a room of size  (\SI{4.15}{\meter} x \SI{7.8}{\meter})}
+\caption{The figure shows a 2 dimension \gls{fdtd} simulation in a room of size  (\SI{4.15}{\meter} x \SI{7.8}{\meter}) where the absorbing coefficient is set to 0.5}
 		\label{fig:Indoor_simulation_200_300}
 \end{figure}
 
@@ -105,7 +115,7 @@ A second indoor application is the monitoring. In a monitoring application the r
 \subcaption{Indoor simulation of  \SI{300}{\hertz} without beamforming}
 \label{fig:Indoor_monitor_300_off}
 \end{subfigure}
-\caption{The figure shows a 2 dimension \gls{fdtd} simulation in a monitor application}
+\caption{The figure shows a 2 dimension \gls{fdtd} simulation in a monitor application where the absorbing coefficient is set to 0.5}
 		\label{fig:Indoor_monitor_60_300}
 \end{figure}
 

@@ -127,7 +127,7 @@ It can be seen in \autoref{fig:cost_filter_final} that the frequency that is out
 
 
 \subsection{Converting the cost filter to differential equation}
-In order to implement the cost filter in MATLAB and to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation, which convert analogue filter intro \gls{iir} filter.  The transformation is done by changing the s domain in \autoref{eq:bandstop_filter_eq} to z domain. The bilinear transformation is as following 
+In order to implement the cost filter in MATLAB and to generate the filtered sine swept, the analogue designed filter has to be converted to a digital filter. The conversion will be made by using the bilinear transformation without pre-wrapping, which convert analogue filter intro \gls{iir} filter. The resend not to use pre-wrapping in this contest is because the filter lays in low frequency with respect to the Nyquist rate. When the filter is in low frequency with respect to the Nyquist rate the pre-wrapping do not change the crossover position as in high frequency. The transformation is done by changing the s domain in \autoref{eq:bandstop_filter_eq} to z domain. The bilinear transformation is as following 
 
 \begin{equation}\label{eq:bandstop_filter_bilinear}
 H_{stop}(z) = H_{stop}(s) \mid_{s=\frac{2}{T_s}\frac{z-1}{z+1}} 
@@ -211,7 +211,7 @@ $\Updownarrow$
 \section{Beam forming filter}
 The beam forming filter is not as easy as the cost filter to design, since that the phase and the gain have to be exact before the beamforming works. Therefore the phase have to be studied to determined the filter type. On the data point from the \ref{sec:opt_result} it can be seen that the phase is mostly linear in the frequency of interest, and therefore the filter will be a linear phase \gls{fir} filter. The smart thing with choosing a \gls{fir} filter is that the impulse response of the filter just have to be symmetric to achieve linear phase response. This means that it is only necessary to optimizing the half part of the impulse response and put it together with a mirrored version of it self. This method will always achieve linear phase. One disadvantages is that the cut off frequency is in the low frequency range which mean that the filter will have many taps. \\
 
- A modified version of the genetic optimization algorithm will be used to find a optimized impulse response of the filter. \autoref{ax:opt_imp_filter} explain the modification for the genetic algorithm. To optimize the impulse respond of the filter, an estimate of the impulse respond have to be determined. First the data is extended by the \texttt{polyfit()},  \texttt{polyval()} function in MATLAB with an order of two. Next, the used way to estimate the impulse response is to transfer all polar coordinate to a complex rectangular transfer function and take the real of the \gls{ifft}. The polar to rectangular transform is done as following \autoref{eq:pol_to_regt}
+ A modified version of the genetic optimization algorithm will be used to find a optimized impulse response of the filter. \autoref{ax:opt_imp_filter} explain the modification for the genetic algorithm. To optimize the impulse respond of the filter, an estimate of the impulse respond have to be determined. First the data is extrapolated by the \texttt{polyfit()},  \texttt{polyval()} function in MATLAB with an order of two. The resend to extrapolated with an order of two on the regressed data, is to keep the filter order low and ensure that the outer boundaries of the filter still follows the wanted filter. By doing the extrapolation the frequency outside the frequency of interest still have to follow a second order polynomial and do not going steep very fast. Another benefit might be that the boundary frequency do not have at sharp unknown data stop which  may make the genetic algorithm better to find the filter. It has to be noted that the frequency outside the frequency range from \SI{60}{\hertz} to \SI{300}{\hertz} will not give any relevant beamforming when doing the extrapolation. The used way to estimate the impulse response is to transfer all polar coordinate to a complex rectangular transfer function and take the real of the \gls{ifft}. The polar to rectangular transform is done as following \autoref{eq:pol_to_regt}
 
 \begin{equation}\label{eq:pol_to_regt}
 x=r \cos(\phi)+j \cdot r \sin(\phi)
@@ -229,12 +229,12 @@ The real of the \gls{ifft} gives an estimated impulse response but with a scaled
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{ir_estimate_non_scaled.eps}
-	\caption{The graph shows transfer function of the estimated impulse respond. The dashed line is transfer function that is needed for beam forming filter, where the blue line is the gain and the red line is the phase. The Solid line is the transfer function of the estimated impulse response, where the blue line is the gain and the red line is the phase. All circle in the start of the graph is the actual optimized point.}
+	\caption{The graph shows transfer function of the estimated impulse respond. The dashed line within \SI{60}{\hertz} to \SI{300}{\hertz} is transfer function that is needed for beam forming filter,  where the blue dashed line is the gain and the red dashed line is the phase. The Solid line is the transfer function of the estimated impulse response, where the blue solid line is the gain and the red solid line is the phase. All circle in the start of the graph is the actual optimized point.}
 		\label{fig:ir_estimate_non_scaled}
 \end{figure}
 
 
-It can be seen that the cross over lays at a too high frequency and the gain at the frequency of interest is to low. The corresponding impulse response of the transfer function in \autoref{fig:ir_estimate_non_scaled} is as following \autoref{fig:ir_estimate_non_mirror} where the mirrored version not is added yet. 
+It can be seen that the cross over lays at a too high frequency and the gain at the frequency of interest is to low. The corresponding impulse response to the transfer function in \autoref{fig:ir_estimate_non_scaled} is the impulse response in \autoref{fig:ir_estimate_mirror}. The impulse response is circle shifted from the calculated to fit the phase, because the phase had an offset. For the optimization it is only the half of the impulse response that needs to be optimized because the phase have to be linear. The following \autoref{fig:ir_estimate_non_mirror} shows the half impulse response for the optimization.
 
 \begin{figure}[H]
 	\centering
@@ -243,7 +243,9 @@ It can be seen that the cross over lays at a too high frequency and the gain at 
 		\label{fig:ir_estimate_non_mirror}
 \end{figure}
 
-To change the above \autoref{fig:ir_estimate_non_mirror} to a linear phase filter, a mirrored version of itself is added to the left of the graph. To tweet the phase such that it fit the wanted phase, the impulse response is circle shifted to the right until the phase fit. Th following \autoref{fig:ir_estimate_mirror} shows the result and the impulse respond for the solid line in \autoref{fig:ir_estimate_non_scaled}.
+For using the impulse response of the optimization the mirrored version of itself is added to the left of the graph. To tweet the phase such that it fit the wanted phase, the impulse response is circle shifted until the phase fit. The following \autoref{fig:ir_estimate_mirror} shows the result and the impulse respond for the solid line in \autoref{fig:ir_estimate_non_scaled} by change the phase manually.
+
+
 
 \begin{figure}[H]
 	\centering
@@ -253,7 +255,7 @@ To change the above \autoref{fig:ir_estimate_non_mirror} to a linear phase filte
 \end{figure}
 
 
-The impulse response have to be change the right way to make a good estimate. The way to lower the cross over point is to extend the part of the impulse respond that have the highest amplitude, which also make the impulse response longer. Thinking about the theory of the \gls{fir} filter, that the lower cross over, the higher order the filter have to be and therefore the impulse respond gets longer.  The following  \autoref{fig:ir_estimate_scaled} shows the transfer function of the extended impulse response.
+It can be seen in \autoref{fig:ir_estimate_non_mirror} that the impulse response have to be change the right way to make a good estimate. The way to lower the cross over point is to extend the part of the impulse respond that have the highest amplitude, which also make the impulse response longer. Thinking about the theory of the \gls{fir} filter, that the lower cross over, the higher order the filter have to be and therefore the impulse respond gets longer.  The following  \autoref{fig:ir_estimate_scaled} shows the transfer function of the impulse response which is made longer as described and is shown in \autoref{fig:ir_estimate_mirror_scale}.
 
 
 \begin{figure}[H]
@@ -264,7 +266,7 @@ The impulse response have to be change the right way to make a good estimate. Th
 \end{figure}
 
 
-The extended impulse respond that will be used for the optimization, where the cross over is changed with adding tabs to the \gls{fir} filter is as \autoref{fig:ir_estimate_mirror_scale}
+It can be seen on \autoref{fig:ir_estimate_scaled} that the change of the impulse response worked as described. The initial impulse respond that will be used for the optimization is the changed impulse response where the half of the impulse is removed as the concept described above. The following  \autoref{fig:ir_estimate_mirror_scale} shows the impulse response that is used to generate the transfer function in \autoref{fig:ir_estimate_scaled}
 
 \begin{figure}[H]
 	\centering
