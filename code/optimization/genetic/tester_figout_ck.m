@@ -1,15 +1,19 @@
 clear variables
-load('flat_02.mat')
+load('G03.mat')
 
-load('cor_table_ones.mat')
-
+load('cor_table_01.mat')
+solutions=master.og.S_40_40;
+speakerangle=rad2deg(50);
+fbot=60;
+fres=10;
+flim=300;
 
 phi_cor=phi_mat;
 f_cor=(f_mat);
 p_cor=p_mat;
 botlim=-27;
 
-f=flip([fbot:fres:ftop]);
+f=flip([fbot:fres:flim]);
 
 r=10;
 
