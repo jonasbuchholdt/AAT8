@@ -109,7 +109,7 @@ The particle velocity at the boundary in all direction has to be calculated as i
 \subsection{\gls{fdtd} plot}
 The aim of the section is to explain how the phase, gain and distance, resulting from \autoref{ch:optimization}, are implemented in the \gls{fdtd} simulation, and how the result of the simulation is compared with the polar plot from \autoref{ch:optimization}. \\
 
-To be able to simulate the result from \autoref{ch:optimization}, three pressure points is used as the acoustical center. The pressure points are implemented as transparent point sources, where all the point sources is fed with a sinusoid of a single frequency where the phase and gain is adjusted to the specified frequency. The front speakers will always be feeded with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. Therefore it is only the back speaker, which will be adjusted in phase and gain. The number of simulation run steps is the smallest room size divided by the grid size, such that the waves do not reflect from the wall. \\
+To be able to simulate the result from \autoref{ch:optimization}, three pressure points is used as the acoustical center. The pressure points are implemented as transparent point sources, where all the point sources is fed with a sinusoid of a single frequency where the phase and gain is adjusted to the specified frequency. The front speakers will always be fed with a gain of one, which correspond to a pressure of $\pm \SI{1}{\pascal}$ and zero phase. Therefore it is only the back speaker, which will be adjusted in phase and gain. The number of simulation run steps is the smallest room size divided by the grid size, such that the waves do not reflect from the wall. \\
 
 A wave will expand in a circular form and since the simulation stops just before the it hits the first wall, the simulation result will be a circular shape. Some of the area is not simulated and is therefore without a valid pressure. Because of this, the simulation is made so large that the polar plot with a radius of \SI{10}{\meter} can still be calculated, where the used simulation data is only a squared area inside the circular shape and the rest data is discarded.\\
 
@@ -121,22 +121,19 @@ P_{rms}(i,j,k)=\sqrt{\frac{\left(p_{(i,j,k)}^{[l= \delta t]} \right))^2 + \left(
 
 
 \subsection{The three speaker model} \label{the_simulation_result}
-In this section, the three speaker array simulation result will be presented and compared to the analytical model. The following figures show the results from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step is \SI{40}{\hertz}. All results have been achieved according to the description in this chapter. All polar plots are normalized, so that they only show the attenuation all around the circumference. The exact pressure from the analytical model and the \gls{fdtd} simulation will be stated in the caption of every figure. 
-
-
-Until now the analytical model have been based on relative pressure. This have been done because the radius of the acoustical center sphere have been unknown. At this point it is now possible to estimate the acoustical sphere radius for this problem by solving 'a' in \autoref{eq:aug_omni} with knowing the frequency, the pressure on the main axis at a distance of \SI{10}{\meter} by doing a \gls{fdtd} simulating. It have been chosen that the acoustical center sphere shall be solved from \SI{60}{\hertz}. The particle velocity is calculated from the impedance relation, which state
+In this section, the three speaker array simulation result will be presented in free field and compared to the analytical model. Since the boundary condition is an approximation the boundary is not calculated in this simulation. The following figures show the results from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step is \SI{40}{\hertz}. All results have been achieved according to the description in this chapter. Until now the analytical model have been based on relative pressure. This have been done because the radius of the acoustical center sphere have been unknown. At this point it is now possible to estimate the acoustical sphere radius for this problem by solving 'a' in \autoref{eq:aug_omni} with knowing the frequency, the pressure on the main axis at a distance of \SI{10}{\meter} by doing a \gls{fdtd} simulating. It have been chosen that the acoustical center sphere shall be solved from \SI{60}{\hertz}. The particle velocity is calculated from the impedance relation, which state
 
 \begin{equation}
 Z_{air}=\frac{p_a}{v}
 \end{equation}  
 
     \startexplain
-    		\explain{$Z_{air}$ is the air impedance}{1}
+    		\explain{$Z_{air}$ is the air impedance}{\si{\newton\second\per\cubic\meter}}
     		\explain{$p_a$ is the sound pressure at a distance of \SI{10}{\meter} of the analytical model}{\si{\pascal}}
-    		\explain{$v$ is the velocity}{1}
+    		\explain{$v$ is the velocity}{\si{\meter\per\second}}
     \stopexplain
 
-The sphere radius 'a' is solved to be \SI{7.6}{\milli\meter}. The following ploar plot will both show the absolute and the relative pressure for both the analytical model and the \gls{fdtd} simulation
+The sphere radius 'a' is solved to be \SI{7.6}{\milli\meter}. The following ploar plot will show the absolute pressure for both the analytical model and the \gls{fdtd} simulation. To make it easy for the reader to see the attenuation, a shifted scale is shown beside the absolute \gls{spl}
 
 
 

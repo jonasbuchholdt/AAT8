@@ -40,11 +40,11 @@ caxis([10 100])
 colormap(jet)
 h = colorbar
 view(2)
-ylabel('Meter [m]')
-xlabel('Meter [m]')
+ylabel('Y-coordinate [m]')
+xlabel('X-coordinate [m]')
 set(get(h,'label'),'string','Pascal [Pa]');
 
-set(gca,'FontSize', 14);
+set(gca,'FontSize', 16);
 set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
 fig.PaperPositionMode   = 'auto';
 

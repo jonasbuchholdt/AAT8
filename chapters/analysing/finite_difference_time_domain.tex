@@ -199,26 +199,26 @@ The  impedance approach is usable at low frequency, meaning in a frequency range
 The behaviour of the first kind of materials (1) can roughly be approximated as a complex frequency dependent impedance \autoref{fdtd_thin_absorbing}
 
 \begin{equation}\label{fdtd_thin_absorbing}
-Z= Z_0+\frac{Z_{-1}}{j\omega}
+Z(\omega)= Z_0+\frac{Z_{-1}}{j\omega}
 \end{equation}
 
          \startexplain
-    		\explain{$Z$ is the }{\si{1}}
-        \explain{$Z_0$ is the}{\si{1}}
-        \explain{$Z_{-1}$ is the }{\si{1}}
+    		\explain{$Z$ is the complex wall impedance}{\si{\newton\second\per\cubic\meter}}
+        \explain{$Z_0$ is the characteristic wall impedance \citep{fdtd_imp}}{\si{\newton\second\per\cubic\meter}}
+        \explain{$Z_{-1}$ is a real number, which have to be measured for every kind of wall \citep{finiteproblems}}{\si{1}}
          \explain{$j$ is the complex $j$ in this context }{\si{1}}
-         \explain{$\omega$ is the angle speed }{\si{1}}
+         \explain{$\omega$ is the angle speed }{\si{1\per\second}}
     \stopexplain
 
 The behaviour of the second kind of materials (2) can quite accurately be approximated to be a complex frequency dependent impedance \autoref{fdtd_light_absorbing}
 
 \begin{equation}\label{fdtd_light_absorbing}
-Z= Z_0+j\omega M
+Z(\omega)= Z_0+j\omega M
 \end{equation}
 
          \startexplain
-    		\explain{$Z$ is the }{\si{1}}
-         \explain{$M$ is the mass per unit square meter of the boundary}{\si{1}}
+    		\explain{$Z$ is the complex wall impedance}{\si{\newton\second\per\cubic\meter}}
+         \explain{$M$ is the mass per unit square meter of the boundary}{\si{\kilo\gram}}
     \stopexplain
 
  \citep{finiteproblems} proposes a general approximated impedance \autoref{fdtd_general_absorbing} deduced from \autoref{fdtd_thin_absorbing} and \autoref{fdtd_light_absorbing}, which is useful for \gls{fdtd} simulation in low frequency. 
@@ -228,11 +228,11 @@ Z(\omega)= Z_0+\frac{Z_{-1}}{j\omega}+j\omega Z_1
 \end{equation}
 
          \startexplain
-    		\explain{$Z_1$ is the }{\si{1}}
-    		\explain{$Z(\omega)$ is an combinationed value for the frequency dependent impedance around the frequency of interest}{\si{1}}
+    		\explain{$Z_1$ is a real number, which have to be measured for every kind of wall \citep{finiteproblems}}{\si{1}}
+    		\explain{$Z(\omega)$ is an combinationed value for the frequency dependent impedance around the frequency of interest}{\si{\newton\second\per\cubic\meter}}
     \stopexplain
 
-The impedance $Z_0$, $Z-{-1}$ and $Z_1$ can be founded for specific wall type be experiments \citep{finiteproblems}. \\
+The impedance $Z_0$, $Z_{-1}$ and $Z_1$ can be founded for specific wall type by experiments \citep{finiteproblems}. \\
 
 
 In time domain \autoref{fdtd_general_absorbing} can be expressed as the boundary condition \autoref{fdtd_boundary_absorbing}
