@@ -4,7 +4,7 @@ clear variables
 
 fs=44100;
 
-ares=2;
+ares=5;
 astart=ares;
 astop=360;
 
@@ -14,7 +14,7 @@ fupper=300;
 angles=[astart:ares:astop];
 
 for h=1:(astop/ares)
-    load('ir_01.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
+    load('beamforming_25.mat',(strcat('data',int2str((astart+(h-1)*ares)*10))));
     IR1s=eval(strcat('data',int2str((astart+(h-1)*ares)*10),'.ir(1:end/2)'));
     [tf1(:,h),w]=freqz(IR1s,1,20000,fs);
     clearlist={strcat('data',int2str((astart+(h-1)*ares)*10))};
@@ -36,10 +36,11 @@ for k=1:size(tf1,1)
          end
      end
 end
-p_mat(1,1)=10^(-26.12345/20);
+p_mat(1,1)=10^(-27/20);
 for k=1:size(tf1,1)
     phi_mat(:,(k))=angles;
 end
+
 phi_mat=phi_mat';
 phi_mat=phi_mat(1:iupper-ilower+1,:);
 p_mat=[p_mat(:,((length(angles)/2)+1):length(angles)) p_mat(:,1:length(angles)/2)];

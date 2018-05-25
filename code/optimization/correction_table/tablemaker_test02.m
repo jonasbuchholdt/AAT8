@@ -50,7 +50,7 @@ phi_mat = [zeros(size(p_mat,1),1) phi_mat];
 f_mat = [f_mat(:,end) f_mat];
 
 %s=surf(rad2deg(phi_mat),f_mat,20*log10(p_mat))
-s=contourf(rad2deg(phi_mat),f_mat,20*log10(p_mat),'ShowText','On','LevelList',[-8:1:0])
+s=contourf(rad2deg(phi_mat),f_mat,20*log10(p_mat),'LineStyle','none','LevelList',[-8:1:0])
 colormap('jet(8)')
 c=colorbar
 set(c, 'YTick', linspace(-7, 0, 8));
