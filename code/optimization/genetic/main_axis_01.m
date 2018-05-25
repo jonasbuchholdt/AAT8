@@ -1,9 +1,10 @@
 %clear variables
 
 speakerangle=0;
-load('filter_in_reg.mat')
 
-%load('filter_parameter.mat')
+
+load('regressed_06.mat')
+load('filter_in_reg.mat')
 
 load('cor_table_ones.mat')
 phi_cor=phi_mat;
@@ -141,12 +142,37 @@ for h=1:length(f)
 end
 
 
+Lppolarlin = flip((Lppolar(:,1)')-70);
+yyd = downsample(yy,10);
+freq = flip(f)
+
+add = Lppolarlin+yyd;
+
+
 figure
+%plot(freq,Lppolarlin)
+%hold on
+%plot(freq,yyd)
+plot(freq,add-6.05)
+
+ylim([-3 3])
+xlim([60 300])
+grid on
+ylabel('Gain [dB]');
+xlabel('Frequency [Hz]');
+set(gca,'FontSize', 14);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
+
+%%
 plot(f,Lppolar(:,1))
 hold on
 plot(f,Lpref(:,1))
 yyaxis right
 plot(f,deltaLp)
+
+figure
+
 
 h=1;
 figure

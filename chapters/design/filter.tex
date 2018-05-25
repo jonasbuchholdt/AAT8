@@ -346,8 +346,14 @@ It can be seen on \autoref{fig:filter_vs_reg} that the optimized transfer functi
 
 
 \section{Result} 
-It might be interesting to look at the resulting magnitude response of the beamforming array with filtered data. The \autoref{} shows the magnitude plot of the analytical model where the filter parameters is  added.
+It might be interesting to look at the resulting magnitude response of the beamforming array with filtered data. The \autoref{fig:end_spl} shows the magnitude plot of the analytical model where the filter parameters is  added.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{end_spl.eps}
+	\caption{The figure shows the calculated \si{\decibel} different in frequency, where the cost filter is added to the \gls{fir} filter. It has to be remembered that the cost filter is calculated from the original data and not the regressed data, and therefore the frequency response is not flat compare to if the cost filter was based on the regressed data}
+		\label{fig:end_spl}
+\end{figure}
 
 
 \section{Filtering the test signal for directionality measurement}\label{sec:signal_filtering}
