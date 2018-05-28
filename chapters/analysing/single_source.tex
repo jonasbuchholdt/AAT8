@@ -51,14 +51,22 @@ A major disadvantage to utlizing the piston model in the context of the project 
 	\caption{Normed SPL according to \autoref{eq:piston_source}, $a=165.3$\si{\milli\meter}$\,\approx 13$'', corresponding to the size of \citep{seas33}.}
 		\label{fig:piston_analytical}
 \end{figure}
-\autoref{fig:piston_analytical} displays almost perfect omnidirectional behaviour for lower frequencies and lowering pressure towards $\pm$\SI{90}{\degree} for higher frequencies. The deviation from omnidirectionality has the same qualitative appearance as the measured pressure curves in \autoref{fig:03_02_pressure_main}, however they significantly differ in numbers.
+\autoref{fig:piston_analytical} displays almost perfect omnidirectional behaviour for lower frequencies and lowering pressure towards $\pm$\SI{90}{\degree} for higher frequencies. The deviation from omnidirectionality has the same qualitative appearance as the measured pressure curves in \autoref{fig:03_02_pressure_main}, however they significantly differ in numbers. The phase of the speaker is shown in  \autoref{fig:03_02_m1_phase_main}  
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\textwidth]{03_02_meas1_pressure.eps}
 	\caption{Normed \gls{spl}, measured at a distance \(d=\)\SI{2.74}{\meter}, see Appendix \ref{ax:directional_2}}
 		\label{fig:03_02_pressure_main}
 \end{figure}
-\autoref{fig:03_02_pressure_main} also illustrates, that the solutions obtained with \autoref{eq:piston_source} do not realistically represent how the pressure is emitted on the back side of the speaker. Specifically, the indents in the in the curves for frequencies $\ge$\SI{200}{\hertz} at approx. $\pm$\SI{125}{\hertz} in \autoref{fig:03_02_pressure_main} deviate from the shape that is drawn by the piston model.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{03_02_meas1_phase.eps}
+	\caption{Phase, measured at a distance \(d=\)\SI{2.74}{\meter}}
+		\label{fig:03_02_m1_phase_main}
+\end{figure}
+
+\autoref{fig:03_02_pressure_main} also illustrates, that the solutions obtained with \autoref{eq:piston_source} do not realistically represent how the pressure is emitted on the back side of the speaker. Specifically, the indents in the in the curves for frequencies $\ge$\SI{200}{\hertz} at approx. $\pm$\SI{125}{\hertz} in \autoref{fig:03_02_pressure_main} deviate from the shape that is drawn by the piston model. 
 %The movement of the surface is described with
 
 %\begin{equation}
@@ -169,5 +177,22 @@ p(r,t)\,=\,\rho_0 c V_0 \left(\frac{a}{r}\right)\cos \theta_a \textbf{\textit{e}
 \explain{$f$ is the frequency.}{\si{\hertz}}
 \explain{$\phi$ is the angle, for which the pressure is being calculated relative to the main axis of the speaker.}{\si{1}}
 \stopexplain
-\section{Conclusion of single source}
-Investigating analytical ways to express the behaviour of a speaker by incorporation no other information then its size leads to results that are not particulary accurate and are therefore of limited use. While it appears to be possible to get better estimates by incorporating more information into a numerical model (e.g. \citep{vanderkooy10}). The given objective of using the model for an optimization makes this approach unfeasible. Because measurements have been conducte investigating the directional characteristics of the loudspeaker that will later be used, a more empirical approach has been found. Exploiting information from the measurements, the relatively simple model of a pulsating sphere can be augmented, so that it fits the behaviour of the \gls{dut}.
+
+
+
+\section{Two speaker in a line}
+The aim of this section is to do an analysis of a well known and used low frequency beamforming technique with two speakers. It can be seen in \autoref{ssec:piston} the single speaker is nearly omnidirectional both in phase and pressure. Because the phase is omnidirectional as the pressure, it is possible to place the two speaker in a line with a shift phase, such that it will make the phase in front of both speaker to match up where the back phase is in uperset  direction. This means that the pressure in the front is added together and the pressure in back is subtracted from each other. This beamforming technique is the First order gradient speaker arrray \citep{olson1973gradient} which also are named as the Two-Element In-Line Technique \citep{McCarthy2016}. This technique make one able to make cardioid low frequency array with only 2 speakers where both speaker is playing forward. The benefit of placing the speaker on a forward line is that the phase between the two speaker can be controlled such that the pressure at the back is lowered compare to the pressure at the front. One arising problem with this technique is that the speaker position is constant no matter which frequency the speaker is playing, and therefore this array is only optimal in the tuned frequency where the distance between the speaker and the phase is designed to work. Outside this exact frequency the front pressure will drop unless the both speaker plays with the same pressure. This problem is arising because the front phase between the to speaker do not is \SI{0}{\degree} in the front anymore. The following \autoref{fig:gradient_problem} shows the frequency response characteristic of such array where the back speaker is operating in \SI{180}{\degree} related to the front speaker.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{first_order_speaker.pdf}
+	\caption{Schematic diagram, frequency response characteristic, and polar directional characteristics of a unidirectional first-order gradient sound radiator. \citep{olson1973gradient}}
+		\label{fig:gradient_problem}
+\end{figure}
+
+It can be seen in the frequency response in \autoref{fig:gradient_problem} that the technique works best when the relation between the distance between the two speaker $D$ and the wavelength $\lambda$ is $0.5$. When the relation between $D$ and $\lambda$ grows higher that $0.5$ the beamforming shape starts to radiate sidewise instead of to the front. When the relation is less than $0.5$ the beamforming keep the cardioid shape, but the front pressure drops. This indicate that it is the highest frequency that shall determined the distance between the speaker with the $D$ and $\lambda$ relation, such that all frequency have the cardioid shape.\\ 
+
+This method do enable the speaker array to radiate in a cardioid shape, but the direction of the cardioid shape can only be controlled forward and backwards and not in any other direction.
+
+\section{Conclusion of sound source}
+Investigating analytical ways to express the behaviour of a speaker by incorporation no other information then its size leads to results that are not particulary accurate and are therefore of limited use. While it appears to be possible to get better estimates by incorporating more information into a numerical model (e.g. \citep{vanderkooy10}). The given objective of using the model for an optimization makes this approach unfeasible. Because measurements have been conducted investigating the directional characteristics of the loudspeaker that will later be used, a more empirical approach has been found. Exploiting information from the measurements, the relatively simple model of a pulsating sphere can be augmented, so that it fits the behaviour of the \gls{dut}. A first-order use of the speaker have further been analysed where it have been founded that the first order loudspeaker array is able to do beamforming with cardioid shape. unfortneliy the first order loudspeaker array is only able to do cardioid shape in the frontal and backwards direction and cannot angle the beam with software. Another beamforming array have to be analysed and used for this project.
