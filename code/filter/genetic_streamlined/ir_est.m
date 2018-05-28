@@ -74,7 +74,7 @@ regtangular_form = back_filter_gain.*cos(back_filter_phase)+i.*back_filter_gain.
 
 
 irEstimate = real(ifft(regtangular_form*0.75));
-%%
+%
 %irEstimate = impulseest(data)
 %hold on
 irEstimate = irEstimate(1:M);
@@ -106,6 +106,7 @@ x = x./44100;
        
        figure
  plot(x,irEstimate)
+ set(gca,'XGrid','on','YGrid','on'); 
   ylabel('Impulse response [1]')
  xlabel('Second [s]')
  
@@ -117,13 +118,13 @@ x = x./44100;
     [freqResp ,w] = freqz(irEstimate,1,22050,44100);
 phasees = angle(freqResp);
     tf = (abs(freqResp));
-
+set(gca,'FontSize', 12);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
     
 figure
 yyaxis left
 plot(f,master.reg.S_40_40.filterdata.ogpres,'o')
-%ylabel('Gain [dB]')
-%xlabel('Frequency [Hz]')
 hold on
 %plot(f,20*log10(polyval(pgain,f)))
 yyaxis right
@@ -132,18 +133,23 @@ plot(f,rad2deg(master.reg.S_40_40.filterdata.ogphase),'o')
 %ylabel('Phase Shift [Deg]')    
     
   yyaxis left
- plot(w,20*log10(back_filter_gain*back_filter_gain_test(1)),'b--')
+ plot(w,20*log10(back_filter_gain*back_filter_gain_test(1)),'--')
  hold on
  ylabel('Gain [dB]')
  xlabel('Frequency [Hz]')
- plot(w,20*log10(tf*back_filter_gain_test(1)),'b')
+ ylim([4.1 6])
+ plot(w,20*log10(tf*back_filter_gain_test(1)))
  yyaxis right
- plot(w,rad2deg(back_filter_phase),'r--')
- plot(w,rad2deg(phasees),'r')
+ plot(w,rad2deg(back_filter_phase),'--')
+ plot(w,rad2deg(phasees))
  ylabel('Phase Shift [Deg]')
- xlim([60 300])   
-    
-    
+ ylim([80 170])
+ xlim([60 300]) 
+ %xlim([20 2500])   
+ legend('Optimal Gain','Gain, 2nd order regression','Estimated FIR Gain','Optimal phase','Phase, linear regression','Estimated FIR phase')
+ set(gca,'FontSize', 12);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';  
 %     figure  
 %      semilogx(w,tf)
 %      hold on
@@ -154,5 +160,11 @@ x = x./44100;
 
      figure
      plot(x,irEstimate)
+      set(gca,'XGrid','on','YGrid','on'); 
        ylabel('Impulse response [1]')
  xlabel('Second [s]')
+
+
+ set(gca,'FontSize', 12);
+set(gca,'LooseInset', max(get(gca,'TightInset'), 0.02))
+fig.PaperPositionMode   = 'auto';
