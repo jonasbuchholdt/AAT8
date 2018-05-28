@@ -231,7 +231,7 @@ yyaxis right
 plot(f,rad2deg(filterdata.ogphase),'o')
 plot(f,rad2deg(filterdata.regphase))
 ylabel('Phase Shift [Deg]')
-legend('Optimal pressure','Pressure, 2nd order regression','Optimal phase','Phase, linear regression')
+legend('Optimal gain','Gain, 2nd order regression','Optimal phase','Phase, linear regression')
 % 
 % 
 figure(8)
