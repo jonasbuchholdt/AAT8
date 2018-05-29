@@ -107,7 +107,7 @@ for t=1:simulation_step+1
     
     front(t+1) = gain_front*sin(2*pi*f*((t+1-1)/fs));
     %front(t) = sin(2*pi*f*((t-1)/fs));
-    back(t+1)  = gain_back*sin(2*pi*f*((t+1-1)/fs)+phase);
+    back(t+1)  = 2*gain_back*sin(2*pi*f*((t+1-1)/fs)+phase);
   
     impulse_front=0;
         for m=1:t
@@ -143,6 +143,11 @@ for t=1:simulation_step
      pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)=pressure(sp(1)+s1y,sp(2)+s1x,sp(3),1)+speaker_back(t);
      pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)=pressure(sp(1)+s2y,sp(2)+s2x,sp(3),1)+speaker_front(t);
      pressure(sp(1)+s3y,sp(2)+s3x,sp(3),1)=pressure(sp(1)+s3y,sp(2)+s3x,sp(3),1)+speaker_front(t);
+     
+
+     pressure(sp(1)+s2y,sp(2),sp(3)+s2x,1)=pressure(sp(1)+s2y,sp(2),sp(3)+s2x,1)+speaker_front(t);
+     pressure(sp(1)+s3y,sp(2),sp(3)+s3x,1)=pressure(sp(1)+s3y,sp(2),sp(3)+s3x,1)+speaker_front(t);
+     
    %pressure(sp(1),sp(2),1,1)=pressure(sp(1),sp(2),1,1)+front(t+1)-impulse_front;
 
 %vx_eq

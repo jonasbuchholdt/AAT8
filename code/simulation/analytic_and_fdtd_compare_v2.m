@@ -1,14 +1,14 @@
 clear all
 load('impulse_response_3D_40m')
 load('pressureout_05.mat')
-room_x = 5;
-room_y = 5;
-room_z = 5;
-grid_size = 0.05;
-simulation_step = (room_x/grid_size)
+room_x = 16;
+room_y = 16;
+room_z = 16;
+grid_size = 0.10;
+simulation_step = (room_x/grid_size)+20
 %[impulse_response] = FDTD_impulse_response(room_x,room_y,room_z,grid_size,simulation_step+120);
 %save((strcat('impulse_response_3D_40m.mat')),'impulse_response');
-%%
+%
 load('impulse_response_3D_40m')
 %impulse_response=[impulse_response(1) impulse_response(1:end-1)];
 for f=60:10:60
@@ -24,17 +24,17 @@ result.room_z = room_z;
 
 save((strcat('simulated_pressure_prov.mat')),'result');
 clear simulated_pressure_prov;
-%%
+%
 speaker_center = [room_x/2 room_y/2 room_z/2];
 sp = speaker_center/grid_size;
 
-p_rms(:,:,sp(3))=result.f60.pressure(:,:,sp(3));
+p_rms(:,:)=result.f60.pressure(:,:);
 xlength=[-(room_x/2)+grid_size:grid_size:(room_x/2)-grid_size];
 ylength=[-(room_y/2)+grid_size:grid_size:(room_y/2)-grid_size];
 [coorx,coory]=meshgrid(ylength,xlength);
 
 
-temp = 20*log10(abs(p_rms(:,:,sp(3)))/(20*10^(-6)));
+temp = 20*log10(abs(p_rms(:,:))/(20*10^(-6)));
 for m=1:length(temp)
     for j=1:length(temp)
         if temp(m,j,1) < 10

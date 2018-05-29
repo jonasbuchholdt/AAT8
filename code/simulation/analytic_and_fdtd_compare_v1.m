@@ -20,7 +20,7 @@ pressuresec.(strcat('f',int2str(frequency))).grid = grid_size;
 pressuresec.(strcat('f',int2str(frequency))).room_x = room_x;
 pressuresec.(strcat('f',int2str(frequency))).room_y = room_y;
 end
-%%
+%
 %load('pressuresec.mat')
 p_rms=pressuresec.f60.pressure;
 xlength=[-(pressuresec.f60.room_x/2)+pressuresec.f60.grid:pressuresec.f60.grid:(pressuresec.f60.room_x/2)-pressuresec.f60.grid];
