@@ -121,19 +121,19 @@ P_{rms}(i,j,k)=\sqrt{\frac{\left(p_{(i,j,k)}^{[l= \delta t]} \right))^2 + \left(
 
 
 \subsection{The three speaker model} \label{the_simulation_result}
-In this section, the three speaker array simulation result will be presented in free field and compared to the analytical model. Since the boundary condition is an approximation the boundary is not calculated in this simulation. The following figures show the results from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step is \SI{40}{\hertz}. All results have been achieved according to the description in this chapter. Until now the analytical model have been based on relative pressure. This have been done because the radius of the acoustical center sphere have been unknown. At this point it is now possible to estimate the acoustical sphere radius for this problem by solving 'a' in \autoref{eq:aug_omni} with knowing the frequency, the pressure on the main axis at a distance of \SI{10}{\meter} by doing a \gls{fdtd} simulating. It have been chosen that the acoustical center sphere shall be solved from \SI{60}{\hertz}. The particle velocity is calculated from the impedance relation, which state
+In this section, the three speaker array simulation result will be presented in free field and compared to the analytical model. Since only free field is simulated, the boundary is not calculated in this simulation. The following figures show the results from \SI{60}{\hertz} to \SI{300}{\hertz} with a frequency step of \SI{50}{\hertz} from \SI{100}{\hertz}. Beneath \SI{100}{\hertz} the step is \SI{40}{\hertz}. All results have been achieved according to the description in this chapter. Until now, the analytical model has been used to only calculate relative pressure. This have been done, because for the use in the optimization this has been preferable. The radius of pulsating sphere, that is being modeled at the position of the acoustic center, has been unknown so far. At this point it is now possible to estimate the sphere radius for the given problem by solving $a$ in \autoref{eq:aug_omni} with knowing the frequency, and using pressure on the main axis at a distance of \SI{10}{\meter} that is a result of the \gls{fdtd} simulatiions. It has been chosen that the acoustical center sphere radius $a$ shall be solved at \SI{60}{\hertz}. The particle velocity is calculated from the impedance relation, which state
 
 \begin{equation}
-Z_{air}=\frac{p_a}{v}
+Z_{air}=\frac{p}{v}
 \end{equation}  
 
     \startexplain
     		\explain{$Z_{air}$ is the air impedance}{\si{\newton\second\per\cubic\meter}}
-    		\explain{$p_a$ is the sound pressure at a distance of \SI{10}{\meter} of the analytical model}{\si{\pascal}}
+    		\explain{$p$ is the sound pressure at a distance of \SI{10}{\meter} of the analytical model}{\si{\pascal}}
     		\explain{$v$ is the velocity}{\si{\meter\per\second}}
     \stopexplain
 
-The sphere radius 'a' is solved to be \SI{7.6}{\milli\meter}. The following ploar plot will show the absolute pressure for both the analytical model and the \gls{fdtd} simulation. To make it easy for the reader to see the attenuation, a shifted scale is shown beside the absolute \gls{spl}
+The sphere radius $a$ is solved to be \SI{7.6}{\milli\meter}. The following polar plots will show the absolute pressure for both the analytical model and the \gls{fdtd} simulation. To make it easy for the reader to see the attenuation, a shifted scale is shown beside the absolute \gls{spl}, showing the attenuation.
 
 
 
@@ -234,6 +234,6 @@ The sphere radius 'a' is solved to be \SI{7.6}{\milli\meter}. The following ploa
 \end{figure}
 
 \section{Conclusion of \gls{fdtd} simulation}
-It can be concluded that the simulation agrees with the analytical model. The side depth of the simulation is not as deep as on the analytical model, but this due the the simulation time. The longer the simulation runs, the more similar the shape for the simulated polar plot and the polar plot of the analytical model gets. More simulation can be founded in the \autoref{ap:fdtd_in_between} where simulation figure of other than the polar plot resolution is presented.
+It can be concluded that the simulation mostly agrees with the analytical model. The peaks in the graphs at around \SI{\pm 140}{\degree} are not as distinctive in the simulation is as deep as in the analytical model, but this might due to the simulation running for a relatively short amount of time. The longer the simulation runs, the more similar the shapes of the simulated polar plot and the polar plot from the analytical model get. More simulation can be found in the \autoref{ap:fdtd_in_between}, where other simulation frequencies than the ones above are presented.
 
 
