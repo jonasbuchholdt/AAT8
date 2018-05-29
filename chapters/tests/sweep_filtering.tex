@@ -1,9 +1,9 @@
 \section{Filtering the test signal for directionality measurement}\label{sec:signal_filtering}
-For the sake of simplicity, when measuring the polar response of the speaker array as described in \autoref{ax:directional_3}, the filtering is done offline and the measurement routine is fed different signals as reference and outputs. These are achieved by generating a sweep in MATLAB and then using the \texttt{filter} function to apply the filters, that have been developed in \autoref{sec:filter_design}. The resulting signals are stored as wave files and are therefore normed so that there is no value bigger then 1.
+For the sake of simplicity, when measuring the polar response of the speaker array as described in \autoref{ax:directional_3}, the filtering is done offline and the measurement routine is fed with the filtered sine sweep signals as outputs and the reference sine sweep. The reference sine sweep is scaled with the same factor as the output signal. These are achieved by generating a sweep in MATLAB and then using the \texttt{filter} function to apply the filters, that have been developed in \autoref{sec:filter_design}. The resulting signals are stored as wave files and are therefore normed so that there is no value bigger then 1.
 The upper envelope of the sweep time signals is illustrated in \autoref{fig:time_signals}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{time_signals.eps}
+	\includegraphics[width=1\textwidth]{time_signals.eps}
 	\caption{Upper envelope of sweeps for array polar response measurement}
 	\label{fig:time_signals}
 \end{figure}
