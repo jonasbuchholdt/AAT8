@@ -1,23 +1,24 @@
 \chapter{Discussion}
 \section{Comparison to a Commercial Product}
 In order to get an idea of what directional characteristics have been achieved by others, the beamforming array is compared to a line array unit by the company D\&B, who specifically use their directivity control for marketing. The so called GLS8 unit is depicted in \autoref{fig:gls8_pic}. For the frequency range of this project, the key data is, that in the line array unit, two 14$^{\prime \prime}$ drivers in the front of the unit are placed, and another two 10$^{\prime \prime}$ drivers are mounted in the sides \citep{SL_GSL}[p. 6]. 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{sl8.png}
+\includegraphics[width=0.4\textwidth]{sl8.png}
 \caption{Drawing of D\&B GLS8 line array unit, image source: \citep{SL_GSL}[p. 6]}
+\label{fig:gls8_pic}
 \end{figure}
 The directional characteristics of the GSL8 units are depicted in \autoref{fig:gls_iso}. 
-It has to be noted that this plot covers a significantly wider frequency range, then the one featured in this project. Between \SI{200}{\hertz} and \SI{300}{\hertz}, the line array unit clearly has a smaller \SI{-6}{\decibel} lobe width (approx. \SI{80}{\degree}) than the triangular array (approx. \SI{140}{\degree}), which is featured in \autoref{fig:array_iso}.
+It has to be noted that this plot covers a significantly wider frequency range, than the one featured in this project. Between \SI{200}{\hertz} and \SI{300}{\hertz}, the line array unit clearly has a smaller \SI{-6}{\decibel} lobe width (approx. \SI{80}{\degree}) than the triangular array (approx. \SI{140}{\degree}), which is featured in \autoref{fig:array_iso}.
 \autoref{fig:gls_iso} shows, that the lobe width for the line array module has a tendency to grow with decreasing frequency. At \SI{63}{\hertz} the \SI{-6}{\decibel} lobe width of the GSL8 unit is approx. \SI{144}{\degree}, which is in the same order of magnitude as the approx. \SI{150}{\degree} lobe width of the triangular array. When looking at these plots it has to be taken into account, that the two constructions were designed to fulfill different requirements and have very different cabinet configurations. It might be speculated, that perhaps the relatively large single cabinet of the line array unit aids directionality at higher frequencies, where at the lower end of the frequency band more of the directionality control has to be achieved by beamforming. This would explain, why at higher frequencies the lobe width of the GSL8 is clearly superior to the triangular array, while they both have similar characteristics around \SI{60}{\hertz}.
-\begin{figure}
+\begin{figure}[H]
 \centering
-	\begin{subfigure}[c]{0.7\textwidth}
+	\begin{subfigure}[H]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.95\textwidth]{gls_isobar.png}
 		\subcaption{Isobar plot for the GSL8 module, showing \SI{-6}{\decibel} and \SI{-12}{\decibel} isobars, image source: \citep{SL_GSL}[p. 9]}	
 		\label{fig:gls_iso}
 	\end{subfigure}\\
-	\begin{subfigure}[c]{0.95\textwidth}
+	\begin{subfigure}[H]{0.95\textwidth}
 		\centering
 		\includegraphics[width=0.95\textwidth]{dbcompare.eps}
 		\subcaption{Contour plot of the relative level over frequency and angle for the triangular speaker array. Modified version of \autoref{fig:beamdwidth_array_on}, with resolution adjusted for comparison}
