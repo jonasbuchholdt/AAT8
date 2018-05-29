@@ -64,8 +64,8 @@ figure
 contour(coorx,coory,temp,'ShowText','on')
 axis equal
 %%
-psum = p_rms(:,:,sp(3));
-r=10;
+psum = p_rms(:,:);
+r=3;
 pp=[];
 thetap=[];
 
